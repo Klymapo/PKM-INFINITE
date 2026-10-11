@@ -80,8 +80,8 @@ export default {
       { diary: 'Una voz guardada durante años no era una prueba de que nadie escuchara. Era una decisión que todavía podía explicarse.' },
     ],
     cg_aviso_despues: [
-      { if: 'flag.cg_aviso_entrego', then: [{ say: 'cg_aviso_nico', text: 'La familia escuchó la cinta. Olga se quedó sentada a su lado hasta que terminó. Nadie rebobinó.' }] },
-      { if: 'flag.cg_aviso_hablo', then: [{ say: 'cg_aviso_nico', text: 'Olga fue a hablar. La cinta sigue intacta, por si algún día quieren oírla. Esta vez la elección es de ellos.' }] },
+      { if: 'flag.cg_aviso_entrego', then: [{ say: 'cg_aviso_olga', text: 'La familia escuchó la cinta. Olga se quedó sentada a su lado hasta que terminó. Nadie rebobinó.' }] },
+      { if: 'flag.cg_aviso_hablo', then: [{ say: 'cg_aviso_olga', text: 'Olga fue a hablar. La cinta sigue intacta, por si algún día quieren oírla. Esta vez la elección es de ellos.' }] },
     ],
   },
 };
