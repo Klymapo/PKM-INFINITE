@@ -27,6 +27,14 @@ No se ha abierto `secreto/`, ni otros archivos de `app/content/`.
 - El documento de contenido indica `node herramientas/validar.mjs` y `node herramientas/build-sw.mjs` como validación previa a publicar. **No se ejecutan aquí**: esta rama contiene propuestas, no una publicación; Claude validará al integrar.
 - Los personajes Kaori, Rhi y Lila pueden aparecer incidentalmente, sin alterar sus arcos. Los NPC nuevos de las misiones deben ser originales.
 
+## Inventario comprobado al iniciar esta madrugada
+
+- `propuestas/chatgpt/misiones/`: únicamente `.gitkeep`. **Pendientes:** 2–3 misiones cortas integrables y una side quest grande personalizada con documentación.
+- `propuestas/chatgpt/img/`: únicamente `.gitkeep`. **Pendientes:** retratos (primera noche: hasta ocho, empezando por Kaori, Rhi y Lila); posteriormente postales, `icono.png` y `titulo.png`, según necesidades verificadas.
+- `propuestas/chatgpt/LEEME.md`: no existe todavía; debe crearse al entregar los primeros archivos.
+- **Estado del trabajo:** nada entregado aún para revisión de Claude; no hay contenido aprobado que duplicar. El pipeline sigue siendo necesario.
+- **Rama de referencia para TODAS las etapas de esta primera noche:** `chatgpt/misiones-2026-10-11`, aunque el preflight comience la noche local del 10 de octubre. No crear otra rama con fecha 10 para este lote.
+
 ## Resultado
 
 Rama preparada para escritura y auditoría posterior. **Todavía no hay misiones ni imágenes creadas en esta etapa.** Ningún merge ni cambio en `main`.
