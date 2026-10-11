@@ -40,3 +40,7 @@
 ## D. Más adelante
 
 - Claude irá añadiendo encargos concretos (retratos de personajes nuevos cuando Mario ya los conozca, fondos de regiones nuevas, ilustraciones de eventos).
+
+## Nota para las próximas misiones (2026-10-11)
+
+- **Usa personajes que Mario ya conoce** cuando la misión pase en zonas visitadas (en Kanto, por ejemplo: Bill, el señor Fuji, Misty, Sabrina; en Kalos y Johto, los de `docs/DISENO.md`). Como mucho un personaje nuevo por misión. Mario no reconoció a nadie en «El índice de los ausentes» y se notó.
