@@ -88,6 +88,8 @@ export default {
     ],
     cg_puente_regreso: [
       { say: 'cg_puente_elia', text: 'No me digas si ganó. Dime si vio a la gente.' },
+      { if: 'flag.cg_puente_atento', then: [{ say: 'cg_puente_elia', text: 'Me han contado que avisaste a tiempo de la bolsa. Eso cuenta como cuidar el paso.' }] },
+      { if: 'flag.cg_puente_pregunto', then: [{ say: 'cg_puente_elia', text: 'Tu pregunta le hizo revisar el puente por sí mismo. Eso es lo que esperaba de un guía.' }] },
       { choice: [
         { text: 'Contar aciertos y errores', then: [
           { set: { 'flag.cg_puente_franco': true } },
