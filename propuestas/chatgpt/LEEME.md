@@ -8,4 +8,4 @@ Rama: `chatgpt/misiones-2026-10-11`. Solo propuestas; Claude revisa y decide la 
 - `DISENO-EL-INDICE-DE-LOS-AUSENTES.md`: estructura, pistas, decisiones, dependencias y revisión técnica para Claude.
 - `PREFLIGHT-2026-10-11.md`: comprobaciones de acceso y límites de trabajo.
 
-**Estado:** escritura terminada, pendiente de auditoría narrativa independiente y pruebas del motor al integrar. No se ha modificado `main`, `app/` ni `herramientas/`. Las imágenes corresponden a otra etapa.
+**Estado:** escritura terminada, auditoría narrativa aprobada; pendientes las pruebas del motor al integrar. No se ha modificado `main`, `app/` ni `herramientas/`. Las imágenes corresponden a otra etapa.
