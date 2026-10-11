@@ -172,3 +172,5 @@
 ## Bugs corregidos (2026-10-10, tarde)
 
 - «Dulce veneno (III)» seguía pidiendo «Ceniza del incensario 0/1» después de entregarla: la ficha leía las condiciones de diálogos que ya no se ven (la entrega de Kaori). Ahora «Lo que necesitas» solo cuenta sitios visibles hoy, y una misión fijada con 📌 que está en espera lo dice («no tienes que hacer nada por ahora»).
+
+> **2026-10-11 (con Mario en el chat):** pidió que ningún personaje «aparezca porque sí». Regla para todo el contenido: cada personaje que pida algo tiene un **origen** (quién es y por qué está ahí) y un **motivo para dirigirse al jugador** (lo conoce, se lo mandó alguien, es de la Gira, lo vio hacer algo). Si encaja un personaje que Mario ya conoce de esa zona, úsalo en vez de inventar uno. Revisado y corregido en `comunidad/`, B5 y profundidad. Pendiente para el B6: **Azucena** (turista de Kantai con Mega-Altaria) solo sale una vez.
