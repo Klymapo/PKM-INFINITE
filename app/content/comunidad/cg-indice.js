@@ -5,7 +5,7 @@ export default {
   npcs: {
     cg_indice_noemi: { name: 'Noemí', title: 'Archivera de la Red de Auxilio', look: { hair: 'bob', hairColor: '#202b45', eyes: '#9c783e', outfit: '#efe1c6', outfit2: '#243a5b', skin: 3, eyesStyle: 'sharp', mouth: 'flat', acc: 'glasses' } },
     cg_indice_damian: { name: 'Damián', title: 'Patrullero clasificado', look: { hair: 'short', hairColor: '#6c4a32', eyes: '#477080', outfit: '#365a76', outfit2: '#d3b86b', skin: 2, eyesStyle: 'normal', mouth: 'smile', acc: 'scar' } },
-    // Vera e Isandro ya no salen (sus papeles los hacen Bill y el señor Fuji); se conservan por compatibilidad.
+    // Noemí, Vera e Isandro ya no salen (sus papeles los hacen Misty, Bill y el señor Fuji); se conservan por compatibilidad.
     cg_indice_vera: { name: 'Vera', title: 'Técnica de señales', look: { hair: 'tied', hairColor: '#38314b', eyes: '#5c8d9c', outfit: '#47627d', outfit2: '#e8d5ad', skin: 1, eyesStyle: 'sleepy', mouth: 'flat', acc: 'goggles' } },
     cg_indice_isandro: { name: 'Isandro', title: 'Cuidador voluntario', look: { hair: 'curly', hairColor: '#858177', eyes: '#5c6b4d', outfit: '#786b58', outfit2: '#c9b36f', skin: 4, eyesStyle: 'happy', mouth: 'smile', acc: 'beard' } },
   },
@@ -19,16 +19,16 @@ export default {
   quests: {
     cg_indice: { name: 'El índice de los ausentes', type: 'side', est: 90,
       stages: {
-        inicio: 'Habla con Noemí en Azafrán sobre la clasificación incompleta.',
-        pruebas: 'Reúne cuatro pruebas en Azafrán, Celeste, casa de Bill y Lavanda.',
-        deduccion: 'Vuelve a Azafrán y explica quién ocupó el puesto cero.',
+        inicio: 'Habla con **Misty** en el **Gimnasio de Celeste** sobre la clasificación del simulacro.',
+        pruebas: 'Reúne cuatro pruebas: el **Gimnasio de Celeste**, **Celeste**, la **casa de Bill** y **Lavanda**.',
+        deduccion: 'Vuelve con **Misty**, en el **Gimnasio de Celeste**, y explica quién ocupó el puesto cero.',
         verificacion: 'Comprueba en la Ruta 8 que la señal 00 no era un fallo.',
-        decision: 'Entrega la conclusión a Noemí y decide cómo publicarla.',
+        decision: 'Cuéntale a **Misty** lo del poste y decide cómo publicarlo.',
         epilogo: 'Ve a ver al **señor Fuji** a **Lavanda** para cerrar la investigación.',
         hecha: 'La Red reconoció a su primer respondiente.',
       },
       parts: { title: 'Las cuatro pruebas', var: 'cg_indice_pistas', items: [
-        { label: 'Hoja de clasificación', where: 'azafran', done: 'flag.cg_indice_hoja', hint: 'Revisa el archivador de la Red en Azafrán.' },
+        { label: 'Hoja de clasificación', where: 'gym_celeste', done: 'flag.cg_indice_hoja', hint: 'La hoja original está en el **Gimnasio de Celeste**, en la mesa de Misty.' },
         { label: 'Testimonio del puente', where: 'celeste', done: 'flag.cg_indice_testimonio', hint: 'Habla con Damián junto al tablón de Celeste.' },
         { label: 'Esquema de la antena', where: 'casa_bill', done: 'flag.cg_indice_esquema', hint: '**Bill** revisó el receptor en su casa del cabo, pasado el **Puente Pepita**.' },
         { label: 'Ficha del collar', where: 'lavanda', done: 'flag.cg_indice_collar', hint: 'El **señor Fuji**, en **Lavanda**, cuida de un compañero que no figura en la lista.' },
@@ -47,8 +47,8 @@ export default {
     },
   },
   patches: {
-    azafran: { spots: [
-      { label: 'Mesa de la Red de Auxilio', sub: 'Doce nombres y un renglón vacío', icon: '📊', cond: '!done.cg_indice', new: '!flag.cg_indice_inicio || (flag.cg_indice_hoja && flag.cg_indice_testimonio && flag.cg_indice_esquema && flag.cg_indice_collar && !flag.cg_indice_deducido) || (flag.cg_indice_verificado && !flag.cg_indice_decision)', talk: [
+    gym_celeste: { spots: [
+      { label: 'Misty, con una hoja arrugada', sub: 'Doce nombres y un renglón tachado', icon: '📊', cond: '!done.cg_indice', new: '!flag.cg_indice_inicio || (flag.cg_indice_hoja && flag.cg_indice_testimonio && flag.cg_indice_esquema && flag.cg_indice_collar && !flag.cg_indice_deducido) || (flag.cg_indice_verificado && !flag.cg_indice_decision)', talk: [
         { cond: '!flag.cg_indice_inicio', script: 'cg_indice_inicio' },
         { cond: 'flag.cg_indice_verificado && !flag.cg_indice_decision', script: 'cg_indice_decision' },
         { cond: 'flag.cg_indice_hoja && flag.cg_indice_testimonio && flag.cg_indice_esquema && flag.cg_indice_collar && !flag.cg_indice_deducido', script: 'cg_indice_deduccion' },
@@ -74,30 +74,31 @@ export default {
   },
   scripts: {
     cg_indice_inicio: [
-      'Un tablón exhibe doce puestos. Noemí tiene trece fichas en la mano. Las cuenta otra vez. Siguen siendo trece.',
-      { say: 'cg_indice_noemi', text: 'La Red de Auxilio clasifica patrullas por rapidez y cooperación. Doce equipos, doce puestos. Pero hay un registro anterior a todos los demás, y alguien lo dejó fuera.' },
-      { say: 'cg_indice_noemi', text: 'No busco a un culpable para una portada. Busco una explicación que resista cuatro preguntas: quién avisó, cuándo, cómo y por qué desapareció.' },
-      { say: 'cg_indice_noemi', text: 'Te doy acceso a la hoja. Damián estuvo en Celeste; Bill, el del PC, revisó el receptor en su casa del cabo; y el señor Fuji, en Lavanda, tiene algo que ver con un collar. Habla con ellos en el orden que quieras.' },
+      'Junto a la piscina del gimnasio, Misty tiene una hoja arrugada en una mano y un rotulador en la otra. Cuenta algo con el rotulador. Lo vuelve a contar. Resopla.',
+      { say: 'misty', text: '¡Ah, eres tú! Ven, ven, que necesito otros ojos. Los míos ya ven doble. —Te pone la hoja delante—. El mes pasado organicé un simulacro de rescate en el Puente Pepita con la Red de Auxilio de Kanto. Los líderes lo hacemos cada año. Doce patrullas, doce puestos. ¡Y trece renglones!' },
+      { say: 'misty', text: 'Y me entero ahora, que acabo de volver de Alola con la piel quemada y la maleta llena de arena. Bienvenida a casa, Misty.', cond: 'flag.b05_nereida_conocida' },
+      { say: 'misty', text: 'Alguien avisó del rescate antes que nadie, y la Red lo tachó del ranking. En MI simulacro. En MI puente. No busco a quién gritarle. Bueno, un poco sí. Pero antes quiero saber quién avisó, cuándo, cómo y por qué lo borraron.' },
+      { say: 'misty', text: 'Yo no puedo dejar el gimnasio, así que te toca a ti. Damián, uno de mis patrulleros, anda por Celeste con su libreta. Bill revisó el receptor en su casa del cabo. Y el señor Fuji, en Lavanda, tiene algo que ver con un collar. Ve en el orden que quieras.' },
       { choice: [
         { text: 'Investigar el puesto que falta', then: [
           { set: { 'flag.cg_indice_inicio': true } },
           { quest: 'cg_indice', stage: 'pruebas' },
-          { say: 'cg_indice_noemi', text: 'No te fíes de los números hasta saber qué cuentan.' },
+          { say: 'misty', text: 'Y no te fíes de los números hasta saber qué cuentan. Eso me lo enseñó Brock. No se lo digas.' },
         ] },
-        { text: 'No aceptar todavía', then: [{ say: 'cg_indice_noemi', text: 'Las cifras no van a cambiar por esperar. Lo que significan, quizá.' }] },
+        { text: 'No aceptar todavía', then: [{ say: 'misty', text: 'Bueno, bueno. La hoja no se va a ir a ninguna parte. Yo tampoco. Por desgracia.' }] },
       ] },
     ],
     cg_indice_estado: [
-      { if: '!flag.cg_indice_hoja', then: [{ say: 'cg_indice_noemi', text: 'Empieza por la hoja del archivador. El cero está tachado, pero se lee.' }] },
+      { if: '!flag.cg_indice_hoja', then: [{ say: 'misty', text: 'Empieza por la hoja original, la de la mesa. El cero está tachado, pero se lee.' }] },
       { if: 'flag.cg_indice_hoja && !(flag.cg_indice_testimonio && flag.cg_indice_esquema && flag.cg_indice_collar)', then: [
-        { say: 'cg_indice_noemi', text: 'No elijas una respuesta todavía. Falta una voz del puente, una explicación de la antena o una ficha de collar.' },
+        { say: 'misty', text: 'No me des una respuesta todavía. Te falta algo: Damián, Bill o el señor Fuji.' },
       ] },
-      { if: 'flag.cg_indice_deducido && !flag.cg_indice_verificado', then: [{ say: 'cg_indice_noemi', text: 'La teoría es buena. Antes de publicarla, ve al poste de la Ruta 8 de Kanto. Si no reproduce el aviso, nos equivocamos.' }] },
-      { if: 'flag.cg_indice_decision', then: [{ say: 'cg_indice_noemi', text: 'El señor Fuji espera en Lavanda. La investigación termina cuando él sepa qué decidimos.' }] },
+      { if: 'flag.cg_indice_deducido && !flag.cg_indice_verificado', then: [{ say: 'misty', text: 'La teoría es buena. Pero antes de ir a la Red a armarla, pruébala en el poste de la **Ruta 8**. Si no reproduce el aviso, nos equivocamos. Y yo no me equivoco dos veces.' }] },
+      { if: 'flag.cg_indice_decision', then: [{ say: 'misty', text: 'Ve a ver al señor Fuji a Lavanda. Esto no se acaba hasta que él lo sepa.' }] },
     ],
     cg_indice_prueba_hoja: [
       'El renglón 00 está trazado con regla, no arrancado. Se distingue la tinta azul debajo.',
-      { say: 'cg_indice_noemi', text: 'Veintiuna catorce. Seis minutos antes de la sirena. Alguien quiso borrarlo del ranking, pero no del registro.' },
+      { say: 'misty', text: 'Las nueve y catorce. Seis minutos antes de la sirena. Lo borraron del ranking, pero no del registro. Cobardes, pero ordenados.' },
       { give: 'cg_indice_hoja' }, { read: 'cg_indice_hoja' },
       { set: { 'flag.cg_indice_hoja': true, 'vars.cg_indice_pistas': '+1' } },
     ],
@@ -141,19 +142,19 @@ export default {
     ],
     cg_indice_deduccion: [
       { quest: 'cg_indice', stage: 'deduccion' },
-      { say: 'cg_indice_noemi', text: 'Tenemos las cuatro piezas. Voy a hacerte una pregunta sencilla. Es la que todos evitamos: ¿qué era el puesto 00?' },
+      { say: 'misty', text: 'Ya tienes las cuatro piezas. —Se cruza de brazos—. A ver. La pregunta que nadie en la Red quiso contestar: ¿qué era el puesto 00?' },
       { choice: [
         { text: 'Una patrulla secreta de élite', then: [
-          { say: 'cg_indice_noemi', text: 'Una patrulla tendría identificador y firma. El esquema dice lo contrario. Vuelve a leerlo y prueba otra vez.' },
+          { say: 'misty', text: '¿Secreta? ¿En MI simulacro? Una patrulla tendría número y firma. El esquema de Bill dice lo contrario. Léelo otra vez.' },
         ] },
         { text: 'Un error de reloj', then: [
-          { say: 'cg_indice_noemi', text: 'La hora coincide en el registro y en la libreta. Lo que falta no es tiempo: es una identidad.' },
+          { say: 'misty', text: 'No. La hora coincide en la hoja y en la libreta de Damián. Lo que falta no es tiempo: es alguien.' },
         ] },
         { text: 'Un aviso válido sin entrenador inscrito', then: [
           { set: { 'flag.cg_indice_deducido': true } },
           { quest: 'cg_indice', stage: 'verificacion' },
-          { say: 'cg_indice_noemi', text: 'Exacto. Un Audino dio la alarma. El sistema sabía que alguien avisó, pero el ranking solo sabía contar personas registradas.' },
-          { say: 'cg_indice_noemi', text: 'No lo publiquemos por intuición. La antena de pruebas de la Ruta 8 de Kanto conserva el mismo protocolo. Reproduce la señal 00.' },
+          { say: 'misty', text: '¡Eso! Un Audino dio la alarma. La máquina sabía que alguien avisó, pero el ranking solo sabía contar personas con ficha. —Se le escapa una sonrisa—. Un Pokémon ganó mi simulacro y nadie se enteró. Me encanta. Me enfada. Me encanta.' },
+          { say: 'misty', text: 'Pero no vamos a ir a la Red con una corazonada. En la **Ruta 8** hay un poste de pruebas con el mismo protocolo. Reproduce la señal 00 allí.' },
         ] },
       ] },
     ],
@@ -178,17 +179,17 @@ export default {
       ] },
     ],
     cg_indice_decision: [
-      { say: 'cg_indice_noemi', text: 'La prueba del poste coincide con los cuatro documentos. Tengo que corregir el ranking. Pero la Red quiere publicar el nombre del señor Fuji junto al collar. «El héroe de la Casa Pokémon». Ya tienen el titular.' },
-      { say: 'cg_indice_noemi', text: 'Él no pidió eso. Es un hombre que no quiere que lo miren, y el aviso fue del Audino. Podemos publicar el expediente completo con su permiso, o el fallo del sistema sin señalar a nadie.' },
+      { say: 'misty', text: 'Funcionó. Ya llamé a la Red y van a corregir el ranking. —Pone mala cara—. Pero ahora quieren publicar el nombre del señor Fuji junto al collar. «El héroe de la Casa Pokémon». Ya tienen hasta el titular.' },
+      { say: 'misty', text: 'Él no pidió eso. Es un hombre que no quiere que lo miren, y el aviso fue del Audino. Tú lo investigaste: tú decides. ¿Publicamos solo el fallo, sin nombres, o le preguntamos primero a él?' },
       { choice: [
         { text: 'Publicar la corrección sin datos personales', then: [
           { set: { 'flag.cg_indice_anonimo': true, 'flag.cg_indice_decision': true } },
-          { say: 'cg_indice_noemi', text: 'La Red reconocerá la señal y cambiará el reglamento. Los nombres quedarán bajo custodia, no en un cartel.' },
+          { say: 'misty', text: 'Hecho. La Red reconoce la señal y cambia el reglamento. Sin nombres, sin cartel. El que quiera saber, que pregunte.' },
           { call: 'cg_indice_tras_decision' },
         ] },
         { text: 'Preguntarle al señor Fuji antes de dar nombres', then: [
           { set: { 'flag.cg_indice_consulta': true, 'flag.cg_indice_decision': true } },
-          { say: 'cg_indice_noemi', text: 'Correcto. Ninguna clasificación vale el derecho a decidir cómo te cuentan.' },
+          { say: 'misty', text: 'Bien pensado. Ningún ranking vale más que dejar que cada uno decida cómo lo cuentan.' },
           { call: 'cg_indice_tras_decision' },
         ] },
       ] },
@@ -197,7 +198,7 @@ export default {
       { quest: 'cg_indice', stage: 'epilogo' },
       { give: 'cg_indice_acta' },
       { read: 'cg_indice_acta' },
-      { say: 'cg_indice_noemi', text: 'He corregido la casilla. Ahora queda la parte importante: contarle al señor Fuji lo que cambió.' },
+      { say: 'misty', text: 'Ya corregí la casilla. Con rotulador, bien gordo. Ahora la parte importante: ve a contárselo al señor Fuji.' },
     ],
     cg_indice_epilogo: [
       'El Audino escucha tus pasos antes de que llegues y te abre la puerta de la Casa Pokémon. El señor Fuji deja la cinta crema sobre la mesa, junto a la tetera.',
