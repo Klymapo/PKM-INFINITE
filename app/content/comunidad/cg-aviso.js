@@ -6,7 +6,7 @@ export default {
     cg_aviso_nico: { name: 'Nico', title: 'Repartidor de mensajes', look: { hair: 'curly', hairColor: '#3c2825', eyes: '#665039', outfit: '#d9a947', outfit2: '#345678', skin: 3, eyesStyle: 'happy', mouth: 'smile', acc: '' } },
   },
   items: {
-    cg_aviso_cinta: { name: 'Cinta de voz gastada', pocket: 'key', desc: 'Un mensaje grabado en una estación. La última palabra quedó tapada por un silbato.', read: '«Al que encuentre esta cinta: la casa no estaba vacía. Vi una luz encendida detrás de la persiana. No llamé. No sabía si tenía derecho. —O.»' },
+    cg_aviso_cinta: { name: 'Cinta de voz gastada', pocket: 'key', desc: 'Un aviso grabado en la estación hace años, para una sola persona. Nunca salió por los altavoces.', read: '«Aviso para la señora de la casa junto a la torre: le habla Olga, la de la estación. Su familia llamó otra vez preguntando por usted. Les dije que estaba bien. No sé si es verdad: veo su luz encendida hasta muy tarde. Si quiere que vengan, deje encendida la luz del porche. Nadie más sabrá lo que significa. —O.»' },
     cg_aviso_nota: { name: 'Nota de la emisora', pocket: 'key', desc: 'El registro de una emisión que nunca salió al aire.', read: '22:16: grabación de Olga.\n22:17: prueba de megafonía.\n22:18: tren de mercancías.\n22:19: emisión cancelada por fallo del altavoz.\n\nAl margen, a lápiz: «No fue el altavoz. Fui yo. —O.»' },
   },
   quests: {
@@ -50,7 +50,7 @@ export default {
     cg_aviso_archivo: [
       'El libro de incidencias huele a papel mojado. En la página de aquella noche, un minuto está escrito dos veces.',
       { say: 'cg_aviso_nico', text: 'Soy Nico, el de los recados. No trabajo aquí, pero llevo años devolviendo cartas perdidas. Y este libro tiene una mentira pequeña.' },
-      { say: 'cg_aviso_nico', text: 'Mira: el tren llegó a las 22:18. El anuncio figura como cancelado a las 22:19. El silbato estropeó la grabación, pero el libro demuestra que la cinta nunca llegó a emitirse.' },
+      { say: 'cg_aviso_nico', text: 'Mira: a las 22:18 los altavoces anunciaron el tren de mercancías. A las 22:19, el aviso de Olga figura como cancelado «por fallo del altavoz». Un altavoz no se estropea en un minuto y se arregla solo al siguiente. Alguien decidió no ponerlo.' },
       { give: 'cg_aviso_nota' },
       { read: 'cg_aviso_nota' },
       { set: { 'flag.cg_aviso_registro': true } },
@@ -58,7 +58,7 @@ export default {
       { say: 'cg_aviso_nico', text: 'A veces corregir una mentira no devuelve el tiempo. Pero permite dejar de repetirla.' },
     ],
     cg_aviso_regreso: [
-      { say: 'cg_aviso_olga', text: 'Cancelada. Lo sabía. Me quedé con el dedo encima del botón. Aquella persona me había pedido que no volviera a hablar de la casa.' },
+      { say: 'cg_aviso_olga', text: 'Cancelada. Lo sabía. Me quedé con el dedo encima del botón. Ella me había pedido que nunca hablara de su casa por los altavoces, y yo pensé que respetarla era callarme.' },
       { say: 'cg_aviso_olga', text: 'Ahora su familia pregunta qué pasó. Puedo darles la cinta o explicarles que fui yo quien decidió callar. No son exactamente la misma verdad.' },
       { choice: [
         { text: 'Entregar la cinta con su contexto', then: [
