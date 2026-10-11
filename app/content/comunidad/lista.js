@@ -1,5 +1,8 @@
 // Añade aquí cada misión de ChatGPT ya revisada (una línea de import y su nombre en PARTES).
-const PARTES = [];
+import aviso from './cg-aviso.js';
+import puente from './cg-puente.js';
+import indice from './cg-indice.js';
+const PARTES = [aviso, puente, indice];
 
 const out = { npcs: {}, items: {}, quests: {}, scripts: {}, trainers: {}, gather: {}, shops: {}, patches: {}, events: [], milestones: [] };
 for (const p of PARTES) {

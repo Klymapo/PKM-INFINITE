@@ -24,7 +24,7 @@
 
 - [ ] **Pantalla de título** (`img/titulo.png`, 512×1024, vertical): una ciudad de estilo parisino de noche con una torre de cristal iluminada en el centro y un arco plateado en forma de ∞ al pie de la torre. Pixel art cálido.
 - [ ] **Icono de la app** (`img/icono.png`, 512×512): un símbolo ∞ con un toque de aura azul. Que se lea bien a 48 px.
-- [ ] **Retratos de personajes originales** (`img/retrato-<nombre>.png`, 256×256, busto, fondo liso). Ya los conoce Mario:
+- [~] **Retratos de personajes originales** · **EN PAUSA (2026-10-11, decisión de Mario):** los 8 entregados quedan guardados; son fijos y los del juego están animados. No hagas más por ahora; prioriza título, icono y postales. (`img/retrato-<nombre>.png`, 256×256, busto, fondo liso). Ya los conoce Mario:
   - **Lila**: 21 años, pelo corto blanco plateado con un mechón verde menta, ojos verdes, túnica de aprendiz crema y verde; tímida, orejas que se le ponen rojas.
   - **Rhi**: 22 años, pelo rojo largo atado alto, chaqueta de equipo de fútbol azul con el número 9, guantes sin dedos, cicatriz pequeña en la ceja; sonrisa de reto.
   - **Serafina «Sera»**: 24 años, melena negra recta, ojos grises, traje sastre azul medianoche con broche plateado de ∞, guantes blancos; impecable y fría.

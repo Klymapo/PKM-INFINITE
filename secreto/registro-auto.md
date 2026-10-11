@@ -1,6 +1,6 @@
 # Registro automático (no editar a mano)
 
-Generado: 2026-10-11T09:50:55.486Z · contenido 2026-10-11.1
+Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
 
 ## Apariciones de NPCs (escenas por bloque)
 
@@ -20,6 +20,14 @@ Generado: 2026-10-11T09:50:55.486Z · contenido 2026-10-11.1
 | Brock (`brock`) | 6 | 3 | 0 | 0 | 0 | 9 ⚠ 2 bloque(s) |
 | Calder Wynn (`calder`) | 0 | 0 | 0 | 0 | 15 | 15 ⚠ 1 bloque(s) |
 | Camille (`camille`) | 0 | 0 | 0 | 0 | 2 | 2 ⚠ 1 bloque(s) |
+| Nico (`cg_aviso_nico`) | 0 | 0 | 0 | 1 | 0 | 1 ⚠ 1 bloque(s) |
+| Olga (`cg_aviso_olga`) | 0 | 0 | 0 | 5 | 0 | 5 ⚠ 1 bloque(s) |
+| Damián (`cg_indice_damian`) | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
+| Isandro (`cg_indice_isandro`) | 0 | 0 | 0 | 3 | 0 | 3 ⚠ 1 bloque(s) |
+| Noemí (`cg_indice_noemi`) | 0 | 0 | 0 | 6 | 0 | 6 ⚠ 1 bloque(s) |
+| Vera (`cg_indice_vera`) | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
+| Elia (`cg_puente_elia`) | 0 | 0 | 0 | 4 | 0 | 4 ⚠ 1 bloque(s) |
+| Teo (`cg_puente_teo`) | 0 | 0 | 0 | 3 | 0 | 3 ⚠ 1 bloque(s) |
 | Dr. Lazare (`cientifico_fosiles`) | 4 | 0 | 9 | 8 | 0 | 21 |
 | Prof. Ciprés (`cipres`) | 7 | 2 | 0 | 0 | 1 | 10 |
 | Conde Vladimiro (`conde`) | 8 | 1 | 0 | 6 | 0 | 15 |
@@ -624,6 +632,31 @@ Generado: 2026-10-11T09:50:55.486Z · contenido 2026-10-11.1
 - `b05_vecina_r1` — b05:b05_vecina_r1
 - `b05_xero_aether` — b05:b05_xero_aether
 - `b05_zyra_pruebas` — b05:b05_zyra_pruebas
+- `cg_aviso_entrego` — b04:cg_aviso_regreso
+- `cg_aviso_final` — b04:cg_aviso_regreso
+- `cg_aviso_hablo` — b04:cg_aviso_regreso
+- `cg_aviso_inicio` — b04:cg_aviso_inicio
+- `cg_aviso_registro` — b04:cg_aviso_archivo
+- `cg_indice_anonimo` — b04:cg_indice_decision
+- `cg_indice_batalla_ganada` — b04:cg_indice_prueba_damian
+- `cg_indice_batalla_perdida` — b04:cg_indice_prueba_damian
+- `cg_indice_collar` — b04:cg_indice_prueba_isandro
+- `cg_indice_consulta` — b04:cg_indice_decision
+- `cg_indice_decision` — b04:cg_indice_decision
+- `cg_indice_deducido` — b04:cg_indice_deduccion
+- `cg_indice_esquema` — b04:cg_indice_prueba_vera
+- `cg_indice_hoja` — b04:cg_indice_prueba_hoja
+- `cg_indice_inicio` — b04:cg_indice_inicio
+- `cg_indice_testimonio` — b04:cg_indice_prueba_damian
+- `cg_indice_verificado` — b04:cg_indice_verificacion
+- `cg_puente_atento` — b04:cg_puente_prueba
+- `cg_puente_cuidado` — b04:cg_puente_regreso
+- `cg_puente_franco` — b04:cg_puente_regreso
+- `cg_puente_inicio` — b04:cg_puente_inicio
+- `cg_puente_paciencia` — b04:cg_puente_desafio
+- `cg_puente_pregunto` — b04:cg_puente_prueba
+- `cg_puente_prueba` — b04:cg_puente_desafio
+- `cg_puente_victoria` — b04:cg_puente_desafio
 - `lola_1` — b02:lola_trigal_2
 - `lola_2` — b03:lola_caoba
 - `lola_3` — b04:lola_lavanda
@@ -768,6 +801,9 @@ Generado: 2026-10-11T09:50:55.486Z · contenido 2026-10-11.1
 - `b04_q_archivo` (main) Lo que hay en la planta 11: buscar → salir → hecha
 - `b04_q_ceniza` (side) Lo que se queda un poco más: bajar → hecha
 - `p7_s_recado` (side) Peso neto: llevar → volver → hecha
+- `cg_aviso` (side) El aviso que nadie oyó: inicio → cinta → regreso → hecha
+- `cg_puente` (side) El puente no puntúa: inicio → prueba → regreso → hecha
+- `cg_indice` (side) El índice de los ausentes: inicio → pruebas → deduccion → verificacion → decision → epilogo → hecha
 - `b05_m1` (main) Rumbo a Alola: puerta → hauoli → hecha
 - `b05_m2` (main) El recorrido de Melemele: lilii → prueba → gran → hecha
 - `b05_m3` (main) El recorrido de Akala: kantai → pruebas → gran → hecha
@@ -866,6 +902,8 @@ Generado: 2026-10-11T09:50:55.486Z · contenido 2026-10-11.1
 - `p7_evaristo_duelo` (b04) Evaristo: Seaking 47, Poliwrath 48, Gyarados 50
 - `p7_ciro_duelo` (b04) Ciro: Dodrio 48, Fearow 48, Pidgeot 50
 - `p7_dolores_duelo` (b04) Dolores: Mismagius 51, Dusclops 51, Banette 53
+- `cg_puente_teo_prueba` (b04) Teo: Noctowl 53, Ampharos 54
+- `cg_indice_damian_exhibicion` (b04) Damián: Porygon2 54, Altaria 55
 - `liam_1` (b05) Liam: Furfrou 53, Stoutland 54, Lopunny 54, Gumshoos 55
 - `kaudan_gp` (b05) Kaudan: Primeape 54, Poliwrath 55, Bewear 55, Hariyama 56, Crabominable 57
 - `a2_skull` (b05) Tiki y Pono: Golbat 52, Muk (Alola) 53, Salazzle 54
