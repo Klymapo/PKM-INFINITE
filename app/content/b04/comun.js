@@ -64,6 +64,7 @@ export default {
 	},
 	scripts: {
 		logica_cierre_hilos: [
+			{ quest: 'b04_t_cueva', done: true, silent: true, cond: 'quest.b04_t_cueva == "abierto"' },
 			{ quest: 'b01_t_rhi', done: true, silent: true, cond: 'quest.b01_t_rhi == "revancha"' },
 			{ quest: 'b01_t_agencia', done: true, silent: true, cond: 'quest.b01_t_agencia == "resuelto"' },
 			{ quest: 'b01_t_az', done: true, silent: true, cond: 'quest.b01_t_az == "visto"' },

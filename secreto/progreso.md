@@ -10,7 +10,7 @@
 | 2026-10-06 10:24 | B2 · `b02_m2:santuario` (Santuario del Encinar). 22 h 19 min, 3 medallas (Roca, Encanto, Lucha), 37 capturados / 150 vistos. Equipo: Lucario 37, Ampharos «Candela» 37, Delphox 37, Gastly 10, Cetoddle 30, Lechonk 14. Ya cruzó la Puerta (no puede volver a Kalos). Fósil elegido: Tyrunt (Amaura quedó sin elegir). Afinidad: Lila 17, Rhi 14, Sera 11, Renata 6, Irene 3. Rep: Lemnis 2, policía 6, Kalos 11. Preguntó si ya tiene «todos los importantes capturables». | Exportar continuación |
 | 2026-10-10 10:23 | **Final del B3** (ya decidió lo de Atlas: lo encerró y dejó libres a los demás; ya vivió la pérdida de Aurelio y decidió el rancho). Casi **₽500 000**. Rota **~30 Pokémon** que le gustan, todos sobre el **nivel 50**. Tiene a Faro (Ampharos) y a la Mareep del rancho (Copito o Nieve), además de Candela. Solo ha visto una Mega y una Tera. Le queda el B4 entero por delante. | Notas en el chat |
 | 2026-10-10 10:52 | **Azafrán, Dojo Kárate (B4 recién empezado, `b04_m1` activa).** 42 h, 7 medallas, tope 50, ₽213 594. Equipo: Gallade 42, Toxicroak 43, Heracross 47, Lucario 50 (Lucarita), Tyrantrum 48, Gigalith 44; 46 en cajas (Pupitar, Annihilape, Typhlosion, 2 Ampharos, Delphox, Gengar, Aegislash, Krookodile, Gyarados, Roserade, Feraligatr, Garganacl, Scizor, Haxorus, Luxray, Shelgon, Absol, Aerodactyl…). Rama `b03_rancho_sobrina` y `b03_rocket_libres`. Montura apagada en Ajustes. Por la tarde entró en las Azoteas de Azafrán antes de tiempo por un fallo de Novedades (reparación automática al cargar). | Respaldo que subió al chat |
-
+| 2026-10-10 22:46 | **Terminó el B4** (`b04_fin`; ya vivió lo de la Cueva Celeste y está de vuelta en Azafrán). 49 h 52 min, 8 medallas (la octava, Cascada), tope 56, ₽38 719 (gastó mucho: ojo con la economía de negocios/tiendas). Equipo: Lucario 55, Golbat 55, Kingdra 54, Pupitar 51, Garganacl 50, Tyrantrum 51. 105 capturados / 348 vistos. Afinidad: Kaori 43, Rhi 33, Lila 27, Renata 21, Irene 20, Sera 13. Rep: Johto 38, policía 13, Flare 13, Kalos 11, Lemnis −6. Hizo todo lo de P7/P8 visible (premios de instructor, Absolita, Heracronita, rancho con trato). Única misión abierta: `b02_t_lola` en «espera» (correcto). `b04_t_cueva` se quedaba abierta sin nada que hacer: cerrada (contenido + `logica_cierre_hilos`). | Exportar continuación |
 **Ritmo de Mario:** ~7 h de juego el primer día. Un bloque (~12 h) por noche le va por delante. Ofreció una **segunda sesión de madrugada** si hace falta; úsala para la cola de arte, interfaz y motor, no para adelantar más historia.
 
 
@@ -18,6 +18,8 @@
 > Desde hoy hay **dos sesiones de madrugada**: 0:47 (arte, interfaz, sonido y motor) y 2:53 (historia). La de historia no toca `app/js/` salvo bugs; la de arte no toca la historia.
 
 > **2026-10-10 (tarde):** Mario va por el **principio del B4** (Azafrán). El B4 es el último publicado, así que vamos **0 bloques por delante**: la siguiente madrugada de historia **sí escribe el B5**. (La nota de arriba sobre «3 bloques por delante» ya no vale.)
+
+> **2026-10-10 (22:46): Mario ya terminó el B4.** No tiene nada nuevo de historia por jugar: **el B5 es urgente esta noche** y debe arrancar en Azafrán tras `b04_fin` (su `start` tiene que funcionar con su partida). Equipo y estado en la última fila de la tabla.
 
 ## Indicación de Mario para la noche del 2026-10-11 (madrugada del domingo)
 
@@ -27,8 +29,8 @@
 - **Misiones secundarias de ChatGPT:** Mario le pidió a ChatGPT misiones secundarias para zonas que ya conoce (archivos `propuestas/chatgpt/misiones/cg-*.js` o `misiones-*.md`, en `main` o en una rama `origin/chatgpt/*`; los `.js` ya vienen en formato de juego: vía rápida en CLAUDE.md §2.1). **El B5 va primero.** Si queda tiempo después de publicar el B5 (o en la sesión de las 0:47 si su parte del B5 ya está entregada), revísalas en serio: adapta las mejores (2–4, bien hechas) a la biblia, las voces y las reglas de §2.4, como contenido de profundidad en un archivo propio (`app/content/b05/` o un parche en el bloque de su región), con su auditoría. Lo que no encaje con la trama, descártalo o guárdalo para otro momento. Anota en `propuestas/RESPUESTAS.md` qué adoptaste y por qué, **sin spoilers**. Si no da tiempo, que quede para la noche siguiente (anótalo aquí).
 - Recuerda las reglas nuevas del 2026-10-10 en `CLAUDE.md` §2.4 (hilos que se cierran al terminar su parte, cinemáticas con `docs/CINE.md`, minijuegos, premios de instructor, negocios, Megas/Teras a la vista, nada de regalar especies repetidas) y que la curva de niveles **se queda como está** (decisión de Mario).
 
-**Último bloque terminado:** ninguno (B1 casi terminado).
-**Bloques publicados:** B1, B2, B3 (B2 y B3 publicados el 2026-10-05/06 en sesión de día, a petición de Mario) y **B4 (Kanto)**, publicado la madrugada del 2026-10-06. Vamos **3 bloques por delante**: la próxima madrugada de historia **no** escribe el B5 (Alola) salvo que Mario avance; toca eventos por fecha (Navidad entra en la ventana de 60 días a partir del 21 de octubre) o profundidad.
+**Último bloque terminado:** B4 (2026-10-10, 22:46).
+**Bloques publicados:** B1, B2, B3 (B2 y B3 publicados el 2026-10-05/06 en sesión de día, a petición de Mario) y **B4 (Kanto)**, publicado la madrugada del 2026-10-06. ~~Vamos 3 bloques por delante~~ (obsoleto): Mario terminó el B4, vamos **0 por delante** y toca el B5.
 
 ## Pedidos de Mario pendientes
 

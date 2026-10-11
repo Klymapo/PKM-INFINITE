@@ -381,7 +381,7 @@ export default {
 			{ say: 'rotom', text: '¡Bzzt! La señal… cero. La del hilo, la de Caoba, la de las hojas. Todo a cero. —Pausa larga—. {jugador}. Se ha ido. Esa cosa… ese Mewtwo… se ha ido. ¿Adónde se va algo así?' },
 			{ set: { 'flag.b04_mewtwo': true } },
 			{ quest: 'b03_t_ondas', done: true },
-			{ quest: 'b04_t_cueva', stage: 'abierto' },
+			{ quest: 'b04_t_cueva', stage: 'abierto', done: true },
 			{ intel: { npc: 'magda', text: 'En la Cueva Celeste: cuando el nodo se dañó, midió «rendimiento: cuatro por ciento» y dijo que se puede reparar en meses. «Ahora no tenemos fuente».' } },
 			{ call: 'b04_lebrun' },
 		],
