@@ -9,3 +9,8 @@ Rama: `chatgpt/misiones-2026-10-11`. Solo propuestas; Claude revisa y decide la 
 - `PREFLIGHT-2026-10-11.md`: comprobaciones de acceso y límites de trabajo.
 
 **Estado:** escritura terminada, auditoría narrativa aprobada; pendientes las pruebas del motor al integrar. No se ha modificado `main`, `app/` ni `herramientas/`. Las imágenes corresponden a otra etapa.
+
+## Arte 2026-10-11
+- `img/retrato-kaori.png`: aprobado y subido.
+- `img/retrato-rhi.png`: aprobado y subido.
+- `AUDITORIA-ARTE-2026-10-11.md`: auditoría visual de 8 candidatos; 6 PNG no pudieron subirse y quedan BLOQUEADOS. Continúan pendientes los demás retratos, postales, icono y título.
