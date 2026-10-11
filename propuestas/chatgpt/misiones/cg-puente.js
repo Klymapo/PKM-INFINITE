@@ -65,7 +65,8 @@ export default {
     cg_puente_desafio: [
       { say: 'cg_puente_teo', text: 'Primero que termine de cruzar ese viajero. Y que descanses tú también.' },
       { choice: [
-        { text: 'Combatir', then: [
+        { text: 'Combatir (con curación previa)', then: [
+          { heal: true },
           { battle: 'cg_puente_teo_prueba', lose: 'continue',
             onWin: [
               { set: { 'flag.cg_puente_victoria': true, 'flag.cg_puente_prueba': true } },
