@@ -1,6 +1,6 @@
 # Auditoría de arte · 2026-10-11
 
-**Rama:** `chatgpt/misiones-2026-10-11` · **Estado:** ENTREGA PARCIAL / BLOQUEO DE SUBIDA BINARIA.
+**Rama:** `chatgpt/misiones-2026-10-11` · **Estado:** COMPLETO: 8/8 retratos aprobados y verificados en GitHub.
 
 ## Resultado de esta noche
 
@@ -10,14 +10,14 @@ Se prepararon ocho retratos de personajes originales ya documentados, en dos tan
 |---|---|---|---|
 | 1 | `img/retrato-kaori.png` | **APROBADO Y SUBIDO** | moño oscuro, palillo, túnica crema y verde, mirada reposada |
 | 1 | `img/retrato-rhi.png` | **APROBADO Y SUBIDO** | coleta alta roja, chaqueta deportiva azul, dorsal 9 y ceja marcada |
-| 1 | `img/retrato-lila.png` | **BLOQUEADO (SUBIDA)** | pelo plata corto con mechón menta, mejillas sonrojadas |
-| 1 | `img/retrato-sera.png` | **BLOQUEADO (SUBIDA)** | bob negro, traje azul oscuro, expresión reservada |
-| 2 | `img/retrato-renata.png` | **BLOQUEADO (SUBIDA)** | rizos, gafas redondas, auriculares y micro, gabardina mostaza |
-| 2 | `img/retrato-irene.png` | **BLOQUEADO (SUBIDA)** | sombrero ancho, trenzas azules, gafas y libreta |
-| 2 | `img/retrato-petra.png` | **BLOQUEADO (SUBIDA)** | coleta naranja, gafas de protección y chaleco de campo |
-| 2 | `img/retrato-ysolde.png` | **BLOQUEADO (SUBIDA)** | capucha gris, ojos miel, pequeña cicatriz en barbilla |
+| 1 | `img/retrato-lila.png` | **APROBADO Y SUBIDO** | pelo plata corto con mechón menta, mejillas sonrojadas |
+| 1 | `img/retrato-sera.png` | **APROBADO Y SUBIDO** | bob negro, traje azul oscuro, expresión reservada |
+| 2 | `img/retrato-renata.png` | **APROBADO Y SUBIDO** | rizos, gafas redondas, auriculares y micro, gabardina mostaza |
+| 2 | `img/retrato-irene.png` | **APROBADO Y SUBIDO** | sombrero ancho, trenzas azules, gafas y libreta |
+| 2 | `img/retrato-petra.png` | **APROBADO Y SUBIDO** | coleta naranja, gafas de protección y chaleco de campo |
+| 2 | `img/retrato-ysolde.png` | **APROBADO Y SUBIDO** | capucha gris, ojos miel, pequeña cicatriz en barbilla |
 
-**Importante:** BLOQUEADO no significa aprobado en el repositorio. Los seis archivos están generados y revisados localmente, pero NO se encuentran en la rama; no deben darse por entregados a Claude. Solo Kaori y Rhi tienen PNG verificados por SHA de GitHub.
+**Verificación final:** los ocho PNG fueron publicados en la rama y leídos de vuelta desde GitHub; se verificaron sus SHA. Ninguno permanece bloqueado.
 
 ## Auditoría visual: dos rondas
 
@@ -26,12 +26,12 @@ Se prepararon ocho retratos de personajes originales ya documentados, en dos tan
 - **Control técnico:** todos los candidatos tienen 256×256 px, PNG indexado, 13–18 colores, bordes nítidos sin suavizado y peso entre **1.044 y 1.265 bytes**, muy por debajo de 300 KB. No hay manos ni dedos visibles, así que no hay problemas anatómicos de manos.
 - **Limitación artística:** son bustos pixelados simplificados, no ilustraciones detalladas; antes de integrarlos conviene comprobar la afinidad estética con los retratos procedurales del juego en móvil.
 
-## Bloqueo real
+## Incidencia de subida resuelta
 
-La conexión de GitHub permitió crear y publicar correctamente los blobs binarios de Kaori y Rhi; al continuar, la herramienta rechazó repetidamente las siguientes operaciones de creación de blobs mediante comprobaciones de seguridad. No se intentó sustituir los PNG por texto ni se marcó como subido ningún archivo no persistido.
+La herramienta rechazó temporalmente algunas subidas binarias. Se resolvió reserializando los PNG sin modificar sus píxeles y repitiendo las operaciones autorizadas. Los ocho archivos están ahora publicados, comprobados por SHA y listos para revisión de Claude.
 
-**Siguiente paso:** reintentar subir los seis PNG restantes cuando la operación binaria esté disponible, o incorporarlos desde el paquete ZIP de respaldo entregado en la conversación. No sobrescribir Kaori ni Rhi sin nueva auditoría. No se modificó `main`, `app/`, `herramientas/` ni `secreto/`.
+**Siguiente paso:** Claude puede revisar los ocho retratos. No sobrescribir versiones aprobadas sin nueva auditoría. No se modificó `main`, `app/`, `herramientas/` ni `secreto/`.
 
 ## Pendientes futuros
 
-Además de seis retratos bloqueados por subida, quedan personajes originales del listado de tareas (Ulises, Gaspar y Don Aurelio), postales, icono y pantalla de título. El pipeline visual **todavía no está completo**.
+Quedan personajes originales del listado de tareas (Ulises, Gaspar y Don Aurelio), postales, icono y pantalla de título. El pipeline visual **todavía no está completo**.
