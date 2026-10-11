@@ -12,7 +12,7 @@ export default {
     cg_puente_teo_prueba: { name: 'Teo', cls: 'Guía', npc: 'cg_puente_teo', ai: 3, reward: 850,
       team: [
         { sp: 'noctowl', lv: 53, moves: ['airslash', 'psychic', 'hypnosis', 'roost'] },
-        { sp: 'ampharos', lv: 54, moves: ['discharge', 'powergem', 'thunderwave', 'lightscreen'] },
+        { sp: 'ampharos', lv: 54, moves: ['discharge', 'powergem', 'thunderwave', 'cottonguard'] },
       ],
       intro: 'No quiero ganar. Quiero saber si puedo mantener la calma.',
       win: 'Perdí, sí. Pero esta vez miré el camino, no el marcador.',
