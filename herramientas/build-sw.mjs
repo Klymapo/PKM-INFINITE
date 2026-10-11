@@ -5,6 +5,14 @@ import path from 'path';
 import crypto from 'crypto';
 import { fileURLToPath } from 'url';
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '../app');
+// Índice de imágenes ilustradas (app/js/imagenes.js lo lee al arrancar)
+{
+	const imgDir = path.join(root, 'img');
+	const list = [];
+	if (fs.existsSync(imgDir)) (function w(d) { for (const f of fs.readdirSync(d)) { const p = path.join(d, f); if (fs.statSync(p).isDirectory()) w(p); else if (/\.(png|webp)$/i.test(f)) list.push(path.relative(imgDir, p).split(path.sep).join('/')); } })(imgDir);
+	fs.mkdirSync(imgDir, { recursive: true });
+	fs.writeFileSync(path.join(imgDir, 'indice.json'), JSON.stringify(list.sort()));
+}
 const files = [];
 (function walk(d) {
 	for (const f of fs.readdirSync(d)) {

@@ -13,9 +13,14 @@ Mario juega este juego en su móvil y quiere **sorprenderse**. Claude escribe la
 1. Trabaja en una **rama nueva** que empiece por `chatgpt/` (por ejemplo, `chatgpt/ideas-octubre`, `chatgpt/retratos-1`).
 2. Pon todo dentro de `propuestas/chatgpt/`:
    - **Texto** en Markdown (`.md`): ideas, listas, fichas.
-   - **Imágenes** en `propuestas/chatgpt/img/`, en **PNG o WebP**, de 512 px por lado como máximo y menos de 300 KB cada una. Nombre descriptivo en minúsculas y sin espacios (`retrato-petra.png`).
+   - **Misiones listas para el juego** en `propuestas/chatgpt/misiones/cg-<slug>.js`: un módulo con `export default { npcs, items, quests, scripts, trainers, gather, patches }` en el formato de `docs/CONTENIDO.md`, con **todos** los ids empezando por `cg_<slug>_`. Solo añade cosas (spots nuevos con `patches` en lugares ya visitados); no cambia nada de lo publicado.
+   - **Imágenes** en `propuestas/chatgpt/img/`, en **PNG o WebP**, de 512 px por lado como máximo y menos de 300 KB cada una. Usa **exactamente** estos nombres, que el importador entiende solo:
+     - `icono.png` (icono de la app, cuadrado)
+     - `titulo.png` (pantalla de título, vertical 9:16)
+     - `retrato-<idNPC>.png` (busto cuadrado de un personaje original; el id es el de `npcs.js`, p. ej. `retrato-lila.png`)
+     - `postal-<idLugar>.png` (paisaje 16:10 de un lugar; p. ej. `postal-luminalia.png`)
 3. Añade o actualiza `propuestas/chatgpt/LEEME.md` con una lista de lo que entregas y para qué sirve cada cosa.
-4. Haz el commit y súbela. Claude revisa las ramas `chatgpt/*` cada madrugada, adopta lo que encaje y deja respuesta en `propuestas/RESPUESTAS.md` (sin spoilers).
+4. Haz el commit y súbela (o Mario pega el resultado en su chat con Claude). Claude revisa las ramas `chatgpt/*` cada madrugada, adopta lo que encaje y deja respuesta en `propuestas/RESPUESTAS.md` (sin spoilers).
 
 ## 3. Reglas para las imágenes
 

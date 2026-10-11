@@ -23,6 +23,7 @@ import { evolutionInfo } from '../movimientos.js';
 import { moveMany, moveBox, swapBoxes, boxName, hasBoxName, setBoxName, BOX_NAME_MAX } from '../pc.js';
 import { playPuzzle } from './rejilla.js';
 import { repairSave } from '../reparaciones.js';
+import { illus } from '../imagenes.js';
 import { playCutscene } from './cine.js';
 import { playMinigame, showLoot } from './minijuegos.js';
 import { MINI_INFO, gatherGame, gatherCargo, prepare, settle, sumCargo } from '../minijuegos.js';
@@ -74,7 +75,7 @@ export async function titleScreen() {
 	const root = app();
 	root.innerHTML = '';
 	const saved = await loadSaved();
-	const bg = sceneCanvas({ type: 'city', landmark: 'prism', seed: 'title' });
+	const bg = illus('titulo.png') || sceneCanvas({ type: 'city', landmark: 'prism', seed: 'title' });
 	bg.classList.add('bg');
 	const screen = h('div', { class: 'title-screen' }, bg,
 		h('div', { class: 'logo' }, h('div', { class: 'a' }, 'POKéMON'), h('div', { class: 'b' }, 'Infinite'), h('span', { class: 'inf' }, '∞')),
@@ -2379,7 +2380,7 @@ function openCollection(startTab = 'postcards') {
 				for (const t of list) {
 					const have = album[t.id];
 					const card = h('button', { class: 'postcard' + (have ? '' : ' locked'), onclick: () => have && viewPostcard(t) },
-						have ? sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' }) : h('div', { class: 'pc-q' }, '?'),
+						have ? (illus('postales/' + t.id + '.png') || sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' })) : h('div', { class: 'pc-q' }, '?'),
 						h('div', { class: 'pc-name' }, have ? (t.short || t.name.replace(/^(Ciudad|Pueblo) /, '')) : '???'));
 					grid.append(card);
 				}
@@ -2420,7 +2421,7 @@ function openCollection(startTab = 'postcards') {
 }
 
 function viewPostcard(t) {
-	const cv = sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' });
+	const cv = illus('postales/' + t.id + '.png') || sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' });
 	const date = new Date(G.album[t.id]).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
 	const first = (descOf(t) || '').replace(/\*\*/g, '').split(/(?<=\.)\s/)[0];
 	const ov = h('div', { class: 'overlay dim art-viewer', onclick: () => ov.remove() },

@@ -3,6 +3,7 @@ import { fmtText, esc } from '../util.js';
 import { portraitCanvas, trainerImg } from '../art.js';
 import { G } from '../state.js';
 import { C, topLoc } from '../content.js';
+import { illus } from '../imagenes.js';
 
 export function h(tag, attrs = {}, ...kids) {
 	const el = document.createElement(tag);
@@ -32,6 +33,7 @@ export function setTextSpeed(s) { speed = s; }
 export function portraitFor(n) {
 	if (!n) return null;
 	if (n.id === 'jugador' || n.portrait === 'jugador') return portraitCanvas({ ...(G.player.look || {}), bg: '#2a3c66' });
+	{ const im = n.id && illus('retratos/' + n.id + '.png', 'portrait-illus'); if (im) return im; }
 	if (n.sprite) return trainerImg(n.sprite, n.look || { seed: n.name });
 	return portraitCanvas({ ...(n.look || { seed: n.name }), bg: n.bg || n.look?.bg || '#2a3c66' });
 }

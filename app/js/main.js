@@ -5,6 +5,7 @@ import { setExtraScope } from './state.js';
 import { timeScope } from './time.js';
 import { installHooks, titleScreen } from './ui/screens.js';
 import { setTextSpeed } from './ui/core.js';
+import { loadImageIndex } from './imagenes.js';
 
 async function boot() {
 	const app = document.getElementById('app');
@@ -12,6 +13,7 @@ async function boot() {
 		app.innerHTML = '<div class="empty" style="margin-top:40vh">Cargando…</div>';
 		await loadData('./data/');
 		await loadContent();
+		await loadImageIndex();
 		setExtraScope(timeScope);
 		installHooks();
 		setTextSpeed(2);

@@ -61,6 +61,7 @@ Trabaja en este orden. Usa la lista de tareas para que Mario vea el progreso si 
 5. **Propuestas de ChatGPT:** `git fetch origin` y mira las ramas `chatgpt/*` (`git branch -r --list 'origin/chatgpt/*'`). Mario colabora con ChatGPT, que conoce muy bien sus gustos. Protocolo en `docs/COLABORACION.md`; tareas abiertas en `propuestas/TAREAS-CHATGPT.md`.
    - Lee lo nuevo (`git log main..origin/chatgpt/x`, `propuestas/chatgpt/`). **Considéralo en serio**: lo que diga de los gustos de Mario y de sus opiniones sobre el juego pesa tanto como `referencias.md`.
    - Adopta lo que encaje: ideas → plan del bloque o `referencias.md`; gustos y opiniones → `referencias.md` y `progreso.md`; imágenes → revísalas (originales, sin Pokémon ni personajes canon, tamaño razonable) y, si sirven, cópialas a `app/img/` e intégralas. **No fusiones la rama entera**: trae solo los archivos que uses (`git checkout origin/chatgpt/x -- ruta`).
+   - **Vía rápida:** imágenes → `python3 herramientas/importar-imagenes.py <carpeta>` (las copia, ajusta y regenera el índice; míralas antes del commit). Misiones `cg-*.js` → cópialas a `app/content/comunidad/`, añádelas en `comunidad/lista.js`, revísalas con el lector independiente y pasa la auditoría.
    - Anota la decisión en `propuestas/RESPUESTAS.md` (sin spoilers) y, si hace falta, añade tareas nuevas en `propuestas/TAREAS-CHATGPT.md` (retratos de personajes que Mario ya conoce, fondos de regiones ya visitadas…). Nunca le pidas nada que revele la trama.
 
 ### 2.2 Leer el mundo (siempre, antes de escribir)
