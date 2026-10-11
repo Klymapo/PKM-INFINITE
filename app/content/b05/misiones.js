@@ -28,7 +28,7 @@ export default {
 		poni: 'Toma el barco a **Isla Poni**. La kahuna **Hela** vive en la **Aldea Marina**.',
 		canon: 'Cruza el **Cañón de Poni** hasta el **Altar del Sol y de la Luna**.',
 		altar: 'Alguien te espera en el Altar. Y algo que no debería estar atado.',
-		hecha: 'El cielo de Alola ya no se apaga a media tarde.',
+		hecha: 'Decidiste a quién volvía la luz del Altar. El cielo de Alola se curará a su ritmo.',
 	} },
 
 	// 🧵 Hilos

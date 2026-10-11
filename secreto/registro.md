@@ -327,3 +327,45 @@ Sin bloque nuevo. Pedido de Mario: «revisa todo ese tipo de errores… cualquie
 **Revisado y sin cambios (a propósito o correcto):** `b02_t_lola` (`espera`), `b03_t_ondas` y `b04_t_cueva` siguen abiertos (ver `hilos.md`). Etapa `b01_t_bastien.conocido` nunca se usa (inofensiva). Los fósiles de las cámaras se pueden vender, pero la misión se cierra por los flags de las cámaras, no por los objetos. Los objetos de misión que no son clave (miel, Leche Mu-mu, setas) se recogen otra vez en puntos de recolección. Ninguna decisión deja una rama sin camino en las misiones; ningún regalo va antes de un combate que corte el guion.
 
 **Para el motor (no tocado aquí):** (1) el «!» sale para cualquier misión sin empezar que aparezca en el guion del sitio, aunque solo se toque con una condición que exige que ya esté empezada (cierres en cascada, guiones de comprobación con `call`) o aunque otra misión del mismo guion esté en curso (Registro → «Rumbo al norte»); conviene contar solo los comandos alcanzables con el estado actual. (2) El «?» sale aunque el guion no cambie la etapa (Gaspar en la Ruta 7 sin ingredientes, puntos de observación). (3) Un `{ quest, stage }` igual a la etapa actual enseña «actualizada». (4) El cierre de partidas viejas estaría mejor en `app/js/reparaciones.js` que como `onEnter` repetido.
+
+## Publicación 9 · 2026-10-11 (madrugada de historia) · Bloque 5 «Acto IV · La luz robada» (Alola: Melemele → Akala → Paraíso Æther → Poni)
+
+Escrito entre las dos sesiones de la madrugada (0:47: plan, encargo, T0 y T1; 2:53: T2, T3, T5, lector y publicación). Mario había terminado el B4 en Azafrán: el enganche `b05_inicio` está en Azafrán, Celeste, Lavanda, Trigal, Luminalia y las Puertas.
+
+### Estado del mundo al terminar el B5 (`flag.b05_fin`)
+
+- Región nueva **`alola`** (mapa 100×100; Ula-Ula dibujada pero sin lugares: queda para la vuelta). Viajes: **Puerta de Alola** (`puerta_alola`, en Hauoli; `b05_puerta_alola`) ⇄ Azafrán, Luminalia y Trigal. Entre islas, barcos (spots `go`).
+- Sellos del Circuito: `sello_melemele` (Kaudan) y `sello_akala` (Mayla); `sello_poni` (Hela) es **opcional y posterior al final** (`hela_gp`). Tope final **62** (58 Kaudan, 59 Kiawe, 60 Mayla, 61 Fabio, 62 al final).
+- **Pulsera Z** desbloqueada (`zring`, `{ unlock: 'z' }`, Tapu Koko). Cristales: Normastal, Lizastal, Hidrostal, Pirostal, Litostal (pruebas); Dracostal (Kommo-o dominante opcional del Cañón), Psicostal (Calder, en el muelle tras el final), Geostal (Hela).
+- **Montura Lapras** (`flag.mount_lapras`) con el **Ride Gear Universal** (`ridegear`) de Leilani.
+- **Nodo 04 = Altar del Sol y de la Luna**: desmontado tras vencer a Calder. Necrozma vive (no capturable; vuelve en el Acto IX).
+- **Negocio nuevo:** Taller Kahale (`b05_taller`, Kantai), socia Leilani; encargados Skull (`b05_skull_taller`) y Kiawe.
+- Tiendas: piedras (`b05_piedras_kantai`), 26 MT en Konikoni (`b05_mt_konikoni`), `tienda_marina` (Poni).
+- La Gira anuncia **Teselia** (Acto V), con Puerta en **Ciudad Porcelana**.
+
+### Decisiones del B5 que el B6 DEBE leer
+
+| Decisión | Flags | Qué cambia |
+|---|---|---|
+| **A quién devuelves la luz** (gran decisión, Altar) | `b05_luz_necrozma` (cielo vuelve de golpe; Necrozma se va por un ultraumbral; rep.alola +10, af.leilani −3) / `b05_luz_aether` (Æther la custodia; Necrozma duerme en el Altar; `b05_kaori_muestra`: el antídoto avanza en el B6; rep.lemnis −5) / `b05_luz_leilani` (ultraumbral un minuto; baliza «tres cortas y una larga»: `b05_malia_viva`; Necrozma débil, lo cuida Hela; af.leilani +10, rep.alola −5) | Hilo Malia; Necrozma en el Acto IX; Æther con algo que no debería guardar |
+| Calder | `b05_calder_vencido`, `b05_calder_verdad` (cerró el umbral de Malia), `b05_carta_calder`, `b05_calder_poni` (custodiado por Hela hasta la Policía Internacional), `b05_calder_muelle` | Puede volver como testigo contra Lemnis |
+| Bastien | `b05_bastien_rompe` / `b05_bastien_sigue` | Letra pequeña VI |
+| Skull | `b05_skull_taller` (solo con `b03_rocket_libres`) | Encargados del taller |
+| Leilani | `af.leilani`, `b05_leilani_confia`, `b05_leilani_defendida` | Candidata nueva; la lámpara rota sigue sin arreglar |
+| Colección | `b05_litten(_tuyo)`, `b05_popplio`, `b05_rowlet` / `b05_rowlet_vive`, `b05_codigo_cero` / `b05_codigo_cero_discos`, `b05_tyranitarita`, `b05_scizorita` / `b05_gengarita` (la otra se da tras el final, `b05_zyra_segunda`) | — |
+| Otros | `b05_shoku_*` (Gaspar vs Lulú), `b05_rhi_wela` / `rhi_6`, `b05_ulises_caleta`, `b05_sueno_aura`, `b05_informe`, `b05_magda_correo`, `b05_camille_vista`, `b05_ansel_aether`, `b05_az_poni`, `b05_renata_llamada`, `b05_hela_vencida`, `b05_kommo_hecha`, `b05_canon_aura` | — |
+
+### Pistas plantadas
+
+- **Diario:** (1) T0, la llegada describe el escenario «a la izquierda» (visto desde la Puerta del otro lado); (2) T2, el escáner de Æther lee la Pokédex como «Dispositivo de Dirección · Lemnis · acceso total» (`b05_escaner`); Gladio lo apunta; (3) T3, «Hoy el sujet…» → «¡Hoy mi entrenador…!» (**única vez en todo el juego**; no repetir). Omisiones: Calder, el archivo de Æther y la decisión («una cosa muy importante con una luz»).
+- **Ansel:** en Æther, «de visita técnica», menta en papel azul; {riolu} no la acepta. El cuaderno de Calder: el hombre de la oferta dejó un caramelo de menta en papel azul (se quitó el envoltorio de la mesa para no subrayarlo).
+- **Ω:** el informe de Æther va «Copia a Dirección (Ω)»; sobre con Ω en el archivo (pago de la operación de Camille).
+- **Pérdidas:** Noa (nota en la jaula: «Ya sé contar»; 31 → 24 → 19; se va «con el envío del jueves»); segundo sueño de aura de Lucario («vuelve», mirando al norte); A.Z.: «la cuenta sigue abierta».
+- **Hipótesis del Lazo:** Kukui y Ciprés («la Pulsera y la Piedra Llave hacen lo mismo con distinto acento»); Calder: «es la misma luz».
+- **Renata:** «tu Rotom escribe un diario, ¿no?» (una frase; la pantalla se queda en blanco un segundo).
+
+### Personajes
+
+- **Nuevos:** Kukui, Kaudan, Liam, Nereida, Kiawe, Mayla, Hela, Gladio, Zyra, Fabio, Francine, Pimpinela, Lulú (canon); **Leilani Kahale** (candidata); **Calder Wynn** (OC, 4 escenas, todas en el B5); **Camille Lebrun** (OC, 1 escena); **Soldi** (robot del taller, varias escenas en T1 y el negocio).
+- **Pendientes de 2+ apariciones en otro bloque:** Camille (la más urgente: con Handsome o Lebrun en el B6), Calder, Liam, Lulú, Zyra, Fabio, Francine, Hela, Kaudan, Mayla, Nereida, Pimpinela.
+- **Vuelven:** Sera, Alexia, Handsome, Kiyo, Ramiro y Elm, Ciprés (llamada), Misty, Bill (llamada), Adela (postal), Philippe, Rhi, Gaspar, Ulises, Kaori, Noa (nota), Bastien, Ansel, Xero, Rouxel, Magda (correo), Renata (llamada), Ysolde (nota), A.Z. (5.ª aparición sin poder fotografiarlo: chiste de Rotom).

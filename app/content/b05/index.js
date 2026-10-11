@@ -1,13 +1,13 @@
 // Bloque 5 · Acto IV: La luz robada. Une las partes del bloque.
-// EN OBRAS: no está en BLOCKS. Para probarlo: INFINITO_EXTRA=b05 node herramientas/validar.mjs
-// Al terminar cada tramo, impórtalo aquí y añádelo a `parts`.
+// Al añadir un tramo nuevo, impórtalo aquí y añádelo a `parts`.
 import npcs from './npcs.js';
 import comun from './comun.js';
 import misiones from './misiones.js';
 import t0 from './t0-melemele.js';
 import t1 from './t1-akala.js';
-// import t2 from './t2-aether.js';
-// import t3 from './t3-poni.js';
+import t2 from './t2-aether.js';
+import t3 from './t3-poni.js';
+import t5 from './t5-taller.js';
 
 const block = {
 	id: 'b05', title: 'Acto IV · La luz robada', hours: 12, ends: 'b05_fin',
@@ -16,7 +16,7 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1];
+const parts = [comun, t0, t1, t2, t3, t5];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {

@@ -43,7 +43,12 @@
   6. Personajes con pocas apariciones nuevos: Liam y Lulú (solo B5), Camille (T2).
   7. Después: auditoría extensa completa, lector independiente de T2–T3, registro/hilos/referencias/balance, `BLOCKS` + `CONTENT_VERSION`, `build-sw.mjs` y publicar. Las misiones de ChatGPT quedan para la noche siguiente si no da tiempo.
 
-**Último bloque terminado:** B4 (2026-10-10, 22:46).
+### Hecho por la sesión de las 2:53 (2026-10-11)
+
+- **B5 publicado completo** (Publicación 9): T2 `t2-aether.js`, T3 `t3-poni.js` y `t5-taller.js` (Taller Kahale + tiendas de piedras y MT). Arreglados los pendientes del lector de T0–T1 (Kukui tutea, variante corta de Kiawe si pierdes, Diario de T1 con `flag.b01_diario`). Auditoría apta (24/24 recorridos) y lector independiente apto.
+- **Quedan para la noche siguiente:** (1) las **misiones de ChatGPT** (`origin/chatgpt/misiones-2026-10-11` y `chatgpt/recomendaciones`): sin revisar; (2) arte pendiente para la sesión de arte: `lapras_atardecer`, `altar_luz` (`fotoaltar`), pixel art de `ridegear`, `b05_folleto_cielo`, `cartamalia`, `invitacionaether`, `notanoa04`, `informeaether`, `correomagda`, `notaysolde05`, `b05_diario_calder`; (3) personajes del B5 con una sola aparición (ver `registro.md`, Publicación 9; Camille la más urgente); (4) bot: no sabe volver a lugares que solo tienen entrada por `branch` (Área Volcánica del Wela).
+
+**Último bloque terminado por Mario:** B4 (2026-10-10, 22:46). **Último publicado:** B5 (2026-10-11).
 **Bloques publicados:** B1, B2, B3 (B2 y B3 publicados el 2026-10-05/06 en sesión de día, a petición de Mario) y **B4 (Kanto)**, publicado la madrugada del 2026-10-06. ~~Vamos 3 bloques por delante~~ (obsoleto): Mario terminó el B4, vamos **0 por delante** y toca el B5.
 
 ## Pedidos de Mario pendientes

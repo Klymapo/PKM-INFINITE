@@ -2,8 +2,9 @@ import b01 from './b01/index.js';
 import b02 from './b02/index.js';
 import b03 from './b03/index.js';
 import b04 from './b04/index.js';
-export const CONTENT_VERSION = '2026-10-10.2';
-export const BLOCKS = [b01, b02, b03, b04];
+import b05 from './b05/index.js';
+export const CONTENT_VERSION = '2026-10-11.1';
+export const BLOCKS = [b01, b02, b03, b04, b05];
 // Solo herramientas (Node): INFINITO_EXTRA=b05 carga bloques en obras sin publicarlos.
 // En el navegador `process` no existe y esto no hace nada.
 const EXTRA = (typeof process !== 'undefined' && process.env && process.env.INFINITO_EXTRA) || '';

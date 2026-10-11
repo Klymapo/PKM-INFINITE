@@ -383,7 +383,8 @@ export default {
 			mapNote: 'Prueba del capitán Kiawe (Fuego) · veta de excavación',
 			spots: [
 				{ label: 'Kiawe', sub: 'Baila con un Marowak en el escenario', icon: '🔥', new: '!beat("kiawe_1")', talk: [
-					{ cond: '!beat("kiawe_1")', script: 'b05_kiawe_intro' },
+					{ cond: '!beat("kiawe_1") && flag.b05_kiawe_intro', script: 'b05_kiawe_otra' },
+				{ cond: '!beat("kiawe_1")', script: 'b05_kiawe_intro' },
 					{ cond: '!flag.b05_kiawe_hecha', script: 'b05_kiawe_mientras' },
 					{ script: 'b05_kiawe_despues' },
 				] },
@@ -1128,7 +1129,7 @@ export default {
 			{ say: 'misty', text: 'Bueno, yo ya he llorado bastante por hoy. Por la sal. —Se seca los ojos con la toalla de Starmie—. Cuídamelo, ¿eh? Es de mi mar.' },
 			{ say: 'nereida', text: 'Les quedó bonito. —Cara seria—. No es mentira.' },
 			{ quest: 'b05_t_leilani', stage: 'hecha', done: true },
-			{ diary: 'Hoy mi entrenador{|a|e} se ha subido a un Lapras. ¡Un Lapras de verdad! Estaba atrapado en una red muy fea, y entre todos lo hemos soltado. Leilani ha hecho un brazalete que funciona (casi seguro) y el Lapras canta cuando lo tocas. Yo también he cantado un poco. Nadie me lo ha pedido. Misty dice que lloró por la sal. Yo no tengo ojos para llorar, pero si los tuviera, también habría sido por la sal.' },
+			{ diary: 'Hoy mi entrenador{|a|e} se ha subido a un Lapras. ¡Un Lapras de verdad! Estaba atrapado en una red muy fea, y entre todos lo hemos soltado. Leilani ha hecho un brazalete que funciona (casi seguro) y el Lapras canta cuando lo tocas. Yo también he cantado un poco. Nadie me lo ha pedido. Misty dice que lloró por la sal. Yo no tengo ojos para llorar, pero si los tuviera, también habría sido por la sal.', cond: 'flag.b01_diario' },
 			{ intel: { npc: 'leilani', text: 'Terminó el Ride Gear Universal en la Colina Saltagua, con un Lapras de Kanto atrapado en una red de contención («Destino: por asignar», media lemniscata). Lemnis («Programa Ultra») le ha escrito tres veces para comprarle los planos y la llama «proveedora».' } },
 		],
 		b05_lapras_orilla: [
@@ -1169,7 +1170,19 @@ export default {
 		],
 
 		// =================== ÁREA VOLCÁNICA DEL WELA: KIAWE ===================
+		b05_kiawe_otra: [
+			{ say: 'kiawe', text: '—Golpe de talón. El Marowak lo imita—. Otra vez tú. Bien. El ritmo no se aprende a la primera. Ni a la segunda. Yo tardé un año.' },
+			{ prompt: '¿Curar al equipo antes del combate?', choice: [
+				{ text: 'Sí, por favor.', then: [{ heal: 'La bailarina del cesto vuelve a bajar del escenario. Esta vez no te corrige la postura: te guiña un ojo.' }] },
+				{ text: 'Estoy bien así.', then: [{ say: 'kiawe', text: 'Entonces, a bailar.' }] },
+			] },
+			{ battle: 'kiawe_1',
+				onWin: [
+					{ say: 'kiawe', text: 'Ahí está. Ese era el compás. —Se seca el sudor con el pañuelo—. Ahora la prueba de verdad. En el escenario. Ven cuando quieras.' },
+				] },
+		],
 		b05_kiawe_intro: [
+			{ set: { 'flag.b05_kiawe_intro': true } },
 			{ text: 'En el escenario de troncos, un chico alto, sin camisa, con un pañuelo en la cabeza y unas flores en el pelo, baila. No es un baile bonito: es un baile serio, de pasos secos, golpes de talón y brazos que cortan el aire como si fuera de papel.' },
 			{ text: 'Un Marowak con el hueso en llamas baila con él. Cada vez que el chico golpea el suelo, el hueso se enciende más. Cada vez que gira, las antorchas se inclinan hacia él.' },
 			{ say: 'kiawe', text: '—Sin dejar de bailar—. Llegas en el compás equivocado. —Golpe de talón—. Pero llegas. Eso cuenta.' },
@@ -1552,7 +1565,7 @@ export default {
 						{ text: '{riolu} se acerca a la marca del rombo y pone la palma encima. El aura le brilla un segundo. Entre las columnas del templo, muy rápido, pasa un destello rosa. Las flores se abren todas a la vez. El aire deja de oler tan dulce.' },
 						{ say: 'mayla', text: 'Vaya. Le has caído bien. —Mira hacia el templo—. A ella no le cae bien casi nadie. A mí tampoco.' },
 					] },
-					{ diary: 'Hoy mi entrenador{|a|e} ha ganado la Gran Prueba de Akala. La kahuna Mayla tiene un Lycanroc que da muchísimo miedo y un reloj que mira todo el rato. Cuando perdió, no lo miró. Yo me fijé. Me fijo en todo. Bueno, en casi todo. ¡Ya tenemos dos sellos! Akala huele a flores y a volcán y a malasada. Es la isla que mejor huele de todas las que he olido, y eso que no tengo nariz.' },
+					{ diary: 'Hoy mi entrenador{|a|e} ha ganado la Gran Prueba de Akala. La kahuna Mayla tiene un Lycanroc que da muchísimo miedo y un reloj que mira todo el rato. Cuando perdió, no lo miró. Yo me fijé. Me fijo en todo. Bueno, en casi todo. ¡Ya tenemos dos sellos! Akala huele a flores y a volcán y a malasada. Es la isla que mejor huele de todas las que he olido, y eso que no tengo nariz.', cond: 'flag.b01_diario' },
 					{ call: 'b05_aether_invitacion' },
 				] },
 		],

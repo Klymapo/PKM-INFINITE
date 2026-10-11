@@ -169,3 +169,9 @@
 - **Rosaura** (`p7_rosaura`; es la entrenadora `r42_rosaura` del B2 y la del ramo en la cancela del B3): vecina de la Ruta 42, treinta años esquilando. De usted, terca, «yo pago lo que debo»; su Tauros es enamoradizo. Encargada posible del rancho.
 - **La Mayor** (`p7_mayor`): la recluta Rocket que cuidaba de los demás; solo si el jugador los dejó libres. Hace que todo el mundo coma caliente. No dice su nombre: «lo guardo para cuando me lo gane otra vez». **Pendiente:** la escena en que lo dice.
 - **Casilda Peña** (`p7_casilda`, joyera de la 4.ª planta de Trigal, Mega-Sableye) y su hermana **Jade** (`p7_jade`, Almacenes de Azafrán). **Ciro** (`p7_ciro`, Mega-Pidgeot, Azafrán y luego Trigal). **Evaristo** (`p7_evaristo`, pescador del Lago de la Furia, hermano del contramaestre de Olivo, Mega-Gyarados). **Dolores** (`p7_dolores`, arregla muñecos en Lavanda, Mega-Banette).
+
+## Fichas nuevas del Bloque 5
+
+- **Dr. Calder Wynn** (`calder`, 54): director del Programa Ultra de Lemnis, ex del CID de Kantai y compañero de Malia Kahale. Astrónomo; voz suave, metáforas de luz y distancia, nunca cruel. Cree que Necrozma «acapara» la luz que necesitan millones. Culpa: cerró el ultraumbral de Malia desde este lado para salvar la isla y firmó «colapso espontáneo». Leilani lo trata de usted (no lo conocía en persona); él la llama «Lani» solo en su cuaderno. Frase: «La luz es de quien la mira».
+- **Camille Lebrun** (`camille`, 15): hija del inspector Lebrun; voleibolista, coleta alta, rodilleras. Operada hace seis años en la clínica de Æther (la pagó «un amigo»). Lista, irónica, protege a su padre aunque sabe más de lo que dice. Escena tierna, nunca un interrogatorio.
+- **Soldi** (`soldabot`): brazo robótico del taller Kahale, «Asistente de Soldadura y Motivación, modelo Kahale-1». Elogios envenenados («Excelente. Para ser humana»); en el fondo, el que más cuida de Leilani.

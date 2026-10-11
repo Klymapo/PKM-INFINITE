@@ -137,3 +137,22 @@ Escenas cortas de un solo uso (flag `b01_enc_*`), repartidas por ciudades y mome
 | Lo que vive en la cueva (`b04_t_cueva`) | `abierto` | Gancho largo: Mewtwo reaparece en un acto alto (no capturable antes del IX) | Continuar esta misma misión cuando vuelva Mewtwo |
 
 Cerrados hoy al terminar su parte (antes esperaban al bloque siguiente o no se cerraban nunca): `b01_t_rhi` (si perdiste en Relieve), `b01_t_agencia`, `b01_t_az`, `b01_t_ambar`, `b01_t_cabina`, `b01_t_vencejos`, `b02_t_noa`, `b02_t_ambar`, `b02_t_cabina`, `b02_t_vencejos`, `b02_t_kaori`, `b02_t_az`, **`b02_t_agencia` (no se cerraba nunca)**, `b03_t_noa`, `b03_t_ambar`, `b03_t_vencejos`, `b03_t_kaori`, `b04_t_noa`, `b04_t_kaori`, `b04_t_renata`. El B5 abre `b05_t_noa`, `b05_t_kaori`, `b05_t_renata`… como partes nuevas; los cierres en cascada que ya hay (`quest.X && !done.X`) siguen valiendo y no hacen nada.
+
+## Estado tras el B5 (Publicación 9)
+
+| Hilo | Estado | Siguiente paso (B6, Teselia · Acto V) |
+|---|---|---|
+| Tronco | Nodo 04 (Altar) desmontado; Lemnis perdió la luz de Necrozma | Acto V: **revelación del Diario** (Eco de Ansel); Proyecto Arco II en Teselia |
+| **Leilani** (candidata) | Ride Gear, defendida o no ante Lemnis; vio (o no) el otro lado | Llamadas y el taller; la lámpara rota es el final de su arco |
+| **NUEVO: La que cruzó** (Malia) | Calder confesó que cerró el umbral; con `b05_luz_leilani`, Malia está viva (baliza) | Se resuelve en un acto alto; Calder como testigo |
+| Las jaulas (Noa) | Nota en Æther: «Ya sé contar»; se fue «con el envío del jueves» | **Acto VI: su pérdida** |
+| Dulce veneno (Kaori) | Método de Æther contra el veneno de ultraentes; con `b05_luz_aether`, muestra | B6: siguiente paso del antídoto |
+| Letra pequeña (Bastien) | Rompe o sigue con el contrato | B6 según rama |
+| El topo → Camille | Camille en la clínica; sobre con Ω | Que vuelva (Handsome/Lebrun) |
+| Remanente Skull | Francine; taller si `b05_skull_taller` | Imprevistos del negocio; apariciones |
+| Casos Fríos (Renata) | Llamada: Teselia; primera broma sobre el Diario | Acto V |
+| Cabina (Ulises) | Cameo en la caleta (Lapras); «una luz que se apaga» | **B6: misión de la cabina** |
+| A.Z. | Aparición del Acto IV en Poni | Una por acto |
+| Lucario | 2.º sueño: «vuelve» | Más sueños; Quinoa en el Acto VII |
+| Recetario (Gaspar) | Shokugeki con Lulú | Siguiente rival de cocina en Teselia |
+| Necrozma | Vivo según la decisión | Acto IX, contra el Lazo |

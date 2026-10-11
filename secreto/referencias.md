@@ -94,3 +94,11 @@ Aplícalo a las tres ideas:
 
 - Rancho: cartón «CREE» torcido sobre la puerta del establo (*Ted Lasso*). Castillo: «la tarta es mentira» (*Portal*). Cantera: «diez mil millones por ciento seguro» en boca de Petra (*Dr. Stone*). Primeape Tera Fantasma = guiño a Annihilape (Mario tiene uno). «Disco Técnico», la tienda de MT, es una tienda de vinilos.
 - **Gustos confirmados por Mario (2026-10-10):** la muerte de Aurelio («me encantó, aunque dolió»), el suspenso de Noa, poder encerrar al jefe y soltar a los demás (matices en vez de todo o nada), las zonas de entrenamiento. **No le gusta** recibir dos Pokémon de la misma línea. Quiere **gestionar** cosas con su dinero y que sus decisiones den «más ganancias»; quiere **avisos** en vez de recorrer el mundo buscando qué hay nuevo.
+
+## Publicación 9 (2026-10-11, Bloque 5)
+
+- *Percy Jackson* (Leilani ≈ Leo Valdez: cinturón con cosas que no caben, bromea para no hablar de su madre). Sutil.
+- *Food Wars* (shokugeki Gaspar vs Lulú en Konikoni). **Evidente** en esa misión.
+- *Portal*: Soldi, el brazo robótico pasivo-agresivo («Excelente. Para ser humana»), y su aviso de «habrá tarta» en el taller (eco del «la tarta es mentira» del castillo, P7). No usar más *Portal*.
+- *BioShock*: megafonía de bienvenida de Æther («¿Quiere usted…?»). Sutil.
+- Calder: sin referencia externa («La luz es de quien la mira»).
