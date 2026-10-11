@@ -1316,8 +1316,9 @@ export default {
 		b05_philippe: [
 			{ set: { 'flag.b05_philippe': true } },
 			{ text: 'En una esquina del mercado, un señor con chistera, chaqueta verde y una corbata amarilla con palmeras reparte folletos a todo el que pasa. Nadie los agarra. Él sigue sonriendo.' },
-			{ say: 'philippe', text: '¡Villas con vistas al volcán! ¡Calefacción natural! ¡Sauna incluida, porque el suelo está caliente! —Te ve. Se le cae un folleto—. ¡{jugador}! ¡Mi cliente número uno! ¡En Alola! ¡El destino existe, y tiene muy buen gusto!' },
-			{ say: 'philippe', text: 'Philippe Dumont, ahora también en Alola. Inmobiliaria Dumont, sucursal Konikoni. La sucursal es esta esquina. Mira. —Te enseña un folleto con una casita de madera y, detrás, un volcán echando humo—. Villa «Lava Bonita». Dos habitaciones. Vistas al Wela.' },
+			{ say: 'philippe', text: '¡Villas con vistas al volcán! ¡Calefacción natural! ¡Sauna incluida, porque el suelo está caliente! —Te ve. Se le cae un folleto—. ¡{jugador}! ¡Mi cliente número uno! ¡En Alola! ¡El destino existe, y tiene muy buen gusto!', cond: 'flag.b01_philippe_1 || flag.b02_philippe' },
+			{ say: 'philippe', text: '¡Villas con vistas al volcán! ¡Calefacción natural! ¡Sauna incluida, porque el suelo está caliente! —Te ve el collar de flores de la Gira. Se le cae un folleto—. ¡De la Gira! ¡Te conozco! Bueno, conozco tu cara: sales en los carteles de la Gira que hay en Luminalia, en una esquina, cortad{o|a|e} por el borde. ¡El destino existe, y tiene muy buen gusto!', cond: '!(flag.b01_philippe_1 || flag.b02_philippe)' },
+			{ say: 'philippe', text: 'Philippe Dumont, de Luminalia, ahora también en Alola. Inmobiliaria Dumont, sucursal Konikoni. La sucursal es esta esquina. Mira. —Te enseña un folleto con una casita de madera y, detrás, un volcán echando humo—. Villa «Lava Bonita». Dos habitaciones. Vistas al Wela.' },
 			{ choice: [
 				{ text: '«¿No es peligroso vivir al lado de un volcán?»', then: [
 					{ say: 'philippe', text: 'Peligroso, peligroso… Phil-osofía: un volcán es una montaña con carácter. Y a una montaña con carácter no se la ignora. Se la respeta. Y se le pone una terraza delante.' },
@@ -1388,7 +1389,8 @@ export default {
 			{ set: { 'flag.b05_shoku_hecho': true } },
 			{ text: 'El Restaurante de Lulú es una casa de madera con la puerta abierta, mesas largas y un mostrador de cocina a la vista. Huele a hierbas, a coco y a algo que se cuece desde hace horas.' },
 			{ text: 'Detrás del mostrador, una chica con coletas verdes y un delantal lleno de flores. Delante, apoyado en el mostrador con los brazos cruzados y un cuchillo envuelto en un paño al hombro, un hombre calvo con barba y un pañuelo en la cabeza. Se miran como dos Mudsdale en la misma valla.' },
-			{ say: 'gaspar', text: '¡{jugador}! ¡Llegas en el momento justo! —No aparta la vista de la chica—. Gaspar Rocafort. Bueno, ya lo sabes. Estoy en mitad de un duelo. De cocina. El más importante de mi vida. Desde el anterior.' },
+			{ say: 'gaspar', text: '¡{jugador}! ¡Llegas en el momento justo! —No aparta la vista de la chica—. Gaspar Rocafort. Bueno, ya lo sabes. Donde va la Gira, voy yo: los aspirantes comen fatal. Estoy en mitad de un duelo. De cocina. El más importante de mi vida. Desde el anterior.', cond: 'flag.b01_gaspar_1 || flag.b02_gaspar_trigal || flag.b03_gaspar_caoba' },
+			{ say: 'gaspar', text: '¡Tú! El collar de flores. ¡De la Gira! Llegas en el momento justo. —No aparta la vista de la chica—. Gaspar Rocafort, cocinero ambulante. Voy detrás de la Gira de región en región, porque los aspirantes comen fatal. Y necesito un jurado. Estoy en mitad de un duelo. De cocina. El más importante de mi vida. Desde el anterior.', cond: '!(flag.b01_gaspar_1 || flag.b02_gaspar_trigal || flag.b03_gaspar_caoba)' },
 			{ say: 'lulu', text: '¡Hola! Soy Lulú, capitana de la prueba de Planta. Bueno, de la prueba de comer. Este señor ha entrado en mi cocina y ha dicho que mi caldo «le falta valentía». ¡En mi cocina!' },
 			{ say: 'gaspar', text: 'Le falta valentía. Lo mantengo. Es un caldo precioso. Prudente. Un caldo que no se atreve a ser lo que podría ser.' },
 			{ say: 'lulu', text: 'Así que vamos a cocinar los dos. Con lo que da la tierra de Akala. Y tú decides. Tú y… —mira a Rotom— y la Pokédex, si come.' },

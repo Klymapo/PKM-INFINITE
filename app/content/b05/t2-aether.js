@@ -664,6 +664,7 @@ export default {
 			] },
 			{ say: 'camille', text: 'Camille. Estoy en revisión. Me operaron aquí hace seis años, de una válvula del corazón. Era pequeña; casi no me acuerdo. Ahora vengo cada seis meses a que me pongan cables y me digan que todo bien. —Se encoge de hombros—. Siempre dicen que todo bien. Me aburro un montón.' },
 			{ say: 'camille', text: 'De pequeña no podía ni correr. Ahora juego de colocadora en el equipo del instituto. Bueno, de suplente. Pero el entrenador dice que el saque se me da genial. Bueno, que se me dará.' },
+			{ say: 'camille', text: 'Espera. —Te mira mejor, con el balón quieto—. Tú eres {jugador}. ¡De la Gira! Papá tenía una foto tuya en el corcho de su despacho, con una chincheta roja. Decía que eras «el caso que más viaja». —Se ríe—. Nunca me contó de qué caso. Papá es el inspector Lebrun, por cierto. De Kalos.' },
 			{ if: 'flag.b04_lebrun_detenido', then: [
 				{ say: 'camille', text: 'Papá está de viaje por trabajo. —Lo dice mirando el balón, no a ti—. Eso dice mi tía. Llevo semanas sin hablar con él.' },
 				{ text: 'Le da vueltas al balón entre las manos. Sabe que no es un viaje. Se le nota en cómo no pregunta.' },

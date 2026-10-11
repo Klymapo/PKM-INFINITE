@@ -1,18 +1,18 @@
 // Propuesta independiente · El puente no puntúa · 20–25 min
 export default {
   npcs: {
-    cg_puente_elia: { name: 'Elia', title: 'Inspectora de senderos', look: { hair: 'tied', hairColor: '#5b3a29', eyes: '#5e754d', outfit: '#d9b763', outfit2: '#405c56', skin: 2, eyesStyle: 'sharp', mouth: 'flat', acc: 'bandana' } },
-    cg_puente_teo: { name: 'Teo', title: 'Aspirante a guía', look: { hair: 'spiky', hairColor: '#30364d', eyes: '#718bc2', outfit: '#52759a', outfit2: '#e8d8b5', skin: 1, eyesStyle: 'happy', mouth: 'grin', acc: '' } },
+    cg_puente_elia: { name: 'Pilar', title: 'Cuarta del Puente Pepita', look: { hair: 'braids', hairColor: '#3a2a1e', outfit: '#f2c43a', outfit2: '#3b5bb5', skin: 3, eyesStyle: 'normal', mouth: 'flat' } },
+    cg_puente_teo: { name: 'Gonzalo', title: 'Tercero del Puente Pepita', look: { hair: 'cap', hairColor: '#2b2b38', outfit: '#3b5bb5', outfit2: '#e9e3d0', skin: 2, eyesStyle: 'normal', mouth: 'grin', capColor: '#c4473a' } },
   },
   quests: {
     cg_puente: { name: 'El puente no puntúa', type: 'side', est: 25,
-      stages: { inicio: 'Habla con Elia en Celeste.', prueba: 'Busca a Teo en la Ruta 24.', regreso: 'Explica a Elia lo sucedido.', hecha: 'La ruta tiene un guía que sabe esperar.' } },
+      stages: { inicio: 'Habla con **Pilar**, la del Puente Pepita, en **Celeste**.', prueba: 'Busca a **Gonzalo** en el **Puente Pepita** (Ruta 24).', regreso: 'Vuelve con **Pilar** a **Celeste** y cuéntale cómo fue.', hecha: 'La ruta tiene un guía que sabe esperar.' } },
   },
   trainers: {
-    cg_puente_teo_prueba: { name: 'Teo', cls: 'Guía', npc: 'cg_puente_teo', ai: 3, reward: 850,
+    cg_puente_teo_prueba: { name: 'Gonzalo', cls: 'Joven', npc: 'cg_puente_teo', ai: 3, reward: 850,
       team: [
-        { sp: 'noctowl', lv: 53, moves: ['airslash', 'psychic', 'hypnosis', 'roost'] },
-        { sp: 'ampharos', lv: 54, moves: ['discharge', 'powergem', 'thunderwave', 'cottonguard'] },
+        { sp: 'sandslash', lv: 53, moves: ['earthquake', 'slash', 'rockslide', 'poisonjab'] },
+        { sp: 'raticate', lv: 54, moves: ['hyperfang', 'crunch', 'suckerpunch', 'uturn'] },
       ],
       intro: 'No quiero ganar. Quiero saber si puedo mantener la calma.',
       win: 'Perdí, sí. Pero esta vez miré el camino, no el marcador.',
@@ -21,7 +21,7 @@ export default {
   },
   patches: {
     celeste: { spots: [
-      { label: 'Inspectora de senderos', sub: 'Cuenta pasos con un lápiz corto', icon: '📋', cond: '!done.cg_puente', new: '!flag.cg_puente_inicio || flag.cg_puente_prueba', talk: [
+      { label: 'Pilar, la del Puente Pepita', sub: 'Lee una lista de nombres con cara de preocupación', icon: '📋', cond: '!done.cg_puente', new: '!flag.cg_puente_inicio || flag.cg_puente_prueba', talk: [
         { cond: '!flag.cg_puente_inicio', script: 'cg_puente_inicio' },
         { cond: 'flag.cg_puente_prueba', script: 'cg_puente_regreso' },
         { script: 'cg_puente_espera' },
@@ -29,26 +29,26 @@ export default {
       { label: 'Tablón de rutas seguras', icon: '📌', cond: 'done.cg_puente', talk: [{ script: 'cg_puente_despues' }] },
     ] },
     ruta24: { route: { tramos: { 4: [
-      { talk: [{ script: 'cg_puente_prueba' }], label: 'Guía junto al puente', sub: 'Ensaya un discurso frente al agua', icon: '🌉', cond: 'flag.cg_puente_inicio && !flag.cg_puente_prueba', new: 'true' },
+      { talk: [{ script: 'cg_puente_prueba' }], label: 'Gonzalo, en la barandilla', sub: 'Ensaya un discurso frente al agua', icon: '🌉', cond: 'flag.cg_puente_inicio && !flag.cg_puente_prueba', new: 'true' },
     ] } } },
   },
   scripts: {
     cg_puente_inicio: [
-      { say: 'cg_puente_elia', text: 'Busco a alguien que guíe a los viajeros por la Ruta 24. La fuerza ayuda, pero no sustituye a prestar atención.' },
-      { say: 'cg_puente_elia', text: 'Teo quiere presentarse. Solo habla de su récord de victorias. Yo necesito saber si puede cuidar a quien camina despacio.' },
+      { say: 'cg_puente_elia', text: '¡Anda, tú! Te recuerdo: cruzaste los cinco combates del puente sin despeinarte. Soy Pilar, la cuarta. —Te enseña la lista—. Desde que se fue el del maletín, el puente necesita a alguien que guíe a los viajeros por la Ruta 24. No uno que gane: uno que se fije.' },
+      { say: 'cg_puente_elia', text: 'Gonzalo, el tercero, quiere el puesto. Solo habla de que su Raticate está en el uno por ciento de los mejores. A ti te respeta: le ganaste. Ve a verlo y dime si sabe cuidar a quien camina despacio.' },
       { choice: [
         { text: 'Ayudar con la prueba', then: [
           { set: { 'flag.cg_puente_inicio': true } },
           { quest: 'cg_puente', stage: 'prueba' },
-          { say: 'cg_puente_elia', text: 'Está junto al puente. Pregúntale por los viajeros, no por las medallas.' },
+          { say: 'cg_puente_elia', text: 'Está en la barandilla, como siempre. Pregúntale por los viajeros, no por su Raticate.' },
         ] },
         { text: 'Más tarde', then: [{ say: 'cg_puente_elia', text: 'La ruta no se va a mover.' }] },
       ] },
     ],
-    cg_puente_espera: [{ say: 'cg_puente_elia', text: 'Teo está en la Ruta 24. Que no olvide mirar a los lados.' }],
+    cg_puente_espera: [{ say: 'cg_puente_elia', text: 'Gonzalo está en el puente. Que no se le olvide mirar a los lados.' }],
     cg_puente_prueba: [
-      { say: 'cg_puente_teo', text: 'Tengo el discurso ensayado y el equipo listo. ¿Quieres comprobar mi nivel?' },
-      'Un excursionista deja caer una bolsa al cruzar. Teo no se ha dado cuenta.',
+      { say: 'cg_puente_teo', text: '¡Tú! ¡Quien ganó los cinco! Tengo el discurso de guía ensayado y el equipo listo. Mi Raticate está en el uno por ciento, ¿eh? ¿Quieres comprobar mi nivel?' },
+      'Un excursionista deja caer una bolsa al cruzar. Gonzalo no se ha dado cuenta.',
       { choice: [
         { text: 'Señalar la bolsa', then: [
           { set: { 'flag.cg_puente_atento': true } },
@@ -108,11 +108,11 @@ export default {
       { give: 'hyperpotion', n: 1 },
       { money: 600 },
       { quest: 'cg_puente', stage: 'hecha', done: true },
-      { diary: 'Hoy mi entrenador{|a|e} ayudó a un chico del Puente Pepita a ser guía. Se llama Teo y al principio solo hablaba de sus victorias. Luego dejó pasar al último viajero sin prisa. ¡Yo también quiero ser guía! Bueno, ya lo soy. Soy una Pokédex. Es casi lo mismo.', cond: 'flag.b01_diario' },
+      { diary: 'Hoy mi entrenador{|a|e} ayudó a un chico del Puente Pepita a ser guía. Se llama Gonzalo y al principio solo hablaba de sus victorias. Luego dejó pasar al último viajero sin prisa. ¡Yo también quiero ser guía! Bueno, ya lo soy. Soy una Pokédex. Es casi lo mismo.', cond: 'flag.b01_diario' },
     ],
     cg_puente_despues: [
-      { if: 'flag.cg_puente_franco', then: ['Teo escribió en el tablón: «Si pierdes de vista a alguien, detente». Debajo: «Sobre todo si vas ganando».'] },
-      { if: 'flag.cg_puente_cuidado', then: ['Teo escribió: «El último también cuenta». Elia añadió con tinta roja: «Y las bolsas».'] },
+      { if: 'flag.cg_puente_franco', then: ['Gonzalo escribió en el tablón: «Si pierdes de vista a alguien, detente». Debajo: «Sobre todo si vas ganando».'] },
+      { if: 'flag.cg_puente_cuidado', then: ['Gonzalo escribió: «El último también cuenta». Pilar añadió con tinta roja: «Y las bolsas».'] },
     ],
   },
 };

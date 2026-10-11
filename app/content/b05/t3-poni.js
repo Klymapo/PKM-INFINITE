@@ -515,7 +515,7 @@ export default {
 			], else: [
 				{ say: 'marinera_poni', as: 'El cocinero', text: 'Desde que bajaste del Altar, la olla hierve a su hora. No pregunto qué hiciste. La sopa no pregunta.' },
 			] },
-			{ heal: 'Te comes la sopa sentado en la cubierta, con los pies colgando sobre el agua. Tu equipo se reparte las espinas. Todos quedan como nuevos.' },
+			{ heal: 'Te comes la sopa sentad{o|a|e} en la cubierta, con los pies colgando sobre el agua. Tu equipo se reparte las espinas. Todos quedan como nuevos.' },
 		],
 
 		// =================== EL CAÑÓN: RASTREO DE AURA ===================

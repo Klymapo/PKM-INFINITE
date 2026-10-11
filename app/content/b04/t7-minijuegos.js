@@ -364,7 +364,7 @@ export default {
 				'TOC. Un Heracross salvaje toma carrera, baja el cuerno y embiste un roble enorme. Caen cuatro hojas. El Heracross se sacude, retrocede y vuelve a tomar carrera. TOC.',
 				{ say: 'p8_guarda_parque', text: 'Tres días lleva. Ni come. Le dejo miel al pie del árbol y ni la mira.' },
 				{ say: 'p8_guarda_parque', text: 'Hay algo allá arriba, entre las ramas gordas. Brilla cuando le da el sol de la tarde. Hace años un muchacho venía aquí con su Heracross, todas las semanas. Un día dejó de venir. El Heracross, no.' },
-				{ say: 'p8_guarda_parque', text: 'Yo no puedo trepar, que soy el guarda y doy mal ejemplo. Pero sacudirlo… El reglamento no dice nada de sacudir.' },
+				{ say: 'p8_guarda_parque', text: 'Yo no puedo trepar, que soy el guarda y doy mal ejemplo. Tú eres de la Gira, ¿no? Los de la Gira se suben a todo, lo he visto en la tele. Pero sacudirlo… El reglamento no dice nada de sacudir.' },
 			], else: [
 				{ say: 'p8_guarda_parque', text: 'Sigue igual. TOC, TOC, TOC. Ya hasta duermo con el ruido. ¿Le echas una mano?' },
 			] },

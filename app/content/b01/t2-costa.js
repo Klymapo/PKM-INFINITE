@@ -949,7 +949,7 @@ export default {
 			{ text: 'Un señor con peluca empolvada, levita de terciopelo y una lupa colgada del cuello te recibe en la escalinata como si fueras la visita número un millón. Probablemente lo eres.' },
 			{ say: 'dueno_cenit', text: '¡Bienvenid{o|a|e} al Palacio Cénit! Mi casa. Mi jardín. Lo diseñó mi tatarabuelo y lo mantengo yo. Bueno, lo mantienen catorce jardineros. Pero lo admiro yo, que es lo difícil.' },
 			{ say: 'dueno_cenit', text: 'Hoy, sin embargo, es un día horrible. Horrible. Mi **Furfrou**, mi Princesa, se me ha escapado en el laberinto de setos. Con su corte Reina recién hecho. ¡Se le va a despeinar!' },
-			{ say: 'dueno_cenit', text: 'Los jardineros no la encuentran. El mayordomo no la busca, porque «no está en su contrato». ¿Usted me haría el favor?' },
+			{ say: 'dueno_cenit', text: 'Los jardineros no la encuentran. El mayordomo no la busca, porque «no está en su contrato». Y usted lleva una Pokédex de la Gira, de esas que lo encuentran todo. ¿Me haría el favor?' },
 			{ say: 'dueno_cenit', text: 'Pistas: Princesa **odia la lavanda** y **adora las rosas**. **Nunca camina por la sombra**, por el pelo. Y lleva un **lacito rosa** en la oreja izquierda. Si la trae, le recompensaré como se merece un palacio.' },
 			{ say: 'dueno_cenit', text: 'En otros tiempos le habría regalado una flauta mágica que teníamos en la familia. Pero se la presté al Conde de Caduco hace cuarenta años y nunca me la devolvió. Y el muy sinvergüenza sigue igual de joven.' },
 			{ quest: 'b01_s_cenit', stage: 'buscar' },
