@@ -1,0 +1,35 @@
+// NPCs nuevos del Bloque 5 (Alola). Los de bloques anteriores siguen disponibles (mismos ids).
+export default {
+	// ---------- Canon ----------
+	kukui: { name: 'Prof. Kukui', title: 'Profesor de Alola', sprite: 'kukui', look: { hair: 'short', hairColor: '#2a2420', outfit: '#e9e3d0', outfit2: '#3a7a4a', skin: 4, eyes: '#5a3a26', eyesStyle: 'happy', mouth: 'grin', brows: 'thick', head: 'square', build: 'broad', collar: 'coat', acc: 'cap stubble', capColor: '#2b2b38' } },
+	kaudan: { name: 'Kaudan', title: 'Kahuna de Melemele (Lucha)', sprite: 'hala', look: { hair: 'slick', hairColor: '#3a3a3a', outfit: '#e9e3d0', outfit2: '#c4473a', skin: 4, eyes: '#3a2a1e', eyesStyle: 'happy', mouth: 'grin', brows: 'thick', head: 'wide', build: 'broad', age: 'old', collar: 'shirt', acc: 'beard' } },
+	liam: { name: 'Liam', title: 'Capitán de Melemele (Normal)', sprite: 'ilima', look: { hair: 'sidepart', hairColor: '#e9c46a', outfit: '#e9e3d0', outfit2: '#3a7a8a', skin: 2, eyes: '#c4743a', eyesStyle: 'almond', mouth: 'smile', brows: 'soft', head: 'oval', build: 'narrow', collar: 'shirt' } },
+	nereida: { name: 'Nereida', title: 'Capitana de Akala (Agua)', sprite: 'lana', look: { hair: 'bob', hairColor: '#4aa8d8', outfit: '#3b7ac4', outfit2: '#e9e8e0', skin: 1, eyes: '#3a5aa8', eyesStyle: 'sleepy', mouth: 'smile', brows: 'soft', head: 'round', build: 'narrow', collar: 'tshirt', acc: 'hairpin' } },
+	kiawe: { name: 'Kiawe', title: 'Capitán de Akala (Fuego)', sprite: 'kiawe', look: { hair: 'spiky', hairColor: '#2a2420', outfit: '#c4473a', outfit2: '#f2c84a', skin: 5, eyes: '#c4473a', eyesStyle: 'sharp', mouth: 'flat', brows: 'angry', head: 'square', build: 'broad', collar: 'vest' } },
+	mayla: { name: 'Mayla', title: 'Kahuna de Akala (Roca)', sprite: 'olivia', look: { hair: 'long', hairColor: '#2a2440', outfit: '#c43a7a', outfit2: '#f2c84a', skin: 3, eyes: '#c43a7a', eyesStyle: 'lashes', mouth: 'lips', brows: 'thin', head: 'oval', collar: 'shirt', acc: 'earrings lipstick' } },
+	hela: { name: 'Hela', title: 'Kahuna de Poni (Tierra)', sprite: 'hapu', look: { hair: 'braids', hairColor: '#3a2a1e', outfit: '#8a5a2f', outfit2: '#e9c46a', skin: 3, eyes: '#5a3a26', eyesStyle: 'narrow', mouth: 'flat', brows: 'straight', head: 'round', build: 'normal', collar: 'cape', acc: 'hat', hatColor: '#c9a66b' } },
+	gladio: { name: 'Gladio', title: 'Presidente en funciones de la Fundación Æther', sprite: 'gladion', look: { hair: 'fringe', hairColor: '#e9e3c0', outfit: '#2b2b38', outfit2: '#c4473a', skin: 0, eyes: '#3a8a6a', eyesStyle: 'sharp', mouth: 'flat', brows: 'skeptic', head: 'long', build: 'narrow', collar: 'hoodie' } },
+	zyra: { name: 'Zyra', title: 'Subdirectora de la Fundación Æther', sprite: 'wicke', look: { hair: 'bob', hairColor: '#7a5aa8', outfit: '#e9e8e0', outfit2: '#c9ced8', skin: 1, eyes: '#5a4a7a', eyesStyle: 'happy', mouth: 'smile', brows: 'soft', head: 'round', build: 'broad', collar: 'coat', acc: 'roundglasses' } },
+	fabio: { name: 'Fabio', title: 'Jefe de la Rama Científica de Æther', sprite: 'faba', look: { hair: 'quiff', hairColor: '#3a8a6a', outfit: '#e9e8e0', outfit2: '#2b2b38', skin: 1, eyes: '#5a6a7a', eyesStyle: 'narrow', mouth: 'smirk', brows: 'skeptic', head: 'long', build: 'narrow', collar: 'coat', acc: 'goggles' } },
+	francine: { name: 'Francine', title: 'Ex administradora del Team Skull', sprite: 'plumeria', look: { hair: 'hightail', hairColor: '#e9e3e0', streak: '#c43a9a', outfit: '#2b2b38', outfit2: '#c43a9a', skin: 1, eyes: '#c4c43a', eyesStyle: 'sharp', mouth: 'lips', brows: 'angry', head: 'heart', collar: 'jacket', acc: 'lipstick earrings' } },
+	pimpinela: { name: 'Prof. Pimpinela', title: 'Centro de Investigaciones Dimensionales', sprite: 'burnet', look: { hair: 'long', hairColor: '#e9e8e0', outfit: '#e9e8e0', outfit2: '#3a7a8a', skin: 3, eyes: '#3a8ac4', eyesStyle: 'happy', mouth: 'smile', brows: 'soft', head: 'oval', collar: 'coat' } },
+	lulu: { name: 'Lulú', title: 'Capitana de Akala (Planta)', sprite: 'mallow', look: { hair: 'twintails', hairColor: '#3a8a4a', outfit: '#e9e3d0', outfit2: '#5aa36b', skin: 4, eyes: '#3a6a3a', eyesStyle: 'happy', mouth: 'open', brows: 'soft', head: 'round', collar: 'apron', acc: 'flower' } },
+
+	// ---------- Candidata ----------
+	// Leilani Kahale (candidatas.md §7). Brief: rizos negros con un mechón quemado · gafas de soldar en la frente · overol con grasa.
+	leilani: { name: 'Leilani', title: 'Mecánica de monturas de Akala', look: { hair: 'curly', hairColor: '#1e1a1a', streak: '#c4743a', outfit: '#d87a2a', outfit2: '#3a3a4a', skin: 4, eyes: '#5a3a26', eyesStyle: 'big', mouth: 'grin', brows: 'soft', head: 'heart', build: 'normal', collar: 'apron', strap: '#3a3a4a', acc: 'goggles freckles' } },
+
+	// ---------- Originales ----------
+	// Dr. Calder Wynn, director del Programa Ultra de Lemnis. Brief: barba corta canosa · gafas de montura fina · chaqueta de lino clara con telescopio al hombro.
+	calder: { name: 'Calder Wynn', title: 'Director del Programa Ultra de Lemnis', look: { hair: 'waves', hairColor: '#a8a49a', outfit: '#e2d8bc', outfit2: '#3a4a6a', skin: 1, eyes: '#3a6a8a', eyesStyle: 'droopy', mouth: 'smile', brows: 'soft', head: 'long', build: 'narrow', age: 'adult', collar: 'jacket', acc: 'glasses beard lemnis' } },
+	// Camille Lebrun, 15 años, hija del inspector. Brief: coleta alta · rodilleras de voleibol · sudadera de su equipo.
+	camille: { name: 'Camille', title: 'Paciente de la clínica de Æther', look: { hair: 'ponytail', hairColor: '#6b4a2b', outfit: '#3b5bb5', outfit2: '#e9e8e0', skin: 1, eyes: '#5a4a3a', eyesStyle: 'big', mouth: 'smile', brows: 'straight', head: 'round', age: 'child', build: 'narrow', collar: 'hoodie', acc: 'headband' } },
+
+	// ---------- Genéricos ----------
+	recluta_skull: { name: 'Recluta Skull', generic: true, sprite: 'teamskullgrunt', look: { hair: 'cap', hairColor: '#2b2b38', outfit: '#2b2b38', outfit2: '#e9e8e0', skin: 2, eyesStyle: 'sharp', mouth: 'teeth', acc: 'bandana', capColor: '#2b2b38' } },
+	empleado_aether: { name: 'Empleado de Æther', generic: true, sprite: 'aetheremployee', look: { hair: 'short', hairColor: '#3a2a1e', outfit: '#e9e8e0', outfit2: '#c9ced8', skin: 2, eyesStyle: 'normal', mouth: 'flat', collar: 'coat', acc: 'cap', capColor: '#e9e8e0' } },
+	vecina_alola: { name: 'Vecina', generic: true, look: { hair: 'curly', hairColor: '#2a2420', outfit: '#f2a03a', outfit2: '#e9e3d0', skin: 4, eyesStyle: 'happy', mouth: 'smile', acc: 'flower' } },
+	surfista: { name: 'Surfista', generic: true, look: { hair: 'waves', hairColor: '#e9c46a', outfit: '#3aa8c4', outfit2: '#e9e8e0', skin: 3, eyesStyle: 'happy', mouth: 'grin', collar: 'tshirt' } },
+	ranchero_ohana: { name: 'Ranchero', generic: true, look: { hair: 'short', hairColor: '#4a2a1a', outfit: '#8a5a2f', outfit2: '#e9e3d0', skin: 3, eyesStyle: 'narrow', mouth: 'smile', acc: 'hat mustache', hatColor: '#c9a66b' } },
+	marinera_poni: { name: 'Gente de la Aldea Marina', generic: true, look: { hair: 'braids', hairColor: '#2a2420', outfit: '#3a6a8a', outfit2: '#e9c46a', skin: 4, eyesStyle: 'almond', mouth: 'flat', acc: 'bandana' } },
+};

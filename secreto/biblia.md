@@ -206,7 +206,7 @@ Plantar **una o dos por bloque**, sutiles. Anotar en `registro.md` cuáles ya sa
 | B2 | Una entrada **omite por completo** un encuentro importante con Handsome: el día está "sin novedades" aunque pasó algo grande. |
 | B3 | El Diario llama "doctor" a alguien que el jugador nunca supo que era doctor. |
 | B4 | Interferencia del Rotom cerca de cada Puerta: "bzzt… sincronizando…" |
-| B5 | Revelación. |
+| B5 | (Movida al Acto V, B6: la revelación es en Teselia.) En el B5, pistas sutiles: el Diario describe Hauoli «desde el otro lado» de la Puerta; el escáner de Æther reconoce la Pokédex como dispositivo de Dirección. |
 
 ---
 
