@@ -63,7 +63,7 @@ export default {
       ] },
     ],
     cg_puente_desafio: [
-      { say: 'cg_puente_teo', text: 'Primero que termine de cruzar ese viajero. Y que descanses tú también.' },
+      { say: 'cg_puente_teo', text: 'Primero que termine de cruzar ese viajero. Si combatimos, curo a tu equipo antes. Un guía no se aprovecha del cansancio.' },
       { choice: [
         { text: 'Combatir (con curación previa)', then: [
           { heal: true },
@@ -108,7 +108,7 @@ export default {
       { give: 'hyperpotion', n: 1 },
       { money: 600 },
       { quest: 'cg_puente', stage: 'hecha', done: true },
-      { diary: 'Una ruta segura no termina cuando llega el más rápido. Termina cuando llega el último.' },
+      { diary: 'He visto a Teo dejar pasar al último viajero. Una ruta segura no termina cuando llega el más rápido.' },
     ],
     cg_puente_despues: [
       { if: 'flag.cg_puente_franco', then: ['Teo escribió en el tablón: «Si pierdes de vista a alguien, detente». Debajo: «Sobre todo si vas ganando».'] },

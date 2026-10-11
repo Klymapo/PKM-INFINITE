@@ -81,7 +81,7 @@ export default {
         { text: 'Investigar el puesto que falta', then: [
           { set: { 'flag.cg_indice_inicio': true } },
           { quest: 'cg_indice', stage: 'pruebas' },
-          { diary: 'Rotom, apunta: doce nombres, trece líneas. No es una prueba de fraude. Todavía.' },
+          { diary: 'He contado doce nombres y trece líneas. Una cifra de más no prueba fraude. Todavía.' },
           { say: 'cg_indice_noemi', text: 'No te fíes de los números hasta saber qué cuentan.' },
         ] },
         { text: 'No aceptar todavía', then: [{ say: 'cg_indice_noemi', text: 'Las cifras no van a cambiar por esperar. Lo que significan, quizá.' }] },
@@ -107,10 +107,10 @@ export default {
       { say: 'cg_indice_damian', text: 'Vi una cinta crema junto al puente. No vi al dueño. La alarma sonó después. Eso es lo que escribí, aunque nadie me lo preguntó.' },
       { give: 'cg_indice_testimonio' }, { read: 'cg_indice_testimonio' },
       { set: { 'flag.cg_indice_testimonio': true, 'vars.cg_indice_pistas': '+1' } },
-      { say: 'cg_indice_damian', text: 'Si quieres, hacemos una exhibición. Mi equipo está al 100 %; el tuyo también debería estarlo. Pero no voy a poner una prueba documental detrás de un combate.' },
-      { heal: true },
+      { say: 'cg_indice_damian', text: 'Si quieres, hacemos una exhibición. Mi equipo está al 100 %. Si quieres una exhibición, curaré el tuyo primero. No voy a poner una prueba documental detrás de un combate.' },
       { choice: [
-        { text: 'Aceptar el combate amistoso', then: [
+        { text: 'Aceptar el combate amistoso (con curación)', then: [
+          { heal: true },
           { battle: 'cg_indice_damian_exhibicion', lose: 'continue',
             onWin: [
               { set: { 'flag.cg_indice_batalla_ganada': true } },
@@ -139,7 +139,7 @@ export default {
       { give: 'cg_indice_collar' }, { read: 'cg_indice_collar' },
       { set: { 'flag.cg_indice_collar': true, 'vars.cg_indice_pistas': '+1' } },
       { say: 'cg_indice_isandro', text: 'No necesito una medalla para él. Necesito que la próxima vez escuchen antes de mirar si hay un nombre.' },
-      { diary: 'Cuatro pruebas: una cifra, tres golpes, un aparato y un collar. Ahora sí puedo formular una hipótesis.' },
+      { diary: 'La ficha del collar encaja con la señal 00. Debo reunir todas las pruebas antes de formular una hipótesis.' },
     ],
     cg_indice_deduccion: [
       { quest: 'cg_indice', stage: 'deduccion' },
@@ -167,6 +167,7 @@ export default {
           'Pip. Pip. Pip. La pantalla muestra «00 — AUXILIO RECIBIDO». Una luz verde confirma el registro.',
           { set: { 'flag.cg_indice_verificado': true } },
           { quest: 'cg_indice', stage: 'decision' },
+          'El comunicador del poste crepita. Vera responde desde la casa de Bill.',
           { say: 'cg_indice_vera', text: 'La pantalla puede leer el aviso. El problema nunca estuvo en la máquina. Estuvo en la lista.' },
           { diary: 'La señal 00 funciona. La conclusión ya no depende de una memoria ni de un rumor.' },
         ] },
