@@ -49,7 +49,7 @@ export default {
     cg_aviso_archivo: [
       'El libro de incidencias huele a papel mojado. En la página de aquella noche, un minuto está escrito dos veces.',
       { say: 'cg_aviso_nico', text: 'Soy Nico, el de los recados. No trabajo aquí, pero llevo años devolviendo cartas perdidas. Y este libro tiene una mentira pequeña.' },
-      { say: 'cg_aviso_nico', text: 'Mira: el tren llegó a las 22:18. El anuncio figura como cancelado a las 22:19. Nadie puede culpar al silbato de tapar algo que jamás sonó.' },
+      { say: 'cg_aviso_nico', text: 'Mira: el tren llegó a las 22:18. El anuncio figura como cancelado a las 22:19. El silbato estropeó la grabación, pero el libro demuestra que la cinta nunca llegó a emitirse.' },
       { give: 'cg_aviso_nota' },
       { read: 'cg_aviso_nota' },
       { set: { 'flag.cg_aviso_registro': true } },
