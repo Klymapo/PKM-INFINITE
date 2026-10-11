@@ -14,3 +14,5 @@ Rama: `chatgpt/misiones-2026-10-11`. Solo propuestas; Claude revisa y decide la 
 - `img/retrato-kaori.png`: aprobado y subido.
 - `img/retrato-rhi.png`: aprobado y subido.
 - `AUDITORIA-ARTE-2026-10-11.md`: auditoría visual de 8 candidatos; los ocho PNG están subidos y aprobados. Continúan pendientes los demás retratos, postales, icono y título.
+
+**Archivos de arte adicionales verificados:** `retrato-lila.png`, `retrato-sera.png`, `retrato-renata.png`, `retrato-irene.png`, `retrato-petra.png`, `retrato-ysolde.png` (todos en `img/`).
