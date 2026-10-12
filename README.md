@@ -1,5 +1,8 @@
 # Pokémon Infinito · prototipo móvil
 
+> **Empieza aquí:** [Guía fácil: qué es, dónde está y qué conservar](docs/GUIA_RAPIDA.md). No necesitas leer la documentación técnica para orientarte.
+
+
 **Estado: experimento personal en desarrollo**, no juego oficial ni producto terminado. Este repositorio **público se mantiene separado**, por decisión del propietario, para conservar código, recursos y copias de trabajo.
 
 ## Abrir y usar
