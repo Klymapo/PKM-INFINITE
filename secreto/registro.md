@@ -369,3 +369,20 @@ Escrito entre las dos sesiones de la madrugada (0:47: plan, encargo, T0 y T1; 2:
 - **Nuevos:** Kukui, Kaudan, Liam, Nereida, Kiawe, Mayla, Hela, Gladio, Zyra, Fabio, Francine, Pimpinela, Lulú (canon); **Leilani Kahale** (candidata); **Calder Wynn** (OC, 4 escenas, todas en el B5); **Camille Lebrun** (OC, 1 escena); **Soldi** (robot del taller, varias escenas en T1 y el negocio).
 - **Pendientes de 2+ apariciones en otro bloque:** Camille (la más urgente: con Handsome o Lebrun en el B6), Calder, Liam, Lulú, Zyra, Fabio, Francine, Hela, Kaudan, Mayla, Nereida, Pimpinela.
 - **Vuelven:** Sera, Alexia, Handsome, Kiyo, Ramiro y Elm, Ciprés (llamada), Misty, Bill (llamada), Adela (postal), Philippe, Rhi, Gaspar, Ulises, Kaori, Noa (nota), Bastien, Ansel, Xero, Rouxel, Magda (correo), Renata (llamada), Ysolde (nota), A.Z. (5.ª aparición sin poder fotografiarlo: chiste de Rotom).
+
+---
+
+## Eventos de temporada 2026 · 2026-10-23 (`b05/t8-temporada.js`)
+
+Sin bloque nuevo. Mario está al final del B4 (Castillo Caduco, 8 medallas, equipo nv 49–53) y juega Halloween y Día de Muertos por primera vez. Lo de `b01/eventos.js` (Gran Atraco y ofrenda de Remedios) sigue igual; esto se suma. Condiciones solo de B1–B4.
+
+| Evento | Fechas · cond | Qué hay | Premio |
+|---|---|---|---|
+| **La vigilia del retrato** (`halloween_retrato`) | 24–31 oct · `flag.b01_conde_1` | Castillo Caduco: Simón (con línea extra si `p7_simon`), Tobías y Duquesa, Gadd y el Conde vigilan la galería. Cinemática de medianoche: la taza de té del Conde es un Sinistea; un Smeargle pinta el retrato nuevo (moda según `year % 3`); en la foto de Gadd el sillón del Conde sale vacío. Punto diario `ev_hw_arcon` (cerradura nv 2, solo en Halloween) | 1.er año: **Sinistea (Antigua)** (nv 16/32/44 según medallas) + **Tetera Rota**; si ya tiene la línea, Hechizo. Objeto `foto_vigilia` (read). Años siguientes (`ev_hwr_otra`): otro método de Simón y Hechizo o Tela Terrible |
+| **Ofrenda en Lavanda** (`muertos_lavanda`, misión `ev_muertos_lavanda` con `parts`) | 28 oct – 3 nov · `flag.b04_lavanda_llegada` | Dolores (3.ª–4.ª aparición) quiere poner la mesa a las tumbas sin visita: flores (árbol de la calle, **cosecha** nv 2), pan (Lola si `lola_3`, si no el horno de Fuji; usa `recetapanmuerto` si la tiene), velas y copal (Fuji; copal del incensario si `b04_sotano_hondo`). El jugador elige el papel picado (`vars.ml_picado`) y a quién recuerda (`vars.ml_quien`: 1 Don Aurelio, solo con `b03_aurelio_muerto`; 2 los que nadie visita; 3 «alguien mío»). Cinemática de la noche de ofrenda | 1.er año: **Greavard** nv 29 (perro que guía a los muertos; si ya tiene la línea, Hierba Revivir). **Pan de muerto** ×2 (cura y +amistad). **Calaverita de Lola** (read, calaverita literaria). Años siguientes: Hierba Revivir |
+
+- **Repetición anual:** nada usa flags permanentes salvo `ev_hwr_sinistea` (regalo único). Estado por año en `vars.hw_retrato_year/_n`, `vars.ml_ini/ml_flores/ml_pan/ml_velas`, `vars.ofrenda_lavanda_year/_n`; `doneCond` con `== year`. La misión `ev_muertos_lavanda` solo se usa el primer año.
+- **Pérdidas:** Aurelio aparece en la ofrenda solo si Mario eligió recordarlo (leche, lana; con Ampharos en el equipo, enciende la cola). Nada de Remedios (su pérdida es en 2027, biblia §9.2: no tocar). La foto boca abajo de Fuji y la lápida de Lola salen sin revelar nada.
+- **Diario:** 2 entradas (vigilia; ofrenda, según `ml_quien`). Sin pistas del calendario.
+- **Apariciones:** Dolores +1, Fuji +1–2, Lola +1 (si `lola_3`), Simón +1, Tobías +1, Gadd +1, Conde +1.
+- **Pendiente para 2027:** la ofrenda de Remedios (`ev_muertos_2`) puede leer `vars.ofrenda_lavanda_n` y `has("calaverita_lola")`; Dolores puede coser el muñeco de Remedios.
