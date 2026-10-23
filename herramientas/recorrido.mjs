@@ -234,14 +234,19 @@ async function run(id) {
 	const prev = curScript; curScript = typeof id === 'string' ? id : '(inline)';
 	report.scripts.add(curScript);
 	if (VERBOSE) log(`[${step}] ${G.loc} → guion ${curScript}`);
-	const bagN = Object.values(G.bag).reduce((a, b) => a + b, 0), money = G.player.money;
+	const bagN = Object.values(G.bag).reduce((a, b) => a + b, 0), money = G.player.money, bag0 = { ...G.bag };
 	miniLost = false;
 	await runScript(id);
 	const gained = !miniLost && // la consolación de un minijuego perdido no cuenta como regalo repetido
 		 Object.values(G.bag).reduce((a, b) => a + b, 0) > bagN || G.player.money > money;
 	if (gained && typeof id === 'string' && !/generico|recordar|despues|tienda|shop/.test(id)) {
-		gaveBy[id] = (gaveBy[id] || 0) + 1;
-		if (gaveBy[id] === 2) report.repeatGifts.push(`${id} (en ${G.loc}) ha dado objetos o dinero más de una vez`);
+		// Repetido = el MISMO premio otra vez (un guion que da una nota la 1.ª vez y el botín de un minijuego la 2.ª no repite nada).
+		const what = Object.keys(G.bag).filter(k => (G.bag[k] || 0) > (bag0[k] || 0));
+		if (G.player.money > money) what.push('₽');
+		const seen = (gaveBy[id] ||= new Set());
+		if (what.some(k => seen.has(k)) && !report.repeatGifts.some(r => r.startsWith(id + ' ')))
+			report.repeatGifts.push(`${id} (en ${G.loc}) ha dado objetos o dinero más de una vez`);
+		for (const k of what) seen.add(k);
 	}
 	curScript = prev;
 }
