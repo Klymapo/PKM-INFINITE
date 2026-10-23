@@ -1,6 +1,6 @@
 # Registro automático (no editar a mano)
 
-Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
+Generado: 2026-10-23T20:37:41.919Z · contenido 2026-10-11.1
 
 ## Apariciones de NPCs (escenas por bloque)
 
@@ -15,30 +15,30 @@ Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
 | Hombre enorme (`az`) | 1 | 1 | 1 | 1 | 1 | 5 |
 | Bastien (`bastien`) | 5 | 5 | 5 | 8 | 7 | 30 |
 | Ramiro Alcalde (`becario_elm`) | 0 | 7 | 8 | 0 | 1 | 16 |
-| Bill (`bill`) | 0 | 0 | 0 | 2 | 1 | 3 ⚠ 2 bloque(s) |
+| Bill (`bill`) | 0 | 0 | 0 | 6 | 1 | 7 ⚠ 2 bloque(s) |
 | Blanca (`blanca`) | 4 | 3 | 0 | 0 | 0 | 7 ⚠ 2 bloque(s) |
 | Brock (`brock`) | 6 | 3 | 0 | 0 | 0 | 9 ⚠ 2 bloque(s) |
 | Calder Wynn (`calder`) | 0 | 0 | 0 | 0 | 15 | 15 ⚠ 1 bloque(s) |
 | Camille (`camille`) | 0 | 0 | 0 | 0 | 2 | 2 ⚠ 1 bloque(s) |
-| Nico (`cg_aviso_nico`) | 0 | 0 | 0 | 1 | 0 | 1 ⚠ 1 bloque(s) |
-| Olga (`cg_aviso_olga`) | 0 | 0 | 0 | 5 | 0 | 5 ⚠ 1 bloque(s) |
-| Damián (`cg_indice_damian`) | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
+| Nico (`cg_aviso_nico`) | 0 | 0 | 0 | 3 | 0 | 3 ⚠ 1 bloque(s) |
+| Olga (`cg_aviso_olga`) | 0 | 0 | 0 | 6 | 0 | 6 ⚠ 1 bloque(s) |
+| Damián (`cg_indice_damian`) | 0 | 0 | 0 | 5 | 0 | 5 ⚠ 1 bloque(s) |
 | Isandro (`cg_indice_isandro`) | 0 | 0 | 0 | 3 | 0 | 3 ⚠ 1 bloque(s) |
-| Noemí (`cg_indice_noemi`) | 0 | 0 | 0 | 6 | 0 | 6 ⚠ 1 bloque(s) |
-| Vera (`cg_indice_vera`) | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
-| Elia (`cg_puente_elia`) | 0 | 0 | 0 | 4 | 0 | 4 ⚠ 1 bloque(s) |
-| Teo (`cg_puente_teo`) | 0 | 0 | 0 | 3 | 0 | 3 ⚠ 1 bloque(s) |
+| Noemí (`cg_indice_noemi`) | 0 | 0 | 0 | 4 | 0 | 4 ⚠ 1 bloque(s) |
+| Vera (`cg_indice_vera`) | 0 | 0 | 0 | 4 | 0 | 4 ⚠ 1 bloque(s) |
+| Pilar (`cg_puente_elia`) | 0 | 0 | 0 | 5 | 0 | 5 ⚠ 1 bloque(s) |
+| Gonzalo (`cg_puente_teo`) | 0 | 0 | 0 | 5 | 0 | 5 ⚠ 1 bloque(s) |
 | Dr. Lazare (`cientifico_fosiles`) | 4 | 0 | 9 | 8 | 0 | 21 |
 | Prof. Ciprés (`cipres`) | 7 | 2 | 0 | 0 | 1 | 10 |
-| Conde Vladimiro (`conde`) | 8 | 1 | 0 | 6 | 0 | 15 |
+| Conde Vladimiro (`conde`) | 8 | 1 | 0 | 6 | 3 | 18 |
 | Corelia (`corelia`) | 8 | 3 | 5 | 1 | 0 | 17 |
 | Cornelio (`cornelio`) | 5 | 0 | 0 | 2 | 0 | 7 ⚠ 2 bloque(s) |
 | Dámaso Ferrán (`damaso`) | 0 | 2 | 5 | 0 | 0 | 7 ⚠ 2 bloque(s) |
 | Profesor Elm (`elm`) | 0 | 3 | 2 | 0 | 1 | 6 |
 | Fabio (`fabio`) | 0 | 0 | 0 | 0 | 4 | 4 ⚠ 1 bloque(s) |
 | Francine (`francine`) | 0 | 0 | 0 | 0 | 6 | 6 ⚠ 1 bloque(s) |
-| Señor Fuji (`fuji`) | 0 | 0 | 0 | 4 | 0 | 4 ⚠ 1 bloque(s) |
-| Prof. Gadd (`gadd`) | 3 | 0 | 0 | 2 | 0 | 5 ⚠ 2 bloque(s) |
+| Señor Fuji (`fuji`) | 0 | 0 | 0 | 9 | 3 | 12 ⚠ 2 bloque(s) |
+| Prof. Gadd (`gadd`) | 3 | 0 | 0 | 2 | 1 | 6 |
 | Gaspar (`gaspar`) | 8 | 6 | 4 | 0 | 1 | 19 |
 | Gladio (`gladio`) | 0 | 0 | 0 | 0 | 10 | 10 ⚠ 1 bloque(s) |
 | Handsome (`handsome`) | 12 | 11 | 1 | 9 | 3 | 36 |
@@ -58,21 +58,21 @@ Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
 | Sabio Li (`li`) | 0 | 0 | 3 | 0 | 0 | 3 ⚠ 1 bloque(s) |
 | Liam (`liam`) | 0 | 0 | 0 | 0 | 9 | 9 ⚠ 1 bloque(s) |
 | Lila (`lila`) | 8 | 3 | 3 | 1 | 0 | 15 |
-| Lola Arriaga (`lola`) | 0 | 3 | 1 | 2 | 0 | 6 |
+| Lola Arriaga (`lola`) | 0 | 3 | 1 | 2 | 2 | 8 |
 | Lucien (`lucien`) | 5 | 3 | 0 | 0 | 0 | 8 ⚠ 2 bloque(s) |
 | Lulú (`lulu`) | 0 | 0 | 0 | 0 | 4 | 4 ⚠ 1 bloque(s) |
 | Magda Ivers (`magda`) | 0 | 0 | 0 | 8 | 0 | 8 ⚠ 1 bloque(s) |
 | Matière (`matiere`) | 5 | 6 | 0 | 0 | 0 | 11 ⚠ 2 bloque(s) |
 | Mayla (`mayla`) | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Melia (`melia`) | 3 | 7 | 1 | 1 | 0 | 12 |
-| Misty (`misty`) | 0 | 0 | 0 | 5 | 7 | 12 ⚠ 2 bloque(s) |
+| Misty (`misty`) | 0 | 0 | 0 | 14 | 7 | 21 ⚠ 2 bloque(s) |
 | Morti (`morti`) | 0 | 4 | 0 | 0 | 0 | 4 ⚠ 1 bloque(s) |
 | Nate (`nate`) | 6 | 2 | 0 | 0 | 0 | 8 ⚠ 2 bloque(s) |
 | Nereida (`nereida`) | 0 | 0 | 0 | 0 | 7 | 7 ⚠ 1 bloque(s) |
 | Noa Lambert (`noa`) | 4 | 2 | 2 | 1 | 0 | 9 |
 | Casilda Peña (`p7_casilda`) | 0 | 0 | 0 | 7 | 0 | 7 ⚠ 1 bloque(s) |
 | Ciro (`p7_ciro`) | 0 | 0 | 0 | 4 | 0 | 4 ⚠ 1 bloque(s) |
-| Dolores (`p7_dolores`) | 0 | 0 | 0 | 3 | 0 | 3 ⚠ 1 bloque(s) |
+| Dolores (`p7_dolores`) | 0 | 0 | 0 | 3 | 4 | 7 ⚠ 2 bloque(s) |
 | Evaristo (`p7_evaristo`) | 0 | 0 | 0 | 5 | 0 | 5 ⚠ 1 bloque(s) |
 | Jade Peña (`p7_jade`) | 0 | 0 | 0 | 3 | 0 | 3 ⚠ 1 bloque(s) |
 | La Mayor (`p7_mayor`) | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
@@ -88,9 +88,9 @@ Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
 | Fabien Rouxel (`rouxel`) | 3 | 1 | 0 | 0 | 2 | 6 |
 | Sabrina (`sabrina`) | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
 | Serafina Lemnis (`sera`) | 4 | 8 | 0 | 3 | 1 | 16 |
-| Simón (`simon`) | 3 | 0 | 0 | 2 | 0 | 5 ⚠ 2 bloque(s) |
+| Simón (`simon`) | 3 | 0 | 0 | 2 | 3 | 8 |
 | Adela (`sobrina`) | 0 | 0 | 5 | 14 | 0 | 19 ⚠ 2 bloque(s) |
-| Tobías (`tobias`) | 8 | 0 | 5 | 8 | 0 | 21 |
+| Tobías (`tobias`) | 8 | 0 | 5 | 8 | 2 | 23 |
 | Ulises (`viajero`) | 3 | 2 | 1 | 1 | 1 | 8 |
 | Xero (`xero`) | 3 | 0 | 0 | 2 | 2 | 7 |
 | Yasmina (`yasmina`) | 0 | 0 | 17 | 0 | 0 | 17 ⚠ 1 bloque(s) |
@@ -645,8 +645,10 @@ Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
 - `cg_indice_decision` — b04:cg_indice_decision
 - `cg_indice_deducido` — b04:cg_indice_deduccion
 - `cg_indice_esquema` — b04:cg_indice_prueba_vera
+- `cg_indice_fallo` — b04:cg_indice_fallo_pregunta
 - `cg_indice_hoja` — b04:cg_indice_prueba_hoja
 - `cg_indice_inicio` — b04:cg_indice_inicio
+- `cg_indice_libro00` — b04:cg_indice_epilogo_fallo
 - `cg_indice_testimonio` — b04:cg_indice_prueba_damian
 - `cg_indice_verificado` — b04:cg_indice_verificacion
 - `cg_puente_atento` — b04:cg_puente_prueba
@@ -657,6 +659,8 @@ Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
 - `cg_puente_pregunto` — b04:cg_puente_prueba
 - `cg_puente_prueba` — b04:cg_puente_desafio
 - `cg_puente_victoria` — b04:cg_puente_desafio
+- `cg_red_encendido` — b04:cg_red_colina
+- `ev_hwr_sinistea` — b05:ev_hwr_vigilia
 - `lola_1` — b02:lola_trigal_2
 - `lola_2` — b03:lola_caoba
 - `lola_3` — b04:lola_lavanda
@@ -803,7 +807,8 @@ Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
 - `p7_s_recado` (side) Peso neto: llevar → volver → hecha
 - `cg_aviso` (side) El aviso que nadie oyó: inicio → cinta → regreso → hecha
 - `cg_puente` (side) El puente no puntúa: inicio → prueba → regreso → hecha
-- `cg_indice` (side) El índice de los ausentes: inicio → pruebas → deduccion → verificacion → decision → epilogo → hecha
+- `cg_indice` (side) El índice de los ausentes: inicio → pruebas → deduccion → verificacion → decision → epilogo → fallo → hecha
+- `cg_red` (side) La red de auxilio de Kanto: piezas → bill → colina → hecha
 - `b05_m1` (main) Rumbo a Alola: puerta → hauoli → hecha
 - `b05_m2` (main) El recorrido de Melemele: lilii → prueba → gran → hecha
 - `b05_m3` (main) El recorrido de Akala: kantai → pruebas → gran → hecha
@@ -816,6 +821,7 @@ Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
 - `b05_t_bastien` (thread) Letra pequeña (V): aether → hecha
 - `b05_s_iniciales` (side) Los tres de Alola: buscar → hecha
 - `b05_s_tyranitarita` (side) Presión y paciencia: joyeria → hecha
+- `ev_muertos_lavanda` (event) Ofrenda en Lavanda: ofrenda → hecha
 
 ## Entrenadores con nombre de NPC
 
@@ -902,7 +908,7 @@ Generado: 2026-10-11T11:52:25.030Z · contenido 2026-10-11.1
 - `p7_evaristo_duelo` (b04) Evaristo: Seaking 47, Poliwrath 48, Gyarados 50
 - `p7_ciro_duelo` (b04) Ciro: Dodrio 48, Fearow 48, Pidgeot 50
 - `p7_dolores_duelo` (b04) Dolores: Mismagius 51, Dusclops 51, Banette 53
-- `cg_puente_teo_prueba` (b04) Teo: Noctowl 53, Ampharos 54
+- `cg_puente_teo_prueba` (b04) Gonzalo: Sandslash 53, Raticate 54
 - `cg_indice_damian_exhibicion` (b04) Damián: Porygon2 54, Altaria 55
 - `liam_1` (b05) Liam: Furfrou 53, Stoutland 54, Lopunny 54, Gumshoos 55
 - `kaudan_gp` (b05) Kaudan: Primeape 54, Poliwrath 55, Bewear 55, Hariyama 56, Crabominable 57
