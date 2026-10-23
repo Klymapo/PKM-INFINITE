@@ -933,6 +933,29 @@ export const PX_ITEMS = {
 			'................',
 		],
 	},
+	// Receptor de la colina (arco de la Red de Auxilio): caja de madera con bobina de cobre, cristal de galena y dial «00»
+	cgredreceptor: {
+		pal: { K: '#2a1c14', W: '#b07a44', w: '#7a4e2a', h: '#d9a66a', C: '#d0843a', c: '#8a4a1e', G: '#9aa4b4', g: '#5a6272', L: '#e8f0ff', D: '#efe2c0', d: '#a8946a', N: '#2a2a32', V: '#7fe08a', S: '#cfd6e2' },
+		px: [
+			'.............S..',
+			'............S...',
+			'...........S....',
+			'..KKKKKKKKKSKK..',
+			'.KhhhhhhhhhhhhK.',
+			'.KWCcCcKKKKKWwK.',
+			'.KWcCcKDDDDKWwK.',
+			'.KWCcCKDNdDKWwK.',
+			'.KWcCcKDdNDKWwK.',
+			'.KWKKKKDDDDKWwK.',
+			'.KWKGLKKKKKKWwK.',
+			'.KWKgGKWWVWWWwK.',
+			'.KWKKKKWWWWWWwK.',
+			'.KwwwwwwwwwwwwK.',
+			'..KKKKKKKKKKKK..',
+			'................',
+		],
+		glow: '#9fe8a8',
+	},
 	tarjetallave: {
 		pal: { K: '#1c2028', G: '#b8bcc8', g: '#8a8e9a', W: '#eef0f4', R: '#d83a3a', r: '#9a2024', N: '#1a1a1a', Y: '#e8c84a' },
 		px: [
