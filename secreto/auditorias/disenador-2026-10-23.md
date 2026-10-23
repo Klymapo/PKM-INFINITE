@@ -2,7 +2,7 @@
 
 > Diseño del juego con ojos de diseñador. **✖ grave** · **⚠ detalle** · **· curiosidad** (opinable).
 
-**Total:** 0 graves · 0 detalles · 2 curiosidades. 114 misiones, 5 bloques y 144 lugares revisados.
+**Total:** 0 graves · 0 detalles · 2 curiosidades. 116 misiones, 5 bloques y 150 lugares revisados.
 
 ## Hub de misiones: fichas que no te guían (0)
 
