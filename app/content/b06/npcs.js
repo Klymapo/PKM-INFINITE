@@ -1,0 +1,33 @@
+// NPCs nuevos del Bloque 6 (Teselia). Los de bloques anteriores siguen disponibles (mismos ids).
+export default {
+	// ---------- Canon ----------
+	encina: { name: 'Prof. Encina', title: 'Profesora de Teselia', sprite: 'juniper', look: { hair: 'long', hairColor: '#6b4a2b', outfit: '#e9e8e0', outfit2: '#5aa36b', skin: 1, eyes: '#3a6a8a', eyesStyle: 'happy', mouth: 'grin', brows: 'soft', nose: 'dot', head: 'oval', build: 'normal', collar: 'coat', acc: 'earrings' } },
+	camila: { name: 'Camila', title: 'Líder de Ciudad Mayólica (Eléctrico)', sprite: 'elesa', look: { hair: 'bob', hairColor: '#f2e6a0', outfit: '#2b2b38', outfit2: '#f2c84a', skin: 1, eyes: '#3a8ac4', eyesStyle: 'lashes', mouth: 'lips', brows: 'thin', nose: 'dot', head: 'heart', build: 'narrow', collar: 'jacket', acc: 'headphones lipstick' } },
+	acromo: { name: 'Acromo', title: 'Científico', sprite: 'colress', look: { hair: 'quiff', hairColor: '#e9e8e0', streak: '#3a8ac4', outfit: '#2b2b38', outfit2: '#e9e8e0', skin: 1, eyes: '#c4a43a', eyesStyle: 'narrow', mouth: 'smirk', brows: 'skeptic', nose: 'l', head: 'long', build: 'narrow', collar: 'coat', acc: 'squareglasses' } },
+
+	// ---------- Originales ----------
+	// Nico Ferrer (~28), técnico de sonido y coproductor de «Casos Fríos». Brief: pelo pelirrojo revuelto bajo un gorro de lana · gafas cuadradas y pecas · sudadera con capucha.
+	nico_ferrer: { name: 'Nico Ferrer', title: 'Pódcast «Casos Fríos», técnico de sonido', look: { hair: 'wild', hairColor: '#c4743a', outfit: '#3a6a8a', outfit2: '#f2b33d', skin: 1, eyes: '#5a6a3a', eyesStyle: 'wide', mouth: 'open', brows: 'soft', nose: 'button', head: 'long', build: 'narrow', collar: 'hoodie', acc: 'beanie squareglasses freckles', capColor: '#5a3a5a' } },
+	// La Tía Rosa (~65), voz de radio de toda la vida y coproductora. Brief: moño canoso alto · gafas de media luna en la punta de la nariz · cárdigan granate con pendientes de perla.
+	tia_rosa: { name: 'Tía Rosa', title: 'Pódcast «Casos Fríos», la voz', look: { hair: 'bun', hairColor: '#cfcac0', outfit: '#8a2f3a', outfit2: '#e9e3d0', skin: 2, eyes: '#5a3a26', eyesStyle: 'sleepy', mouth: 'smile', brows: 'thin', nose: 'hook', head: 'round', age: 'old', build: 'normal', collar: 'cardigan', acc: 'halfmoon earrings blush' } },
+	// Tadeo Lis (~40), apuntador del Musical de Mayólica. Brief: pelo engominado con raya marcada · bigote fino y lunar · chaleco de terciopelo sobre camisa blanca.
+	tadeo: { name: 'Tadeo Lis', title: 'Apuntador del Musical de Mayólica', look: { hair: 'slick', hairColor: '#2a2420', outfit: '#5a2f4a', outfit2: '#e9e8e0', skin: 2, eyes: '#4a3a2a', eyesStyle: 'almond', mouth: 'smile', brows: 'straight', nose: 'l', head: 'oval', build: 'narrow', collar: 'vest', acc: 'mustache mole' } },
+	// Matías Olmedo (~50), el ingeniero que no volvió a casa. Brief: entradas canosas · gafas cuadradas empañadas y barba de días · abrigo de plumas encima de la bata.
+	olmedo: { name: 'Matías Olmedo', title: 'Ingeniero', look: { hair: 'balding', hairColor: '#9aa0a8', outfit: '#3a4a6a', outfit2: '#e9e8e0', skin: 1, eyes: '#5a6a7a', eyesStyle: 'tired', mouth: 'flat', brows: 'sad', nose: 'hook', head: 'long', build: 'narrow', age: 'adult', collar: 'coat', acc: 'squareglasses stubble' } },
+	// Inés Garza (38), la cartera de Chamota (la niña de la Noche Blanca). Brief: trenza larga bajo la gorra de Correos · cejas rectas, mirada directa · chaqueta de uniforme con bandolera.
+	ines: { name: 'Inés Garza', title: 'Cartera de Pueblo Chamota', look: { hair: 'braids', hairColor: '#2a2440', outfit: '#3b5bb5', outfit2: '#f2c84a', skin: 3, eyes: '#3a2a1e', eyesStyle: 'almond', mouth: 'flat', brows: 'straight', nose: 'dot', head: 'heart', build: 'normal', collar: 'jacket', acc: 'cap', capColor: '#2b3f84', strap: '#8a5a2f' } },
+	// Celia (60), la panadera de Chamota. Brief: rizos canosos recogidos con pañuelo · mejillas encendidas del horno · delantal blanco lleno de harina.
+	celia: { name: 'Celia', title: 'Panadera de Pueblo Chamota', look: { hair: 'curly', hairColor: '#b8b0a4', outfit: '#e9e3d0', outfit2: '#c4743a', skin: 2, eyes: '#6b4a2b', eyesStyle: 'happy', mouth: 'grin', brows: 'thick', nose: 'button', head: 'wide', build: 'broad', age: 'old', collar: 'apron', acc: 'bandana blush' } },
+	// Don Teodoro (80), el cronista de Chamota. Brief: boina · barba blanca larga · americana de tweed con gafas redondas de cerca.
+	teodoro: { name: 'Don Teodoro', title: 'Cronista de Pueblo Chamota', look: { hair: 'short', hairColor: '#e9e8e0', outfit: '#8a7a5a', outfit2: '#e9e3d0', skin: 1, eyes: '#5a6a7a', eyesStyle: 'droopy', mouth: 'flat', brows: 'thick', nose: 'hook', head: 'square', build: 'narrow', age: 'old', collar: 'jacket', acc: 'beret beard glasses', hatColor: '#4a3a2a' } },
+
+	// ---------- Genéricos ----------
+	recluta_plasma: { name: 'Recluta del Equipo Plasma', generic: true, sprite: 'plasmagrunt', look: { hair: 'cap', hairColor: '#2b2b38', outfit: '#2b2b38', outfit2: '#3a8ac4', skin: 2, eyesStyle: 'sharp', mouth: 'flat', acc: 'hood', collar: 'cape' } },
+	vecino_teselia: { name: 'Vecino', generic: true, look: { hair: 'short', hairColor: '#3a2a1e', outfit: '#5a6a7a', outfit2: '#e9e3d0', skin: 3, eyesStyle: 'normal', mouth: 'smile', collar: 'shirt' } },
+	campanero: { name: 'Campanero', generic: true, look: { hair: 'balding', hairColor: '#6b4a2b', outfit: '#4a3a2a', outfit2: '#c9a66b', skin: 2, eyesStyle: 'wide', mouth: 'open', brows: 'sad', collar: 'vest', acc: 'stubble' } },
+	alcaldesa: { name: 'Alcaldesa', generic: true, look: { hair: 'bob', hairColor: '#4a3a2a', outfit: '#3a4a6a', outfit2: '#e9e8e0', skin: 2, eyesStyle: 'sleepy', mouth: 'flat', brows: 'skeptic', collar: 'jacket', acc: 'glasses earrings' } },
+	paleontologa: { name: 'Paleontóloga', generic: true, look: { hair: 'ponytail', hairColor: '#8a5a2f', outfit: '#c9a66b', outfit2: '#3a6a4a', skin: 3, eyesStyle: 'happy', mouth: 'grin', collar: 'vest', acc: 'hat', hatColor: '#c9a66b' } },
+	estibador: { name: 'Estibador', generic: true, look: { hair: 'buzz', hairColor: '#2a2420', outfit: '#c4743a', outfit2: '#3a3a4a', skin: 4, eyesStyle: 'narrow', mouth: 'flat', build: 'broad', collar: 'vest', acc: 'beanie', capColor: '#3a3a4a' } },
+	actriz_musical: { name: 'Actriz del Musical', generic: true, look: { hair: 'long', hairColor: '#c43a7a', outfit: '#f2c84a', outfit2: '#c43a7a', skin: 1, eyesStyle: 'lashes', mouth: 'lips', collar: 'cape', acc: 'flower lipstick' } },
+	oyente: { name: 'Oyente', generic: true, look: { hair: 'curly', hairColor: '#3a2a1e', outfit: '#5aa36b', outfit2: '#e9e3d0', skin: 4, eyesStyle: 'big', mouth: 'smile', collar: 'tshirt', acc: 'headphones' } },
+};
