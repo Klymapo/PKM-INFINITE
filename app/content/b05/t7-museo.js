@@ -12,6 +12,7 @@ const Q = 'quest.b05_s_museo';
 const SALA_J = 'flag.b02_puerta_cruzada';
 const SALA_K = 'flag.b04_inicio_hecho';
 const SALA_A = 'visited("hauoli")';
+const LUCIEN = 'flag.b02_lucien_madre || flag.b02_lucien_cipres || flag.b02_lucien_publico';
 const TODAS = 'flag.museo_sala_kalos_vista && (!' + SALA_J + ' || flag.museo_sala_johto_vista) && (!' + SALA_K + ' || flag.museo_sala_kanto_vista)';
 const pieza = (id, label, sub, icon, cond) => ({ label, sub, icon, cond, new: '!flag.museo_v_' + id, talk: [{ script: 'museo_' + id }] });
 
@@ -86,7 +87,7 @@ export default {
 		museo_sala_alola: {
 			name: 'Sala de Alola', parent: 'museo_ficha', kind: 'building',
 			bg: { type: 'indoor', wall: '#f2d8a8', floor: '#c4a06a' },
-			desc: 'La sala más nueva. Huele a pintura fresca y a coco: Philippe trajo de Konikoni un ambientador «para la atmósfera». Las paredes son amarillo atardecer y en una esquina hay una palmera de plástico con una guirnalda de flores.\n\nTodavía hay huecos vacíos en las vitrinas, con cartelas en blanco esperando.',
+			desc: 'La sala más nueva. Huele a pintura fresca y a coco: Philippe trajo de Alola un ambientador «para la atmósfera». Las paredes son amarillo atardecer y en una esquina hay una palmera de plástico con una guirnalda de flores.\n\nTodavía hay huecos vacíos en las vitrinas, con cartelas en blanco esperando.',
 			mapNote: 'Piezas de Alola',
 			onEnter: [{ script: 'museo_sala_alola', cond: '!flag.museo_sala_alola_vista', once: true }],
 			spots: [
@@ -117,8 +118,8 @@ export default {
 		},
 		parts: { title: 'Las salas', items: [
 			{ label: 'Sala de Kalos', where: 'museo_ficha', done: 'flag.museo_sala_kalos_vista', hint: 'La primera puerta del pasillo del ático.' },
-			{ label: 'Sala de Johto', where: 'museo_ficha', done: '!' + SALA_J + ' || flag.museo_sala_johto_vista', hint: 'Huele a pino y a lana.' },
-			{ label: 'Sala de Kanto', where: 'museo_ficha', done: '!' + SALA_K + ' || flag.museo_sala_kanto_vista', hint: 'La de la ventana pintada.' },
+			{ label: 'La sala de la alfombra de rayas', where: 'museo_ficha', done: '!' + SALA_J + ' || flag.museo_sala_johto_vista', hint: 'Huele a pino y a lana.' },
+			{ label: 'La sala de la ventana pintada', where: 'museo_ficha', done: '!' + SALA_K + ' || flag.museo_sala_kanto_vista', hint: 'Una sala pequeña y gris, al fondo del pasillo.' },
 		] } },
 	},
 
@@ -141,13 +142,13 @@ export default {
 			{ say: 'philippe', text: '¡Ficha número uno! ¡Aquí, en casa! Acabo de volver de Alola: allí no vendí ni una villa, pero me traje un ambientador de coco. —Te enseña una llave enorme—. Ven, ven. Esto es mejor que una villa.', cond: PH_ALOLA },
 			{ say: 'philippe', text: '¿Te acuerdas del ático? ¿El de las vistas a la Puerta? Nadie lo alquila. Zumba. Lo he puesto como «ambiente sonoro», como «tranquilidad vibrante», como «ideal para gente con acúfenos». Nada.' },
 			{ say: 'philippe', text: 'Pero hace unas semanas empezaron a llegarme paquetes. A la agencia. Con una etiqueta: «Para la ficha número uno. Philippe sabrá». —Se le escapa la risa—. ¡Philippe sabrá! ¿Te das cuenta? ¡Alguien cree que Philippe sabe algo!' },
-			{ say: 'philippe', text: 'Recortes de periódico, una caja de Johto que huele a lana, una gorra doblada, un pañuelo de cuadros… Cosas tuyas. Bueno, cosas de lo que hiciste. Gente que te conoce y que pensó que alguien tenía que guardarlas.' },
+			{ say: 'philippe', text: 'Recortes de periódico, un pedrusco que brilla a oscuras, una canica de escayola un poco torcida… Cosas tuyas. Bueno, cosas de lo que hiciste. Gente que te conoce y que pensó que alguien tenía que guardarlas.' },
 			{ prompt: 'Philippe hace girar la llave entre los dedos. Se le cae. La recoge.', choice: [
 				{ text: '«¿Y qué has hecho con todo eso?»', then: [
 					{ say: 'philippe', text: 'Lo que haría cualquier agente inmobiliario con un ático vacío y un montón de recuerdos ajenos: un museo. Phil-osofía: si una casa no se vende, se le cambia el uso.' },
 				] },
 				{ text: '«¿Quién te los manda?»', then: [
-					{ say: 'philippe', text: 'Las cartas vienen firmadas. Más o menos. Una con una «A», otra con una «M», otra con una huella de casco. —Baja la voz—. Hay una que no firma nadie. Esa es la que más me gusta.' },
+					{ say: 'philippe', text: 'Las cartas vienen firmadas. Más o menos. Unas con una «A». Otras, con iniciales que no conozco. —Baja la voz—. Hay una que no firma nadie. Esa es la que más me gusta.' },
 				] },
 				{ text: '«No pienso pagarte nada.»', then: [
 					{ say: 'philippe', text: '¡Es gratis! ¡Para ti, todo gratis! —Pausa—. Para los demás, la voluntad. Pero la voluntad de verdad, no esa voluntad de cinco céntimos.' },
@@ -209,7 +210,8 @@ export default {
 
 		// ---------- La inauguración ----------
 		museo_inaugura: [
-			{ say: 'philippe', text: '¿Lo has visto todo? ¿De verdad? —Se pone la chistera recta. Se le vuelve a torcer—. Entonces ya está. Ya se puede inaugurar. He invitado a gente. Bueno, a la gente que mandó cosas. Han venido dos. Y medio.' },
+			{ say: 'philippe', text: '¿Lo has visto todo? ¿De verdad? —Se pone la chistera recta. Se le vuelve a torcer—. Entonces ya está. Ya se puede inaugurar. He invitado a gente. Bueno, a la gente que mandó cosas. Han venido dos. Y medio.', cond: LUCIEN },
+			{ say: 'philippe', text: '¿Lo has visto todo? ¿De verdad? —Se pone la chistera recta. Se le vuelve a torcer—. Entonces ya está. Ya se puede inaugurar. He invitado a gente. Bueno, a la gente que mandó cosas. Han venido dos. Dos es un público. Íntimo.', cond: '!(' + LUCIEN + ')' },
 			{ cutscene: { time: 'tarde', bg: { type: 'indoor', wall: '#e9dcc0', floor: '#8a6448' }, start: 'fade', cam: 'still', frames: [
 				{ actors: [{ id: 'philippe', at: 'left', enter: 'left' }], text: 'El ventanal del ático se pone naranja. Al fondo, la Puerta zumba. Philippe ha atado una cinta roja de lado a lado de la escalera, con un lazo en medio.' },
 				{ actors: [{ id: 'alexia', at: 'right', enter: 'right' }], cam: 'pan-right', text: 'Alexia sube la escalera con la cámara al hombro. Dice que viene «por trabajo». Hace una foto de la cinta. Luego otra de ti, sin avisar.' },
@@ -218,10 +220,13 @@ export default {
 				{ actors: [{ key: 'philippe', do: 'bow' }], on: false, fx: ['sparkle', 'flash'], color: '#ffd8a8', cam: 'push', text: 'Philippe saca unas tijeras del bolsillo de la chistera. Las tijeras se enganchan con un pañuelo, el pañuelo con otro, y otro… Cuando por fin corta la cinta, ha sacado once pañuelos.' },
 				{ actors: [{ key: 'philippe', emote: 'heart' }], cam: 'pull', fx: 'glow', on: 'philippe', text: '«Queda inaugurado el Museo de la Ficha Número Uno». Nadie aplaude un segundo. Luego aplauden todos a la vez, y la Puerta, al fondo, zumba más fuerte. Como si también.' },
 			] } },
-			{ say: 'alexia', text: 'Mira que he cubierto inauguraciones. Torres, puentes, una Puerta que explotó. Esta es la primera en la que la noticia eres tú y no lo sabes. —Guarda la cámara—. No la voy a publicar. Algunas cosas no se publican: se guardan.' },
+			{ say: 'alexia', text: 'Mira que he cubierto inauguraciones. Torres, puentes, una Puerta que se abrió sola. Esta es la primera en la que la noticia eres tú y no lo sabes. —Guarda la cámara—. No la voy a publicar. Algunas cosas no se publican: se guardan.' },
 			{ say: 'matiere', text: 'Handsome quería venir. Le dije que con ese bigote falso iba a parecer una pieza más. Se ofendió. Te manda saludos. Y este papel, que no sé qué es. —Te lo da—. Pone «para el libro de visitas». Lo he leído, claro. Soy detective.' },
 			{ if: 'flag.b02_lucien_madre || flag.b02_lucien_cipres || flag.b02_lucien_publico', then: [
-				{ say: 'lucien', text: '¡He visto mi dorsal! ¡O mi dibujo! ¡O la foto! ¡Estoy en un MUSEO! —Se para—. ¿Estar en un museo es estar muerto? Mi madre dice que en los museos solo hay cosas muertas.' },
+				{ say: 'lucien', text: '¡He visto mi dorsal! ¡Mi dorsal está en un MUSEO! —Se para—.', cond: 'flag.b02_lucien_publico' },
+				{ say: 'lucien', text: '¡He visto mi dibujo! ¡Mi dibujo está en un MUSEO! —Se para—.', cond: 'flag.b02_lucien_madre' },
+				{ say: 'lucien', text: '¡He visto la foto del telescopio! ¡Salgo en un MUSEO! —Se para—.', cond: 'flag.b02_lucien_cipres' },
+				{ say: 'lucien', text: '¿Estar en un museo es estar muerto? Mi madre dice que en los museos solo hay cosas muertas.' },
 				{ say: 'philippe', text: 'En este no. En este solo hay cosas que pasaron. Que es distinto: lo muerto ya no cambia y lo que pasó cambia cada vez que lo miras. —Pausa—. Eso me ha quedado muy bien. Apúntalo.' },
 			] },
 			{ say: 'philippe', text: 'Toma. —Te da una llave de hierro enorme, con un llavero en forma de casita—. La del ático. No te lo vendo: te lo presto. Es tu casa en cierto modo. La única casa donde todo lo que hay es tuyo y no tienes que limpiar nada.' },
@@ -229,7 +234,7 @@ export default {
 			{ say: 'philippe', text: 'Las piezas seguirán llegando. Cuando hagas algo que se recuerde, alguien me lo mandará. Lo sé. Lo noto. Es mi Phil-osofía más reciente: los recuerdos encuentran sola la dirección de su museo.' },
 			{ quest: 'b05_s_museo', stage: 'hecha', done: true },
 			{ rep: { kalos: 2 } },
-			{ diary: 'Hoy mi entrenador{|a|e} inauguró un museo. ¡Un museo entero sobre nosotros! Philippe cortó una cinta y le salieron once pañuelos del bolsillo. Yo los conté. Once. Había cosas de Kalos, de Johto y de Kanto, y una baraja de cartas en el centro. Me gusta que alguien guarde lo que hacemos. Así no se pierde. ¡Bzzt!', cond: 'flag.b01_diario' },
+			{ diary: 'Hoy mi entrenador{|a|e} inauguró un museo. ¡Un museo entero sobre nosotros! Philippe cortó una cinta y le salieron once pañuelos del bolsillo. Yo los conté. Once. Había cosas de todos los sitios donde hemos estado, y una baraja de cartas en el centro. Me gusta que alguien guarde lo que hacemos. Así no se pierde. ¡Bzzt!', cond: 'flag.b01_diario' },
 		],
 
 		// ---------- El conservador (después) ----------
@@ -249,7 +254,7 @@ export default {
 			{ if: 'flag.b05_luz_leilani', then: [{ read: { title: 'Libro de visitas (cont.)', text: '*(Bolígrafo, letra rapidísima, con una mancha de grasa en la esquina.)*\n\n«¡Hola, museo! No he ido. Pero te mandé la baliza. Si deja de parpadear, no la abras: se abre sola y luego no cierra. Tres cortas y una larga, ¿sí o qué? —L. K.»' } }] },
 		],
 		museo_alola_vacia: [
-			{ text: 'Tres vitrinas vacías, con el cristal recién limpio y una cartela en blanco cada una. En la primera, a lápiz, muy flojito, Philippe ha escrito: «Aquí irá algo de luz. No sé por qué lo sé».' },
+			{ text: 'Tres vitrinas vacías, con el cristal recién limpio y una cartela en blanco cada una. En la primera, a lápiz, muy flojito, Philippe ha escrito: «Aquí irá algo. Todavía no sé qué».' },
 			{ say: 'philippe', text: 'No me mires así. Los agentes inmobiliarios tenemos olfato para los huecos. Es lo que vendemos: huecos con paredes.' },
 		],
 
@@ -257,7 +262,7 @@ export default {
 		museo_baraja: [
 			{ set: { 'flag.museo_v_baraja': true } },
 			{ text: 'Una baraja de cartas francesas, con el dorso azul y una chistera dorada. Está gastada por los bordes. Le falta el tres de tréboles: en su sitio hay un papelito doblado.' },
-			{ if: 'done.b01_s_philippe', then: [
+			{ if: 'done.b01_s_philippe && flag.b02_philippe', then: [
 				{ read: { title: 'Cartela · La pieza cero', text: '**LA BARAJA DE LA SUERTE**\nPrestada por el conservador.\n\nSe perdió una tarde en la Ruta 5 y volvió en el bolsillo de alguien que no tenía ninguna obligación de traerla. Ahí empezó la ficha número uno.\n\nLe falta el tres de tréboles. Se quedó al otro lado de una valla, en Luminalia, el día de la Gira. El conservador dice que no la echa de menos. El conservador miente: es mago.' } },
 			], else: [
 				{ read: { title: 'Cartela · La pieza cero', text: '**LA BARAJA DE LA SUERTE**\nPrestada por el conservador.\n\nCon ella el conservador ha fallado todos los trucos que sabe, y algunos que no sabe. La primera vez que la usó contigo, también. Ahí empezó la ficha número uno.\n\nLe falta el tres de tréboles. El conservador dice que no la echa de menos. El conservador miente: es mago.' } },
@@ -304,7 +309,7 @@ export default {
 			] },
 			{ if: 'flag.b01_trato_sera', then: [
 				{ text: 'Una tarjeta de cartulina gris perla, sin texto, con una lemniscata en relieve en la esquina. Está sola en una vitrina enorme. Philippe le ha puesto terciopelo negro debajo, por si acaso.' },
-				{ read: { title: 'Cartela · Crómlech', text: '**UNA TARJETA SIN NOMBRE**\nRemitente: no consta. Llegó en un sobre lacrado, sin sello.\n\nEn Pueblo Crómlech había una excavación que no salía en ningún permiso. Alguien aceptó un trato, «pero quiero ver lo que hacen». Desde entonces, alguien lo ve hacer cosas a él.\n\nEl conservador no sabe quién la mandó. El conservador tiene una sospecha muy educada.' } },
+				{ read: { title: 'Cartela · Crómlech', text: '**UNA TARJETA SIN NOMBRE**\nRemitente: no consta. Llegó en un sobre lacrado, sin sello.\n\nEn Pueblo Crómlech había una excavación que no salía en ningún permiso. Alguien aceptó un trato, «pero quiero ver lo que hacen». El trato sigue en pie.\n\nEl conservador no sabe quién la mandó. El conservador tiene una sospecha muy educada.' } },
 			] },
 			{ say: 'philippe', text: 'Esta vitrina la pongo siempre en el centro. No sé por qué. Hay piezas que piden estar en el medio, como hay invitados que piden la cabecera.' },
 		],
@@ -312,7 +317,7 @@ export default {
 			{ set: { 'flag.museo_v_torre': true } },
 			{ text: 'Una canica de escayola, blanca, pintada a mano con una espiral azul y negra. Está un poco torcida. Sobre un cojín azul, con una tarjetita escrita con pincel.' },
 			{ read: { title: 'Cartela · La Torre', text: '**UNA RÉPLICA DE ESCAYOLA DE LA LUCARITA**\nEnviada por Cornelio, de la Torre Maestra de Yantra.\n\nEn lo alto de la Torre Maestra, un Lucario y su entrenador{|a|e} subieron juntos el último tramo. El vínculo es enorme, pero no es infinito: por eso se cuida.\n\nEn la tarjetita, con pincel: «La de verdad la tienes tú. Esta la hizo mi nieta con cinco años; le salió torcida. Las cosas torcidas guardan mejor los recuerdos. —C.»' } },
-			{ if: 'flag.b01_lila_llama', then: [{ text: 'Debajo del cojín asoma otra tarjeta, más pequeña, con otra letra, redonda y apretada: «Gracias por quedarte cerca aquella noche. Ya no se me olvida respirar. —L.»' }] },
+			{ if: 'flag.b01_lila_llama', then: [{ text: 'Debajo del cojín asoma otra tarjeta, más pequeña, con otra letra, redonda y apretada: «Gracias por quedarte cerca aquella vez. Ya no se me olvida respirar. —L.»' }] },
 			{ if: '(inParty("riolu") || inParty("lucario"))', then: [{ text: '{riolu} se acerca a la vitrina, mira la canica torcida y luego te mira a ti. Resopla por la nariz, como cuando algo le hace gracia. Philippe se aparta un paso, por respeto.' }] },
 			{ say: 'philippe', text: 'El señor de la Torre me escribió con pincel. Con pincel. Yo le contesté con bolígrafo y me sentí un salvaje.' },
 		],
@@ -338,7 +343,7 @@ export default {
 			{ set: { 'flag.museo_v_lucien': true } },
 			{ if: 'flag.b02_lucien_madre', then: [
 				{ text: 'Un dibujo hecho con ceras, colgado con pinzas de tender: una Puerta con forma de ocho tumbado, muchas personas pequeñas y una muy grande con una gorra. Firmado: «Lucien, 12 años y medio».' },
-				{ read: { title: 'Cartela · La primera fila', text: '**UN DIBUJO CON CERAS**\nEnviado por la señora Perrot, de Luminalia.\n\nEl día de la Gira, un niño con una gorra enorme quería cruzar la Puerta. Alguien lo llevó con su madre.\n\nNota de la señora Perrot, con letra de enfado ya pasado: «Me lo trajo usted entero. Él dice que usted es la persona más aburrida del mundo. Para él eso es lo más alto. Gracias».' } },
+				{ read: { title: 'Cartela · La primera fila', text: '**UN DIBUJO CON CERAS**\nEnviado por la señora Perrot, de Luminalia.\n\nEl día de la Gira, un niño con una gorra enorme quería cruzar la Puerta. Alguien lo llevó con su madre.\n\nNota de la señora Perrot, con letra de enfado ya pasado: «Me lo trajo usted entero. Él dice que usted es la persona más valiente del mundo, después de él. Para él eso es lo más alto. Gracias».' } },
 			] },
 			{ if: 'flag.b02_lucien_cipres', then: [
 				{ text: 'Una foto pegada con celo a una cartulina: un telescopio enorme, el profesor Ciprés señalando el cielo y un niño con una gorra, mirando por el ocular del revés.' },
@@ -346,7 +351,7 @@ export default {
 			] },
 			{ if: 'flag.b02_lucien_publico', then: [
 				{ text: 'Un dorsal de la Gira, doblado en cuatro y planchado. Tiene un número escrito a mano y, debajo, con otra letra: «para la próxima temporada».' },
-				{ read: { title: 'Cartela · La primera fila', text: '**UN DORSAL DOBLADO**\nEnviado por Lucien Perrot, en un sobre lleno de dibujos.\n\nEl día de la Gira, un niño con una gorra enorme quería cruzar la Puerta. Alguien le consiguió la primera fila. La vio abrirse desde dos metros.\n\nEn la carta (siete páginas): «Lo apunté todo. Con horas. La Puerta se abrió a las 10:14. Usted cruzó a las 10:17. Yo cruzaré en la próxima temporada. Le dejo mi dorsal para que me lo guarde».' } },
+				{ read: { title: 'Cartela · La primera fila', text: '**UN DORSAL DOBLADO**\nEnviado por Lucien Perrot, en un sobre lleno de dibujos.\n\nEl día de la Gira, un niño con una gorra enorme quería cruzar la Puerta. Alguien le consiguió la primera fila. La vio abrirse desde dos metros.\n\nEn la carta (siete páginas): «Lo apunté todo. Con horas. La Puerta se abrió a las 10:14. Tú cruzaste a las 10:17. Yo cruzaré en la próxima temporada. Te dejo mi dorsal para que me lo guardes».' } },
 			] },
 			{ say: 'philippe', text: 'Lo he colgado bajito, a la altura de un niño. Phil-osofía: hay piezas que hay que mirar agachándose. Te recuerdan quién eras.' },
 		],
@@ -401,12 +406,12 @@ export default {
 		// =================== PIEZAS · KANTO (B4) ===================
 		museo_inspector: [
 			{ set: { 'flag.museo_v_inspector': true } },
-			{ text: 'Un cajón de archivador gris, abierto. Dentro, una carpeta de la Agencia de Detectives con una etiqueta escrita por Matière.' },
+			{ text: 'Un cajón de archivador gris, abierto. Dentro, sobre una carpeta de la Agencia de Detectives, algo con una etiqueta escrita por Matière.' },
 			{ if: 'flag.b04_lebrun_detenido', then: [
 				{ read: { title: 'Cartela · El inspector', text: '**UNAS ESPOSAS**\nCedidas por la Agencia de Detectives de Luminalia.\n\nEn una cueva de Kanto, alguien de la Policía Internacional resultó ser quien no debía. Lo detuvieron. Las esposas tardaron dos intentos en abrirse.\n\nNota de Matière: «Handsome no quiere verlas. Las mando aquí porque en la Agencia nadie las mira y en un museo alguien las mirará bien. Está al mando ahora. Lo lleva como lleva todo: con el bigote tieso. —M.»' } },
 			] },
 			{ if: 'flag.b04_lebrun_cebo', then: [
-				{ read: { title: 'Cartela · El inspector', text: '**UNA TAZA DE OFICINA**\nCedida por la Agencia de Detectives de Luminalia.\n\nEn una cueva de Kanto, alguien de la Policía Internacional resultó ser quien no debía. Siguió en su mesa al día siguiente, con su carpeta y su traje gris.\n\nNota de Matière: «Es su taza. La cambié por otra igual y nadie se ha dado cuenta. No preguntes. Está en su mesa, y así tiene que estar. —M.»' } },
+				{ read: { title: 'Cartela · El inspector', text: '**UNA TAZA DE OFICINA**\nCedida por la Agencia de Detectives de Luminalia.\n\nEn una cueva de Kanto hubo que decidir qué hacer con alguien que llevaba mucho tiempo mintiendo. Al día siguiente, en la oficina, todo parecía igual. Tenía que parecerlo.\n\nNota de Matière: «Es su taza. La cambié por otra igual y nadie se ha dado cuenta. No preguntes. Está en su mesa, y así tiene que estar. —M.»' } },
 			] },
 			{ if: 'flag.b04_lebrun_libre', then: [
 				{ read: { title: 'Cartela · El inspector', text: '**UNA HOJA CON LETRA DE FUNCIONARIO**\nCedida por la Agencia de Detectives de Luminalia.\n\nEn una cueva de Kanto, alguien de la Policía Internacional resultó ser quien no debía. Le dejaron ir a cambio de saber cómo le llegaban las órdenes.\n\nNota de Matière: «La copia buena la tiene Handsome. Esta es la que se quedó en la carpeta, por triplicado. Una persona que escribe por triplicado hasta cuando se va… me da pena. Un poco. —M.»' } },

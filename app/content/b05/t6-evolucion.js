@@ -189,14 +189,14 @@ export default {
 		// ---------- 1. La capataza y el Mudbray que no crece ----------
 		b05_terron_inicio: [
 			{ text: 'Junto a la cerca del corral, la capataza tiene sujeto por el ronzal a un Mudbray. Es pequeño para ser de este rancho: le llega a la cintura. Lleva una silla de cuero con una cajita de metal atornillada debajo, una antenita y dos luces.' },
-			{ say: 'kalena', as: 'Capataza', text: 'Tú. El del brazalete de la chica Kahale. Ven. No, no vengas a entrenar. Ven a mirar. Hoy sí se mira desde dentro de la cerca.' },
+			{ say: 'kalena', as: 'Capataza', text: 'Tú. {El|La|Le} del brazalete de la chica Kahale. Ven. No, no vengas a entrenar. Ven a mirar. Hoy sí se mira desde dentro de la cerca.' },
 			{ cutscene: { time: 'tarde', bg: { type: 'ranch', ground: '#7aa05a', far: '#e9a05a' }, start: 'light', cam: 'still', frames: [
 				{ actors: [{ id: 'kalena', at: 'left', dim: true }], on: '_c', mon: 'mudbray', text: 'El Mudbray está quieto. Respira despacio, con las patas muy abiertas, como quien se planta.' },
 				{ color: '#ffe8a8', cam: 'push', fx: 'glow', text: 'Y de pronto se enciende. Una luz blanca le sube desde los cascos, le envuelve el lomo, le crece por el cuello. Es esa luz. La que todo el mundo conoce.' },
 				{ actors: [{ key: '_c', do: 'shake' }], fx: 'shake', shake: 1, text: 'A los cuatro segundos, el Mudbray se sacude. Fuerte. Como un perro mojado. La luz se le cae a trozos al suelo y se apaga en la hierba.' },
 				{ actors: [{ key: 'kalena', dim: false, emote: '...' }, { key: '_c', do: 'idle' }], cam: 'pull', text: 'Se queda igual que estaba. Pequeño. Mira a la capataza. Parpadea. Vuelve a comer hierba.' },
 			] } },
-			{ say: 'kalena', as: 'Capataza', text: 'Cuarta vez. Terrón tiene nivel para ser Mudsdale desde hace años. Veinte niveles de más. Lo he visto encenderse cuatro veces. Las cuatro se sacude y se apaga.' },
+			{ say: 'kalena', as: 'Capataza', text: 'Cuarta vez. Terrón tiene nivel para ser Mudsdale desde hace años. Casi treinta niveles de más. Lo he visto encenderse cuatro veces. Las cuatro se sacude y se apaga.' },
 			{ say: 'kalena', text: 'Kalena. Capataza de esto. —Se toca el sombrero—. El veterinario dice que está sano. No tiene Piedra Eterna, le revisé hasta los dientes. No es la edad, no es la comida, no es el agua.' },
 			{ say: 'kalena', text: 'Es la silla. Tiene que ser la silla. La chica Kahale le puso esa caja con antena para medirle el paso, y desde que la lleva, nada. Una cosa de esas, con luces, seguro que frena algo. «Interferencia», dice ella siempre.' },
 			{ prompt: 'Kalena te mira el brazalete.', choice: [
@@ -270,7 +270,7 @@ export default {
 		// ---------- 3. El alba en el abrevadero ----------
 		b05_terron_alba: [
 			{ say: 'kalena', text: '¿El pajar? ¿Para ver quién se sube a Terrón? —Te mira largo rato. Algo se le mueve en la cara—. Te dejo una manta. Y yo me quedo contigo. No porque me fíe. Porque es mi rancho.' },
-			{ text: 'Esa noche dormís mal, en el heno, con la puerta del establo entornada. Antes de las seis, Kalena te despierta con un dedo en los labios. Fuera hay niebla a la altura de las rodillas y una luz gris que aún no es día.' },
+			{ text: 'Esa noche duermes mal, en el heno, con Kalena a dos balas de paja y la puerta del establo entornada. Antes de las seis, Kalena te despierta con un dedo en los labios. Fuera hay niebla a la altura de las rodillas y una luz gris que aún no es día.' },
 			{ cutscene: { time: 'manana', weather: 'fog', bg: { type: 'town', roofs: ['#8a5a2f', '#c4743a', '#e9c46a'], far: '#8aa0a8' }, start: 'dark', frames: [
 				{ actors: [{ mon: 'mudbray', key: 'terron', at: 0.66, enter: 'fade' }], cam: 'still', fx: 'light', text: 'En la plaza de Ohana, junto al abrevadero, Terrón espera. Solo. Al lado de una piedra baja, plana, gastada por el medio.' },
 				{ actors: [{ id: 'kekoa', at: 'left', enter: 'left' }], cam: 'pan-left', text: 'Por la calle baja un señor muy mayor, con sombrero y bastón. Camina despacio. Muy despacio. Se para cada pocos pasos, con la mano en la rodilla.' },
@@ -342,7 +342,7 @@ export default {
 		// ---------- 5. El estribo de koa ----------
 		b05_terron_estribo: [
 			{ text: 'Le cuentas a Leilani lo del alba, la piedra y la libreta. No le enseñas la libreta: no es tuya. Leilani escucha sin interrumpir, que en ella es casi un milagro médico.' },
-			{ say: 'leilani', text: 'O sea que mi silla medía amor. Sin querer. —Se rasca la nuca—. Es lo mejor que ha medido nunca una cosa mía. Lo voy a poner en el folleto. No. No lo voy a poner. Eso no se vende.' },
+			{ say: 'leilani', text: 'O sea que mi silla medía a un señor muy terco. Sin querer. —Se rasca la nuca—. Es lo mejor que ha medido nunca una cosa mía. Lo voy a poner en el folleto. No. No lo voy a poner. Eso no se vende.' },
 			{ say: 'leilani', text: '«Para cuando él quiera». —Lo dice despacio, probando las palabras—. Ok. Una escalerita. Plegable. Que cuelgue de la silla y que se despliegue hasta la altura de un Mudsdale. Madera, no metal: el metal en el lomo se enfría por la mañana.' },
 			{ cutscene: { bg: { type: 'indoor', wall: '#5a4a3a', floor: '#3a3a40' }, start: 'light', cam: 'push', frames: [
 				{ actors: [{ id: 'leilani', at: 'left' }], weather: 'sparks', text: 'Leilani trabaja dos horas sin hablar. Sierra, lija, bisagras de cobre, una correa de cuero. Soldi le pasa las piezas antes de que las pida.' },
@@ -423,8 +423,8 @@ export default {
 					{ battle: 'kekoa_terron', lose: 'continue', onWin: [
 						{ text: 'Terrón se sacude el polvo. Tiene la frente alta. No ha crecido ni un centímetro y aun así parece más grande que hace un rato.' },
 						{ say: 'kekoa', text: 'Lleva una piedrecita de esas que hacen más fuerte al que todavía no ha crecido. La compró Kalena, a escondidas, hace un año. Yo creo que ya lo sabía. —Sonríe bajo el bigote—. Mi hija sabe más de lo que pregunta.' },
-						{ give: 'eviolite' },
 						{ say: 'kekoa', text: 'Toma la otra. Compró dos. Kalena siempre compra dos de todo, por si se rompe una. Así es ella.' },
+						{ give: 'eviolite' },
 					], onLose: [
 						{ say: 'kekoa', text: 'No pasa nada. Terrón tiene muchos años de práctica: todas las mañanas carga con un viejo terco. Eso entrena mucho.' },
 						{ heal: true },
