@@ -1150,6 +1150,73 @@ export const PX_ITEMS = {
 			'................',
 		],
 	},
+	// --- B6 T3 ---
+	// Hoja de libreta arrancada, con barro en una esquina y una pluma dibujada a tinta.
+	registroambar: {
+		pal: { K: '#3a2a1e', P: '#f4ecd2', p: '#d8ccaa', L: '#8aa4c4', A: '#e0a040', M: '#8a5a2f' },
+		px: [
+			'................',
+			'...KKKKKKKKK....',
+			'...KPPPPPPPPK...',
+			'...KPLLLLLLPK...',
+			'...KPPPPPPPPK...',
+			'...KPLLLLPPPK...',
+			'...KPPPAAPPPK...',
+			'...KPPAAAAPPK...',
+			'...KPPPAAPPPK...',
+			'...KPLLLLLLPK...',
+			'...KPPPPPPPPK...',
+			'...KPLLLLPPMK...',
+			'...KPPPPPPMMK...',
+			'...KpPpPpPpMK...',
+			'...KKKKKKKKKK...',
+			'................',
+		],
+	},
+	// Cuaderno de tapas marrones, con una huella de tres dedos en la portada y una goma elástica.
+	cuadernopetra: {
+		pal: { K: '#2a1d14', B: '#8a5a2f', b: '#6b4426', H: '#e9d8a6', R: '#c4473a', P: '#f4ecd2' },
+		px: [
+			'................',
+			'...KKKKKKKKKK...',
+			'...KBBBBBBRBKK..',
+			'...KBBBBBBRBKP..',
+			'...KBBHBHBRBKP..',
+			'...KBBHBHBRBKP..',
+			'...KBBBHBBRBKP..',
+			'...KBBHHHBRBKP..',
+			'...KBBBHBBRBKP..',
+			'...KBBBBBBRBKP..',
+			'...KbBBBBBRBKP..',
+			'...KbbBBBBRBKP..',
+			'...KbbbBBBRBKK..',
+			'...KKKKKKKKKK...',
+			'................',
+			'................',
+		],
+	},
+	// Foto de bordes blancos: cielo amarillo, helechos verdes y una cabina azul diminuta.
+	fotovalle: {
+		pal: { K: '#24242e', W: '#fbfaf6', w: '#d8d6ce', Y: '#f2dc8a', G: '#4a8a3a', g: '#2f5a2a', D: '#5a4a5a', U: '#3b5bb5' },
+		px: [
+			'................',
+			'..KKKKKKKKKKKK..',
+			'..KWWWWWWWWWWK..',
+			'..KWYYYDYYYYWK..',
+			'..KWYYDYDYYYWK..',
+			'..KWYYYYYYDYWK..',
+			'..KWYYYYYYYYWK..',
+			'..KWGYYYYGYYWK..',
+			'..KWGGYYGGGYWK..',
+			'..KWgGGGGUGGWK..',
+			'..KWggGgGUGgWK..',
+			'..KWWWWWWWWWWK..',
+			'..KWWWWWWWWWKK..',
+			'..KWWWWWWWWKwK..',
+			'..KKKKKKKKKKK...',
+			'................',
+		],
+	},
 };
 /** Dibuja un objeto de PX_ITEMS como SVG nítido. */
 export function pxItem(id, size = 32) {
