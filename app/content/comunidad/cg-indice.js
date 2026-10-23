@@ -140,7 +140,7 @@ export default {
       { say: 'bill', text: 'El repetidor lo desmontaron hace años. El programa nuevo, el Índice, solo indexa canales con ficha. El 00 lo trata como ruido. ¡Ruido! ¡Mi canal! Es como si el PC tirara a la papelera los Pokémon sin mote.' },
       { give: 'cg_indice_esquema' }, { read: 'cg_indice_esquema' },
       { set: { 'flag.cg_indice_esquema': true, 'vars.cg_indice_pistas': '+1' } },
-      { say: 'bill', text: 'Cuatro pulsos cortos piden ayuda. Uno largo es una prueba. Eso lo sabe cualquier radio vieja de la caseta del puente. El programa nuevo no. —Se quita la antena de la cabeza—. Las máquinas no se equivocan, ¿eh? Se equivoca quien les dice qué escuchar.' },
+      { say: 'bill', text: 'Cuatro pulsos cortos piden ayuda. Uno largo es una prueba. Eso lo sabe cualquier radio vieja de la caseta del puente. El programa nuevo no. —Se quita la antena de la cabeza—. Un programa solo oye lo que le dejan oír. Y a este le dijeron que el 00 no.' },
       { say: 'cg_indice_vera', as: 'Una voz en la radio de Bill', text: 'Bill, ¿me oyes? Soy Vera. El poste de la Ruta 8 ya tiene corriente. Si alguien quiere probar el 00, yo estoy aquí toda la semana.' },
       { say: 'bill', text: '¡Vera! Técnica de señales de la Red. La única que me contesta los correos. Si Misty te manda a probar algo, ve a verla.' },
       { call: 'cg_red_toque' },
@@ -191,7 +191,7 @@ export default {
       { choice: [
         { text: 'Mandar cuatro pulsos cortos', then: [
           'Pip. Pip. Pip. Pip. La pantallita del poste parpadea: «AVISO RECIBIDO · CANAL 00». Debajo, una línea más pequeña: «Índice: descartado, emisor sin ficha».',
-          { say: 'cg_indice_vera', text: 'Ahí lo tienes. La radio lo oye. El programa lo tira. —Por fin se levanta—. Lo que yo decía en las reuniones. Pero a mí no me hacen caso, que voy en chándal.' },
+          { say: 'cg_indice_vera', text: 'Ahí lo tienes. La radio lo oye. El programa lo tira. —Por fin se levanta—. Lo que yo decía en las reuniones. Pero a mí no me hacen caso, que voy en sudadera.' },
           'De la radio del poste sale una voz que ya conoces.',
           { say: 'bill', as: 'Bill (por radio)', text: '¡Lo recibo! ¡Clic-clic! ¡Desde el cabo! El problema nunca fue la máquina, fue lo que le dijeron que tirara. ¡Te lo dije! Bueno, se lo dije a mi dibujo. Pero cuenta.' },
           { set: { 'flag.cg_indice_verificado': true } },
@@ -212,7 +212,8 @@ export default {
       { say: 'misty', text: '¡Funcionó! Vera ya me ha mandado el registro y la Red no ha tenido más remedio que cambiar el Índice. Ahora el 00 cuenta.' },
       { say: 'misty', text: 'Pero ahora quieren sacar al señor Fuji en el boletín. «El héroe de la Casa Pokémon». Ya tienen hasta el titular. Y él no quiere que lo miren, y el aviso fue del Audino.' },
       'En la puerta del gimnasio aparece una mujer con gafas y una carpeta bajo el brazo: Noemí, la archivera de la Red.',
-      { say: 'cg_indice_noemi', text: 'Vengo a por el acta. —A ti—. Ah, usted otra vez. —A Misty—. El boletín sale el lunes. Necesito saber qué pongo, porque lo que no ponga hoy dentro de diez años no existe.' },
+      { say: 'cg_indice_noemi', cond: 'flag.cg_aviso_registro', text: 'Vengo a por el acta. —A ti—. Ah, usted otra vez. —A Misty—. El boletín sale el lunes. Necesito saber qué pongo, porque lo que no ponga hoy dentro de diez años no existe.' },
+      { say: 'cg_indice_noemi', cond: '!flag.cg_aviso_registro', text: 'Vengo a por el acta. Noemí, archivera. —A Misty—. El boletín sale el lunes. Necesito saber qué pongo, porque lo que no ponga hoy dentro de diez años no existe.' },
       { say: 'misty', text: 'Tú lo has investigado: tú decides. ¿Contamos solo el fallo del Índice, sin nombres, o le preguntamos primero al señor Fuji?' },
       { choice: [
         { text: 'Contar el fallo, sin nombres', then: [
@@ -258,7 +259,7 @@ export default {
       { say: 'fuji', text: 'Vinieron esta mañana a por los collares de prueba. Como el caso fue «un error de reloj», ya no hacen falta. —Sirve dos tazas—. No te disculpes. Yo también me he equivocado leyendo cosas. Durante años.' },
       'Llaman a la puerta. Es Noemí, la archivera, con un libro de tapas negras bajo el brazo y cara de no haber dormido.',
       { say: 'cg_indice_noemi', text: 'El Índice no lo va a apuntar. Lo apunto yo. —Deja el libro sobre la mesa y lo abre por la primera página. Arriba, a mano: «Canal 00»—. Si vuelve a avisar, me llaman, y yo lo escribo. Con bolígrafo. El papel no tira nada.' },
-      { say: 'fuji', text: 'Ella apunta. Yo le cargo la pila al collar viejo, el mío, que no es de la Red. Y él escucha. —Mira al Audino—. No es lo que queríamos. Pero es algo.' },
+      { say: 'fuji', text: 'Ella apunta. Yo le cargo la pila a un collar mío, que no es de la Red. Y él escucha. —Mira al Audino—. No es lo que queríamos. Pero es algo.' },
       { set: { 'flag.cg_indice_libro00': true } },
       { call: 'cg_indice_regalos' },
       { diary: 'Hoy mi entrenador{|a|e} se equivocó con un misterio. Le dijo a Misty que era un error de reloj y no lo era. Pasa. A mí una vez se me olvidó un Pokémon entero de la Pokédex y me lo encontré debajo de otro.\n\nAhora una señora muy seria apunta a mano lo que el programa no quiere apuntar. El libro se llama «Canal 00». Yo también lo voy a apuntar aquí, para que esté en dos sitios.', cond: 'flag.b01_diario' },
@@ -266,7 +267,7 @@ export default {
     cg_indice_regalos: [
       { say: 'fuji', text: 'Toma. —Un huevo pequeño, de cáscara moteada, envuelto en un trapo—. No es de él, no te preocupes. Es un amuleto que le dejaron en la puerta cuando lo trajeron, de crío. Dicen que trae suerte a quien aprende algo.' },
       { give: 'luckyegg', n: 1 },
-      { say: 'fuji', text: 'Y esto. —Una ruedecita de baquelita, con un 00 grabado—. El dial del collar viejo, el primero que tuvo. Bill lo reconocerá: lo hizo él, de crío, para la Red de entonces.' },
+      { say: 'fuji', text: 'Y esto. —Una ruedecita de baquelita, con un 00 grabado—. El dial de su primer collar, el de antes de los de ahora. Ya no le sirve a nadie. Bill lo reconocerá: lo hizo él, de crío, para la Red de entonces.' },
       { give: 'cg_red_dial' },
       { money: 2500 },
       { give: 'maxpotion', n: 1 },

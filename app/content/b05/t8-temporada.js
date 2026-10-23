@@ -261,7 +261,7 @@ export default {
 			{ say: 'lola', text: 'Ya sé. La de los muñecos. Pan para su mesa. —No levanta la vista—. No sé hacer ese pan. Nunca lo he hecho. Pero masa es masa.' },
 			{ if: 'has("recetapanmuerto")', then: [
 				{ text: 'Le enseñas la receta de la abuela Remedios. Lola se limpia las manos en el mandil antes de tocarla.' },
-				{ say: 'lola', text: '«Harina, mantequilla, huevo, ralladura de naranja, agua de azahar… a ojo, mij{o|a|e}, como todo lo importante». —Resopla por la nariz—. Esta señora sabe.' },
+				{ say: 'lola', text: '«Harina, mantequilla, huevo, ralladura de naranja, agua de azahar… a ojo, mijo, como todo lo importante». —Resopla por la nariz—. Esta señora sabe.' },
 				{ say: 'lola', text: 'La letra le tiembla al final. ¿Ves? Es letra de alguien que ya escribe despacio. —Dobla la hoja por sus dobleces de siempre y te la devuelve—. Guárdala bien. Esto no se vuelve a escribir.' },
 			], else: [
 				{ text: 'Le cuentas lo que recuerdas: redondo, con huesitos de masa encima en cruz y una bolita en medio, azúcar por fuera, y que sabe a naranja.' },
@@ -328,7 +328,7 @@ export default {
 				{ cond: 'vars.ml_picado != 1 && vars.ml_picado != 2', on: false, fx: 'sparkle', cam: 'pan-up', text: 'Arriba, el papel picado de Dolores se mueve con el aire: una fila de Remiendos de papel, todos con la cremallera abierta en una sonrisa.' },
 				{ actors: [{ id: 'fuji', at: 'right', enter: 'right' }], item: 'pan_muerto', cam: 'push',
 					text: 'Velas en cada escalón. El Señor Fuji deja el copal humeando. En medio, el pan, con sus huesitos en cruz. Un vaso de agua, por si vienen con sed del camino.' },
-				{ cond: 'vars.ml_quien == 1', item: 'moomoomilk', cam: 'still', text: 'En el escalón de en medio, un vaso de leche y un mechón de lana. Para Don Aurelio. «Aquí siempre hay leche», decía.' },
+				{ cond: 'vars.ml_quien == 1', item: 'moomoomilk', cam: 'still', text: 'En el escalón de en medio, un vaso de leche y un mechón de lana. Para Don Aurelio. «Lana, leche y paciencia», decía el cartel de su rancho.' },
 				{ cond: 'vars.ml_quien == 1 && ' + LANA, actors: [{ key: '_c', remove: true, exit: 'fade' }, { mon: 'ampharos', key: 'lana', at: 'center', enter: 'pop' }], fx: 'glow', color: '#f2b33d',
 					text: 'Tu Ampharos se acerca a la mesa y enciende la cola, despacio. Como las del rebaño, de noche, en el prado, para no perderse.' },
 				{ cond: 'vars.ml_quien == 2', cam: 'still', text: 'En el escalón de en medio, los muñecos de Dolores: uno por cada lápida sin visita. Remiendo los mira de uno en uno, como quien pasa lista.' },
@@ -359,9 +359,9 @@ export default {
 			] },
 			{ quest: 'ev_muertos_lavanda', done: true },
 			{ set: { 'vars.ofrenda_lavanda_year': '=year', 'vars.ofrenda_lavanda_n': '+1' } },
-			{ diary: 'Esta noche pusimos una ofrenda en Lavanda, con Dolores, el Señor Fuji y el pan de Lola. Había papel picado, velas y un vaso de agua por si llegaban con sed. Pusimos leche para Don Aurelio. Creo que le habría gustado. Creo que habría silbado. ¡Bzzt!', cond: 'flag.b01_diario && vars.ml_quien == 1' },
-			{ diary: 'Esta noche pusimos una ofrenda en Lavanda, con Dolores, el Señor Fuji y el pan de Lola. Había papel picado, velas y un vaso de agua por si llegaban con sed. Era para los que nadie viene a ver. Ahora alguien vino. ¡Bzzt!', cond: 'flag.b01_diario && vars.ml_quien == 2' },
-			{ diary: 'Esta noche pusimos una ofrenda en Lavanda, con Dolores, el Señor Fuji y el pan de Lola. Había papel picado, velas y un vaso de agua por si llegaban con sed. Mi entrenador{|a|e} puso algo suyo en el escalón de en medio. No le pregunté. Hay cosas que no se apuntan. ¡Bzzt!', cond: 'flag.b01_diario && vars.ml_quien != 1 && vars.ml_quien != 2' },
+			{ diary: 'Esta noche pusimos una ofrenda en Lavanda, con Dolores y el Señor Fuji, y pan recién hecho. Había papel picado, velas y un vaso de agua por si llegaban con sed. Pusimos leche para Don Aurelio. Creo que le habría gustado. Creo que habría silbado. ¡Bzzt!', cond: 'flag.b01_diario && vars.ml_quien == 1' },
+			{ diary: 'Esta noche pusimos una ofrenda en Lavanda, con Dolores y el Señor Fuji, y pan recién hecho. Había papel picado, velas y un vaso de agua por si llegaban con sed. Era para los que nadie viene a ver. Ahora alguien vino. ¡Bzzt!', cond: 'flag.b01_diario && vars.ml_quien == 2' },
+			{ diary: 'Esta noche pusimos una ofrenda en Lavanda, con Dolores y el Señor Fuji, y pan recién hecho. Había papel picado, velas y un vaso de agua por si llegaban con sed. Mi entrenador{|a|e} puso algo suyo en el escalón de en medio. No le pregunté. Hay cosas que no se apuntan. ¡Bzzt!', cond: 'flag.b01_diario && vars.ml_quien != 1 && vars.ml_quien != 2' },
 		],
 		ev_ml_despues: [
 			{ text: 'La ofrenda sigue en el fondo del cementerio pequeño. Alguien ha cambiado las velas que se gastaron y ha puesto pétalos nuevos en el caminito.' },

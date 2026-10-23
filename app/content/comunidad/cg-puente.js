@@ -43,7 +43,7 @@ export default {
   },
   scripts: {
     cg_puente_inicio: [
-      { say: 'cg_puente_elia', text: '¡Eh, tú! Sí, tú. Nos ganaste a los cinco del puente seguidos, no me digas que no te acuerdas. Pilar, la cuarta. La del Pidgeot.' },
+      { say: 'cg_puente_elia', text: '¡Eh, tú! Sí, tú. Nos ganaste a todos los del puente, uno detrás de otro, no me digas que no te acuerdas. Pilar, la cuarta. La del Pidgeot.' },
       { say: 'cg_puente_elia', text: 'Te cuento rápido, que tengo la lista a medias. La Red de Auxilio nos ha pedido a los del puente que cubramos la Ruta 24 por las noches. Desde que se fue el del maletín, la caseta del puente estaba vacía.' },
       { say: 'cg_puente_elia', text: 'Misty dijo que sí antes de preguntarnos. Típico. Pero tiene razón: esa ruta es suya. Ella aprendió a nadar debajo del puente.' },
       { say: 'cg_puente_elia', text: 'Gonzalo, el tercero, quiere hacer la primera guardia. Se ha leído el manual de la Red tres veces. Lo que no sé es si sabe mirar mientras recita. ¿Lo acompañas un rato? A ti te hace caso: le ganaste.' },
@@ -104,9 +104,10 @@ export default {
       { if: 'flag.cg_puente_atento', then: [{ say: 'cg_puente_elia', text: 'Lo de la bolsa ya me ha llegado. Fuiste tú quien la vio. Bueno, para eso estabas.' }] },
       { if: 'flag.cg_puente_pregunto', then: [{ say: 'cg_puente_elia', text: 'Me han dicho que le preguntaste qué haría si alguien se cae al río y que, buscando la respuesta, vio la bolsa. Qué manera más rara de enseñar. Me gusta.' }] },
       { if: 'flag.cg_puente_paciencia', then: [{ say: 'cg_puente_elia', text: 'Y que se quedaron los dos hasta que pasó el último. Eso no viene en ningún manual.' }] },
-      'Por la calle llega Misty, con el pelo mojado y una toalla al cuello. Detrás, un patrullero con una libreta: Damián.',
+      'Por la calle llega Misty, con el pelo mojado y una toalla al cuello. Detrás, un patrullero con una libreta.',
       { say: 'misty', text: '¡Pilar! ¿Ya tenemos guardia para esta noche o me pongo yo el chaleco otra vez? —Te ve—. Ah, ¿tú también andas metid{o|a|e} en esto? Pues mejor.' },
-      { say: 'cg_indice_damian', text: 'Yo hice la Ruta 24 tres años, cuando la caseta tenía radio. Ahora vamos con el móvil y una linterna. Se agradece gente nueva.' },
+      { say: 'cg_indice_damian', cond: 'flag.cg_indice_testimonio', text: 'Hola otra vez. Yo hice la Ruta 24 tres años, cuando la caseta tenía radio. Ahora vamos con el móvil y una linterna. Se agradece gente nueva.' },
+      { say: 'cg_indice_damian', cond: '!flag.cg_indice_testimonio', text: 'Damián, patrullero de la Red. Yo hice la Ruta 24 tres años, cuando la caseta tenía radio. Ahora vamos con el móvil y una linterna. Se agradece gente nueva.' },
       { choice: [
         { text: 'Contar lo que hizo bien y lo que no', then: [
           { set: { 'flag.cg_puente_franco': true } },

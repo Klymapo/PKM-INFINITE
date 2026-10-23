@@ -92,7 +92,7 @@ export default {
     // Arranca la misión paraguas y la hace avanzar cuando los tres capítulos están hechos. No dice nada si no toca.
     cg_red_toque: [
       { if: `quest.cg_red == "" && ${ALGUNO}`, then: [
-        { say: 'rotom', text: '¡Bzzt! Olga, Pilar, Misty… ¡todos hablan de la misma Red de Auxilio! Te lo apunto todo junto, que si no se me mezcla.' },
+        { say: 'rotom', text: '¡Bzzt! Esa Red de Auxilio sale ya en más de una conversación. Te lo apunto todo junto en una misión, que si no se me mezcla.' },
         { quest: 'cg_red', stage: 'piezas' },
       ] },
       { if: `quest.cg_red == "piezas" && ${TRES}`, then: [
@@ -136,7 +136,8 @@ export default {
       { say: 'cg_puente_elia', as: 'Pilar (por radio)', text: 'Aquí Pilar, desde Celeste. ¿Se me oye? Gonzalo, deja de decir «cambio» cada dos palabras.' },
       { say: 'cg_puente_teo', as: 'Gonzalo (por radio)', text: 'Es que viene en el artículo cuatro. Cambio.' },
       { say: 'cg_indice_damian', as: 'Damián (por radio)', text: 'Ronda de la Ruta 24, aquí Damián. Los oigo como hace tres años. Mejor, incluso.' },
-      { say: 'cg_indice_vera', as: 'Vera (por radio)', text: 'Vera, desde el poste de la Ruta 8. La señal llega limpia. He conectado el canal al Índice: ahora lo que entra por aquí, cuenta.' },
+      { say: 'cg_indice_vera', as: 'Vera (por radio)', cond: '!flag.cg_indice_fallo', text: 'Vera, desde el poste de la Ruta 8. La señal llega limpia. He conectado el canal al Índice: ahora lo que entra por aquí, cuenta.' },
+      { say: 'cg_indice_vera', as: 'Vera (por radio)', cond: 'flag.cg_indice_fallo', text: 'Vera, desde el poste de la Ruta 8. La señal llega limpia. El Índice sigue sin hacerle caso al 00, pero la radio sí. Con eso me vale, de momento.' },
       { say: 'cg_indice_noemi', as: 'Noemí (por radio)', cond: 'flag.cg_indice_fallo', text: 'Noemí. Lo que entre por el 00 lo apunto yo, en el libro negro. El Índice todavía no lo cuenta. El libro, sí.' },
       { say: 'cg_indice_noemi', as: 'Noemí (por radio)', cond: '!flag.cg_indice_fallo', text: 'Noemí. Abro folio nuevo: «Canal 00, repetidor de la colina, otra vez en servicio». Con fecha de hoy.' },
       { say: 'cg_aviso_olga', as: 'Olga (por radio)', text: 'Aquí Lavanda. —Una pausa larga—. Perdonen. Hacía mucho que no hablaba por un micrófono. Lavanda, sin novedad.' },
@@ -149,7 +150,7 @@ export default {
       { give: 'elixir', n: 2 },
       { set: { 'flag.cg_red_encendido': true } },
       { quest: 'cg_red', stage: 'hecha', done: true },
-      { diary: 'Hoy mi entrenador{|a|e} y yo subimos a una colina encima de Lavanda con una radio que montó Bill. ¡Con piezas de tres personas distintas! Una galena, una bobina y un dial. Yo no tengo galena. Creo. Tendré que mirarlo.\n\nEncendimos la radio y empezaron a hablar todos: Pilar, Gonzalo, la señora del archivo, la de la grabadora… Hasta Bill, que estaba resfriado. Nadie dijo nada importante. Todos dijeron «sin novedad». Me ha gustado mucho que no hubiera novedad.', cond: 'flag.b01_diario' },
+      { diary: 'Hoy mi entrenador{|a|e} y yo subimos a una colina encima de Lavanda con una radio que montó Bill. ¡Con piezas de tres personas distintas! Una galena, una bobina y un dial. Yo no tengo galena. Creo. Tendré que mirarlo.\n\nEncendimos la radio y empezaron a hablar todos: Pilar, Gonzalo, la señora del archivo, la de la grabadora… Hasta Bill, que estaba resfriado. Nadie dijo nada importante. Casi todos dijeron «sin novedad». Me ha gustado mucho que no hubiera novedad.', cond: 'flag.b01_diario' },
     ],
     cg_red_radio: [
       { if: 'night', then: [
