@@ -156,3 +156,10 @@ Cerrados hoy al terminar su parte (antes esperaban al bloque siguiente o no se c
 | Lucario | 2.º sueño: «vuelve» | Más sueños; Quinoa en el Acto VII |
 | Recetario (Gaspar) | Shokugeki con Lulú | Siguiente rival de cocina en Teselia |
 | Necrozma | Vivo según la decisión | Acto IX, contra el Lazo |
+
+## Secundarias grandes del B5 (2026-10-23)
+
+| Hilo | Estado | Siguiente paso |
+|---|---|---|
+| **Lo que no crece** (`b05_s_terron`, Kalena, Don Kekoa, Terrón) — **cerrado en el B5** | Terrón no evoluciona porque lleva cada alba a Kekoa (rodilla mala). El estribo de koa de Leilani cuelga del abrevadero «para cuando él quiera» (`flag.b05_terron_estribo`); Kekoa le dio su caracola al jugador (Hondonada abierta) | **B6 o B7 (cierre):** al volver a Alola (o por carta/llamada si no se vuelve pronto): una mañana, Kekoa usa el estribo por primera vez **porque quiere**, no porque se lo pidan; esa misma tarde Terrón evoluciona a Mudsdale en el abrevadero, con Kalena delante (cinemática de «evolución por vínculo» de `docs/CINE.md`). Misión nueva y corta (`b0N_s_terron2`), `cond: flag.b05_terron_estribo`. Sin melodrama: nadie explica nada; Kekoa dice una frase seca. Es la **3.ª aparición** de Kalena y Kekoa. Añadir la pieza al museo (cambiar la cartela de `museo_terron` o pieza nueva) |
+| **El museo** (`b05_s_museo`, Philippe) — misión cerrada, lugar recurrente | Abierto en Luminalia, salas de Kalos, Johto, Kanto y Alola | **Cada bloque:** 2–4 piezas (regla de `CLAUDE.md` §2.4). B6: sala de Teselia (crear `museo_sala_teselia` y su entrada en `museo_ficha`). Philippe puede «venderle» la base al jugador más adelante (semilla del B1) |

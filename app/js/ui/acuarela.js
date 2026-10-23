@@ -942,6 +942,72 @@ export function paintCuevaAura() {
 	return { canvas: cv, done: Promise.resolve(true) };
 }
 
+/** Cuadro: foto sin flash, antes del alba, desde el pajar del Rancho Ohana. Niebla baja, el abrevadero y una figura a lomos de un Pokémon pequeño, a contraluz. */
+export function paintAlbaAbrevadero() {
+	const W = 480, H = 360;
+	const cv = document.createElement('canvas');
+	cv.width = W; cv.height = H;
+	cv.className = 'acuarela foto';
+	const ctx = cv.getContext('2d');
+	const R = mulberry('alba-abrevadero');
+	const B = 14, IW = W - 2 * B, IH = H - 2 * B - 18;
+	ctx.fillStyle = '#f8f6f0'; ctx.fillRect(0, 0, W, H);
+	ctx.save(); ctx.beginPath(); ctx.rect(B, B, IW, IH); ctx.clip();
+	// cielo de antes del alba: azul pizarra arriba, rosa pálido en el horizonte
+	const hz = B + IH * 0.58;
+	const sky = ctx.createLinearGradient(0, B, 0, hz);
+	sky.addColorStop(0, '#3a4a6a'); sky.addColorStop(0.55, '#8a8aa8'); sky.addColorStop(0.85, '#e8b8a8'); sky.addColorStop(1, '#f6d8b8');
+	ctx.fillStyle = sky; ctx.fillRect(B, B, IW, hz - B);
+	// últimas estrellas
+	ctx.fillStyle = 'rgba(255,255,240,.7)'; for (let i = 0; i < 22; i++) ctx.fillRect(B + R() * IW, B + R() * IH * 0.25, 1.4, 1.4);
+	// colinas y tejados de Ohana a contraluz
+	ctx.fillStyle = '#4a4a62'; ctx.beginPath(); ctx.moveTo(B, hz); for (let x = B; x <= W - B; x += 24) ctx.lineTo(x, hz - 18 - Math.sin(x / 70) * 10 - R() * 4); ctx.lineTo(W - B, hz); ctx.fill();
+	ctx.fillStyle = '#3a3a52';
+	for (const [x, w, h] of [[B + 30, 46, 26], [B + 90, 38, 20], [W - B - 120, 52, 30], [W - B - 60, 34, 22]]) { ctx.beginPath(); ctx.moveTo(x, hz); ctx.lineTo(x, hz - h); ctx.lineTo(x + w / 2, hz - h - 12); ctx.lineTo(x + w, hz - h); ctx.lineTo(x + w, hz); ctx.fill(); }
+	ctx.fillStyle = '#ffd88a'; ctx.fillRect(W - B - 100, hz - 20, 4, 4); // una ventana encendida
+	// suelo de la plaza
+	const ground = ctx.createLinearGradient(0, hz, 0, B + IH);
+	ground.addColorStop(0, '#8a7a7a'); ground.addColorStop(1, '#4a3a3a');
+	ctx.fillStyle = ground; ctx.fillRect(B, hz, IW, IH);
+	// niebla baja, en bandas (detrás de lo demás)
+	for (let k = 0; k < 7; k++) { const y = hz + 30 + k * 12 + R() * 6; ctx.fillStyle = `rgba(230,230,240,${0.18 + R() * 0.16})`; ctx.beginPath(); ctx.ellipse(B + R() * IW, y, 140 + R() * 120, 9 + R() * 6, 0, 0, 7); ctx.fill(); }
+	// abrevadero de piedra (izquierda), con el agua reflejando el cielo
+	const ax = B + 70, ay = hz + 52;
+	ctx.fillStyle = '#5a5a66'; ctx.fillRect(ax, ay, 120, 26);
+	ctx.fillStyle = '#c8b0b8'; ctx.fillRect(ax + 5, ay + 3, 110, 7);
+	ctx.fillStyle = '#3a3a48'; ctx.fillRect(ax, ay + 24, 120, 4);
+	// un objeto colgado de un clavo en el abrevadero (el estribo, si ya está; en la foto, solo el clavo y el sombrero)
+	ctx.fillStyle = '#2a2a38'; ctx.fillRect(ax + 112, ay - 10, 2, 12);
+	// la piedra de montar
+	ctx.fillStyle = '#6a6470'; ctx.beginPath(); ctx.ellipse(ax + 168, ay + 24, 18, 6, 0, 0, 7); ctx.fill();
+	// figura a lomos de un cuadrúpedo pequeño, de perfil y a contraluz (sin detalle: es una silueta)
+	const mx = ax + 228, my = ay + 22;
+	ctx.fillStyle = '#1e1a24';
+	ctx.beginPath(); ctx.ellipse(mx, my - 14, 26, 13, 0, 0, 7); ctx.fill(); // cuerpo
+	for (const dx of [-18, -9, 10, 19]) ctx.fillRect(mx + dx - 2.5, my - 4, 5, 14); // patas
+	ctx.beginPath(); ctx.ellipse(mx + 28, my - 26, 9, 8, -0.4, 0, 7); ctx.fill(); // cabeza
+	ctx.beginPath(); ctx.moveTo(mx + 22, my - 34); ctx.lineTo(mx + 26, my - 46); ctx.lineTo(mx + 30, my - 34); ctx.fill(); // oreja
+	ctx.beginPath(); ctx.moveTo(mx - 26, my - 18); ctx.lineTo(mx - 36, my - 6); ctx.lineTo(mx - 30, my - 16); ctx.fill(); // cola
+	// jinete: torso, cabeza y sombrero de ala ancha
+	ctx.beginPath(); ctx.roundRect(mx - 9, my - 52, 16, 26, 5); ctx.fill();
+	ctx.beginPath(); ctx.arc(mx - 1, my - 58, 6.5, 0, 7); ctx.fill();
+	ctx.beginPath(); ctx.ellipse(mx - 1, my - 62, 14, 3.2, 0, 0, 7); ctx.fill(); ctx.fillRect(mx - 7, my - 70, 12, 8);
+	ctx.strokeStyle = '#1e1a24'; ctx.lineWidth = 2.4; ctx.lineCap = 'round'; ctx.beginPath(); ctx.moveTo(mx + 5, my - 42); ctx.lineTo(mx + 20, my - 30); ctx.stroke(); // mano en el cuello
+	ctx.beginPath(); ctx.moveTo(mx - 6, my - 28); ctx.lineTo(mx - 4, my - 12); ctx.stroke(); // pierna
+	// borde de luz rosa en los perfiles que dan al este
+	ctx.strokeStyle = 'rgba(255,200,170,.55)'; ctx.lineWidth = 1.4; ctx.beginPath(); ctx.arc(mx - 1, my - 58, 6.5, -1.2, 0.6); ctx.stroke(); ctx.beginPath(); ctx.ellipse(mx + 28, my - 26, 9, 8, -0.4, -1.4, 0.4); ctx.stroke();
+	// la niebla le tapa las patas al Pokémon, nada más
+	ctx.fillStyle = 'rgba(225,225,238,.42)'; ctx.beginPath(); ctx.ellipse(mx - 10, my + 6, 90, 7, 0, 0, 7); ctx.fill();
+	// marco del pajar desenfocado en primer plano (la foto se hizo desde dentro)
+	ctx.fillStyle = 'rgba(40,26,18,.85)'; ctx.fillRect(B, B, 26, IH); ctx.fillRect(W - B - 20, B, 20, IH);
+	ctx.fillStyle = 'rgba(200,160,90,.35)'; for (let i = 0; i < 40; i++) { ctx.save(); ctx.translate(B + 10 + R() * 90, B + IH - R() * 30); ctx.rotate(R() * 3); ctx.fillRect(-8, -0.6, 16, 1.2); ctx.restore(); } // briznas de heno
+	ctx.restore();
+	photoFinish(ctx, B, B, IW, IH, 31, { grain: 26, warm: 3, vig: 0.5 });
+	ctx.save(); ctx.translate(W - B - 8, H - 11); ctx.rotate(-0.03); ctx.fillStyle = '#5a4a6a'; ctx.globalAlpha = 0.8; ctx.font = 'italic 600 14px Nunito, serif'; ctx.textAlign = 'right';
+	ctx.fillText('6:12 · sin flash', 0, 0); ctx.restore();
+	return { canvas: cv, done: Promise.resolve(true) };
+}
+
 /** Visor a pantalla completa para un objeto clave con cuadro. */
 export async function viewArt(itemId) {
 	const it = D.items[toID(itemId)] || {};
@@ -955,6 +1021,7 @@ export async function viewArt(itemId) {
 		: it.art === 'lago_furia_noche' ? paintLagoNoche()
 		: it.art === 'puente_pepita' ? paintPuentePepita({ look })
 		: it.art === 'cueva_celeste_aura' ? paintCuevaAura()
+		: it.art === 'alba_abrevadero' ? paintAlbaAbrevadero()
 		: null;
 	if (!painting) return;
 	const note = h('div', { class: 'art-note' }, it.desc || '');

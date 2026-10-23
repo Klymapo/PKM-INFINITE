@@ -59,6 +59,9 @@ let lastTrainerLoss = -1e9; // tras perder con un entrenador, entrena hasta el t
 const blockedAt = {}; // ruta → paso en que la encontró bloqueada (para no volver en bucle)
 const blockOf = {};
 mod.BLOCKS.forEach((b, i) => { for (const lid in b.locations || {}) blockOf[lid] = i; });
+// (2026-10-23) un sub-lugar añadido después dentro de un lugar viejo (p. ej. el museo del ático de Luminalia, declarado
+// en el B5) cuenta como del bloque de su lugar de primer nivel: si no, el bot cree que es «lo más nuevo» y deja de avanzar
+for (const lid in blockOf) { let t = L(lid); for (let g = 0; t?.parent && g < 5; g++) t = L(t.parent); if (t && t.id !== lid && blockOf[t.id] !== undefined) blockOf[lid] = Math.min(blockOf[lid], blockOf[t.id]); }
 // Ruta más corta (por enlaces, salidas y lugar padre) hasta cualquier lugar de la región del frente: primer paso
 function stepToward(region) { return stepTo(id => topLoc(id)?.region === region); }
 // Lugar con algo «nuevo» (el «!» que ve una persona) o sin visitar, dentro de la región del frente
