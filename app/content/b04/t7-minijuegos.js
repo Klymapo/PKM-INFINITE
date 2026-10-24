@@ -323,7 +323,7 @@ export default {
 						hint: 'Hay algo redondo y muy duro dentro. Destápalo entero antes de que el bloque se parta.',
 						guaranteed: ['skullfossil'], picks: 2, lootTitle: 'Dentro del bloque',
 						loot: [{ id: 'rarebone', w: 4 }, { id: 'hardstone', w: 6 }, { id: 'stardust', w: 6 }, { id: 'everstone', w: 3 }, { id: 'sunstone', w: 1, rare: true }],
-						consolation: 'hardstone',
+						consolation: false,
 					},
 					onWin: [
 						{ set: { 'flag.p8_bloque_hecho': true } },

@@ -481,6 +481,8 @@ async function child() {
 			if (a.trainer) { if (!g.beaten[a.trainer] || a.repeat) await GU.UI.battle({ trainer: a.trainer }); return; }
 			if (a.training) { const pz = H.prizeState(a.training); if (pz && pz.ready && !pz.claimed) { g.flags['premio:' + a.training.prize.script] = true; await GU.runScript(a.training.prize.script); } return; }
 			if (a.go) { if (W.canEnter(a.go).ok) await GU.UI.goto(a.go); return; }
+			// (2026-10-23) negocio: la pantalla deja entrar si está en oferta (como el botón «Entrar» de negocios-ui.js)
+			if (a.venture) { const N = await import('../app/js/negocios.js'); const def = N.ventureDef(a.venture); if (def && !N.owned(a.venture) && S.evalCond(def.cond || 'true')) N.joinVenture(a.venture); return; }
 			return;
 		}
 		if (JSON.stringify(script).includes('"minigame"')) rec.minigame = true;

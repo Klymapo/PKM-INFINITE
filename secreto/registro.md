@@ -463,3 +463,49 @@ Encargo aprobado por Mario: las tres misiones de ChatGPT de `app/content/comunid
 - Arte: cuadros `valle_antano` y `cima_torre` (`acuarela.js`); pixel art para los objetos distintivos y un icono genérico de hoja (`_papel`) para cualquier objeto con `read` sin icono propio.
 - Balance y bot (ver `balance.md`, 2026-10-23): 21/24 recorridos llegan a `b06_fin` con 0 errores; muros del bot en Acromo, Brock y Camila (jefes con curación antes y, Acromo, con revancha). `cima_dragospiral` pasa a lugar de primer nivel (era sub-lugar y extremo de la ruta de la torre: el hub lo marcaba como viaje sin puerta).
 - **Pendiente para la sesión que publique:** lector independiente (CLAUDE.md §3.2) sobre todo el B6; prueba de humo y Designer de Canvas con `b06` en `BLOCKS`; mirar el «•» de «Las cuentas del rancho» (B4, `b04/t6-negocios.js:59`) que el hub marca como mentiroso, y el regalo repetido de `p8_lazare_bloque` (B4) que ve el bot; conectar `t6-museo.js` cuando el museo esté en `main`.
+
+## Secundarias grandes del B5 (2026-10-23) · `b05/t6-evolucion.js` y `b05/t7-museo.js`
+
+Sin bloque nuevo. Mario está al final del B4 (aún no ha empezado el B5). Dos encargos aprobados por él (ideas de ChatGPT), cada uno de ~1,5–2 h.
+
+### A) «Lo que no crece» (`b05_s_terron`, side, est 110) · Rancho Ohana (Akala)
+
+- **Abre:** `flag.b05_ridegear && visited("rancho_ohana")` (spot en `rancho_ohana`). Se cierra al tocar la caracola en la Ruta 4.
+- **Personajes:** **Kalena** (`kalena`) = la capataza del Rancho Ohana de T1 (mismo aspecto que `capataza_ohana`; ahora con nombre). **Don Kekoa** (`kekoa`) = el «señor del abrevadero» de T1 (`b05_ohana_abuelo`: «setenta años bebiendo de aquí»), padre de Kalena. **Terrón**: el Mudbray de Kekoa (no es del jugador).
+- **Por qué no evoluciona:** Kekoa tiene mal la rodilla y ya no llega al lomo de un Mudsdale. Terrón lo lleva cada amanecer al abrevadero (23 min) y se agacha junto a la piedra de montar. Sacude la luz cada vez que empieza a evolucionar. Kalena creía que era la silla con sensores de Leilani (K-07). Nadie lo explica en voz alta: se ve (registro de la silla, el alba, la libreta).
+- **Etapas:** `rancho` → `taller` (cerradura `b05_terron_panel`, nivel 2 → `registrosilla`, read) → `alba` (cinemática, `fotoalba` con `art: 'alba_abrevadero'`) → `montadero` (puzle `b05_terron_montadero`, 16 pasos → `libretakekoa`, read; choice de 3 frases) → `estribo` (cinemática; `estribokoa`, af.leilani +3) → `kekoa` (cinemática; `take estribokoa`, `give caracolakekoa`) → `hondonada` (primer uso de la caracola en la Ruta 4, tramo 3, cinemática) → `hecha`.
+- **Objeto clave → zona:** `caracolakekoa` abre la **Hondonada de los Mudbray** (`hondonada_mudbray`, área de Alola, `map 62,55`, `links: ['alola_ruta4']`, `hidden`/`enterCond` con `flag.b05_hondonada_abierta`, `branch` en el tramo 3 de la Ruta 4). Dentro: encuentros 55–58 (Mudbray, Mudsdale, Lycanroc día/noche, Whiscash desplazado), dos puntos diarios (`b05_hondonada_bayas` catch, `b05_hondonada_barro` dig), la «cuna» de Terrón y tocar la caracola.
+- **Flags:** `b05_terron_montadero_visto`, `b05_hondonada_abierta`, **`b05_terron_estribo`** (= el estribo cuelga del abrevadero y Terrón lo ha visto: **gancho para que evolucione en B6/B7**, ver `hilos.md`). Amistoso opcional `kekoa_terron` (Tauros 57, Mudbray 58 con Mineral Evol; cura antes; premio `eviolite`).
+- **Afinidad:** Leilani +2 (panel) +3 (estribo). Rep: alola +2.
+- **Apariciones:** Kalena 2 (T1 como capataza, aquí) y Kekoa 2 (T1, aquí) → **la 3.ª, en el B6/B7 con la evolución**. Leilani y Soldi +1.
+- **Diario:** 2 entradas (alba; Hondonada). Sin pistas del calendario.
+
+### B) «La ficha número uno» (`b05_s_museo`, side, est 60, `parts` con las salas) · Ático del Bulevar Norte (Luminalia)
+
+- **Sitio:** el ático «con vistas a la Puerta» que Philippe intentaba alquilar en el B2. Philippe recibe paquetes «para la ficha número uno» de gente que conoce al jugador y monta un museo. Su voz: «Phil-osofía», trucos fallidos (11 pañuelos al cortar la cinta).
+- **Abre:** `flag.b01_fin` (spot en `luminalia`). **Mario puede ir ya** (está en Kalos/Kanto). Entrada permanente «El ático del Bulevar Norte» en `luminalia`.
+- **Etapas:** `atico` (cerradura `museo_vitrina`, nivel 3 → `entradamuseo`, read) → `salas` (ver Kalos y, si existen, Johto/Kanto) → inauguración (cinemática con Alexia, Matière y, si existe la rama, Lucien; `llaveatico`) → `hecha`. El libro de visitas (`museo_libro`) añade firmas según flags.
+- **Salas y piezas** (cada pieza: spot `pieza(id…)` con `new: '!flag.museo_v_<id>'`, guion `museo_<id>`, cartela `read` por rama):
+
+| Sala (entrada) | Pieza | Lee | Remitente |
+|---|---|---|---|
+| Vestíbulo | `baraja` | `done.b01_s_philippe`; `b05_philippe` + Lucario | Philippe |
+| Kalos | `titular` | `b01_prensa_*` | Alexia |
+| Kalos | `cueva` | `b01_bastien_*` | Bastien |
+| Kalos | `cromlech` | `b01_delatar` / `b01_handsome` / `b01_trato_sera` | Alexia / «un turista» / sin remitente |
+| Kalos | `torre` | `b01_torre_hecha` (+ `b01_lila_llama`) | Cornelio (+ Lila) |
+| Johto (`b02_puerta_cruzada`) | `fragmento` | `b02_frag_*` | Handsome / sin remitente (Sera) / sin remitente (Melia) |
+| Johto | `lucien` | `b02_lucien_*` | madre / Ciprés / Lucien |
+| Johto | `rancho` | `b03_rancho_*` | Adela |
+| Johto | `familia` | `b03_rocket_*` | Handsome / Toni / sin remitente (Atlas) |
+| Johto | `lago` | `b03_gyarados_*` | anónimo / pescador / anónimo |
+| Kanto (`b04_inicio_hecho`) | `inspector` | `b04_lebrun_*` | Matière |
+| Kanto | `octava` | `b04_clasificado` | Misty |
+| Alola (`visited("hauoli")`) | `luz` | `b05_luz_*` | Azucena / Zyra / Leilani |
+| Alola | `contrato` | `b05_bastien_rompe` / `sigue` | Bastien |
+| Alola | `terron` | `b05_terron_estribo` | Kalena |
+
+- **Sin spoilers:** cada pieza solo existe con su flag; las salas solo con su región pisada; la de Alola, mientras no haya decisión del Altar, enseña «vitrinas vacías» sin decir qué vendrá. Las cartelas cuentan lo que el jugador ya vivió, sin nombrar a Ansel, el Eco ni nada no revelado (la tarjeta de Sera y las gafas de Melia van «sin remitente»).
+- **Flags:** `museo_vitrina_vista`, `museo_sala_<kalos|johto|kanto|alola>_vista`, `museo_v_<pieza>`. Rep kalos +2. Diario: 1 entrada (inauguración).
+- **Apariciones:** Philippe (B1, B2, B5 Konikoni, **museo**: 4 bloques), Alexia, Matière (vuelve tras B2), Lucien (vuelve tras B2; 3.ª en bloque distinto), Kekoa por carta.
+- **Regla nueva en `CLAUDE.md` §2.4:** cada bloque añade 2–4 piezas al museo (sala de su región, `pieza(...)`, cartela por rama).

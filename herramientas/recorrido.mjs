@@ -59,6 +59,9 @@ let lastTrainerLoss = -1e9, lastLostTrainer = null; // tras perder con un entren
 const blockedAt = {}; // ruta → paso en que la encontró bloqueada (para no volver en bucle)
 const blockOf = {};
 mod.BLOCKS.forEach((b, i) => { for (const lid in b.locations || {}) blockOf[lid] = i; });
+// (2026-10-23) un sub-lugar añadido después dentro de un lugar viejo (p. ej. el museo del ático de Luminalia, declarado
+// en el B5) cuenta como del bloque de su lugar de primer nivel: si no, el bot cree que es «lo más nuevo» y deja de avanzar
+for (const lid in blockOf) { let t = L(lid); for (let g = 0; t?.parent && g < 5; g++) t = L(t.parent); if (t && t.id !== lid && blockOf[t.id] !== undefined) blockOf[lid] = Math.min(blockOf[lid], blockOf[t.id]); }
 // Ruta más corta (por enlaces, salidas y lugar padre) hasta cualquier lugar de la región del frente: primer paso
 function stepToward(region) { return stepTo(id => topLoc(id)?.region === region); }
 // Lugar con algo «nuevo» (el «!» que ve una persona) o sin visitar, dentro de la región del frente
@@ -234,14 +237,19 @@ async function run(id) {
 	const prev = curScript; curScript = typeof id === 'string' ? id : '(inline)';
 	report.scripts.add(curScript);
 	if (VERBOSE) log(`[${step}] ${G.loc} → guion ${curScript}`);
-	const bagN = Object.values(G.bag).reduce((a, b) => a + b, 0), money = G.player.money;
+	const bagN = Object.values(G.bag).reduce((a, b) => a + b, 0), money = G.player.money, bag0 = { ...G.bag };
 	miniLost = false;
 	await runScript(id);
 	const gained = !miniLost && // la consolación de un minijuego perdido no cuenta como regalo repetido
 		 Object.values(G.bag).reduce((a, b) => a + b, 0) > bagN || G.player.money > money;
 	if (gained && typeof id === 'string' && !/generico|recordar|despues|tienda|shop/.test(id)) {
-		gaveBy[id] = (gaveBy[id] || 0) + 1;
-		if (gaveBy[id] === 2) report.repeatGifts.push(`${id} (en ${G.loc}) ha dado objetos o dinero más de una vez`);
+		// Repetido = el MISMO premio otra vez (un guion que da una nota la 1.ª vez y el botín de un minijuego la 2.ª no repite nada).
+		const what = Object.keys(G.bag).filter(k => (G.bag[k] || 0) > (bag0[k] || 0));
+		if (G.player.money > money) what.push('₽');
+		const seen = (gaveBy[id] ||= new Set());
+		if (what.some(k => seen.has(k)) && !report.repeatGifts.some(r => r.startsWith(id + ' ')))
+			report.repeatGifts.push(`${id} (en ${G.loc}) ha dado objetos o dinero más de una vez`);
+		for (const k of what) seen.add(k);
 	}
 	curScript = prev;
 }

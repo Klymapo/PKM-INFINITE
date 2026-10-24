@@ -9,6 +9,8 @@ import t2 from './t2-aether.js';
 import t3 from './t3-poni.js';
 import t5 from './t5-taller.js';
 import t8 from './t8-temporada.js';
+import t6 from './t6-evolucion.js';
+import t7 from './t7-museo.js';
 
 const block = {
 	id: 'b05', title: 'Acto IV · La luz robada', hours: 12, ends: 'b05_fin',
@@ -17,7 +19,7 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t5, t8];
+const parts = [comun, t0, t1, t2, t3, t5, t8, t6, t7];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {

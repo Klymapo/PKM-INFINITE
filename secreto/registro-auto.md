@@ -1,12 +1,12 @@
 # Registro automático (no editar a mano)
 
-Generado: 2026-10-23T20:37:41.919Z · contenido 2026-10-11.1
+Generado: 2026-10-23T23:16:41.438Z · contenido 2026-10-23.1
 
 ## Apariciones de NPCs (escenas por bloque)
 
 | NPC | b01 | b02 | b03 | b04 | b05 | Total |
 |---|---|---|---|---|---|---|
-| Alexia (`alexia`) | 7 | 2 | 0 | 3 | 2 | 14 |
+| Alexia (`alexia`) | 7 | 2 | 0 | 3 | 3 | 15 |
 | Dr. Ansel Moreau (`ansel`) | 3 | 0 | 0 | 1 | 1 | 5 |
 | Antón (`anton`) | 0 | 6 | 0 | 0 | 0 | 6 ⚠ 1 bloque(s) |
 | Atenea (`atenea`) | 0 | 3 | 0 | 5 | 0 | 8 ⚠ 2 bloque(s) |
@@ -46,23 +46,25 @@ Generado: 2026-10-23T20:37:41.919Z · contenido 2026-10-11.1
 | Hela (`hela`) | 0 | 0 | 0 | 0 | 10 | 10 ⚠ 1 bloque(s) |
 | Dra. Irene Solberg (`irene`) | 3 | 1 | 9 | 0 | 0 | 13 |
 | Campeona retirada (`jinete_boceto`) | 4 | 0 | 0 | 0 | 0 | 4 ⚠ 1 bloque(s) |
+| Kalena (`kalena`) | 0 | 0 | 0 | 0 | 6 | 6 ⚠ 1 bloque(s) |
 | Kaori (`kaori`) | 0 | 8 | 3 | 5 | 3 | 19 |
 | Kaudan (`kaudan`) | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
+| Don Kekoa (`kekoa`) | 0 | 0 | 0 | 0 | 4 | 4 ⚠ 1 bloque(s) |
 | Kiawe (`kiawe`) | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Kiyo (`kiyo`) | 0 | 0 | 3 | 3 | 4 | 10 |
 | Prof. Kukui (`kukui`) | 0 | 0 | 0 | 0 | 6 | 6 ⚠ 1 bloque(s) |
 | Kurt (`kurt`) | 0 | 7 | 0 | 0 | 0 | 7 ⚠ 1 bloque(s) |
 | Lance (`lance`) | 0 | 0 | 9 | 0 | 0 | 9 ⚠ 1 bloque(s) |
 | Inspector Lebrun (`lebrun`) | 3 | 2 | 0 | 5 | 0 | 10 |
-| Leilani (`leilani`) | 0 | 0 | 0 | 0 | 24 | 24 ⚠ 1 bloque(s) |
+| Leilani (`leilani`) | 0 | 0 | 0 | 0 | 26 | 26 ⚠ 1 bloque(s) |
 | Sabio Li (`li`) | 0 | 0 | 3 | 0 | 0 | 3 ⚠ 1 bloque(s) |
 | Liam (`liam`) | 0 | 0 | 0 | 0 | 9 | 9 ⚠ 1 bloque(s) |
 | Lila (`lila`) | 8 | 3 | 3 | 1 | 0 | 15 |
 | Lola Arriaga (`lola`) | 0 | 3 | 1 | 2 | 2 | 8 |
-| Lucien (`lucien`) | 5 | 3 | 0 | 0 | 0 | 8 ⚠ 2 bloque(s) |
+| Lucien (`lucien`) | 5 | 3 | 0 | 0 | 1 | 9 |
 | Lulú (`lulu`) | 0 | 0 | 0 | 0 | 4 | 4 ⚠ 1 bloque(s) |
 | Magda Ivers (`magda`) | 0 | 0 | 0 | 8 | 0 | 8 ⚠ 1 bloque(s) |
-| Matière (`matiere`) | 5 | 6 | 0 | 0 | 0 | 11 ⚠ 2 bloque(s) |
+| Matière (`matiere`) | 5 | 6 | 0 | 0 | 1 | 12 |
 | Mayla (`mayla`) | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Melia (`melia`) | 3 | 7 | 1 | 1 | 0 | 12 |
 | Misty (`misty`) | 0 | 0 | 0 | 14 | 7 | 21 ⚠ 2 bloque(s) |
@@ -78,7 +80,7 @@ Generado: 2026-10-23T20:37:41.919Z · contenido 2026-10-11.1
 | La Mayor (`p7_mayor`) | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
 | Rosaura (`p7_rosaura`) | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
 | Petra (`petra`) | 3 | 5 | 6 | 4 | 0 | 18 |
-| Philippe (`philippe`) | 4 | 1 | 0 | 0 | 2 | 7 |
+| Philippe (`philippe`) | 4 | 1 | 0 | 0 | 27 | 32 |
 | Prof. Pimpinela (`pimpinela`) | 0 | 0 | 0 | 0 | 3 | 3 ⚠ 1 bloque(s) |
 | Presidente de Silph (`presidente_silph`) | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
 | Protón (`proton`) | 0 | 2 | 0 | 0 | 0 | 2 ⚠ 1 bloque(s) |
@@ -555,6 +557,7 @@ Generado: 2026-10-23T20:37:41.919Z · contenido 2026-10-11.1
 - `b05_hela_conocida` — b05:b05_hela_intro
 - `b05_hela_gp_dicho` — b05:b05_hela_gp
 - `b05_hela_vencida` — b05:b05_hela_vencida
+- `b05_hondonada_abierta` — b05:b05_terron_caracola
 - `b05_informe` — b05:b05_informe
 - `b05_inicio_hecho` — b05:b05_inicio
 - `b05_jaulas_vistas` — b05:b05_jaulas
@@ -626,6 +629,8 @@ Generado: 2026-10-23T20:37:41.919Z · contenido 2026-10-11.1
 - `b05_taller_kiawe` — b05:b05_taller_kiawe
 - `b05_taller_oferta` — b05:b05_taller_oferta
 - `b05_taller_skull` — b05:b05_taller_skull
+- `b05_terron_estribo` — b05:b05_terron_caracola
+- `b05_terron_montadero_visto` — b05:b05_terron_montadero
 - `b05_tt_visto` — b05:b05_tt_inicio
 - `b05_tyranitarita` — b05:b05_tt_final
 - `b05_ulises_caleta` — b05:b05_ulises_caleta
@@ -669,6 +674,26 @@ Generado: 2026-10-23T20:37:41.919Z · contenido 2026-10-11.1
 - `lola_entrega` — b02:lola_entrega_radio
 - `mount_lapras` — b05:b05_lapras_red
 - `mount_rhyhorn` — b01:b01_campeona_carrera, b01:b01_jinetes_rhyhorn
+- `museo_sala_alola_vista` — b05:museo_sala_alola
+- `museo_sala_johto_vista` — b05:museo_sala_johto
+- `museo_sala_kalos_vista` — b05:museo_sala_kalos
+- `museo_sala_kanto_vista` — b05:museo_sala_kanto
+- `museo_v_baraja` — b05:museo_baraja
+- `museo_v_contrato` — b05:museo_contrato
+- `museo_v_cromlech` — b05:museo_cromlech
+- `museo_v_cueva` — b05:museo_cueva
+- `museo_v_familia` — b05:museo_familia
+- `museo_v_fragmento` — b05:museo_fragmento
+- `museo_v_inspector` — b05:museo_inspector
+- `museo_v_lago` — b05:museo_lago
+- `museo_v_lucien` — b05:museo_lucien
+- `museo_v_luz` — b05:museo_luz
+- `museo_v_octava` — b05:museo_octava
+- `museo_v_rancho` — b05:museo_rancho
+- `museo_v_terron` — b05:museo_terron
+- `museo_v_titular` — b05:museo_titular
+- `museo_v_torre` — b05:museo_torre
+- `museo_vitrina_vista` — b05:museo_vitrina
 - `p7_adela_aviso` — b04:p7_adela_aviso
 - `p7_c_propuesta` — b04:p7_castillo_propuesta
 - `p7_c_tasa` — b04:p7_c_up_tasa
@@ -822,6 +847,8 @@ Generado: 2026-10-23T20:37:41.919Z · contenido 2026-10-11.1
 - `b05_s_iniciales` (side) Los tres de Alola: buscar → hecha
 - `b05_s_tyranitarita` (side) Presión y paciencia: joyeria → hecha
 - `ev_muertos_lavanda` (event) Ofrenda en Lavanda: ofrenda → hecha
+- `b05_s_terron` (side) Lo que no crece: rancho → taller → alba → montadero → estribo → kekoa → hondonada → hecha
+- `b05_s_museo` (side) La ficha número uno: atico → salas → hecha
 
 ## Entrenadores con nombre de NPC
 
@@ -924,6 +951,7 @@ Generado: 2026-10-23T20:37:41.919Z · contenido 2026-10-11.1
 - `aether_pruebas_1` (b05) Keoni: Porygon2 58, Magnezone 59
 - `calder_1` (b05) Calder Wynn: Lunatone 58, Solrock 58, Clefable 59, Bronzong 60, Starmie 61
 - `hela_gp` (b05) Hela: Dugtrio (Alola) 58, Gastrodon 59, Flygon 59, Golurk 60, Mudsdale 61
+- `kekoa_terron` (b05) Don Kekoa: Tauros 57, Mudbray 58
 
 ## Nombres de entrenadores usados (para no repetir)
 

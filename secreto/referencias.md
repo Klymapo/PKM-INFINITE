@@ -113,3 +113,9 @@ Aplícalo a las tres ideas:
 - **Acromo:** sin referencia externa («Un vínculo es una fuerza. Y las fuerzas se miden»).
 - **Imprevistos del estudio (integración):** el Chatot de juguete que repite «¡Testigo!» (sutil; no apunta a nadie).
 - Siguen prohibidos: *Portal* y *Dr. Stone*.
+
+## Secundarias grandes del B5 (2026-10-23)
+
+- **Ideas de ChatGPT usadas:** «El Pokémon que no quiere evolucionar» (→ `b05_s_terron`) y «El museo de tu propia partida» (→ `b05_s_museo`, en el ático de Philippe). Quedan sin usar: «la misión que fracasa bien» y los arcos de posjuego.
+- Patrón favorito de Mario aplicado: Kekoa y Terrón → **Caracola de Kekoa** (pixel art) → **Hondonada de los Mudbray**.
+- Referencias: ninguna evidente. Philippe sigue con *Modern Family* (Phil-osofía, trucos fallidos: los once pañuelos). Kalena «le debo dos sillas y una disculpa» (ya era de T1).
