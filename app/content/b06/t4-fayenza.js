@@ -304,11 +304,11 @@ export default {
 	// =====================================================================
 	trainers: {
 		// ----- Líder -----
-		brock_tes: { name: 'Brock', cls: 'Líder', npc: 'brock', ai: 4, iv: 29, reward: 7800, bg: 'cave',
+		brock_tes: { name: 'Brock', cls: 'Líder', npc: 'brock', ai: 4, iv: 27, reward: 7800, bg: 'cave',
 			gimmick: 'mega', ace: 'steelix',
 			team: [
 				{ sp: 'gigalith', lv: 63, moves: ['stoneedge', 'earthquake', 'heavyslam', 'stealthrock'], ability: 'sandstream', item: 'sitrusberry', nature: 'adamant', iv: 28 },
-				{ sp: 'kabutops', lv: 63, moves: ['stoneedge', 'liquidation', 'xscissor', 'aquajet'], ability: 'battlearmor', nature: 'jolly', iv: 28 },
+				{ sp: 'kabutops', lv: 62, moves: ['rockslide', 'liquidation', 'xscissor', 'aquajet'], ability: 'battlearmor', nature: 'jolly', iv: 26 },
 				{ sp: 'omastar', lv: 63, moves: ['hydropump', 'ancientpower', 'icebeam', 'earthpower'], ability: 'shellarmor', nature: 'modest', iv: 28 },
 				{ sp: 'rhyperior', lv: 64, moves: ['stoneedge', 'earthquake', 'icepunch', 'megahorn'], ability: 'solidrock', nature: 'adamant', iv: 29 },
 				{ sp: 'steelix', lv: 65, moves: ['ironhead', 'earthquake', 'stoneedge', 'crunch'], ability: 'rockhead', item: 'steelixite', nature: 'impish', iv: 31 },
@@ -448,13 +448,13 @@ export default {
 			lose: '¡Ja! ¡La ciencia es repetición! Y repetir ganando es todavía más ciencia.' },
 
 		// ----- Jefe de trama -----
-		xero_1: { name: 'Xero', cls: 'Contratista', npc: 'xero', ai: 5, iv: 29, reward: 8400, bg: 'lab',
+		xero_1: { name: 'Xero', cls: 'Contratista', npc: 'xero', ai: 4, iv: 27, reward: 8400, bg: 'lab',
 			team: [
 				{ sp: 'malamar', lv: 64, moves: ['superpower', 'knockoff', 'psychocut', 'rockslide'], ability: 'contrary', nature: 'adamant', iv: 28 },
-				{ sp: 'scrafty', lv: 64, moves: ['knockoff', 'drainpunch', 'icepunch', 'dragondance'], ability: 'intimidate', nature: 'adamant', iv: 28 },
+				{ sp: 'scrafty', lv: 64, moves: ['knockoff', 'drainpunch', 'icepunch', 'bulkup'], ability: 'intimidate', nature: 'adamant', iv: 28 },
 				{ sp: 'toxicroak', lv: 65, moves: ['gunkshot', 'drainpunch', 'suckerpunch', 'icepunch'], ability: 'dryskin', nature: 'jolly', iv: 28 },
 				{ sp: 'crawdaunt', lv: 65, moves: ['crabhammer', 'knockoff', 'xscissor', 'crunch'], ability: 'adaptability', item: 'sitrusberry', nature: 'adamant', iv: 29 },
-				{ sp: 'drapion', lv: 66, moves: ['knockoff', 'poisonjab', 'earthquake', 'xscissor'], ability: 'sniper', item: 'blacksludge', nature: 'jolly', iv: 31 },
+				{ sp: 'drapion', lv: 66, moves: ['knockoff', 'poisonjab', 'earthquake', 'xscissor'], ability: 'battlearmor', item: 'blacksludge', nature: 'jolly', iv: 29 },
 			],
 			items: [{ id: 'hyperpotion', n: 2 }],
 			intro: '¡Bwahaha! Contratista, sí. Pero esta parte del contrato me la he escrito yo: «Si llega {jugador}, pelear divinamente». ¡Malamar!',

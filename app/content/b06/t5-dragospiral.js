@@ -274,7 +274,7 @@ export default {
 			},
 		},
 		cima_dragospiral: {
-			name: 'Cima de la Torre Dragospiral', short: 'La cima', region: 'teselia', kind: 'area', parent: 'torre_dragospiral',
+			name: 'Cima de la Torre Dragospiral', short: 'La cima', region: 'teselia', kind: 'area', map: { x: 46, y: 4 }, // fin de la ruta de la torre: lugar de primer nivel (un sub-lugar no puede ser extremo de una ruta)
 			bg: { type: 'ruins', far: '#cfd6e2', ground: '#8a8f9e', fog: true, fissure: true },
 			desc: 'La cima de la torre es una explanada redonda, sin techo, abierta al cielo y al viento. En el centro, un altar de piedra negra. Sobre el altar, una esfera blanca del tamaño de una cabeza: el **Orbe Claro**.\n\nAlrededor del altar, el Equipo Plasma ha montado un **anillo de metal** con cables que bajan por toda la torre: el **Arco II**.',
 			descs: [
