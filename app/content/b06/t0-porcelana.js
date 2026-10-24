@@ -503,7 +503,7 @@ export default {
 				{ say: 'estibador', as: 'La capataz del muelle', text: 'Le he metido una **Agua Mística** en la Poké Ball. Era del muelle, para la suerte. Ahora la suerte va contigo.' },
 			] },
 			{ quest: 'b06_s_iniciales', stage: 'buscar' },
-			{ if: 'flag.b06_tepig && flag.b06_snivy', then: [{ quest: 'b06_s_iniciales', stage: 'hecha', done: true }] },
+			{ quest: 'b06_s_iniciales', stage: 'hecha', done: true, cond: 'flag.b06_oshawott && flag.b06_tepig && flag.b06_snivy' },
 			{ say: 'rotom', text: '¡Bzzt! Apunto: «Oshawott, del muelle de Porcelana, con concha». Encina dijo que Teselia tiene Pokémon que no se ven en otro sitio. Este es uno. ¡Y en Mayólica y en Esmalte dicen que hay más como él!' },
 		],
 		b06_oshawott_visita: [

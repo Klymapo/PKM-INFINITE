@@ -52,7 +52,7 @@ export default {
 			info: [
 				{ text: 'Líder: **Camila**, tipo **Eléctrico**. Modelo, estrella de la pasarela y, según la ciudad, la persona más rápida de Teselia.' },
 				{ cond: 'visited("gym_mayolica")', text: '5 Pokémon, hasta el nivel 63. Su as **megaevoluciona**.' },
-				{ cond: 'visited("gym_mayolica")', text: 'La **Tierra** le pega fuerte a casi todo su equipo. Cuidado: no todo lo eléctrico toca el suelo. En la **Ruta 4** y sus ruinas hay Pokémon de tipo Tierra.' },
+				{ cond: 'visited("gym_mayolica")', text: 'La **Tierra** le pega fuerte a casi todo su equipo. Cuidado: no todo lo eléctrico toca el suelo. En la **Ruta 4** y sus ruinas hay Pokémon de tipo Tierra. Para lo que flota, mejor algo que aguante la electricidad: **Dragón** o **Planta**.' },
 				{ cond: 'beat("camila_g")', text: '✔ Medalla Voltio conseguida.' },
 			],
 		},
@@ -167,6 +167,25 @@ export default {
 					options: [
 						{ text: '«Tíralo.»', result: 'La Tía Rosa lo tira. Renata lo saca de la papelera cuando cree que nadie mira y lo guarda en un cajón con llave.' },
 						{ text: '«Archívalo con las otras cartas.»', result: 'Nico abre una carpeta nueva y escribe en el lomo: «DESDE LA CONCHA». Renata le corrige la tilde que no lleva. Las dos se ríen. Poco.', effect: { boost: { mult: { episodios: 1.1 }, days: 2, label: 'Mosqueo productivo' } } },
+					] },
+				// Integración (2026-10-23): apariciones de personajes de Chamota y del Musical, propuestas por T1 y T2.
+				{ id: 'pan_celia', name: 'Un paquete de Chamota', w: 2, npc: 'tia_rosa', once: true, cond: 'flag.b06_shoku_celia',
+					text: 'Cariño, ha llegado un paquete en el tren de la tarde. Lo trae una cartera con gorra que no ha querido ni sentarse: «De la panadería de Chamota, para el estudio». Dentro, una hogaza todavía caliente y una nota con harina en las esquinas.',
+					options: [
+						{ text: '«Que lo reparta la Tía Rosa.»', result: 'La Tía Rosa corta la hogaza con un cuchillo de sierra que nadie sabía que había en el estudio. Nico se come tres rebanadas. Renata, una, de pie, mirando la pizarra. «Esto es pan de los de antes», dice la Tía Rosa. Lo dice como un elogio y como una advertencia.', effect: { boost: { mult: { all: 1.1 }, days: 2, label: 'Pan de Celia' } } },
+						{ text: 'Guardar la nota', result: 'La nota dice, con letra grande y la tinta corrida: «Para la del micrófono y su colaborador. Que coman. —C.». Abajo, con otra letra, pequeña y muy recta: «Lo he traído yo. —I. G.». La Tía Rosa la pega en el corcho, al lado del horario del metro.' },
+					] },
+				{ id: 'cronica_teodoro', name: 'Una carta muy larga', w: 2, npc: 'tia_rosa', once: true, cond: 'flag.b06_chamota_cronica || flag.b06_chamota_privado || flag.b06_chamota_calla',
+					text: 'Nos ha escrito un señor de Chamota. Una carta de seis páginas, con pluma, con una letra preciosa. Dice que es cronista y que quiere «corregir una cosa para el archivo del programa». Yo la leería entera, cariño. Pero son seis páginas.',
+					options: [
+						{ text: '«Léela en antena.»', cond: 'flag.b06_chamota_cronica', result: 'La Tía Rosa la lee en el directo del martes, despacio, con su voz de cuarenta años de radio. Es la crónica nueva de la Noche Blanca, la de los dos relojes. Al final, don Teodoro ha añadido una línea: «Un cronista que no corrige no es cronista: es un reloj parado». Llaman tres oyentes para pedir que la repitan.', effect: { boost: { mult: { episodios: 1.2 }, days: 3, label: 'La crónica de Teodoro' } } },
+						{ text: 'Archivarla sin leerla en antena', result: 'Nico la guarda en una carpeta con la etiqueta «CHAMOTA · NO EMITIR». La Tía Rosa la lee igual, en su descanso, con las gafas en la punta de la nariz. Al terminar dice que don Teodoro escribe «como los de antes». No dice qué pone. Ha entendido que no hace falta.' },
+					] },
+				{ id: 'chatot_musical', name: 'Una entrada para el Musical', w: 2, npc: 'nico_ferrer', once: true, cond: 'flag.b06_tadeo_conocido',
+					text: 'Ha llegado una entrada para el Musical de Mayólica, de regalo. Fila tres. Viene con una tarjeta muy educada del apuntador del teatro: «Para el equipo de Casos Fríos, con admiración. Desde abajo del escenario se oye todo muy bien». Y un Chatot de juguete de los que venden en el vestíbulo, que repite lo que le dices.',
+					options: [
+						{ text: '«Que vaya la Tía Rosa.»', result: 'La Tía Rosa va al Musical con su mejor abrigo. Vuelve encantada: «El apuntador es un sol, cariño. Me saludó desde su agujerito al final. Se sabía de memoria hasta mi receta de croquetas, la del episodio doce». Se ríe. «Eso no se lo sabe ni mi sobrina».' },
+						{ text: 'Darle el Chatot de juguete a Nico', result: 'Nico lo pone encima de la mesa de mezclas. Durante dos días el estudio entero repite «¡Testigo!» con voz de pito. Renata finge que le molesta. Lo graba. Lo usa de cortinilla.', effect: { boost: { mult: { episodios: 1.1 }, days: 2, label: 'Cortinilla nueva' } } },
 					] },
 				{ id: 'leyendas', name: 'Simón y la palabra prohibida', w: 2, npc: 'simon', cond: 'flag.p7_simon || flag.b06_simon_antena',
 					text: 'No pienso decir «Leyendas» en antena. Me niego. Es un programa de casos. Los casos se demuestran. Las leyendas se cuentan en las acampadas. Que lo diga la Tía Rosa.',

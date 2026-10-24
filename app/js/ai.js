@@ -2,7 +2,7 @@
 // Trabaja directamente con objetos del simulador de Showdown.
 
 const ABILITY_IMMUNE = {
-	Ground: ['levitate', 'eartheater'],
+	Ground: ['levitate', 'eartheater', 'eelevate'], // eelevate: Mega-Eelektross (Leyendas Z-A)
 	Fire: ['flashfire', 'wellbakedbody'],
 	Water: ['waterabsorb', 'stormdrain', 'dryskin'],
 	Electric: ['voltabsorb', 'lightningrod', 'motordrive'],

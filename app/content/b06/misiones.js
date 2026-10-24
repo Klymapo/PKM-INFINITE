@@ -3,7 +3,7 @@
 // Los textos se ven en el Diario: sin spoilers, ≤ 240 caracteres, con un lugar o personaje de ancla.
 export default {
 	// ⭐ Principales
-	b06_m1: { name: 'Rumbo a Teselia', type: 'main', est: 40, stages: {
+	b06_m1: { name: 'Rumbo a Teselia', type: 'main', est: 60, stages: {
 		puerta: 'La Gira sigue en **Teselia**. Se cruza por cualquier **Puerta Lemnis**: la de Alola, en **Ciudad Hauoli**, o las de Azafrán, Luminalia y Trigal.',
 		porcelana: 'Ya estás en **Ciudad Porcelana**. La recepción de la Gira es junto al muelle, entre rascacielos.',
 		hecha: 'Llegaste a Teselia. Porcelana no duerme, huele a café y a mar, y {riolu} sigue mirando la Pokédex de reojo.',

@@ -403,3 +403,61 @@ Encargo aprobado por Mario: las tres misiones de ChatGPT de `app/content/comunid
 - **Diario:** una entrada por capítulo y una del cierre, con voz de Rotom; sin pistas del calendario (biblia §7) ni omisiones nuevas.
 - **Duración:** ~2 h 10 min el arco entero (aviso 25, puente 25, índice 60, cierre 20). Partida de prueba: `herramientas/test/partidas/mario-2026-10-23.json`.
 - **Semilla para el futuro:** doña Amparo y el canal 00 pueden reaparecer (Rotom «sin número»); Noemí, Vera e Isandro tienen hueco para una cuarta escena.
+
+---
+
+## Publicación del B6 (preparada, 2026-10-23) · Bloque 6 «Acto V · La voz del narrador» (Teselia)
+
+**Estado:** escrito e integrado en la rama `trabajo/b06`. **No está en `BLOCKS`** ni sube `CONTENT_VERSION`: se carga con `INFINITO_EXTRA=b06`. La sesión que lo publique: añade `b06` a `BLOCKS`, sube la versión, regenera `sw.js`, pasa la auditoría completa y el lector independiente. El museo (`b06/t6-museo.js`) espera a que `b05/t7-museo.js` esté en `main` (nota en `b06-encargo.md`).
+
+### Estado del mundo al terminar el B6 (`flag.b06_fin`)
+
+- Región nueva **`teselia`** (mapa 100×100). **Puerta de Teselia** en Ciudad Porcelana (`puerta_teselia`, `b06_puerta_teselia`) ⇄ Hauoli, Azafrán, Luminalia y Trigal. Tren Mayólica ⇄ Chamota (`b06_pase_tren`, objeto `pasetrentes`).
+- Medallas del Circuito: **Voltio** (Camila, Mayólica; Mega-Eelektross) y **Temblor** (Brock, Fayenza; Mega-Steelix). Tope **62 → 64 (Camila) → 66 (Brock) → 67 (Xero) → 68 (final)**.
+- **Montura Aerodactyl** (`flag.mount_aerodactyl`): vuelos entre Porcelana, Mayólica, Esmalte, Fayenza, Teja e Isla Libertad (con `b06_aerodactyl_regalo` si no tenía Aerodactyl y se le dio una cría).
+- **Nodo 05 = Torre Dragospiral**: el Arco II (máquina de Olmedo) apagado por Acromo tras perder; el Orbe Claro, vacío; **Reshiram** libre (capturable y único, `b06_reshiram_tuyo`). Acromo dice que el Orbe Oscuro lo tiene «alguien a quien nunca he visto la cara» (Ghechis, sin nombrar).
+- **Dialga joven** calmado; duerme en la cabina de Ulises, aparcada en el patio del Museo de Esmalte. El **Valle de Antaño** queda visitable por la cabina (fósiles vivos, pesca, excavación, nido).
+- **Matías Olmedo** encontrado en la cámara 0 de los Almacenes Frigoríficos (Fayenza); Handsome lo protege. Caso de 12 años de Renata cerrado.
+- **Negocio nuevo:** Estudio *Casos Fríos* (`b06_estudio`, sótano de un rascacielos de Porcelana), socia Renata; encargados Renata, Tía Rosa, Nico y Simón (con `p7_simon` o `b06_simon_antena`). 10 imprevistos (3 añadidos en la integración: el pan de Celia, la carta de don Teodoro, la entrada del Musical).
+- Tiendas: `tienda_porcelana`, `tienda_mayolica`, `tienda_fayenza`, `tienda_teja`, MT de Fayenza (`b06_mt_fayenza`). **Metal Compuesto** (Duraludon → Archaludon) en la grieta de la Torre Dragospiral (raro), porque hay Duraludon desplazados de Galar en la Ruta 6.
+- La Gira anuncia **Galar** (Acto VI).
+
+### Decisiones del B6 que el B7 DEBE leer
+
+| Decisión | Flags | Qué cambia |
+|---|---|---|
+| **Qué haces con el Eco** (gran decisión, estudio al amanecer) | `b06_eco_purgado` (Olmedo guía el borrado por teléfono; el Eco escribe su última entrada, `ultimaentradaeco`; Rotom queda solo, más simple; rep.lemnis −10, af.renata +5) / `b06_eco_reformado` (Nico corta el enlace; cada entrada del Diario termina en «*(Omitido: nada.)*»; af.renata +3) / `b06_eco_doble` (enlace abierto; el jugador decide qué lee Lemnis; Ansel manda «Qué viaje tan bonito…», `mensajeansel`; rep.lemnis +3, rep.policia +3) | **Diario de aquí en adelante**; si purgó, es la pérdida del Acto V (biblia §9.2); Ansel en el Acto VI |
+| El topo → Camille | `b06_camille_estadio`; `b06_lebrun_avisado` / `b06_lebrun_callado` (rama `libre`) | Postal de Camille desde Galar (B7) |
+| Bastien | `b06_bastien_metro` + `bastien_7` (rama `rompe`) / `b06_bastien_sujeto` + `b06_bastien_sale` o `b06_bastien_firma` (rama `sigue`) | Letra pequeña VII |
+| Noche Blanca (Chamota, opcional) | `b06_chamota_cronica` / `b06_chamota_privado` / `b06_chamota_calla`; `vars.b06_aciertos` 0–3; `b06_chamota_emitido` (Renata lo emitió → carta 2b, `b06_apuntador_2b`) | Pieza opcional del museo; Celia/Inés/Teodoro |
+| Zorua | `b06_zorua` (se va contigo) / `b06_zorua_vive` (se queda en el campanario) | — |
+| Iniciales | `b06_oshawott(_tuyo)`, `b06_tepig`, `b06_snivy(_vive)` | — |
+| Kaori | `b06_kaori_frio`, `b06_kaori_momento` (si af.kaori ≥ 45) | Antídoto |
+| Renata | `af.renata`; `b06_renata_grabadora` (momento a 45, azotea); `b06_renata_diario` | Candidata: su momento de corazón sigue sin usar |
+| Otros | `b06_noria_antes` (llegó antes que el Apuntador con el horario), `b06_damaso_olmedo` (Dámaso habló con Olmedo), `b06_francine_aparta`, `b06_archen(_tuyo)`, `b06_larvesta`, `b06_shoku_celia`, `b06_cinta_ep3`, `b06_simon_antena` | — |
+
+### Pistas plantadas
+
+- **Diario (la revelación, biblia §3.5/§7):** T0 {riolu} gruñe a la Pokédex (1.ª vez) · Renata lee tres entradas viejas: «Tu Rotom narra como alguien que ya sabe cómo acaba la historia» · T3 dentro de la cabina Rotom «no recuerda escribir»; **sin entrada del Diario de los días de la cabina** · T4 Olmedo: «módulos de acompañamiento» que «acompañan y reportan» · T5 la trampa (el detalle del Diario atrae a agentes de Lemnis) · el servidor: «Dispositivo 0417 · Módulo Diario · Eco: perfil A. M. · Reporta a: Dirección (Ω)» · «Presidencia: sin acceso a Módulo Diario» (Octavia no lo sabe: Acto VI) · revelación en el estudio. **Ya no quedan pistas del Eco por plantar**: desde aquí el Diario cambia según la rama.
+- **El Apuntador** (no revelado; propuesta: Tadeo Lis): «la concha» (hueco del apuntador, T1), el Chatot del atrezo, coartadas de horario, la cinta del episodio 3 (imprevisto), tres cartas + la 2b. Concede el primer acto en la carta 3 («El segundo se representa en otra región»). `b06_t_apuntador` cerrada: la parte II será `b07_t_apuntador` (Galar, un estadio).
+- **Kyurem:** escarcha de treinta años en la muralla norte de Chamota (`escarchamuralla`) que mira al Boquete Gigante, cerrado por el hielo. Sin nombrarlo.
+- **Lucario:** 3.er sueño de aura en la cabina: el hombre del sombrero le tiende una piedra de dos colores (semilla de la Lucarita Z, Acto VII). En la revelación, el aura enseña «dos corazones» en la Pokédex.
+- **Noa:** mensaje al buzón del pódcast: «¿Cómo se abre una jaula desde dentro?» + megafonía «emplazamiento 06» (2.ª pista de su pérdida, Acto VI).
+- **Victini:** rumor en la Isla Libertad (sin captura).
+- **A.Z.:** aparición del Acto V al pie de la Torre Dragospiral.
+
+### Personajes
+
+- **Nuevos:** Encina, Camila, Acromo (canon); Nico Ferrer, Tía Rosa, Tadeo Lis, Matías Olmedo, Inés Garza, Celia, don Teodoro (OC). Todos con ≥ 3 escenas en el B6, pero **Inés, Celia, Teodoro y Tadeo solo en el B6** (más los imprevistos del estudio): necesitan aparecer en otro bloque (ver `hilos.md`).
+- **Recogidos del B5:** Camille (estadio), Calder (custodiado; testigo), Liam (Musical), Lulú (con Gaspar en Chamota), Zyra y Pimpinela (Fayenza), Fabio (`fabio_2`), Francine (Torre Lemnis), Hela (carta), Mayla (llamada), Azucena (`azucena_2` y foto en T5).
+- **Vuelven:** Brock (gran papel), Handsome, Renata (en persona), Simón (en antena), Ulises, Petra, Ysolde (Ala), Bastien, Kaori, Xero, Dámaso (llamada), Gaspar, Leilani (llamada), Matière (llamada), Héctor, A.Z.
+- **Pendientes:** Kaudan y Nereida (vuelta a Alola); Lola, Magda, Lila, Irene, Lucien, Nate (B7 o vueltas); Rhi (el Acto VI es suyo).
+
+### Integración (2026-10-23)
+
+- Validador: el único ✖ (Metal Compuesto) resuelto en la grieta de Dragospiral. Duplicados entre tramos renombrados en T4 (`b06_brock_fay_despues`, `b06_bastien_camara`; quitada la MT Electrotela repetida de la tienda de Fayenza: ya es el premio de Camila).
+- `b06_s_iniciales` se cierra con la misma regla en los tres tramos (`stage: 'hecha'` cuando los tres flags están). `b06_m1` `est` 60.
+- La frase de Renata en T5 («Olmedo sabe cómo; me lo dijo en Fayenza») ahora tiene escena en T4: Olmedo le da una hoja doblada «por si un día hay que quitar uno de esos módulos».
+- **Arreglo grave:** `app/js/art.js` no compilaba (T0 insertó sus iconos dentro de `cuadernopetra`): el juego entero no habría cargado en el navegador. Las herramientas de Node no importan `art.js` y no lo detectaron; la prueba de humo sí lo habría hecho.
+- IA: la habilidad de la Mega-Eelektross (`eelevate`) no estaba en la tabla de inmunidades (la IA, la del rival y la del bot, creía que la Tierra le pegaba).
+- Arte: cuadros `valle_antano` y `cima_torre` (`acuarela.js`); pixel art para los objetos distintivos y un icono genérico de hoja (`_papel`) para cualquier objeto con `read` sin icono propio.

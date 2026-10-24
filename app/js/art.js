@@ -66,8 +66,8 @@ export function itemImg(id, { found = true } = {}) {
 	const box = document.createElement('span');
 	box.className = 'itemicon' + (found ? '' : ' unknown');
 	const emoji = () => { box.textContent = it.icon || POCKET_EMOJI[it.pocket] || '✦'; };
-	const px = PX_ITEMS[toID(id)];
-	if (px) { box.classList.add('px'); box.append(pxItem(toID(id), 32)); return box; }
+	const pid = PX_ITEMS[toID(id)] ? toID(id) : (it.read && it.custom && !it.ic ? '_papel' : null); // cartas y notas sin icono propio: hoja de papel
+	if (pid) { box.classList.add('px'); box.append(pxItem(pid, 32)); return box; }
 	if (it.ic && !it.custom) {
 		const img = document.createElement('img');
 		img.alt = ''; img.decoding = 'async'; img.draggable = false;
@@ -1191,6 +1191,10 @@ export const PX_ITEMS = {
 			'...KbbBBBBRBKP..',
 			'...KbbbBBBRBKK..',
 			'...KKKKKKKKKK...',
+			'................',
+			'................',
+		],
+	},
 	// --- B6 T0 ---
 	// Sobre color crema de programa de teatro, sin sello; la firma a máquina y una concha pequeña dibujada en la solapa.
 	cartaapuntador1: {
@@ -1281,7 +1285,211 @@ export const PX_ITEMS = {
 		],
 		glow: '#fbf6ea',
 	},
+	// --- B6: integración (iconos de los objetos clave del bloque) ---
+	// Hoja genérica para cartas, notas y documentos sin icono propio (la usa itemImg para cualquier objeto con `read`).
+	_papel: {
+		pal: { K: '#4a4036', W: '#f6f0de', w: '#d9cfb4', L: '#8f8574', F: '#c4b89a' },
+		px: [
+			'................',
+			'................',
+			'...KKKKKKKK.....',
+			'...KWWWWWWKK....',
+			'...KWLLLLWwFK...',
+			'...KWWWWWWwwK...',
+			'...KWLLLLLLWK...',
+			'...KWWWWWWWWK...',
+			'...KWLLLLLWWK...',
+			'...KWWWWWWWWK...',
+			'...KWLLLLLLWK...',
+			'...KWWWWWWWWK...',
+			'...KWLLLWWWwK...',
+			'...KwwwwwwwwK...',
+			'...KKKKKKKKKK...',
+			'................',
+		],
+	},
+	// Huevo blanco con manchas de ceniza; brilla un poco por dentro, como una brasa.
+	huevolarvesta: {
+		pal: { K: '#3a2a22', W: '#fbf4ea', w: '#e2d4c0', A: '#8a7a70', a: '#b4a498', O: '#ffb060' },
+		px: [
+			'................',
+			'................',
+			'......KKKK......',
+			'.....KWWWwK.....',
+			'....KWWAWWwK....',
+			'....KWAAWWwK....',
+			'...KWWWWWaWwK...',
+			'...KWWWWAAWwK...',
+			'...KWaWWOWWwK...',
+			'...KWAAWWWwwK...',
+			'...KWWWWWAwwK...',
+			'....KwWWWwwK....',
+			'....KwwwwwwK....',
+			'.....KKKKKK.....',
+			'................',
+			'................',
+		],
+		glow: '#ffb060',
+	},
+	// Horario de la noria: hoja amarilla con una rueda pequeña arriba y celo en las esquinas.
+	hojanoria: {
+		pal: { K: '#5a4a20', Y: '#f2df8a', y: '#d8c060', L: '#7a6a3a', C: '#e8f2f6', R: '#c84a3a' },
+		px: [
+			'................',
+			'..CC........CC..',
+			'..CKKKKKKKKKKC..',
+			'...KYYYRRYYYK...',
+			'...KYYRYYRYYK...',
+			'...KYYYRRYYYK...',
+			'...KYYYYYYYYK...',
+			'...KYLLYLLLYK...',
+			'...KYYYYYYYYK...',
+			'...KYLLYLLLYK...',
+			'...KYYYYYYYYK...',
+			'...KYLLYLLYyK...',
+			'...KyYYYYYYyK...',
+			'..CKKKKKKKKKKC..',
+			'..CC........CC..',
+			'................',
+		],
+	},
+	// Programa de mano del Musical: papel crema con un telón rojo y letras doradas.
+	programamusical: {
+		pal: { K: '#3a2a20', C: '#f3e6c4', R: '#b0283a', r: '#7a1a2a', G: '#d8a83a' },
+		px: [
+			'................',
+			'...KKKKKKKKKK...',
+			'...KRRCCCCRRK...',
+			'...KRrCCCCrRK...',
+			'...KRrCCCCrRK...',
+			'...KRRCCCCRRK...',
+			'...KRrCCCCrRK...',
+			'...KrrrrrrrrK...',
+			'...KCCCCCCCCK...',
+			'...KCGGGGGGCK...',
+			'...KCCCCCCCCK...',
+			'...KCGGGGCCCK...',
+			'...KCCCCCCCCK...',
+			'...KKKKKKKKKK...',
+			'................',
+			'................',
+		],
+	},
+	// Chapa de latón del relojero, con cuatro tornillos y una esfera grabada.
+	chapareloj: {
+		pal: { K: '#3a2a10', B: '#c8a040', b: '#9a7428', H: '#f2d888', T: '#5a4418' },
+		px: [
+			'................',
+			'................',
+			'................',
+			'..KKKKKKKKKKKK..',
+			'..KTBBBBBBBBTK..',
+			'..KBHHHBKKBBbK..',
+			'..KBHBBKBBKBbK..',
+			'..KBBBBKBKKBbK..',
+			'..KBBBBKBBKBbK..',
+			'..KBBBBBKKBBbK..',
+			'..KTbbbbbbbbTK..',
+			'..KKKKKKKKKKKK..',
+			'................',
+			'................',
+			'................',
+			'................',
+		],
+	},
+	// Trozo de escarcha que no se derrite: hielo azul pálido, facetado, con un brillo frío.
+	escarchamuralla: {
+		pal: { K: '#2a4a6a', I: '#d8f0ff', i: '#9ccbea', B: '#5a8ac4', W: '#ffffff' },
+		px: [
+			'................',
+			'................',
+			'.......KK.......',
+			'......KWiK......',
+			'.....KWIiiK.....',
+			'....KIWIiBK.....',
+			'...KIIWIiiBK....',
+			'...KIIIIiBBK....',
+			'..KiIIIiiBBBK...',
+			'..KiiIIiBBBBK...',
+			'...KiiiiBBBK....',
+			'....KiiBBBK.....',
+			'.....KKKKK......',
+			'................',
+			'................',
+			'................',
+		],
+		glow: '#bfe6ff',
+	},
+	// Cartas del Apuntador: sobre crema de programa de teatro, renglones a máquina con la «e» medio borrada (huecos grises).
+	cartaapuntador2: {
+		pal: { K: '#3a2a20', C: '#f3e6c4', c: '#d8c49a', T: '#5a4a3a', t: '#b0a088' },
+		px: [
+			'................',
+			'................',
+			'..KKKKKKKKKKKK..',
+			'..KCCCCCCCCCCK..',
+			'..KCTTtTTCTTCK..',
+			'..KCCCCCCCCCCK..',
+			'..KCTtTTTtTTCK..',
+			'..KCCCCCCCCCCK..',
+			'..KCTTTtCTTtCK..',
+			'..KCCCCCCCCCCK..',
+			'..KCCCCCCTtTCK..',
+			'..KcccccccccCK..',
+			'..KKKKKKKKKKKK..',
+			'................',
+			'................',
+			'................',
+		],
+	},
+	// Tira de papel térmico enrollada, con la tinta que empieza a ponerse gris.
+	b06_volcado0417: {
+		pal: { K: '#3a3a40', W: '#f8f8f4', w: '#d4d4cc', G: '#8a8a90', g: '#b8b8bc' },
+		px: [
+			'................',
+			'....KKKKKK......',
+			'...KwWWWWwK.....',
+			'...KWwwwwWK.....',
+			'...KwWWWWwK.....',
+			'....KWGGWK......',
+			'....KWWWWK......',
+			'....KWGgWK......',
+			'....KWWWWK......',
+			'....KWGGgK......',
+			'....KWWWWK......',
+			'....KWgGWK......',
+			'....KWWWWK......',
+			'....KWGWgK......',
+			'....KWKWKW......',
+			'................',
+		],
+	},
+	// Mensaje en la Pokédex: pantallita oscura con un candado azul.
+	mensajeansel: {
+		pal: { K: '#14161e', S: '#22304a', s: '#3a4a6a', A: '#5aaaf0', a: '#2a6ab0', W: '#e8f2ff' },
+		px: [
+			'................',
+			'................',
+			'..KKKKKKKKKKKK..',
+			'..KSSSSSSSSSSK..',
+			'..KSSSSAASSSSK..',
+			'..KSSSASSASSSK..',
+			'..KSSSASSASSSK..',
+			'..KSSAAAAAASSK..',
+			'..KSSAaWWaASSK..',
+			'..KSSAaaaaASSK..',
+			'..KSSAAAAAASSK..',
+			'..KSsSSSSSSsSK..',
+			'..KKKKKKKKKKKK..',
+			'......KKKK......',
+			'.....KKKKKK.....',
+			'................',
+		],
+		glow: '#5aaaf0',
+	},
 };
+PX_ITEMS.cartaapuntador2b = PX_ITEMS.cartaapuntador2;
+PX_ITEMS.cartaapuntador3 = PX_ITEMS.cartaapuntador2;
 /** Dibuja un objeto de PX_ITEMS como SVG nítido. */
 export function pxItem(id, size = 32) {
 	const d = PX_ITEMS[id];

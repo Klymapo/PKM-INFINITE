@@ -348,16 +348,16 @@ export default {
 			look: { hair: 'quiff', hairColor: '#2a2420', outfit: '#e9e8e0', outfit2: '#3a8ac4', skin: 3, eyesStyle: 'sharp', mouth: 'smirk', acc: 'squareglasses' } },
 
 		// ----- Camila (líder) -----
-		camila_g: { name: 'Camila', cls: 'Líder', npc: 'camila', ai: 4, iv: 29, reward: 7560, bg: 'gym',
+		camila_g: { name: 'Camila', cls: 'Líder', npc: 'camila', ai: 4, iv: 26, reward: 7560, bg: 'gym',
 			gimmick: 'mega', ace: 'eelektross',
 			team: [
 				{ sp: 'emolga', lv: 60, moves: ['acrobatics', 'thunderbolt', 'encore', 'uturn'], ability: 'motordrive', nature: 'jolly', iv: 27 },
 				{ sp: 'zebstrika', lv: 61, moves: ['wildcharge', 'overheat', 'highhorsepower', 'bounce'], ability: 'sapsipper', nature: 'jolly', iv: 28 },
 				{ sp: 'galvantula', lv: 61, moves: ['thunder', 'bugbuzz', 'energyball', 'stickyweb'], ability: 'compoundeyes', item: 'focussash', nature: 'timid', iv: 28 },
 				{ sp: 'ampharos', lv: 62, moves: ['thunderbolt', 'dragonpulse', 'focusblast', 'powergem'], ability: 'static', item: 'sitrusberry', nature: 'modest', iv: 29 },
-				{ sp: 'eelektross', lv: 63, moves: ['wildcharge', 'crunch', 'drainpunch', 'flamethrower'], ability: 'levitate', item: 'eelektrossite', nature: 'brave', iv: 31 },
+				{ sp: 'eelektross', lv: 63, moves: ['wildcharge', 'thunderfang', 'thunderwave', 'flamethrower'], ability: 'levitate', item: 'eelektrossite', nature: 'brave', iv: 29 },
 			],
-			items: [{ id: 'maxpotion', n: 2 }],
+			items: [{ id: 'hyperpotion', n: 2 }],
 			intro: 'Las luces. —Chasquea los dedos y se apagan todas menos una, encima de ella—. Así. Ahora sí. ¡Emolga, sal a brillar!',
 			win: 'Me has apagado. —Se ríe, de verdad—. Hacía mucho que nadie me apagaba.',
 			lose: 'No pasa nada. Hasta las estrellas tienen días nublados. Vuelve cuando brilles.' },
@@ -795,7 +795,7 @@ export default {
 				] },
 			] },
 			{ quest: 'b06_s_iniciales', stage: 'buscar', cond: '!quest.b06_s_iniciales' },
-			{ quest: 'b06_s_iniciales', done: true, cond: 'flag.b06_oshawott && flag.b06_tepig && flag.b06_snivy' },
+			{ quest: 'b06_s_iniciales', stage: 'hecha', done: true, cond: 'flag.b06_oshawott && flag.b06_tepig && flag.b06_snivy' },
 			{ intel: { npc: 'liam', text: 'Invitado de estilista en el Musical de Mayólica por el «intercambio de capitanes». Descubrió a un Tepig que estornuda brasas sobre los trajes y lo llama «arte».' } },
 		],
 		b06_tepig_despues: [

@@ -173,7 +173,7 @@ export default {
 				] },
 				{ label: 'Brock', sub: 'Remueve la olla. Te hace un gesto: «primero, los de arriba»', icon: '🪨', cond: 'flag.b06_brock_cocina && !(' + GYM_T + ')', talk: [{ script: 'b06_brock_antes' }] },
 				{ label: 'Brock', sub: 'Líder · tipo Roca', icon: '🪨', cond: 'flag.b06_brock_cocina && ' + GYM_T, new: '!beat("brock_tes")', talk: [
-					{ cond: 'beat("brock_tes")', script: 'b06_brock_despues' },
+					{ cond: 'beat("brock_tes")', script: 'b06_brock_fay_despues' },
 					{ script: 'b06_brock_reto' },
 				] },
 			],
@@ -251,7 +251,7 @@ export default {
 					{ script: 'b06_kaori_despues' },
 				] },
 				{ label: 'Cámara 4 · Unidad de Estudios de Vínculo', sub: 'Cerradura de runas. Dentro, alguien tose', icon: '🔒', cond: CAMARA2 + ' && ' + SIGUE + ' && !flag.b06_bastien_sujeto', new: 'true', talk: [{ script: 'b06_bastien_cabina' }] },
-				{ label: 'Cámara 4 · Unidad de Estudios de Vínculo', sub: 'La puerta abierta. Un sillón con cables', icon: '🔓', cond: CAMARA2 + ' && flag.b06_bastien_sujeto', talk: [{ script: 'b06_bastien_despues' }] },
+				{ label: 'Cámara 4 · Unidad de Estudios de Vínculo', sub: 'La puerta abierta. Un sillón con cables', icon: '🔓', cond: CAMARA2 + ' && flag.b06_bastien_sujeto', talk: [{ script: 'b06_bastien_camara' }] },
 				{ label: 'Cámara 4', sub: 'Cerrada. Un cartel: «Estudios de vínculo · sin sujeto asignado»', icon: '🔒', cond: CAMARA2 + ' && !' + SIGUE, talk: [{ script: 'b06_cabina_vacia' }] },
 				{ label: 'Recluta Plasma de guardia', sub: 'Tirita. Lleva tres bufandas', icon: '🛡️', cond: CAMARA2, action: { trainer: 'plasma_alm_3' } },
 				{ label: 'El pasillo del laboratorio', sub: 'Hielo, rocas y una compuerta con placas en el suelo', icon: '🧊', cond: CAMARA2 + ' && !' + LAB, new: 'true', talk: [{ script: 'b06_hielo_2' }] },
@@ -574,7 +574,7 @@ export default {
 					{ call: 'b06_handsome_aviso' },
 				] },
 		],
-		b06_brock_despues: [
+		b06_brock_fay_despues: [
 			{ say: 'brock', text: '¡Siéntate, siéntate! Hoy hay estofado con pan de Chamota. Me lo trajo un chef ambulante que pasó por aquí. Dice que es «el pan de una noche muy rara». Está buenísimo. La noche no sé.', cond: 'flag.b06_shoku_celia' },
 			{ say: 'brock', text: 'Aquí sigo, entre la mina y la olla. Si pasas por Fayenza, baja a comer. Es una orden. De líder.', cond: '!flag.b06_shoku_celia' },
 			{ if: 'flag.b06_t4_hecho', then: [
@@ -912,7 +912,7 @@ export default {
 				{ intel: { npc: 'bastien', text: 'Era el «sujeto» de la Unidad de Estudios de Vínculo de los Almacenes Frigoríficos (emplazamiento 05). Firmó la cláusula 14.6, «extensión voluntaria hasta la fase final», para seguir dentro y contarlo.' } },
 			] },
 		],
-		b06_bastien_despues: [
+		b06_bastien_camara: [
 			{ if: 'flag.b06_bastien_sale', then: [
 				{ text: 'La cámara 4, vacía. En el sillón de los cables, la chaqueta de Lemnis, doblada. Encima, un pósit: «Devuelta. Sin usar. B. L.».' },
 			], else: [
@@ -1076,6 +1076,9 @@ export default {
 					{ say: 'renata', text: '—Te mira por encima de las gafas, muy despacio—. Técnicamente, testigo, llevo doce años con esto en la pared. Técnicamente tú llevas tres semanas en Teselia. Técnicamente cállate un rato.' },
 				] },
 			] },
+			{ text: 'Antes de irse, Olmedo le pide a Renata su libreta de papel. Escribe algo largo, con letra apretada, mirando de vez en cuando la Pokédex de tu mano. Dobla la hoja dos veces.' },
+			{ say: 'olmedo', text: 'Por si acaso. Por si un día se encuentran uno de esos módulos y hay que quitarlo. Se puede. Es feo, pero se puede. —Se la da—. Perdón. No la leas aquí.' },
+			{ text: 'Renata se guarda la hoja en el bolsillo interior de la gabardina sin leerla. Delante de ti, no.' },
 			{ say: 'renata', text: 'Handsome se lo lleva a un sitio seguro. No me ha dicho dónde y no se lo he preguntado. Primera vez en mi vida que no pregunto algo. —Pausa—. Te espero en la **furgoneta**, en el muelle. Cuando puedas. Trae a {riolu}. Y trae la Pokédex. Sobre todo, trae la Pokédex.' }, // FUERA DE MICRO
 			{ intel: { npc: 'olmedo', text: 'Matías Olmedo, ingeniero del primer Arco (Trigal) y del Arco II. Retenido doce años en instalaciones de Lemnis. Lo trasladaron por negarse a fabricar «módulos de acompañamiento»: copiar una voz dentro de un Rotom para que «acompañe» y «reporte». No sabe de quién era la voz.' } },
 			{ intel: { npc: 'renata', text: 'Encontró por fin a Matías Olmedo, en la cámara 0 de los Almacenes Frigoríficos de Fayenza. Cerró su caso de doce años. No encendió el micrófono.' } },
@@ -1223,7 +1226,7 @@ export default {
 			{ id: 'firestone', price: 3000 }, { id: 'leafstone', price: 3000 }, { id: 'thunderstone', price: 3000 },
 			{ id: 'moonstone', price: 3000 }, { id: 'sunstone', price: 3000 }, { id: 'shinystone', price: 3000 }, { id: 'duskstone', price: 3000 }, { id: 'ovalstone', price: 3000 },
 			{ id: 'b06_mt_antiaereo', price: 6000 }, { id: 'b06_mt_nitrocarga', price: 6000 }, { id: 'b06_mt_rayo_carga', price: 6000 }, { id: 'b06_mt_alarido', price: 6000 },
-			{ id: 'b06_mt_electrotela', price: 6000 }, { id: 'b06_mt_viento_afin', price: 8000 }, { id: 'b06_mt_terratemblor', price: 8000 }, { id: 'b06_mt_puntapie', price: 8000 },
+			{ id: 'b06_mt_viento_afin', price: 8000 }, { id: 'b06_mt_terratemblor', price: 8000 }, { id: 'b06_mt_puntapie', price: 8000 },
 			{ id: 'b06_mt_acrobata', price: 10000 }, { id: 'b06_mt_cola_dragon', price: 10000 }, { id: 'b06_mt_vaho_gelido', price: 10000 }, { id: 'b06_mt_infortunio', price: 10000 },
 			{ id: 'b06_mt_onda_vacio', price: 10000 }, { id: 'b06_mt_arenas_ardientes', price: 15000 }, { id: 'b06_mt_onda_toxica', price: 15000 },
 			{ id: 'b06_mt_metalaser', price: 20000 }, { id: 'b06_mt_gigaimpacto', price: 20000 },
@@ -1250,7 +1253,6 @@ export default {
 		b06_mt_nitrocarga: { name: 'MT Nitrocarga', pocket: 'machines', tm: 'flamecharge', desc: 'Se envuelve en llamas y embiste. Cada vez que lo usa, aumenta su Velocidad.' },
 		b06_mt_rayo_carga: { name: 'MT Rayo Carga', pocket: 'machines', tm: 'chargebeam', desc: 'Dispara un rayo eléctrico. Puede aumentar el Ataque Especial del usuario.' },
 		b06_mt_alarido: { name: 'MT Alarido', pocket: 'machines', tm: 'snarl', desc: 'Un grito furioso que hiere a los rivales y les baja el Ataque Especial.' },
-		b06_mt_electrotela: { name: 'MT Electrotela', pocket: 'machines', tm: 'electroweb', desc: 'Atrapa a los rivales en una red eléctrica que les hace daño y les baja la Velocidad.' },
 		b06_mt_viento_afin: { name: 'MT Viento Afín', pocket: 'machines', tm: 'tailwind', desc: 'Levanta un viento a favor que duplica la Velocidad de los Pokémon del equipo durante unos turnos.' },
 		b06_mt_terratemblor: { name: 'MT Terratemblor', pocket: 'machines', tm: 'bulldoze', desc: 'Pisa con fuerza y sacude el suelo. Hiere a todos los que están alrededor y les baja la Velocidad.' },
 		b06_mt_puntapie: { name: 'MT Puntapié', pocket: 'machines', tm: 'lowsweep', desc: 'Un barrido rápido a las piernas del objetivo que le baja la Velocidad.' },

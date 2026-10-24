@@ -597,7 +597,7 @@ export default {
 		b06_mecanismo: [
 			{ if: '!flag.b06_mecanismo_visto', then: [
 				{ set: { 'flag.b06_mecanismo_visto': true } },
-				{ text: 'El campanero sube contigo, despacio, contando los escalones en voz baja. Cruje uno. Luego otro. Luego otro que no habéis pisado ninguno de los dos.' },
+				{ text: 'El campanero sube contigo, despacio, contando los escalones en voz baja. Cruje uno. Luego otro. Luego otro que no ha pisado ninguno de los dos.' },
 				{ say: 'campanero', text: '—Se para delante de la caja del reloj—. La combinación la tengo aquí. —Se toca la frente—. Mi padre me la enseñó cantando. Pero yo canto fatal. Ábrala usted y yo tarareo.' },
 			], else: [
 				{ text: 'El campanero tararea la combinación otra vez, peor que antes. Las runas se encienden.' },
@@ -638,7 +638,7 @@ export default {
 			{ set: { 'vars.b06_aciertos': 0 } },
 			{ text: 'Renata contesta al primer tono. Se oye una tiza contra una pizarra y, de fondo, la cafetera del estudio gorgoteando como un Wooper con asma.' },
 			// FUERA DE MICRO: la pizarra no se graba. El Apuntador no sabe nada de lo que se dice aquí.
-			{ say: 'renata', as: 'Renata (holomisor)', text: '¡Testigo! ¿Lo tienes? No me lo digas. Sí, dímelo. No, espera, que cojo la tiza buena. —Ruido de tiza—. Vale. El micro está apagado: esto es entre tú, yo y la pizarra. Nota para el episodio: no hay episodio.' },
+			{ say: 'renata', as: 'Renata (holomisor)', text: '¡Testigo! ¿Lo tienes? No me lo digas. Sí, dímelo. No, espera, que agarro la tiza buena. —Ruido de tiza—. Vale. El micro está apagado: esto es entre tú, yo y la pizarra. Nota para el episodio: no hay episodio.' },
 			{ say: 'renata', as: 'Renata (holomisor)', text: 'Pregunta cero, la de las trampas. ¿Hay **una sola explicación** para todo lo que pasó esa noche?' },
 			{ prompt: 'Renata espera con la tiza en alto.', choice: [
 				{ text: '«Sí: el fantasma del campanario lo hizo todo.»', then: [
@@ -780,7 +780,7 @@ export default {
 			{ text: 'Cuando Celia termina, no habla nadie. Mucho rato. Fuera pasa el tren de la tarde y se va.' },
 			{ say: 'ines', text: 'Me saludaste con la pala. —Muy bajito—. Lo apunté. Lo tenía apuntado y no lo había leído nunca de verdad.' },
 			{ say: 'ines', text: 'Treinta años creyendo que no me miras porque te caigo mal. —Se baja del mostrador—. Y era esto.' },
-			{ text: 'Celia levanta la vista, por fin. Inés coge un pan de la bandeja, lo parte por la mitad y le da una. Comen las dos, sin decir nada, con la boca llena de migas. Es lo más parecido a hablar que han hecho en treinta años. Y es muchísimo.' },
+			{ text: 'Celia levanta la vista, por fin. Inés toma un pan de la bandeja, lo parte por la mitad y le da una. Comen las dos, sin decir nada, con la boca llena de migas. Es lo más parecido a hablar que han hecho en treinta años. Y es muchísimo.' },
 			{ af: { renata: 1 } },
 		],
 		b06_final_calla: [
@@ -884,7 +884,7 @@ export default {
 			{ say: 'celia', text: '—Desde dentro, con los brazos cruzados—. A nadie. Ni a mi sombra. El pan de la Noche Blanca lo inventó mi madre al año siguiente, para que la helada se acordara dulce. Se hace en mi horno o no se hace.' },
 			{ say: 'gaspar', text: 'Pues duelo. Un plato. El mismo pan. Tú en tu horno, nosotros en el de leña de la Ronda. Y {jugador} prueba y decide. Si gano, me das la receta. Si ganas, Lulú y yo te pelamos almendras una semana.' },
 			{ say: 'celia', text: '—Te mira, mira a Gaspar, mira el saco de azúcar—. Trato. Pero las almendras las quiero peladas de verdad. No como las pela la gente de ciudad.' },
-			{ text: 'Celia trabaja en silencio, rapidísima. Antes de encender el horno grande, coge un farol, se agacha y mira por el tiro. Mucho rato. Luego mete la mano, palpa, y solo entonces enciende.' },
+			{ text: 'Celia trabaja en silencio, rapidísima. Antes de encender el horno grande, toma un farol, se agacha y mira por el tiro. Mucho rato. Luego mete la mano, palpa, y solo entonces enciende.' },
 			{ say: 'gaspar', text: '¿Por qué miras el tiro? Es agosto.' },
 			{ say: 'celia', text: 'Siempre miro el tiro. Siempre. —No se gira—. Desde hace treinta años.' },
 			{ text: 'Gaspar y Lulú cocinan a cuatro manos en el horno de leña de la Ronda: él con fuego alto y una masa con mantequilla tostada que huele a avellana; ella con flores de azúcar y una ralladura de Baya Tamate que le da un brillo rosado. Discuten tres veces y se ríen dos.' },
@@ -909,7 +909,7 @@ export default {
 			] },
 			{ say: 'gaspar', text: 'Toma. Lo que ha sobrado se le da a quien va de viaje. Y esto otro es nuevo: lo he apuntado esta noche, con lo que da Teselia.' },
 			{ give: 'menuteselia', n: 2 },
-			{ say: 'lulu', text: '¡Y bayas de los huertos! Las ha cogido Gaspar «sin preguntar», pero el cartel pone «coja lo que caiga» y yo las he hecho caer.' },
+			{ say: 'lulu', text: '¡Y bayas de los huertos! Las ha agarrado Gaspar «sin preguntar», pero el cartel pone «tome lo que caiga» y yo las he hecho caer.' },
 			{ give: 'tamatoberry', n: 2 },
 			{ intel: { npc: 'gaspar', text: 'En Chamota, con Lulú («viajamos juntos para aprender pan»), duelo con la panadera Celia: el pan de la Noche Blanca. Celia mira siempre el tiro antes de encender el horno, «desde hace treinta años».' } },
 		],
@@ -931,7 +931,7 @@ export default {
 		// =================== CARTA 2b Y MENÚ ===================
 	b06_carta_2b: [
 		{ set: { 'flag.b06_apuntador_2b': true } },
-		{ text: 'En el buzón del estudio hay un sobre color crema, sin remite. Nico lo coge con dos dedos, como si mordiera. La Tía Rosa dice que lo ha traído un chaval en bici que ha cobrado al llegar y se ha ido sin mirar atrás. «Un solo viaje, le han pagado. Lo ha dicho él».' },
+		{ text: 'En el buzón del estudio hay un sobre color crema, sin remite. Nico lo toma con dos dedos, como si mordiera. La Tía Rosa dice que lo ha traído un chico en bici que ha cobrado al llegar y se ha ido sin mirar atrás. «Un solo viaje, le han pagado. Lo ha dicho él».' },
 		{ give: 'cartaapuntador2b' },
 		{ read: 'cartaapuntador2b' },
 		{ say: 'renata', text: '«Lo que no contó, no lo sé». —Lo lee tres veces—. Solo sabe lo que dije en antena. Ni una coma más. —Te mira por encima de las gafas—. Eso es un dato, testigo. Uno muy bueno.' },
@@ -1004,7 +1004,7 @@ export default {
 	gather: {
 		b06_huertos_chamota: {
 			name: 'Las espalderas de los huertos', icon: '🧺', hours: 20, picks: [2, 3],
-			game: { type: 'catch', level: 2, theme: 'otono', hint: 'Sacude las ramas pegadas a la muralla y recoge con la cesta. Las piñas de los pinos del norte se cuelan; no las cojas.' },
+			game: { type: 'catch', level: 2, theme: 'otono', hint: 'Sacude las ramas pegadas a la muralla y recoge con la cesta. Las piñas de los pinos del norte se cuelan; no las agarres.' },
 			ask: 'Árboles de bayas en espaldera, con las ramas atadas contra la piedra de la muralla, que da calor de día. El cartel de la cancela: «Coja lo que caiga. Lo que cuelga, pregunte».',
 			text: 'Recoges lo que ha caído hoy. Un vecino te mira desde su caseta, mira lo que llevas y asiente: ha caído, vale.',
 			wait: 'Las espalderas están recién sacudidas. Lo que queda cuelga, y lo que cuelga hay que preguntarlo.',

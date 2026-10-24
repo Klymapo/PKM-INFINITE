@@ -6,7 +6,7 @@
 // globalThis.__RECORRIDO_HOOK = { onStep(step), done() }, se llama a onStep al principio de cada paso y, al terminar,
 // a done() en vez de imprimir el informe y salir (lo usa herramientas/hub.mjs para auditar el hub de misiones).
 import { loadDataNode } from './test/node-env.mjs';
-import { D, toID } from '../app/js/data.js';
+import { D, toID, effectiveness } from '../app/js/data.js';
 import { C, registerBlock, topLoc } from '../app/js/content.js';
 import { G, newGame, evalCond, setExtraScope, addItem, removeItem, count, markCaught, boxInsert } from '../app/js/state.js';
 import { timeScope } from '../app/js/time.js';
@@ -55,7 +55,7 @@ let step = 0;
 let curScript = '';
 let frontierRegion = null;
 let maxBlockSeen = 0;
-let lastTrainerLoss = -1e9; // tras perder con un entrenador, entrena hasta el tope antes de volver (como haría una persona)
+let lastTrainerLoss = -1e9, lastLostTrainer = null; // tras perder con un entrenador, entrena hasta el tope antes de volver (como haría una persona)
 const blockedAt = {}; // ruta → paso en que la encontró bloqueada (para no volver en bucle)
 const blockOf = {};
 mod.BLOCKS.forEach((b, i) => { for (const lid in b.locations || {}) blockOf[lid] = i; });
@@ -65,7 +65,8 @@ function stepToward(region) { return stepTo(id => topLoc(id)?.region === region)
 function hasPending(id) {
 	const l = L(id); if (!l) return false;
 	if (!G.visited[id]) return true;
-	return spotsOf(l).some(s => s.new !== undefined && evalCond(s.new) && (spotRuns[spotKey(l, s)]?.n || 0) < 4 && !(s.action?.go && G.visited[s.action.go]));
+	// mismo criterio que al llegar al sitio: hasta 4 veces seguidas y, después, una vez cada 40 pasos (hasta 25), como quien vuelve a por la revancha
+	return spotsOf(l).some(s => { const r = spotRuns[spotKey(l, s)] || { n: 0, last: 0 }; return s.new !== undefined && evalCond(s.new) && (r.n < 4 || (r.n < 25 && step - (r.last || 0) > 40)) && !(s.action?.go && G.visited[s.action.go]); });
 }
 function stepTo(goal) {
 	const start = G.loc, prev = { [start]: null }, q = [start];
@@ -164,8 +165,10 @@ function battle(cfg) {
 				action = sc.length ? { type: 'move', i: sc[0].i } : { type: 'move', i: 0 };
 			}
 			if (action) { /* ya decidido */ }
-			else if (me.hp / me.maxhp < 0.25 && count('potion') + count('superpotion') > 0 && kind === 'trainer' && Math.random() < 0.6) {
-				action = { type: 'item', item: count('superpotion') ? 'superpotion' : 'potion', uid: ctl.partyOf(me).uid };
+			else if (me.hp / me.maxhp < 0.25 && kind === 'trainer' && Math.random() < 0.6 && ['maxpotion', 'hyperpotion', 'superpotion', 'potion'].some(i => count(i) > 0)) {
+				// como una persona: la mejor poción que lleve (antes solo usaba Poción y Superpoción y las Hiperpociones se acumulaban)
+				const pot = ['maxpotion', 'hyperpotion', 'superpotion', 'potion'].find(i => count(i) > 0);
+				action = { type: 'item', item: pot, uid: ctl.partyOf(me).uid };
 			} else {
 				const d = AI.decide(ctl.battle, 'p1', { level: 4, wild: false, gimmick: G.flags.mec_mega && count('megaring') ? 'mega' : null, gimmickUsed: ctl.gimmickUsed });
 				if (!d) { action = { type: 'move', i: 0 }; }
@@ -187,7 +190,7 @@ function battle(cfg) {
 	const sum = ctl.finish();
 	if (kind === 'wild') report.battles.wild++; else report.battles.trainer++;
 	if (sum.result === 'win' || sum.result === 'caught') report.battles.won++;
-	if (sum.result === 'lose') { report.battles.lost++; if (cfg.trainer) lastTrainerLoss = step; report.losses.push(`${cfg.trainer || cfg.wild?.sp} en ${G.loc} (equipo: ${G.party.map(p => p.sp + p.lv).join(',')})`); }
+	if (sum.result === 'lose') { report.battles.lost++; if (cfg.trainer) { lastTrainerLoss = step; lastLostTrainer = cfg.trainer; } report.losses.push(`${cfg.trainer || cfg.wild?.sp} en ${G.loc} (equipo: ${G.party.map(p => p.sp + p.lv).join(',')})`); }
 	if (sum.result === 'win' && trainer) {
 		G.beaten[trainer.id] = (G.beaten[trainer.id] || 0) + 1;
 		if (trainer.cls === 'Líder' || trainer.npc && ['brock', 'blanca', 'corelia'].includes(trainer.npc)) report.gyms.push(`${trainer.id}: ganado en paso ${step} con ${G.party.map(p => p.sp + ' ' + p.lv).join(', ')}`);
@@ -385,11 +388,31 @@ function usePotions() {
 		}
 	}
 }
+const megaCache = {};
+const megaOf = (sp, item) => { const k = sp + '|' + item; if (!(k in megaCache)) megaCache[k] = Object.values(D.species).find(x => x.base === sp && x.reqItem === item) || null; return megaCache[k]; };
 let rot = 0;
 function manageTeam() {
 	// equipo: Riolu + los 4 de mayor nivel + un hueco que rota entre los de la caja (como haría alguien probando Pokémon)
 	const all = G.party.concat(...G.boxes);
-	all.sort((a, b) => (b.uid === G.vars.riolu_uid) - (a.uid === G.vars.riolu_uid) || b.lv - a.lv);
+	// tras perder con un entrenador, como una persona: llevar Pokémon con buenos tipos contra su equipo
+	// (antes el bot repetía 10–12 veces contra Brock o Camila con Ledian, Talonflame y Vespiquen)
+	const foe = lastLostTrainer && !G.beaten[lastLostTrainer] && step - lastTrainerLoss < 600 ? C.trainers[lastLostTrainer] : null;
+	const fit = p => {
+		if (!foe) return p.lv;
+		let sc = p.lv;
+		const my = D.species[p.sp]?.types || [];
+		for (const f of foe.team || []) {
+			const fs = D.species[toID(f.sp)] || {}, mega = f.item && megaOf(toID(f.sp), f.item);
+			const ft = (mega || fs).types || [];
+			const flota = [f.ability, ...Object.values(mega?.abil || {})].some(a => ['levitate', 'eelevate'].includes(toID(a || '')));
+			const off = Math.max(0, ...(p.moves || []).map(m => D.moves[m.id]).filter(m => m && m.cat !== 'Status' && m.bp).map(m => (m.type === 'Ground' && flota ? 0 : effectiveness(m.type, ft)) * (my.includes(m.type) ? 1.5 : 1)));
+			const def = Math.max(...ft.map(t => effectiveness(t, my)), 0.25);
+			sc += (off >= 2 ? 3 : off < 1 ? -1 : 0) - (def >= 2 ? 3 : def <= 0.5 ? -1 : 0);
+		}
+		return sc;
+	};
+	const fits = new Map(all.map(p => [p, fit(p)]));
+	all.sort((a, b) => (b.uid === G.vars.riolu_uid) - (a.uid === G.vars.riolu_uid) || fits.get(b) - fits.get(a) || b.lv - a.lv);
 	const core = all.slice(0, 5), rest = all.slice(5);
 	// si algún sitio de aquí pide un Pokémon concreto en el equipo (inParty("x")), lo mete en el hueco libre
 	const loc = L(G.loc);
@@ -517,6 +540,7 @@ else {
 	console.log(`Lugares sin visitar (${unvisited.length}): ${unvisited.join(', ')}`);
 	console.log(`Guiones nunca ejecutados (${unusedScripts.length}): ${unusedScripts.slice(0, 80).join(', ')}`);
 	if (report.losses.length) console.log(`Derrotas:\n  ${report.losses.slice(0, 20).join('\n  ')}`);
+	{ const by = {}; for (const l of report.losses) { const k = l.split(' ')[0]; by[k] = (by[k] || 0) + 1; } const top = Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, 8); if (top.length) console.log(`Derrotas por rival: ${top.map(([k, v]) => k + ' ×' + v).join(', ')} · última: ${report.losses[report.losses.length - 1]}`); }
 	if (report.stuck.length) console.log(`ATASCOS:\n  ${[...new Set(report.stuck)].slice(0, 15).join('\n  ')}`);
 	if (report.repeatGifts.length) console.log(`REGALOS REPETIDOS:\n  ${report.repeatGifts.slice(0, 20).join('\n  ')}`);
 	if (report.errors.length) console.log(`ERRORES (${report.errors.length}):\n  ${[...new Set(report.errors)].slice(0, 40).join('\n  ')}`);

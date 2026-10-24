@@ -102,3 +102,14 @@ Aplícalo a las tres ideas:
 - *Portal*: Soldi, el brazo robótico pasivo-agresivo («Excelente. Para ser humana»), y su aviso de «habrá tarta» en el taller (eco del «la tarta es mentira» del castillo, P7). No usar más *Portal*.
 - *BioShock*: megafonía de bienvenida de Æther («¿Quiere usted…?»). Sutil.
 - Calder: sin referencia externa («La luz es de quien la mira»).
+
+## B6 (preparado, 2026-10-23)
+
+- **El Apuntador:** cartas a la prensa que se burlan del detective, con mote (Destripador/Holmes). Evidente en la primera carta; luego sutil.
+- **Ulises:** «más grande por dentro» (*Doctor Who*), evidente una vez al entrar en la cabina.
+- **Ysolde:** salto de fe sobre un toldo (*Assassin's Creed*).
+- **Chamota:** versiones que no casan (*Rashomon*) y la tabla de horarios (*Database Detective*, llamada de Matière).
+- **Renata:** «Cool, cool, cool» y «Nota para el episodio» (ya establecidas). El Diario como narrador que omite: *El asesinato de Roger Ackroyd* (con `b06_eco_doble`, Mario es el que omite).
+- **Acromo:** sin referencia externa («Un vínculo es una fuerza. Y las fuerzas se miden»).
+- **Imprevistos del estudio (integración):** el Chatot de juguete que repite «¡Testigo!» (sutil; no apunta a nadie).
+- Siguen prohibidos: *Portal* y *Dr. Stone*.

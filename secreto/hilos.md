@@ -156,3 +156,32 @@ Cerrados hoy al terminar su parte (antes esperaban al bloque siguiente o no se c
 | Lucario | 2.º sueño: «vuelve» | Más sueños; Quinoa en el Acto VII |
 | Recetario (Gaspar) | Shokugeki con Lulú | Siguiente rival de cocina en Teselia |
 | Necrozma | Vivo según la decisión | Acto IX, contra el Lazo |
+
+## Estado tras el B6 (preparado, 2026-10-23)
+
+| Hilo | Estado | Siguiente paso (B7, Galar · Acto VI) |
+|---|---|---|
+| Tronco | Nodo 05 (Torre Dragospiral) apagado; Reshiram libre; Lemnis sin el Arco II | Acto VI: Galar; Octavia sin acceso al Módulo Diario (semilla); Ghechis tiene el Orbe Oscuro |
+| **El Eco (Diario)** | Revelado. Rama `b06_eco_purgado` / `reformado` / `doble` | El Diario cambia según la rama (biblia §7). Con `doble`: riesgo de que el Eco lo cuente; Ansel cree que nadie lo sabe. Con `purgado`: duelo (eventos anuales lo recuerdan) |
+| **NUEVO (B6): El Apuntador** | Primer acto para Mario (trampa). Carta 3. Identidad sin revelar (Tadeo Lis) | **B7:** `b07_t_apuntador`, segundo acto en un estadio (el marcador). **B8:** teatro, identidad, combate |
+| Casos Fríos (Renata) | Olmedo encontrado; caso cerrado. Renata expuso el caso del narrador. Afinidad según partida (meta 35–50) | Su momento de corazón sigue sin usar. El episodio 3 (la costurera) le dolerá cuando sepa quién es el Apuntador |
+| Cabina (Ulises) | Dialga joven calmado, dormido en la cabina | **Acto VII (Sinnoh)**, «cuando el pequeño crezca» |
+| El ámbar (Petra) | Cerrado: el ámbar era un *tic* del Dialga joven; registrado | Petra se queda con la expedición de Encina en el valle |
+| Plumas en el tejado (Ysolde) | Mario es **Ala** | La Cumbre habla pero no se ve; siguiente rango en un acto alto |
+| Las jaulas (Noa) | 2.ª pista: «emplazamiento 06», mensaje al buzón | **Acto VI: su pérdida** |
+| Dulce veneno (Kaori) | Siguió un lote de caramelos en los Almacenes | B7: siguiente paso del antídoto |
+| Letra pequeña (Bastien) | Rompe: Metro Batalla, `bastien_7`. Sigue: sujeto del Arco II, sale o firma la 14.6 | B7 según rama |
+| El topo → Camille | En el estadio; sabe más de lo que dice; sobre con Ω sin responder | B7: postal desde Galar (gira de voleibol) |
+| La que cruzó (Malia) | Calder y Pimpinela en Fayenza | Acto alto |
+| Lucario | 3.er sueño (piedra de dos colores); «dos corazones» en la Pokédex | Acto VII: Lucarita Z (sin nombrarla antes) |
+| A.Z. | Aparición del Acto V | Una por acto |
+| Recetario (Gaspar) | Pan de la Noche Blanca con Celia y Lulú | Rival de cocina en Galar |
+| Kyurem | Semilla: escarcha de la muralla y el Boquete Gigante cerrado | Vuelta a Teselia |
+| Victini | Rumor en la Isla Libertad | Vuelta a Teselia o evento |
+| Matías Olmedo | Protegido por Handsome; habló con Dámaso (`b06_damaso_olmedo`) | Testigo contra Lemnis; puede reencontrarse con su hija |
+
+**Personajes del B6 que necesitan aparecer en otro bloque** (regla de las 3 apariciones repartidas):
+- **Inés, Celia y don Teodoro** (Chamota): solo en T2 y en los imprevistos del estudio (`pan_celia`, `cronica_teodoro`). Plan B7: postal de Inés (la cartera manda el correo de Chamota a Galar), o un evento de temporada en Chamota (Navidad: el pan con escarcha de azúcar).
+- **Tadeo Lis:** T1, una línea en T5 y el imprevisto `chatot_musical`. Vuelve en el B7 (segundo acto) y el B8 (identidad).
+- **Encina, Camila, Acromo:** canon; Encina y Acromo en la vuelta a Teselia; Camila, mensaje si hay Copa.
+- **Nico y Tía Rosa:** viven en el negocio; salen en T0, T4–T5 y en los imprevistos.

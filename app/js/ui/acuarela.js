@@ -942,6 +942,171 @@ export function paintCuevaAura() {
 	return { canvas: cv, done: Promise.resolve(true) };
 }
 
+/** Cuadro: foto de Petra desde el risco del nido. Helechos gigantes bajo un cielo amarillo pálido, una bandada en círculo
+ *  (motas en «v», sin silueta de Pokémon) y, abajo, una cabina azul diminuta con dos puntitos al lado. */
+export function paintValleAntano() {
+	const W = 480, H = 360;
+	const cv = document.createElement('canvas');
+	cv.width = W; cv.height = H;
+	cv.className = 'acuarela foto';
+	const ctx = cv.getContext('2d');
+	const R = mulberry('valle-antano');
+	const B = 14, IW = W - 2 * B, IH = H - 2 * B - 18;
+	ctx.fillStyle = '#f8f6f0'; ctx.fillRect(0, 0, W, H);
+	ctx.save(); ctx.beginPath(); ctx.rect(B, B, IW, IH); ctx.clip();
+	// cielo amarillo pálido, más blanco hacia el horizonte (un aire que no es de hoy)
+	const hz = B + 150;
+	const sky = ctx.createLinearGradient(0, B, 0, hz);
+	sky.addColorStop(0, '#e8d98a'); sky.addColorStop(0.6, '#f3e9b4'); sky.addColorStop(1, '#f8f2d6');
+	ctx.fillStyle = sky; ctx.fillRect(B, B, IW, hz - B + 4);
+	// sol velado
+	const sg = ctx.createRadialGradient(B + IW * 0.72, B + 46, 0, B + IW * 0.72, B + 46, 80);
+	sg.addColorStop(0, 'rgba(255,250,220,.9)'); sg.addColorStop(1, 'rgba(255,240,190,0)');
+	ctx.fillStyle = sg; ctx.fillRect(B + IW * 0.72 - 80, B - 34, 160, 160);
+	// montañas lejanas, violáceas (perspectiva aérea: sombras hacia el violeta)
+	const ridge = (y0, amp, col, step) => { ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(B, hz + 6); let y = y0; for (let x = B; x <= W - B + step; x += step) { y = y0 + Math.sin(x / 37 + y0) * amp + (R() - 0.5) * amp * 0.8; ctx.lineTo(x, y); } ctx.lineTo(W - B, hz + 6); ctx.fill(); };
+	ridge(hz - 46, 14, '#b8a8b8', 18);
+	ridge(hz - 22, 10, '#9a9aa0', 14);
+	// valle: suelo verde amarillento con niebla baja
+	const floor = ctx.createLinearGradient(0, hz - 6, 0, B + IH);
+	floor.addColorStop(0, '#9aa86a'); floor.addColorStop(0.5, '#6f8a4a'); floor.addColorStop(1, '#3f5a34');
+	ctx.fillStyle = floor; ctx.fillRect(B, hz - 6, IW, IH);
+	// lago al fondo a la izquierda
+	ctx.fillStyle = '#9fbfb8'; ctx.beginPath(); ctx.ellipse(B + IW * 0.26, hz + 18, 70, 9, 0, 0, 7); ctx.fill();
+	ctx.fillStyle = 'rgba(255,250,220,.5)'; ctx.fillRect(B + IW * 0.26 - 40, hz + 16, 60, 1.2);
+	// helechos gigantes: abanicos de hojas en varios planos (los lejanos más pálidos)
+	const fern = (x, base, hgt, col, lean) => {
+		ctx.strokeStyle = shade(col, -0.25); ctx.lineWidth = Math.max(1, hgt / 40);
+		ctx.beginPath(); ctx.moveTo(x, base); ctx.quadraticCurveTo(x + lean * 0.3, base - hgt * 0.6, x + lean, base - hgt); ctx.stroke();
+		for (let k = 0; k < 7; k++) {
+			const a = -Math.PI / 2 + (k - 3) * 0.42 + lean / hgt, len = hgt * (0.55 + R() * 0.35);
+			const tx = x + lean + Math.cos(a) * len, ty = base - hgt + Math.sin(a) * len * 0.8 + len * 0.35;
+			ctx.fillStyle = col; ctx.beginPath(); ctx.moveTo(x + lean, base - hgt);
+			ctx.quadraticCurveTo((x + lean + tx) / 2 + Math.sin(a) * len * 0.12, (base - hgt + ty) / 2 - len * 0.12, tx, ty);
+			ctx.quadraticCurveTo((x + lean + tx) / 2 - Math.sin(a) * len * 0.05, (base - hgt + ty) / 2 + len * 0.05, x + lean, base - hgt + 2);
+			ctx.fill();
+		}
+	};
+	for (let i = 0; i < 16; i++) fern(B + R() * IW, hz + 6 + R() * 10, 22 + R() * 16, '#8fa070', (R() - 0.5) * 8);
+	for (let i = 0; i < 10; i++) fern(B + R() * IW, hz + 30 + R() * 30, 44 + R() * 22, '#6a8a4a', (R() - 0.5) * 14);
+	// textura del suelo: manchas de sombra y trazos de hierba (luz desde la derecha: sombras hacia el azul)
+	blooms(ctx, R, B, hz + 30, IW, IH - 140, '#3a5a4a', 10, 34, 0.22);
+	blooms(ctx, R, B, hz + 20, IW, 60, '#c8c070', 6, 30, 0.16);
+	ctx.strokeStyle = 'rgba(40,60,34,.35)'; ctx.lineWidth = 1;
+	for (let i = 0; i < 160; i++) { const x = B + R() * IW, y = hz + 40 + R() * (IH - 150), l = 3 + (y - hz) / 30; ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + (R() - 0.5) * 2, y - l); ctx.stroke(); }
+	// niebla entre planos
+	ctx.save(); ctx.filter = 'blur(10px)'; ctx.fillStyle = 'rgba(248,242,214,.55)'; ctx.fillRect(B, hz + 4, IW, 22); ctx.restore();
+	// la cabina azul diminuta en un claro, con dos puntitos al lado (tú y Pala)
+	const kx = B + IW * 0.56, ky = hz + 52;
+	ctx.fillStyle = 'rgba(40,60,30,.35)'; ctx.beginPath(); ctx.ellipse(kx + 3, ky + 1, 9, 2.5, 0, 0, 7); ctx.fill();
+	ctx.fillStyle = '#1f4a9a'; ctx.fillRect(kx - 3.5, ky - 13, 7, 13);
+	ctx.fillStyle = '#163a7a'; ctx.fillRect(kx + 1.5, ky - 13, 2, 13); // lado en sombra
+	ctx.fillStyle = '#2a5ab0'; ctx.fillRect(kx - 4.5, ky - 15, 9, 2);
+	ctx.fillStyle = '#f6f0c8'; ctx.fillRect(kx - 0.6, ky - 17, 1.4, 2); // lucecita de arriba
+	ctx.fillStyle = '#e8eef8'; ctx.fillRect(kx - 2.5, ky - 11, 1.6, 1.6); ctx.fillRect(kx + 0.2, ky - 11, 1.6, 1.6);
+	ctx.fillStyle = '#2a2a36'; ctx.beginPath(); ctx.arc(kx + 11, ky - 3, 1.6, 0, 7); ctx.fill(); ctx.fillRect(kx + 10.2, ky - 2, 1.6, 3);
+	ctx.fillStyle = '#2a3a6a'; ctx.beginPath(); ctx.arc(kx + 15, ky - 1.6, 1.3, 0, 7); ctx.fill(); ctx.fillRect(kx + 14.3, ky - 1, 1.4, 1.8);
+	// la bandada en círculo, a media altura: motas en «v» cada vez más pequeñas (giran alrededor de un centro)
+	const bcx = B + IW * 0.42, bcy = B + 78;
+	ctx.strokeStyle = '#4a4058'; ctx.lineCap = 'round';
+	for (let k = 0; k < 14; k++) {
+		const a = k / 14 * Math.PI * 2 + R() * 0.2, rr = 62 + R() * 14;
+		const x = bcx + Math.cos(a) * rr, y = bcy + Math.sin(a) * rr * 0.38;
+		const sz = 3.2 + (Math.sin(a) + 1) * 2.4; // los de delante, más grandes
+		ctx.globalAlpha = 0.55 + (Math.sin(a) + 1) * 0.2; ctx.lineWidth = 1 + sz / 6;
+		ctx.beginPath(); ctx.moveTo(x - sz, y - sz * 0.35); ctx.quadraticCurveTo(x - sz * 0.4, y - sz * 0.5, x, y); ctx.quadraticCurveTo(x + sz * 0.4, y - sz * 0.5, x + sz, y - sz * 0.35); ctx.stroke();
+	}
+	ctx.globalAlpha = 1;
+	// el risco del nido en primer plano, a la derecha, oscuro y cálido (la foto se hizo desde aquí)
+	ctx.fillStyle = '#4a3a2e'; ctx.beginPath(); ctx.moveTo(W - B, B + IH - 120); ctx.lineTo(W - B - 60, B + IH - 74); ctx.lineTo(W - B - 120, B + IH - 30); ctx.lineTo(W - B - 150, B + IH); ctx.lineTo(W - B, B + IH); ctx.fill();
+	ctx.fillStyle = 'rgba(240,200,140,.25)'; ctx.beginPath(); ctx.moveTo(W - B, B + IH - 120); ctx.lineTo(W - B - 60, B + IH - 74); ctx.lineTo(W - B - 52, B + IH - 70); ctx.lineTo(W - B, B + IH - 108); ctx.fill();
+	// una rama de helecho que se cuela por la izquierda, desenfocada (muy cerca de la cámara)
+	ctx.save(); ctx.filter = 'blur(3px)'; fern(B - 20, B + IH + 20, 120, '#2f4a28', 40); ctx.restore();
+	ctx.restore();
+	photoFinish(ctx, B, B, IW, IH, 65, { grain: 20, warm: 12, vig: 0.42 });
+	ctx.save(); ctx.translate(W - B - 8, H - 11); ctx.rotate(-0.04); ctx.fillStyle = '#6a4a2a'; ctx.globalAlpha = 0.85; ctx.font = 'italic 600 14px Nunito, serif'; ctx.textAlign = 'right';
+	ctx.fillText('Antaño', 0, 0); ctx.restore();
+	return { canvas: cv, done: Promise.resolve(true) };
+}
+
+/** Cuadro: foto de Rotom en la cima de la Torre Dragospiral. El anillo apagado, el orbe partido como una cáscara
+ *  y, rompiendo la nube, una mancha blanca con dos alas (desenfocada: no se dibuja al Pokémon). */
+export function paintCimaTorre() {
+	const W = 480, H = 360;
+	const cv = document.createElement('canvas');
+	cv.width = W; cv.height = H;
+	cv.className = 'acuarela foto';
+	const ctx = cv.getContext('2d');
+	const R = mulberry('cima-dragospiral');
+	const B = 14, IW = W - 2 * B, IH = H - 2 * B - 18;
+	ctx.fillStyle = '#f8f6f0'; ctx.fillRect(0, 0, W, H);
+	ctx.save(); ctx.beginPath(); ctx.rect(B, B, IW, IH); ctx.clip();
+	// cielo de tormenta que se abre: gris pizarra con un agujero de luz
+	const sky = ctx.createLinearGradient(0, B, 0, B + IH);
+	sky.addColorStop(0, '#2e3446'); sky.addColorStop(0.5, '#4a5266'); sky.addColorStop(1, '#6a6e7a');
+	ctx.fillStyle = sky; ctx.fillRect(B, B, IW, IH);
+	const hx = B + IW * 0.6, hy = B + 70;
+	const hole = ctx.createRadialGradient(hx, hy, 6, hx, hy, 150);
+	hole.addColorStop(0, 'rgba(255,252,236,.95)'); hole.addColorStop(0.3, 'rgba(236,236,240,.55)'); hole.addColorStop(1, 'rgba(200,206,220,0)');
+	ctx.fillStyle = hole; ctx.fillRect(hx - 150, hy - 150, 300, 300);
+	// nubes que se apartan en espiral alrededor del agujero
+	ctx.save(); ctx.filter = 'blur(4px)';
+	for (let i = 0; i < 26; i++) {
+		const a = R() * Math.PI * 2, d = 70 + R() * 120;
+		ctx.fillStyle = `rgba(${R() < 0.5 ? '70,76,96' : '120,126,146'},${0.35 + R() * 0.3})`;
+		ctx.beginPath(); ctx.ellipse(hx + Math.cos(a) * d, hy + Math.sin(a) * d * 0.5, 30 + R() * 30, 8 + R() * 6, a + Math.PI / 2, 0, 7); ctx.fill();
+	}
+	ctx.restore();
+	// la mancha blanca con dos alas, saliendo de la nube (forma muy difusa, solo luz)
+	ctx.save(); ctx.globalCompositeOperation = 'lighter'; ctx.filter = 'blur(7px)';
+	ctx.fillStyle = 'rgba(255,250,240,.75)'; ctx.beginPath(); ctx.ellipse(hx, hy + 4, 10, 22, 0, 0, 7); ctx.fill();
+	ctx.fillStyle = 'rgba(255,246,230,.55)';
+	ctx.beginPath(); ctx.moveTo(hx - 4, hy - 4); ctx.quadraticCurveTo(hx - 44, hy - 34, hx - 70, hy - 6); ctx.quadraticCurveTo(hx - 40, hy - 2, hx - 4, hy + 10); ctx.fill();
+	ctx.beginPath(); ctx.moveTo(hx + 4, hy - 4); ctx.quadraticCurveTo(hx + 44, hy - 34, hx + 70, hy - 6); ctx.quadraticCurveTo(hx + 40, hy - 2, hx + 4, hy + 10); ctx.fill();
+	ctx.filter = 'blur(16px)'; ctx.fillStyle = 'rgba(255,200,150,.25)'; ctx.beginPath(); ctx.arc(hx, hy, 40, 0, 7); ctx.fill();
+	ctx.restore();
+	// la azotea de la torre en picado: suelo de piedra vieja con la espiral grabada
+	const fy = B + IH - 96;
+	ctx.fillStyle = '#5a5248'; ctx.beginPath(); ctx.moveTo(B, fy + 10); ctx.lineTo(W - B, fy - 8); ctx.lineTo(W - B, B + IH); ctx.lineTo(B, B + IH); ctx.fill();
+	ctx.fillStyle = 'rgba(30,26,24,.35)'; for (let i = 0; i < 40; i++) ctx.fillRect(B + R() * IW, fy + R() * 90, 10 + R() * 30, 1);
+	ctx.strokeStyle = 'rgba(200,190,170,.25)'; ctx.lineWidth = 1.2; ctx.beginPath();
+	for (let t = 0; t < 40; t++) { const a = t * 0.45, r = 4 + t * 2.2; const x = B + 90 + Math.cos(a) * r, y = fy + 54 + Math.sin(a) * r * 0.35; if (!t) ctx.moveTo(x, y); else ctx.lineTo(x, y); }
+	ctx.stroke();
+	// almenas rotas a los lados
+	ctx.fillStyle = '#3e3832';
+	for (let x = B; x < W - B; x += 46) { const hh = 14 + R() * 26, yb = fy + 10 - (x - B) / IW * 18; ctx.fillRect(x, yb - hh, 18, hh + 4); }
+	// el anillo del arco, apagado: un aro metálico de canto, con cables que cuelgan
+	const ax = B + IW * 0.3, ay = fy - 30;
+	ctx.strokeStyle = '#2a2e36'; ctx.lineWidth = 9; ctx.beginPath(); ctx.ellipse(ax, ay, 46, 60, 0.12, 0, 7); ctx.stroke();
+	ctx.strokeStyle = '#6a7484'; ctx.lineWidth = 2; ctx.beginPath(); ctx.ellipse(ax - 2, ay - 2, 46, 60, 0.12, Math.PI * 1.05, Math.PI * 1.7); ctx.stroke(); // canto que coge la luz
+	for (let k = 0; k < 6; k++) { ctx.fillStyle = '#1a1c22'; ctx.fillRect(ax - 40 + k * 15, ay - 52 + Math.abs(k - 2.5) * 6, 5, 4); } // pernos
+	ctx.strokeStyle = '#1e2026'; ctx.lineWidth = 2;
+	for (let k = 0; k < 4; k++) { ctx.beginPath(); ctx.moveTo(ax + 30 + k * 3, ay + 44); ctx.quadraticCurveTo(ax + 60 + k * 14, ay + 70, ax + 110 + k * 30, fy + 30 + k * 6); ctx.stroke(); }
+	// el orbe partido en dos, como una cáscara, en el centro del anillo: dos medias esferas abiertas y vacías
+	const ox = ax + 10, oy = fy + 34;
+	const half = (dx, rot) => {
+		ctx.save(); ctx.translate(ox + dx, oy); ctx.rotate(rot);
+		const g = ctx.createRadialGradient(-4, -6, 2, 0, 0, 16); g.addColorStop(0, '#fbf6e8'); g.addColorStop(0.6, '#d8cfbe'); g.addColorStop(1, '#8a8274');
+		ctx.fillStyle = g; ctx.beginPath(); ctx.arc(0, 0, 15, Math.PI, 0); ctx.closePath(); ctx.fill();
+		ctx.fillStyle = '#3a342e'; ctx.beginPath(); ctx.ellipse(0, 0, 15, 4, 0, 0, Math.PI * 2); ctx.fill(); // el hueco, vacío
+		ctx.fillStyle = 'rgba(255,240,210,.25)'; ctx.beginPath(); ctx.ellipse(0, -1, 11, 2, 0, 0, Math.PI * 2); ctx.fill();
+		ctx.restore();
+	};
+	half(-34, -1.1); half(52, 2.3); // una mitad volcada a la izquierda; la otra rodó lejos, boca abajo
+	// motas de luz que suben del orbe hacia el agujero
+	ctx.save(); ctx.globalCompositeOperation = 'lighter';
+	for (let i = 0; i < 26; i++) { const t = R(), x = ox + (hx - ox) * t + (R() - 0.5) * 30, y = oy + (hy - oy) * t; ctx.fillStyle = `rgba(255,236,200,${0.25 + (1 - t) * 0.5})`; ctx.fillRect(x, y, 1.6, 1.6); }
+	ctx.restore();
+	// borde de la Pokédex que se cuela abajo a la izquierda (la foto la hizo Rotom: se ve un trozo de su carcasa)
+	ctx.fillStyle = '#c8402a'; ctx.beginPath(); ctx.moveTo(B, B + IH - 28); ctx.quadraticCurveTo(B + 30, B + IH - 22, B + 44, B + IH); ctx.lineTo(B, B + IH); ctx.fill();
+	ctx.fillStyle = 'rgba(255,200,180,.35)'; ctx.fillRect(B, B + IH - 26, 26, 1.5);
+	ctx.restore();
+	photoFinish(ctx, B, B, IW, IH, 91, { grain: 24, warm: -2, vig: 0.5 });
+	ctx.save(); ctx.translate(W - B - 8, H - 11); ctx.rotate(-0.05); ctx.fillStyle = '#3a3a5a'; ctx.globalAlpha = 0.85; ctx.font = 'italic 600 14px Nunito, serif'; ctx.textAlign = 'right';
+	ctx.fillText('¡Bzzt! (foto)', 0, 0); ctx.restore();
+	return { canvas: cv, done: Promise.resolve(true) };
+}
+
 /** Visor a pantalla completa para un objeto clave con cuadro. */
 export async function viewArt(itemId) {
 	const it = D.items[toID(itemId)] || {};
@@ -955,6 +1120,8 @@ export async function viewArt(itemId) {
 		: it.art === 'lago_furia_noche' ? paintLagoNoche()
 		: it.art === 'puente_pepita' ? paintPuentePepita({ look })
 		: it.art === 'cueva_celeste_aura' ? paintCuevaAura()
+		: it.art === 'valle_antano' ? paintValleAntano()
+		: it.art === 'cima_torre' ? paintCimaTorre()
 		: null;
 	if (!painting) return;
 	const note = h('div', { class: 'art-note' }, it.desc || '');

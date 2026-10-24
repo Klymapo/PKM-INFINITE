@@ -310,16 +310,16 @@ export default {
 	// =====================================================================
 	trainers: {
 		// ----- Jefe de trama: Acromo -----
-		acromo_1: { name: 'Acromo', cls: 'Científico', npc: 'acromo', ai: 5, iv: 29, reward: 8700, terrain: 'rocks', bg: 'ruins',
+		acromo_1: { name: 'Acromo', cls: 'Científico', npc: 'acromo', ai: 4, iv: 26, reward: 8700, terrain: 'rocks', bg: 'ruins',
 			team: [
 				{ sp: 'klinklang', lv: 64, moves: ['geargrind', 'wildcharge', 'shiftgear', 'magnetrise'], ability: 'clearbody', item: 'sitrusberry', nature: 'adamant', iv: 28 },
 				{ sp: 'beheeyem', lv: 65, moves: ['psychic', 'shadowball', 'thunderbolt', 'trickroom'], ability: 'analytic', item: 'colburberry', nature: 'quiet', iv: 28 },
 				{ sp: 'bronzong', lv: 65, moves: ['gyroball', 'psychic', 'earthquake', 'lightscreen'], ability: 'levitate', item: 'mentalherb', nature: 'relaxed', iv: 28 },
-				{ sp: 'porygonz', lv: 66, moves: ['triattack', 'thunderbolt', 'icebeam', 'shadowball'], ability: 'download', item: 'choicespecs', nature: 'modest', iv: 29 },
-				{ sp: 'magnezone', lv: 66, moves: ['thunderbolt', 'flashcannon', 'voltswitch', 'bodypress'], ability: 'sturdy', item: 'airballoon', nature: 'modest', iv: 29 },
-				{ sp: 'metagross', lv: 67, moves: ['meteormash', 'zenheadbutt', 'earthquake', 'bulletpunch'], ability: 'clearbody', item: 'assaultvest', nature: 'adamant', iv: 31 },
+				{ sp: 'rotomwash', lv: 65, moves: ['hydropump', 'thunderbolt', 'willowisp', 'voltswitch'], ability: 'levitate', item: 'sitrusberry', nature: 'bold', iv: 26 },
+				{ sp: 'magnezone', lv: 66, moves: ['thunderbolt', 'flashcannon', 'voltswitch', 'bodypress'], ability: 'sturdy', item: 'magnet', nature: 'modest', iv: 28 },
+				{ sp: 'metagross', lv: 67, moves: ['meteormash', 'zenheadbutt', 'earthquake', 'bulletpunch'], ability: 'clearbody', item: 'sitrusberry', nature: 'adamant', iv: 29 },
 			],
-			items: [{ id: 'fullrestore', n: 2 }],
+			items: [{ id: 'maxpotion', n: 2 }],
 			intro: 'Un vínculo es una fuerza. Y las fuerzas se miden. Llevo años midiendo las de los demás desde lejos. Hoy tengo la suerte de medir la tuya de cerca. No te contengas: los datos a medias no me sirven de nada.',
 			win: 'Fascinante. —Mira a su Metagross, quieto en el suelo, sin enfado—. Has ganado con algo que no sale en mis gráficas. O sí sale, y yo no sabía leerlo. Tengo que volver a mirarlo todo.',
 			lose: 'Interesante. Pero no concluyente. Una medida sola no es una medida. Vuelve: necesito más datos. Y tú, un poco de descanso.' },
@@ -346,7 +346,7 @@ export default {
 			items: [{ id: 'hyperpotion', n: 1 }],
 			intro: 'Seguridad de la planta cuarenta. Contrato nuevo: la empresa de antes se fue a Alola a arreglar máquinas. —Te enfoca con la linterna—. Yo no me voy a ningún sitio.',
 			win: 'Anotado en el parte: «incidencia en la pasarela, sin heridos». Lo de «sin dignidad» no lo pongo.',
-			lose: 'Fuera de mi pasarela. Y ponte una chaqueta, que aquí arriba se cogen catarros.' },
+			lose: 'Fuera de mi pasarela. Y ponte una chaqueta, que aquí arriba se pesca un resfriado.' },
 		guardia_tes_1: { name: 'Nemesio', cls: 'Vigilante de Lemnis', npc: 'guardia_lemnis', ai: 3, reward: 2600, terrain: 'path', bg: 'city',
 			team: [
 				{ sp: 'liepard', lv: 64, moves: ['nightslash', 'uturn', 'fakeout', 'playrough'] },
@@ -1146,7 +1146,7 @@ export default {
 	gather: {
 		b06_tejados_nidos: {
 			name: 'El huerto y los nidos de la azotea', icon: '🪺', hours: 20, picks: [2, 3],
-			game: { type: 'catch', level: 2, theme: 'huerto', hint: 'Sacude el limonero enano con cuidado: en las antenas hay nidos, y lo que cae de ellos ok más.' },
+			game: { type: 'catch', level: 2, theme: 'huerto', hint: 'Sacude el limonero enano con cuidado: en las antenas hay nidos, y lo que cae de ellos vale más.' },
 			ask: 'Un huerto en cajones de fruta en lo alto de un edificio: un limonero enano, tomateras, bayas en macetas. En las antenas de alrededor, nidos de Pidove hechos con cables viejos y plumas.',
 			text: 'Recoges lo que el huerto y los nidos sueltan hoy. Un Pidove te mira desde la antena con cara de que eso era suyo.',
 			wait: 'El huerto de la azotea ya ha dado lo suyo. Alguien ha dejado una regadera llena para mañana.',
@@ -1190,7 +1190,7 @@ export default {
 			table: [
 				{ id: 'hardstone', w: 12, n: [1, 1] }, { id: 'stardust', w: 12, n: [1, 2] }, { id: 'reliccopper', w: 12, n: [1, 2] },
 				{ id: 'relicsilver', w: 8, n: [1, 1] }, { id: 'dragonscale', w: 4, n: [1, 1] }, { id: 'dragonfang', w: 4, n: [1, 1] },
-				{ id: 'relicgold', w: 2, n: [1, 1], rare: true }, { id: 'relicvase', w: 2, n: [1, 1], rare: true },
+				{ id: 'relicgold', w: 2, n: [1, 1], rare: true }, { id: 'relicvase', w: 2, n: [1, 1], rare: true }, { id: 'metalalloy', w: 2, n: [1, 1], rare: true },
 			],
 		},
 	},

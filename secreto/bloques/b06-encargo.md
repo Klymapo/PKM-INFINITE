@@ -197,3 +197,7 @@ Errores esperados mientras se escriben los demás tramos: lugares, entrenadores 
 ## Duraciones meta por tramo (suman ~16 h)
 
 T0 2 h 30 · T1 2 h 30 · T2 2 h 30 (opcional) · T3 3 h · T4 2 h 45 · T5 3 h 15. Pon `est` en minutos en las misiones de tu tramo para que el Game Designer lo cuente.
+
+## Nota del integrador (2026-10-23): museo
+
+`app/content/b06/t6-museo.js` tiene la **Sala de Teselia** del Museo de la Ficha Número Uno (4 piezas: recorte de *Casos Fríos*, réplica del Péndulo, la pluma gris del Ala y la primera página del Diario según `b06_eco_*`). **No está importado** en `app/content/b06/index.js` porque depende de `app/content/b05/t7-museo.js` (lugar `museo_ficha`, NPC `philippe`, misión `b05_s_museo`), que está en la rama `trabajo/entrega-2026-10-23`. Cuando esa rama esté en `main`, la sesión que conecte el B6 añade `t6-museo.js` a las partes de `index.js` y pasa el validador. La crónica de Chamota (opcional) no se añadió: T2 es secundario y la sala ya tiene 4 piezas.
