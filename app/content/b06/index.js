@@ -11,6 +11,7 @@ import t2 from './t2-chamota.js';
 import t3 from './t3-antano.js';
 import t4 from './t4-fayenza.js';
 import t5 from './t5-dragospiral.js';
+import museo from './t6-museo.js';
 
 const block = {
 	id: 'b06', title: 'Acto V · La voz del narrador', hours: 16, ends: 'b06_fin',
@@ -19,7 +20,7 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t4, t5];
+const parts = [comun, t0, t1, t2, t3, t4, t5, museo];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {
