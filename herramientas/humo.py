@@ -75,8 +75,16 @@ with sync_playwright() as p:
         if not pg.query_selector('.nav'):
             continue
         break
+    def cerrar_dialogos():
+        # Un aviso que salta solo (p. ej. Rotom anunciando un evento por fecha) deja un diálogo encima de la barra.
+        for _ in range(40):
+            tb = pg.query_selector('.overlay .textbox')
+            if not tb: return
+            tb.evaluate('e => e.click()'); time.sleep(0.25)
+    time.sleep(0.5); cerrar_dialogos()
     pg.screenshot(path=f'{args.salida}/04-lugar.png')
     for nombre in ['Mapa', 'Equipo', 'Mochila', 'Diario', 'Más']:
+        cerrar_dialogos()
         btn = pg.query_selector(f'.nav button:has-text("{nombre}")')
         if not btn:
             errores.append(f'no encuentro el botón {nombre} de la barra'); continue
