@@ -609,7 +609,7 @@ export default {
 		// =================== CAMILA ===================
 		b06_camila_reto: [
 			{ text: 'Al final de la pasarela, colgada sobre la ciudad, **Camila** te espera con los brazos cruzados. Los auriculares de oro al cuello. El viento le mueve el pelo justo lo necesario, como si lo hubiera ensayado. Puede que lo haya ensayado.' },
-			{ say: 'camila', text: 'Así que tú eres el de la Gira. —Te mira de arriba abajo, sin prisa, como se mira un vestido—. En la tele sales más bajito. O más alto. No me acuerdo. En la tele todo el mundo sale igual.' },
+			{ say: 'camila', text: 'Así que tú eres {el|la|le} de la Gira. —Te mira de arriba abajo, sin prisa, como se mira un vestido—. En la tele sales más bajit{o|a|e}. O más alt{o|a|e}. No me acuerdo. En la tele todo el mundo sale igual.' },
 			{ if: LUC, then: [
 				{ say: 'camila', text: 'Él no. —Señala a {riolu} con la barbilla—. Él sale distinto en todas partes. Tiene presencia. La presencia no se ensaya. Se tiene o no se tiene. Yo la ensayo, por si acaso.' },
 			] },
@@ -619,7 +619,7 @@ export default {
 			{ say: 'camila', text: 'En este gimnasio no se gana. Se brilla. El que más brille al final, se queda con la pasarela. Y con mi medalla. Aunque la medalla da igual. Lo que importa es la pasarela.' },
 			{ prompt: '¿Curar al equipo antes de retar a Camila?', choice: [
 				{ text: 'Sí, por favor.', then: [{ heal: 'Camila chasquea los dedos. Mirta y Celestino llegan desfilando con una bandeja de pociones cada uno y curan a tu equipo sin perder el paso.' }] },
-				{ text: 'Así estoy bien.', then: [{ say: 'camila', text: 'Valiente. O despistado. En la pasarela, se parecen mucho.' }] },
+				{ text: 'Así estoy bien.', then: [{ say: 'camila', text: 'Valiente. O despistad{o|a|e}. En la pasarela, se parecen mucho.' }] },
 			] },
 			{ battle: 'camila_g', onWin: [
 				{ text: 'El Eelektross de Camila se apaga, poco a poco, como una ciudad cuando amanece. Se queda flotando un segundo más de lo normal, por orgullo, y luego baja. Camila lo devuelve a su Poké Ball y se queda mirándola.' },
@@ -717,13 +717,7 @@ export default {
 			{ text: 'Se toca la insignia de la solapa sin darse cuenta.' },
 			{ say: 'bastien', text: 'Es de Noa. Me la dio antes de que todo. Antes de todo. —No termina la frase—. No me contesta. Le escribo los domingos igual. Si un día contesta, que vea que no he dejado de escribir.' },
 			{ choice: [
-				{ text: '«Estoy orgulloso de ti, Bastien.»', cond: 'pron == "el"', then: [
-					{ say: 'bastien', text: '…—Se le ponen las orejas rojas—. No digas eso en un andén, que hay eco. Y me lo creo.' },
-				] },
-				{ text: '«Estoy orgullosa de ti, Bastien.»', cond: 'pron == "ella"', then: [
-					{ say: 'bastien', text: '…—Se le ponen las orejas rojas—. No digas eso en un andén, que hay eco. Y me lo creo.' },
-				] },
-				{ text: '«Estoy orgulloso de ti, Bastien.»', cond: 'pron == "elle"', then: [
+				{ text: '«Estoy orgullos{o|a|e} de ti, Bastien.»', then: [
 					{ say: 'bastien', text: '…—Se le ponen las orejas rojas—. No digas eso en un andén, que hay eco. Y me lo creo.' },
 				] },
 				{ text: '«¿Necesitas dinero?»', then: [
@@ -813,13 +807,13 @@ export default {
 			{ say: 'tadeo', text: '¡Ay! Perdone. Se me ha olvidado que la gente se asoma. —Sale hasta la cintura, con un guion lleno de anotaciones bajo el brazo—. Tadeo Lis. El apuntador. Nadie sabe que existo hasta que alguien se olvida del texto. Entonces soy el hombre más importante del teatro durante tres segundos.' },
 			{ say: 'tadeo', text: 'Trabajo aquí abajo. En la concha. —Da dos golpecitos en el borde de la trampilla—. Así se llama este hueco, aunque la gente ya no lo sepa. Desde aquí se oye todo y nadie te ve. Es el mejor sitio de un teatro. Y el más solitario.' },
 			{ if: 'flag.b06_caso_prueba', then: [
-				{ say: 'tadeo', text: 'Oiga… ¿no será usted quien salió en el programa de Renata Castellanos? ¿El del martes? —Se le iluminan los ojos—. ¡Lo escucho siempre! Aquí abajo, en los entreactos, con un auricular. Qué bien razonado. Qué ritmo. Habla usted como alguien que ha leído buen teatro.' },
+				{ say: 'tadeo', text: 'Oiga… ¿no será usted quien salió en el programa de Renata Castellanos? ¿{El|La|Le} del martes? —Se le iluminan los ojos—. ¡Lo escucho siempre! Aquí abajo, en los entreactos, con un auricular. Qué bien razonado. Qué ritmo. Habla usted como alguien que ha leído buen teatro.' },
 				{ choice: [
 					{ text: '«¿Escucha mucho *Casos Fríos*?»', then: [
 						{ say: 'tadeo', text: 'Desde el primer episodio. Desde antes de que fuera famoso. —Sonríe, pero algo se le queda quieto en la cara—. Me los sé casi de memoria. Deformación profesional: me lo sé todo de memoria.' },
 					] },
 					{ text: '«Gracias. Fue cosa de Renata, sobre todo.»', then: [
-						{ say: 'tadeo', text: 'Qué modesto. —Te mira un momento más de lo normal—. Renata Castellanos tiene muchas virtudes. La modestia nunca ha sido una de ellas. Que alguien a su lado la tenga… es bonito. Teatral, incluso.' },
+						{ say: 'tadeo', text: 'Qué modest{o|a|e}. —Te mira un momento más de lo normal—. Renata Castellanos tiene muchas virtudes. La modestia nunca ha sido una de ellas. Que alguien a su lado la tenga… es bonito. Teatral, incluso.' },
 					] },
 				] },
 			] },
@@ -847,7 +841,7 @@ export default {
 		b06_azucena: [
 			{ text: 'En la tercera fila, una mujer con sombrero de paja y una flor en el pelo escucha la prueba de voces con los ojos cerrados. A su lado, un Altaria esponjoso canta. Un agudo limpio, larguísimo, que hace vibrar las lámparas.' },
 			{ if: 'beat("kantai_iolana")', then: [
-				{ say: 'kantai_turista', as: 'Azucena', text: '¡Tú! ¡La de Kantai! Bueno, el. Bueno, quien seas, el del malecón. —Abre los ojos y te reconoce de golpe—. Te debo una. Aquella tarde, en Kantai, mi Altaria cantó al final del combate. Desde entonces no ha dejado de cantar.' },
+				{ say: 'kantai_turista', as: 'Azucena', text: '¡Tú! ¡La de Kantai! Bueno, el. Bueno, quien seas: {el|la|le} del malecón. —Abre los ojos y te reconoce de golpe—. Te debo una. Aquella tarde, en Kantai, mi Altaria cantó al final del combate. Desde entonces no ha dejado de cantar.' },
 			], else: [
 				{ say: 'kantai_turista', as: 'Azucena', text: 'Tú estabas en Kantai. En el malecón, cuando el cielo se apagaba. Me acuerdo de tu Lucario. Mirabas el cielo como yo, con cara de que te debía algo.' },
 			] },
@@ -873,9 +867,9 @@ export default {
 			{ text: 'En la cancha 3 juega el equipo invitado de Kalos: camisetas azules con una flor de lis en el pecho. Hay tiempo muerto. Una chica de coleta alta y rodilleras bota el balón en la línea de saque, concentrada, contando en voz baja.' },
 			{ text: 'Lanza el balón al aire. Salta. Lo golpea de arriba, con la palma abierta. El balón cruza la red como una piedra y se clava en el suelo del otro lado. El público grita. Ella no: se mira la muñeca, sorprendida, como si no fuera suya.' },
 			{ if: 'flag.b05_camille_vista', then: [
-				{ say: 'camille', text: '¡{jugador}! —Te ve desde la cancha y se le olvida el partido un segundo—. ¡El de Æther! ¿Lo has visto? ¡¿Lo has visto?! ¡El de arriba! ¡Me sale!' },
+				{ say: 'camille', text: '¡{jugador}! —Te ve desde la cancha y se le olvida el partido un segundo—. ¡{El|La|Le} de Æther! ¿Lo has visto? ¡¿Lo has visto?! ¡El de arriba! ¡Me sale!' },
 			], else: [
-				{ say: 'camille', text: '¿Tú eres {jugador}? ¿El de la Gira? —Se acerca a la valla durante el tiempo muerto—. Papá tenía una foto tuya en el corcho, con una chincheta roja. Camille. ¿Lo has visto? El saque. El de arriba. Me sale.' },
+				{ say: 'camille', text: '¿Tú eres {jugador}? ¿{El|La|Le} de la Gira? —Se acerca a la valla durante el tiempo muerto—. Papá tenía una foto tuya en el corcho, con una chincheta roja. Camille. ¿Lo has visto? El saque. El de arriba. Me sale.' },
 			] },
 			// ----- Rama: Lebrun detenido → Handsome hace de tío -----
 			{ if: 'flag.b04_lebrun_detenido', then: [
@@ -1068,13 +1062,13 @@ export default {
 			{ text: '«*Prestado. Devuelto. Desde la concha.*»' },
 			{ say: 'operario_noria', text: '¿Prestado? —Toma al Emolga en brazos. El Emolga bosteza—. ¿Quién presta un Emolga que no es suyo? ¿Y quién hace eso para devolverlo?' },
 			{ say: 'rotom', text: 'Alguien que quería que lo viéramos. —Muy bajito, para Rotom—. Y que sabía a qué hora se cambian las placas. Como cualquiera que lea la taquilla.' },
-			{ text: 'Entonces la Pokédex suena. Un número de Teselia con un emoji de micrófono. Es martes. Son las seis y cuarto. Hay directo.' },
+			{ text: 'Entonces la Pokédex suena. Un número de Teselia con un emoji de micrófono. Es martes. Son las seis y cuarto. Hoy hay directo especial, de tarde: esto no podía esperar a las nueve.' },
 			{ call: 'b06_directo_noria' },
 		],
 		b06_directo_noria: [
 			{ text: 'Descuelgas. Antes de que digas nada, oyes una sintonía y una voz que ya conoces, en modo radio.' },
 			// EN ANTENA ------------------------------------------------------------
-			{ say: 'renata', as: 'Renata (en directo)', text: '¡Buenas tardes, Teselia, esto es *Casos Fríos* en directo, como cada martes! Y tenemos en línea a nuestr{o|a|e} colaborador{|a|e} desde Ciudad Mayólica, porque al parecer allí una noria se ha comido un Pokémon. {jugador}, estás en antena.' }, // EN ANTENA
+			{ say: 'renata', as: 'Renata (en directo)', text: '¡Buenas tardes, Teselia, esto es *Casos Fríos* en un directo especial, que hoy el martes empieza antes! Y tenemos en línea a nuestr{o|a|e} colaborador{|a|e} desde Ciudad Mayólica, porque al parecer allí una noria se ha comido un Pokémon. {jugador}, estás en antena.' }, // EN ANTENA
 			{ choice: [
 				{ text: 'Contarlo serio, sin adornos.', then: [
 					{ say: 'jugador', text: 'Cabina siete, a las seis, vacía. El Emolga estaba en la seis. A las seis hay una vuelta lenta y se cambian las placas de sitio: está en el horario de la taquilla.' }, // EN ANTENA
@@ -1113,10 +1107,10 @@ export default {
 		b06_apuntador_2: [
 			{ set: { 'flag.b06_apuntador_2': true } },
 			{ text: 'El chico de la gorra de mensajero te ve, mira una foto que lleva en la mano —la tuya, recortada de una revista de la Gira— y viene derecho.' },
-			{ say: 'mensajero_may', text: '¿{jugador}? Para ti. —Te da un sobre color crema—. Me lo dio ayer un señor. Me pagó por adelantado, con monedas, todas contadas. Dijo que te lo diera al día siguiente del programa de la radio. Ni antes ni después.' },
+			{ say: 'mensajero_may', text: '¿{jugador}? Para ti. —Te da un sobre color crema—. Me llamó un señor desde un teléfono público. Me dijo una taquilla de la estación. Dentro estaba el sobre y las monedas, todas contadas. Que te lo diera en cuanto acabara el programa de la radio. Ni antes ni después.' },
 			{ choice: [
 				{ text: '«¿Cómo era el señor?»', then: [
-					{ say: 'mensajero_may', text: 'Gafas de sol. Bufanda. Sombrero. En agosto. —Se encoge de hombros—. Hablaba muy bien. Como en las películas. Y no me dio propina. Ni una moneda de más. Eso me fijé.' },
+					{ say: 'mensajero_may', text: 'No lo vi. Le digo «señor» porque hablaba muy bien, como en las películas. —Se encoge de hombros—. Y las monedas, exactas. Ni una de propina. Eso me fijé.' },
 				] },
 				{ text: '«¿Te dijo algo más?»', then: [
 					{ say: 'mensajero_may', text: 'Que si me preguntabas cómo era, te dijera que «como todo el mundo». —Lo piensa—. Era verdad. Era como todo el mundo. Eso es lo raro.' },

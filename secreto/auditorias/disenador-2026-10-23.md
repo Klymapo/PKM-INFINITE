@@ -2,7 +2,7 @@
 
 > Diseño del juego con ojos de diseñador. **✖ grave** · **⚠ detalle** · **· curiosidad** (opinable).
 
-**Total:** 0 graves · 0 detalles · 2 curiosidades. 116 misiones, 5 bloques y 150 lugares revisados.
+**Total:** 0 graves · 0 detalles · 2 curiosidades. 133 misiones, 6 bloques y 199 lugares revisados.
 
 ## Hub de misiones: fichas que no te guían (0)
 
@@ -30,13 +30,13 @@ Cuenta como conseguible si se captura, se regala o sale en un evento la especie 
 
 | Grupo | Conseguibles | Faltan |
 |---|---|---|
-| Iniciales | 10/29 | Bulbasaur, Charmander, Squirtle, Treecko, Torchic, Mudkip, Turtwig, Chimchar, Piplup, Snivy, Tepig, Oshawott, Chespin, Froakie, Grookey, Scorbunny, Sobble, Sprigatito, Quaxly |
+| Iniciales | 13/29 | Bulbasaur, Charmander, Squirtle, Treecko, Torchic, Mudkip, Turtwig, Chimchar, Piplup, Chespin, Froakie, Grookey, Scorbunny, Sobble, Sprigatito, Quaxly |
 | Pseudolegendarios | 2/10 | Dratini, Beldum, Gible, Deino, Goomy, Jangmo-o, Dreepy, Frigibax |
-| Fósiles | 6/15 | Lileep, Anorith, Shieldon, Tirtouga, Archen, Dracozolt, Arctozolt, Dracovish, Arctovish |
+| Fósiles | 11/15 | Dracozolt, Arctozolt, Dracovish, Arctovish |
 | Evoluciones de Eevee | 8/8 | — |
-| Especiales | 9/16 | Porygon, Rotom, Spiritomb, Castform, Chansey, Zorua, Larvesta |
+| Especiales | 12/16 | Porygon, Rotom, Spiritomb, Chansey |
 | Legendarios menores | 2/44 | Articuno, Zapdos, Moltres, Raikou, Entei, Suicune, Regirock, Regice, Registeel, Latias, Latios, Uxie, Mesprit, Azelf, Heatran, Regigigas, Cresselia, Cobalion, Terrakion, Virizion, Tornadus, Thundurus, Landorus, Tapu Koko, Tapu Lele, Tapu Bulu, Tapu Fini, Kubfu, Urshifu, Regieleki, Regidrago, Glastrier, Spectrier, Enamorus, Wo-Chien, Chien-Pao, Ting-Lu, Chi-Yu, Okidogi, Munkidori, Fezandipiti, Ogerpon |
-| Legendarios | 0/27 | Mewtwo, Lugia, Ho-Oh, Kyogre, Groudon, Rayquaza, Dialga, Palkia, Giratina, Reshiram, Zekrom, Kyurem, Xerneas, Yveltal, Zygarde, Cosmog, Cosmoem, Solgaleo, Lunala, Necrozma, Zacian, Zamazenta, Eternatus, Calyrex, Koraidon, Miraidon, Terapagos |
+| Legendarios | 1/27 | Mewtwo, Lugia, Ho-Oh, Kyogre, Groudon, Rayquaza, Dialga, Palkia, Giratina, Zekrom, Kyurem, Xerneas, Yveltal, Zygarde, Cosmog, Cosmoem, Solgaleo, Lunala, Necrozma, Zacian, Zamazenta, Eternatus, Calyrex, Koraidon, Miraidon, Terapagos |
 | Singulares | 0/23 | Mew, Celebi, Jirachi, Deoxys, Phione, Manaphy, Darkrai, Shaymin, Arceus, Victini, Keldeo, Meloetta, Genesect, Diancie, Hoopa, Volcanion, Magearna, Marshadow, Zeraora, Meltan, Melmetal, Zarude, Pecharunt |
 | Ultraentes | 0/11 | Nihilego, Buzzwole, Pheromosa, Xurkitree, Celesteela, Kartana, Guzzlord, Poipole, Naganadel, Stakataka, Blacephalon |
 | Paradoja | 0/16 | Colmilargo, Colagrito, Furioseta, Melenaleteo, Reptalada, Pelarena, Ferrodada, Ferrosaco, Ferropalmas, Ferrocuello, Ferropolilla, Ferropúas, Bramaluna, Ferropaladín, Ondulagua, Ferroverdor |

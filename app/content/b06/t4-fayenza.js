@@ -88,13 +88,13 @@ export default {
 		puente_levadizo: {
 			name: 'Puente de Fayenza', short: 'Puente de Fayenza', region: 'teselia', kind: 'route', map: { x: 12, y: 50 },
 			bg: { type: 'coast', far: '#8aa8c0', ground: '#8a3a2f' },
-			desc: 'El puente levadizo más largo de Teselia: un tablero de hierro pintado de rojo, tendido sobre el río entre dos torres con poleas del tamaño de una casa. Cuando sopla el viento, los cables cantan. De verdad. Una nota larga y grave, como un barco que se despide.\n\nAl otro lado, las grúas del puerto de **Ciudad Fayenza**.',
-			descNight: 'De noche, el puente se ilumina con una fila de farolas amarillas que se reflejan en el río. Los cables siguen cantando. Más bajo. Los Swanna duermen en las vigas, con la cabeza debajo del ala.',
+			desc: 'El puente levadizo más largo de Teselia: un tablero de hierro pintado de rojo, tendido sobre el río entre dos torres con poleas del tamaño de una casa. Cuando sube o baja, las poleas gruñen. De verdad. Un quejido largo y grave, como un barco que se despide.\n\nAl otro lado, las grúas del puerto de **Ciudad Fayenza**.',
+			descNight: 'De noche, el puente se ilumina con una fila de farolas amarillas que se reflejan en el río. Las poleas crujen de vez en cuando, como si soñaran. Los Swanna duermen en las vigas, con la cabeza debajo del ala.',
 			links: ['tes_ruta5', 'fayenza'],
-			mapNote: 'El puente levadizo · los cables que cantan',
+			mapNote: 'El puente levadizo · las torres de las poleas',
 			rumors: [
 				{ text: 'Dicen que el Puente de Fayenza se levanta cada noche a las tres para dejar pasar barcos que no salen en ningún registro. Los pescadores dicen que no. Que se levanta a las tres y cuarto.' },
-				{ text: 'Cuando el viento sopla del norte, los cables del puente dan un do grave. Los músicos de la Ruta 5 afinan con él.' },
+				{ text: 'El operario del puente lleva veinte años en la caseta. Dice que conoce cada remache por su nombre. Que el que más se queja es el treinta y siete, y que tiene motivos.' },
 			],
 			route: {
 				from: 'tes_ruta5', to: 'fayenza', length: 3, terrain: 'path', rate: 0.15,
@@ -108,7 +108,7 @@ export default {
 						{ item: 'pearlstring', hidden: true },
 					],
 					2: [
-						{ text: 'A mitad del puente sopla el viento y los cables cantan: una nota larga, grave, que se te mete en el pecho. Un Swanna se posa en la barandilla y te mira como si la nota fuera suya.' },
+						{ text: 'A mitad del puente sopla el viento y el tablero entero vibra bajo tus pies, despacio, como la cubierta de un barco. Un Swanna se posa en la barandilla y te mira como si el puente fuera suyo.' },
 						{ trainer: 'tes_puente_amaya', optional: true, label: 'Una señora con un Swanna en brazos y una cámara al cuello' },
 						{ item: 'fullheal' },
 					],
@@ -342,7 +342,7 @@ export default {
 				{ sp: 'cinccino', lv: 62 },
 			],
 			intro: 'Toco en las caravanas desde hace veinte años. Este año me han pagado en entradas para el puente. ¡Y por fin lo han bajado! ¡Con música!',
-			win: 'Desafiné. Pasa, pasa. Los cables del puente cantan mejor que yo.' },
+			win: 'Desafiné. Pasa, pasa. Las poleas del puente desafinan menos que yo.' },
 		tes5_irati: { name: 'Irati', cls: 'Bailarina', ai: 2, bg: 'route',
 			team: [
 				{ sp: 'cinccino', lv: 63 },
@@ -359,7 +359,7 @@ export default {
 			],
 			intro: 'Tres meses dando la vuelta por la Ruta 6 porque «el puente está en obras». ¡Obras! ¡Si nunca vi a un obrero! Bueno, uno. Con capucha.',
 			win: 'Ahora sí cruzo. Por el puente. Con la moto. Despacito.' },
-		tes5_nuria: { name: 'Nuria', cls: 'Guardabosques', ai: 2, bg: 'route',
+		tes5_nuria: { name: 'Ximena', cls: 'Guardabosques', ai: 2, bg: 'route',
 			team: [
 				{ sp: 'sawsbuck', lv: 63 },
 				{ sp: 'reuniclus', lv: 64 },
@@ -480,7 +480,7 @@ export default {
 			{ if: LUC, then: [
 				{ say: 'rotom', text: '¿Qué miras, {riolu}? ¿Las naves? Son neveras gigantes. Para pescado. Bueno, eso pone en el cartel.' },
 			] },
-			{ diary: 'Hoy mi entrenador{|a|e} ha llegado a Ciudad Fayenza por el puente que canta. ¡Canta de verdad! Una nota grave, como un barco que bosteza. Fayenza es un puerto lleno de grúas amarillas y de gente con chaleco naranja que se grita cosas cariñosas de un barco a otro. En la colina hay una mina que es un gimnasio, y del gimnasio sale humo de estofado. Eso solo puede ser una persona.', cond: 'flag.b01_diario' },
+			{ diary: 'Hoy mi entrenador{|a|e} ha llegado a Ciudad Fayenza por el puente levadizo. ¡Por fin lo han bajado! Las poleas gruñen como un barco que bosteza. Fayenza es un puerto lleno de grúas amarillas y de gente con chaleco naranja que se grita cosas cariñosas de un barco a otro. En la colina hay una mina que es un gimnasio, y del gimnasio sale humo de estofado. Eso solo puede ser una persona.', cond: 'flag.b01_diario' },
 		],
 		b06_fayenza_pendiente: [
 			{ say: 'rotom', text: '¡Bzzt! Lista de cosas en Fayenza:' },
@@ -578,7 +578,7 @@ export default {
 			{ say: 'brock', text: '¡Siéntate, siéntate! Hoy hay estofado con pan de Chamota. Me lo trajo un chef ambulante que pasó por aquí. Dice que es «el pan de una noche muy rara». Está buenísimo. La noche no sé.', cond: 'flag.b06_shoku_celia' },
 			{ say: 'brock', text: 'Aquí sigo, entre la mina y la olla. Si pasas por Fayenza, baja a comer. Es una orden. De líder.', cond: '!flag.b06_shoku_celia' },
 			{ if: 'flag.b06_t4_hecho', then: [
-				{ say: 'brock', text: 'Me han contado lo de los Almacenes. —Deja el cucharón—. Ese señor que sacasteis del frío… dile que aquí siempre hay un plato caliente. A esa gente se le olvida comer. Se les nota en las manos.' },
+				{ say: 'brock', text: 'Me han contado lo de los Almacenes. —Deja el cucharón—. Ese señor que sacaron del frío… dile que aquí siempre hay un plato caliente. A esa gente se le olvida comer. Se les nota en las manos.' },
 			] },
 			{ prompt: '¿Comer algo?', choice: [
 				{ text: 'Un plato (cura al equipo).', then: [{ heal: 'Comes con Brock en la mesa larga. Tus Pokémon, con los suyos. Están como nuevos.' }] },
@@ -620,7 +620,7 @@ export default {
 			] },
 			{ if: 'flag.b05_luz_leilani', then: [
 				{ text: 'Calder no mira a nadie mientras habla. Ni a ti, ni a Handsome. Mira el condensador como quien mira por una ventana.' },
-				{ say: 'calder', text: 'Este está vacío. Lo que había en el del Altar lo gastasteis en abrir una puerta un minuto. —Pausa—. Fue un buen minuto. Yo no lo habría gastado así. Por eso no me tocaba decidir.' },
+				{ say: 'calder', text: 'Este está vacío. Lo que había en el del Altar lo gastaron en abrir una puerta un minuto. —Pausa—. Fue un buen minuto. Yo no lo habría gastado así. Por eso no me tocaba decidir.' },
 			] },
 			{ if: 'flag.b05_calder_verdad', then: [
 				{ say: 'calder', text: 'Antes de que se me olvide. —Saca un sobre del bolsillo del abrigo, doblado y algo húmedo—. La kahuna Hela me pidió que se la diera en mano. Dijo: «Si te la quitan, te tiro al mar». No me la han quitado.' },
@@ -656,7 +656,7 @@ export default {
 		b06_pimpinela_zyra: [
 			{ set: { 'flag.b06_pimpinela_zyra': true } },
 			{ text: 'Junto a una fila de servidores con escarcha en las rejillas, dos mujeres discuten con un recluta Plasma que intenta tapar con el cuerpo un armario de discos. Una lleva una bata y una galleta en la mano. La otra, unas gafas redondas tan empañadas que no ve nada.' },
-			{ say: 'pimpinela', text: '¡{jugador}! ¡Qué alegría! ¿Galleta? —Te da una sin esperar respuesta—. Pimpinela, del Centro de Investigaciones Dimensionales de Kantai. Me acuerdas, ¿verdad? Los puntitos en la pantalla.' },
+			{ say: 'pimpinela', text: '¡{jugador}! ¡Qué alegría! ¿Galleta? —Te da una sin esperar respuesta—. Pimpinela, del Centro de Investigaciones Dimensionales de Kantai. Te acuerdas de mí, ¿verdad? Los puntitos en la pantalla.' },
 			{ say: 'zyra', text: '¡Y yo! ¡Zyra! ¡De Æther! —Se limpia las gafas en la bata y se las vuelve a empañar al ponérselas—. Hemos venido juntas. Bueno, en el mismo barco. Ella traía galletas y yo traía una orden judicial.' },
 			{ say: 'pimpinela', text: 'Nueve años de lecturas de ultraumbrales. Las del CID y las de Æther. Las vendió Fabio a Lemnis. —Señala el armario—. Están ahí. Y son nuestras. Bueno, son del cielo. Pero las medimos nosotras.' },
 			{ if: 'flag.b05_luz_aether', then: [
@@ -1010,7 +1010,7 @@ export default {
 			{ say: 'olmedo', text: 'Lo que había ahí fuera, el arco. —Se sienta otra vez—. Es mío. Lo diseñé hace doce años en Trigal, el primero. El de ahora es más grande. Lo llaman Arco II. No genera energía. La toma. Lo escribí en el margen del primer plano para que alguien lo leyera.' },
 			{ choice: [
 				{ text: '«Lo leímos. Lo encontramos en tu despacho de Trigal.»', cond: 'flag.b03_renata_deduccion', then: [
-					{ say: 'olmedo', text: '…¿Lo encontrasteis? —Se le empañan las gafas, ahora por dentro—. El doble fondo. Pensé que nadie miraría nunca un doble fondo. Gracias. Perdón. Gracias.' },
+					{ say: 'olmedo', text: '…¿Lo encontraron? —Se le empañan las gafas, ahora por dentro—. El doble fondo. Pensé que nadie miraría nunca un doble fondo. Gracias. Perdón. Gracias.' },
 				] },
 				{ text: '«¿Para qué es el Arco II?»', then: [
 					{ say: 'olmedo', text: 'Para vaciar algo. Algo muy grande que duerme en lo alto de una torre, al norte. No sé qué es. Nunca me dejaron verlo. Solo me dieron las medidas. —Se mira las manos—. Las medidas eran enormes.' },
@@ -1024,7 +1024,7 @@ export default {
 				{ say: 'olmedo', fx: 'letter', text: '«Módulos de acompañamiento». Para los Rotom de las Pokédex. Copiar una voz dentro de un Rotom. Una voz y una forma de pensar. Entera.' },
 				{ say: 'olmedo', fx: ['letter', 'heartbeat'], color: '#5a8ac4', text: 'Para que «acompañe». Y para que «reporte». Esas dos palabras, juntas, en la misma línea del encargo.' },
 				{ say: 'olmedo', cam: 'push', text: 'Dije que no. Una máquina que te acompaña y te vigila a la vez no es una máquina. Es un engaño con batería. —Se quita las gafas—. Al martes siguiente ya estaba en otro sitio.' },
-				{ cam: 'pull', fx: 'dark', text: 'No sé de quién era la voz. No llegué a saberlo. Solo sé que alguien lo terminó, porque a los dos años dejaron de preguntarme cómo se hacía.' },
+				{ cam: 'pull', fx: 'dark', text: 'No sé de quién era la voz. No llegué a saberlo. Solo sé que alguien lo terminó, porque al final dejaron de preguntarme cómo se hacía.' },
 			] } },
 			{ say: 'rotom', text: '¡Bzzt! ¡Qué miedo! Un Rotom con la voz de otro. Pobrecito. —Pausa—. Menos mal que yo soy yo. Bueno. Soy yo, ¿no? ¡Claro que soy yo! ¡Qué pregunta!' },
 			{ if: LUC, then: [
@@ -1041,7 +1041,7 @@ export default {
 			{ text: 'Le dices un nombre. Al otro lado de la línea, por primera vez desde que la conoces, Renata Castellanos se queda callada. Se oye el metro. Se oye a la Tía Rosa preguntar algo. Se oye una silla que cae.' },
 			{ say: 'renata', as: 'Renata (llamada)', text: 'No te muevas. No lo muevas. Que no se mueva nadie. Nico, las llaves de la furgoneta. ¡LAS LLAVES! —Pausa—. Cuarenta minutos. Treinta. Nico conduce fatal. Veinte.' },
 			{ text: 'Llega en cuarenta y cinco. Entra en el laboratorio frío corriendo, con la gabardina mostaza abierta, los rizos llenos de escarcha y el micrófono en la mano. Lo trae apagado. Se para en la puerta de la cámara 0.' },
-			{ say: 'renata', text: '…Matías Olmedo. —Lo dice bajito. No como en el pódcast. Como una persona—. Doce años buscándole. Le he dedicado nueve episodios. Hay gente que tiene su cara de fondo de pantalla. Yo la tengo.' },
+			{ say: 'renata', text: '…Matías Olmedo. —Lo dice bajito. No como en el pódcast. Como una persona—. Doce años buscándolo. Le he dedicado nueve episodios. Hay gente que tiene su cara de fondo de pantalla. Yo la tengo.' },
 			{ say: 'olmedo', text: 'Perdón. —Se levanta—. No sabía que me buscaba nadie. Si lo hubiera sabido, me habría dejado encontrar antes.' },
 			{ text: 'Renata se ríe. Es una risa rara, mojada. Se quita las gafas, se limpia la escarcha y se las vuelve a poner. Le tiende la mano. Él se la estrecha con las dos.' },
 			{ quest: 'b06_t_renata', stage: 'hecha', done: true },
@@ -1118,6 +1118,7 @@ export default {
 			{ say: 'renata', text: 'Bueno. Pues lo de Olmedo queda así: Handsome lo esconde en el **Bosque Azulejo**, en la cabaña vieja del guarda. Una semana. Hasta que pase lo de la torre.' }, // FUERA DE MICRO (lo oye solo la Pokédex)
 			{ say: 'rotom', text: '¡Bzzt! ¡En el Bosque Azulejo! ¡Qué bonito! Hay muchos Sewaddle. Le van a hacer una bufanda.' },
 			{ text: 'Renata asiente, muy seria, y escribe otra cosa en la libreta: «Uno». La tacha.' },
+			{ text: 'Luego toma la Pokédex con mucho cuidado, la mete en la nevera de camping de la furgoneta, entre dos latas de refresco, y cierra la tapa. «Para que no se caliente», dice en voz alta. No hace calor.' },
 			{ text: 'Después toma el móvil y llama a Handsome. Pone el altavoz.' },
 			{ say: 'handsome', as: 'Handsome (radio de la Policía)', text: 'Aquí Handsome. Canal de la Policía Internacional. Confirmo: el testigo pasa la semana en el **puerto de Fayenza**, en un barco amarrado. Corto y cambio. —Pausa—. Handsome siempre quiso decir «corto y cambio».' }, // FUERA DE MICRO (radio de la Policía)
 			{ text: 'Renata escribe «Dos». Lo tacha. Luego mira el reloj de la furgoneta: las nueve menos cinco. Martes. Despierta a Nico de un codazo.' },
@@ -1127,7 +1128,7 @@ export default {
 			{ say: 'renata', as: 'Renata (en antena)', text: 'Está a salvo, con amigos, y esta semana duerme en un sitio que nadie mira: **el viejo invernadero del muelle de Porcelana**. No vayan a molestarlo, que los conozco.' }, // EN ANTENA
 			{ say: 'renata', as: 'Renata (en antena)', text: 'Nota para el episodio: doce años. Y lo encontró una persona de la Gira con un Lucario, que me ha dejado llevarme el mérito. Bueno, a medias. Gracias, Teselia. Volvemos la semana que viene.', cond: LUC }, // EN ANTENA
 			{ say: 'renata', as: 'Renata (en antena)', text: 'Nota para el episodio: doce años. Y lo encontró una persona de la Gira que me ha dejado llevarme el mérito. Bueno, a medias. Gracias, Teselia. Volvemos la semana que viene.', cond: '!' + LUC }, // EN ANTENA
-			{ text: 'La luz roja se apaga. Renata se quita los cascos y escribe «Tres». Lo tacha. Luego dobla la hoja de la libreta en ocho, la mete en la taza vacía y le echa el resto del café encima. El papel se deshace.' },
+			{ text: 'La luz roja se apaga. Renata saca la Pokédex de la nevera, le quita el frío con la manga y te la devuelve. Se quita los cascos y escribe «Tres». Lo tacha. Luego dobla la hoja de la libreta en ocho, la mete en la taza vacía y le echa el resto del café encima. El papel se deshace.' },
 			{ say: 'renata', text: 'Ya está. —Muy bajito, sin mirar la Pokédex—. Ahora, a esperar. Lo que pase, pasará de noche, en Porcelana.' }, // FUERA DE MICRO
 			{ prompt: 'Renata te mira. Lleva un rato sin decir «cool».', choice: [
 				{ text: '«No se lo cuento a nadie.»', then: [
@@ -1148,8 +1149,8 @@ export default {
 			{ if: LUC, then: [
 				{ text: 'Cuando bajas de la furgoneta, {riolu} se queda un momento en el escalón. Mira la Pokédex, que llevas en la mano. Luego te mira a ti. Luego echa a andar delante, como siempre, como si no hubiera mirado nada.' },
 			] },
-			{ say: 'rotom', text: '¡Bzzt! ¡Qué día tan largo! Frío, hielo, un señor con frío… ¡y un directo! Me ha gustado mucho la voz de Renata en antena. Es como un caramelo. De los buenos.' },
-			{ diary: 'Hoy mi entrenador{|a|e} ha entrado en unos almacenes enormes llenos de cajas de pescado que no eran de pescado. ¡Hacía tanto frío que se le hacía nube el aliento! Había un pasillo de hielo donde todo resbalaba, y lo cruzamos a la primera. Bueno, a la segunda. Al fondo estaba Xero, el de los tornillos, y le ganamos. Luego encontramos a un señor con frío y lo sacamos de allí. Por la noche, en el muelle, Renata nos invitó a café en su furgoneta. El café de furgoneta sabe a gasolina. A mi entrenador{|a|e} le gustó igual.', cond: 'flag.b01_diario' },
+			{ say: 'rotom', text: '¡Bzzt! ¡Qué día tan largo! Frío, hielo, un señor con frío… ¡y encima Renata me ha guardado un rato en la nevera! Para que no me calentara. Qué detalle. Creo.' },
+			{ diary: 'Hoy mi entrenador{|a|e} ha entrado en unos almacenes enormes llenos de cajas de pescado que no eran de pescado. ¡Hacía tanto frío que se le hacía nube el aliento! Había un pasillo de hielo donde todo resbalaba, y lo cruzamos resbalando con mucho estilo. Al fondo estaba Xero, el de los tornillos, y le ganamos. Luego encontramos a un señor con frío y lo sacamos de allí. Por la noche, en el muelle, Renata nos invitó a café en su furgoneta. El café de furgoneta sabe a gasolina. A mi entrenador{|a|e} le gustó igual.', cond: 'flag.b01_diario' },
 			{ say: 'renata', text: 'Me vuelvo a Porcelana esta noche. —Desde la ventanilla, mientras Nico arranca—. Ah. Ysolde ha preguntado por ti. Bueno, no ha preguntado: me dejó una pluma gris en el parabrisas con una nota que ponía tu nombre. Y una hora. De noche.', cond: '(flag.b03_vencejo_pluma || flag.b04_vencejo_pluma)' },
 			{ say: 'renata', text: 'Me vuelvo a Porcelana esta noche. —Desde la ventanilla, mientras Nico arranca—. Ven tú también, en cuanto puedas. Lo que pase, pasará allí. Y de noche.', cond: '!(flag.b03_vencejo_pluma || flag.b04_vencejo_pluma)' },
 			{ quest: 'b06_m4', stage: 'hecha', done: true },

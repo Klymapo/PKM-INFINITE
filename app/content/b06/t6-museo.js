@@ -1,7 +1,5 @@
 // Bloque 6 · Museo de la Ficha Número Uno: sala de Teselia (4 piezas).
-// AÚN NO SE IMPORTA en index.js: depende de app/content/b05/t7-museo.js (lugar `museo_ficha`, NPC `philippe`,
-// helper `pieza`, flags `museo_v_*`), que vive en la rama trabajo/entrega-2026-10-23. Cuando esa rama esté en main,
-// añade `import museo from './t6-museo.js'` a la lista de partes de app/content/b06/index.js y pasa el validador.
+// Depende de app/content/b05/t7-museo.js (lugar `museo_ficha`, NPC `philippe`, flags `museo_v_*`). Importado en index.js.
 // Formato copiado de b05/t7-museo.js: una sala hija de `museo_ficha`, una puerta en el ático (patch) y una pieza por
 // decisión, que solo existe si existe su flag. Cada pieza: remitente, cartela (hoja de papel) y comentario de Philippe.
 

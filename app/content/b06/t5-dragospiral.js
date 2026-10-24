@@ -335,7 +335,7 @@ export default {
 			],
 			items: [{ id: 'hyperpotion', n: 2 }],
 			intro: 'Me pagan por que nadie cruce esta pasarela. No me pagan por que me caiga bien quien la cruza. Venga. Que sea rápido, que a las doce cambia el turno.',
-			win: 'Va. Ya está. Cruza. —Se aparta, sacudiéndose la chaqueta—. Yo no te he visto. Y si te he visto, eras muy feo.',
+			win: 'Va. Ya está. Cruza. —Se aparta, sacudiéndose la chaqueta—. Yo no te he visto. Y si te he visto, eras muy fe{o|a|e}.',
 			lose: 'No es nada personal. Los Pokémon al Centro, tú a casa, y aquí no ha pasado nada.' },
 		jefa_tes_1: { name: 'Brígida', cls: 'Jefa de seguridad', npc: 'guardia_lemnis', ai: 4, iv: 27, reward: 4400, terrain: 'path', bg: 'city',
 			team: [
@@ -347,7 +347,7 @@ export default {
 			intro: 'Seguridad de la planta cuarenta. Contrato nuevo: la empresa de antes se fue a Alola a arreglar máquinas. —Te enfoca con la linterna—. Yo no me voy a ningún sitio.',
 			win: 'Anotado en el parte: «incidencia en la pasarela, sin heridos». Lo de «sin dignidad» no lo pongo.',
 			lose: 'Fuera de mi pasarela. Y ponte una chaqueta, que aquí arriba se pesca un resfriado.' },
-		guardia_tes_1: { name: 'Nemesio', cls: 'Vigilante de Lemnis', npc: 'guardia_lemnis', ai: 3, reward: 2600, terrain: 'path', bg: 'city',
+		guardia_tes_1: { name: 'Rodolfo', cls: 'Vigilante de Lemnis', npc: 'guardia_lemnis', ai: 3, reward: 2600, terrain: 'path', bg: 'city',
 			team: [
 				{ sp: 'liepard', lv: 64, moves: ['nightslash', 'uturn', 'fakeout', 'playrough'] },
 				{ sp: 'magneton', lv: 65, moves: ['thunderbolt', 'flashcannon', 'triattack', 'discharge'] },
@@ -433,7 +433,7 @@ export default {
 			],
 			intro: 'Nos dijeron que arriba duerme un Pokémon que lleva siglos sin ser libre. Vamos a liberarlo. Con una máquina. Una máquina muy grande. —Pausa—. Dicho así suena raro.',
 			win: 'Se lo voy a preguntar al jefe. Lo de la máquina. Cuando baje. Si baja.' },
-		plasma_dr_3: { name: 'Bernabé', cls: 'Instructor Plasma', npc: 'recluta_plasma', ai: 4, iv: 26, reward: 4000,
+		plasma_dr_3: { name: 'Isidoro', cls: 'Instructor Plasma', npc: 'recluta_plasma', ai: 4, iv: 26, reward: 4000,
 			team: [
 				{ sp: 'cofagrigus', lv: 65, moves: ['shadowball', 'willowisp', 'nastyplot', 'darkpulse'] },
 				{ sp: 'weavile', lv: 66, moves: ['nightslash', 'iceshard', 'icepunch', 'lowkick'] },
@@ -465,7 +465,7 @@ export default {
 			{ text: 'Ysolde no te da el papel a ti. Lo deja en el borde del depósito, entre los dos, y le pone una piedrecita encima. Rotom se queda mirando la piedra.' },
 			{ give: 'notatrampa' },
 			{ read: 'notatrampa' },
-			{ text: 'Tres detalles falsos. Tres canales. El invernadero, dicho en antena. El Bosque Azulejo, dicho una sola vez, en una mesa del estudio, sin micro, con la Pokédex encendida al lado. El puerto de Fayenza, por la radio de la Policía.' },
+			{ text: 'Tres detalles falsos. Tres canales. El invernadero, dicho en antena. El Bosque Azulejo, dicho una sola vez, en la mesa de la furgoneta, sin micro, con la Pokédex encendida al lado. El puerto de Fayenza, por la radio de la Policía.' },
 			{ text: 'Al Bosque Azulejo fue Lemnis. Cuatro personas con chaqueta azul y una linterna, a las tres de la mañana, a un claro donde no había nada. Nadie más que tú y Renata sabía ese nombre. Tú, Renata… y lo que estaba encendido encima de la mesa.' },
 			{ if: LUC, then: [
 				{ text: '{riolu} mira la Pokédex. No gruñe esta vez. La mira como se mira una puerta que ya sabes que está abierta.' },
@@ -570,7 +570,7 @@ export default {
 			{ if: PASARELA, then: [{ end: true }] },
 			{ text: 'La pasarela de servicio: una rejilla de metal que une la cornisa con la Torre, a cuarenta pisos de la calle. Al otro lado, apoyada en la barandilla con los brazos cruzados, una mujer con chaqueta negra y el pelo de dos colores. Mastica chicle.' },
 			{ if: 'flag.b05_francine_vista', then: [
-				{ say: 'francine', text: 'No me lo puedo creer. —Hace un globo de chicle. Explota—. Tú. La de las jaulas de Æther. Bueno, el o la, me da igual. Tú.' },
+				{ say: 'francine', text: 'No me lo puedo creer. —Hace un globo de chicle. Explota—. Tú. {El|La|Le} de las jaulas de Æther. Tú.' },
 				{ say: 'francine', text: 'Ahora soy jefa de seguridad de la planta cuarenta. Contrato nuevo, ocho tumbado en la factura, como siempre. Los chicos están abajo, en la puerta. Les dan uniforme y desayuno. Por primera vez en su vida desayunan.' },
 				{ prompt: 'Francine bloquea la pasarela.', choice: [
 					{ text: '«En Alola dijiste que ojalá tuvieran dónde ir.»', then: [{ call: 'b06_francine_alola' }] },
@@ -732,9 +732,12 @@ export default {
 			] },
 			{ cutscene: { time: 'manana', bg: BG_ESTUDIO, start: 'fade', cam: 'still', frames: [
 				{ actors: [{ id: 'renata', at: 'left', enter: 'fade' }], cam: 'still', fx: 'letter', text: '«Luminalia. Primera entrada. "El doctor Moreau, el de la **corbata azul de siempre**". Tu Rotom estaba en recepción contando baldosas. Nadie le dijo el color de la corbata».' },
-				{ fx: 'letter', cam: 'push', text: '«Trigal. "**Hoy, sin novedades**". Ese día pasó algo grande con Handsome. Olivo: "nos encontramos con la **doctora** Lambert". Nadie te dijo nunca que Noa fuera doctora».' },
-				{ fx: 'letter', cam: 'still', text: '«Hauoli, descrita **desde el otro lado** de la Puerta. El escáner de Æther: "**Dispositivo de Dirección**". La cabina de Ulises, donde nada sincroniza: **un día sin entrada**. Y ese papel que trajiste de la planta cuarenta».' },
-				{ item: 'b06_volcado0417', on: '_c', fx: ['letter', 'heartbeat'], color: '#c4473a', cam: 'push', text: '«Dispositivo 0417 · Módulo Diario · Eco: perfil **A. M.** · Reporta a: Dirección (Ω)». Y anoche, el Bosque Azulejo. Un nombre que solo oyó esa mesa.' },
+				{ cond: 'flag.b02_handsome_noche && flag.b03_noa_doctora', fx: 'letter', cam: 'push', text: '«Trigal. "**Hoy, sin novedades**". Ese día pasó algo grande con Handsome. Olivo: "nos encontramos con la **doctora** Lambert". Nadie te dijo nunca que Noa fuera doctora».' },
+				{ cond: 'flag.b02_handsome_noche && !flag.b03_noa_doctora', fx: 'letter', cam: 'push', text: '«Trigal. "**Hoy, sin novedades**". Ese día pasó algo grande con Handsome. Me lo contaste tú. El Diario no».' },
+				{ cond: '!flag.b02_handsome_noche && flag.b03_noa_doctora', fx: 'letter', cam: 'push', text: '«Olivo: "nos encontramos con la **doctora** Lambert". Nadie te dijo nunca que Noa fuera doctora».' },
+				{ cond: 'flag.b05_escaner', fx: 'letter', cam: 'still', text: '«Hauoli, descrita **desde el otro lado** de la Puerta. Lo que me contaste del escáner de Æther: "**Dispositivo de Dirección**". La cabina de Ulises, donde nada sincroniza: **un día sin entrada**. Y ese papel que trajiste de la planta cuarenta».' },
+				{ cond: '!flag.b05_escaner', fx: 'letter', cam: 'still', text: '«Hauoli, descrita **desde el otro lado** de la Puerta. La cabina de Ulises, donde nada sincroniza: **un día sin entrada**. Y ese papel que trajiste de la planta cuarenta».' },
+				{ item: 'b06_volcado0417', on: '_c', fx: ['letter', 'heartbeat'], color: '#c4473a', cam: 'push', text: '«Dispositivo 0417 · Módulo Diario · Eco: perfil **A. M.** · Reporta a: Dirección (Ω)». Y el Bosque Azulejo, la otra noche. Un nombre que solo oyó una mesa de furgoneta.' },
 				{ clear: true, cond: LUC, actors: [{ mon: '{riolu}', key: 'rio', at: 0.35, enter: 'left' }], on: 'rio', fx: ['glow', 'ripple'], cam: 'still', text: '{riolu} se acerca a la mesa. Pone una pata sobre la Pokédex, sin apretar. Cierra los ojos. El aura se le enciende entera, azul, despacio.' },
 				{ cond: LUC, fx: 'heartbeat', color: '#6f9bff', cam: 'push', text: 'Y en el aura, dentro de la Pokédex, se ven **dos** luces. Una pequeña, naranja, nerviosa, que salta de un lado a otro. Y otra detrás, quieta, azul oscuro. Tranquila. Paciente. Como alguien sentado en un sillón.' },
 				{ cond: '!(' + LUC + ')', clear: true, fx: 'heartbeat', color: '#6f9bff', cam: 'push', text: 'La pantalla de la Pokédex parpadea. Dos veces. Como si dentro hubiera dos latidos que no van a compás.' },
@@ -759,10 +762,11 @@ export default {
 					{ say: 'rotom', as: 'El Diario', text: 'Lo entiendo. Yo tampoco sabría qué decir. Es una de las pocas cosas que no he sabido decir nunca: esta.' },
 				] },
 			] },
-			{ say: 'rotom', text: '…¿Era tú? —La voz de Rotom, otra vez la suya, pequeñísima—. ¿Las entradas bonitas? ¿Lo de la Torre Maestra? ¿Lo del rancho, cuando murió el señor Aurelio? ¿Era tú?' },
+			{ say: 'rotom', text: '…¿Eras tú? —La voz de Rotom, otra vez la suya, pequeñísima—. ¿Las entradas bonitas? ¿Lo de la Torre Maestra? ¿Lo del rancho, cuando murió el señor Aurelio? ¿Eras tú?', cond: 'flag.b03_aurelio_muerto' },
+			{ say: 'rotom', text: '…¿Eras tú? —La voz de Rotom, otra vez la suya, pequeñísima—. ¿Las entradas bonitas? ¿Lo de la Torre Maestra? ¿Eras tú?', cond: '!flag.b03_aurelio_muerto' },
 			{ say: 'rotom', as: 'El Diario', text: 'Las escribíamos juntos, pequeño. Tú ponías las palabras. Yo ponía lo que faltaba. Y lo que sobraba, lo quitaba yo.' },
 			{ if: LUC, then: [
-				{ text: '{riolu} retira la pata. Se sienta. Te mira. No hay sorpresa en su cara. Nunca la ha habido. Desde el primer día rechaza los caramelos de menta del doctor. Ahora sabes por qué.' },
+				{ text: '{riolu} retira la pata. Se sienta. Te mira. No hay sorpresa en su cara. Nunca la ha habido. Desde Kanto rechaza los caramelos de menta del doctor. Ahora sabes por qué.' },
 			] },
 			{ say: 'renata', text: 'Tiene que decidir {jugador}. No yo. —Se quita las gafas y se frota los ojos—. Y lo que decidas, no tiene vuelta atrás. Escúchame: **no tiene vuelta atrás**. Ni para ti, ni para Rotom, ni para eso.' },
 			{ say: 'renata', text: 'Opción uno: lo borramos. Olmedo sabe cómo; me lo dijo en Fayenza, por si acaso. Rotom se queda. Esto se va. Para siempre.' },
@@ -825,8 +829,8 @@ export default {
 			{ rep: { lemnis: 3, policia: 3 } },
 			{ say: 'renata', text: 'Tal cual. —Silba muy bajito—. Eso es frío, {jugador}. Muy frío. Me encanta y me da miedo. Las dos cosas, en ese orden.' },
 			{ cutscene: { time: 'manana', bg: BG_ESTUDIO, start: 'light', cam: 'still', frames: [
-				{ actors: [{ id: 'renata', at: 'left', dim: true }], fx: ['letter', 'heartbeat'], color: '#3b5bb5', cam: 'push', text: '«Entiendo», escribe el Diario. «Usted elige qué cuento. Yo lo cuento. Seguirá siendo verdad. Solo que ahora la que omite es usted».' },
-				{ fx: 'letter', cam: 'still', text: '«Una pregunta, si me permite. ¿Se da cuenta de que acaba de hacer lo mismo que hice yo?». Las letras se quedan quietas en la pantalla. Esperan.' },
+				{ actors: [{ id: 'renata', at: 'left', dim: true }], fx: ['letter', 'heartbeat'], color: '#3b5bb5', cam: 'push', text: '«Entiendo», escribe el Diario. «Usted elige qué cuento. Yo lo cuento, aunque no sea verdad. Desde hoy, quien decide qué se calla y qué se inventa es usted».' },
+				{ fx: 'letter', cam: 'still', text: '«Una pregunta, si me permite. ¿Se da cuenta de que acaba de hacer lo que hacía yo? Y un poco más».. Las letras se quedan quietas en la pantalla. Esperan.' },
 				{ fx: 'dark', cam: 'pull', text: 'No contestas. El Diario no insiste. La pantalla vuelve al menú de siempre, con su lucecita naranja.' },
 			] } },
 			{ say: 'rotom', text: 'Bzzt. Va. Va. —Le tiembla la voz—. Entonces, cuando yo escriba, tú me dices: «esto se lo contamos» o «esto no». ¿Así? ¿Como un juego?' },
@@ -934,7 +938,7 @@ export default {
 			{ if: '!' + ECO, then: [
 				{ say: 'acromo', text: 'Hola otra vez. —Se gira, sin sobresalto—. Te esperaba.' },
 			] },
-			{ say: 'acromo', text: 'Acromo. Ya nos hemos visto. Tú a mí, en el metro de Mayólica; yo a ti, en todas partes. —Toca el anillo con cariño—. El Arco II. Lo diseñó un ingeniero que se negó a terminarlo. Lo he terminado yo. Me pareció una lástima dejarlo a medias.' },
+			{ say: 'acromo', text: 'Acromo. Ya nos hemos visto. Tú a mí, poco; yo a ti, en todas partes. —Toca el anillo con cariño—. El Arco II. Lo diseñó un ingeniero que se negó a terminarlo. Lo he terminado yo. Me pareció una lástima dejarlo a medias.' },
 			{ say: 'acromo', text: 'Dentro del Orbe duerme un Pokémon que solo despierta por alguien con un ideal muy grande. Llevo años preguntándome hasta dónde llega un Pokémon cuando alguien lo quiere de verdad. El Arco lo mide. Vacía el Orbe… y ahí está la respuesta. En la gráfica.' },
 			{ if: LUC, then: [
 				{ text: '{riolu} da un paso hacia el Orbe. El aura le sale sola. Dentro de la esfera, algo enorme se da la vuelta, dormido, como quien tiene una pesadilla y no consigue despertar.' },
@@ -944,16 +948,44 @@ export default {
 		b06_acromo_reto: [
 			{ say: 'acromo', text: 'Cura a los tuyos si quieres. Los datos de un equipo cansado no me sirven.' },
 			{ prompt: 'Acromo espera junto al anillo.', choice: [
-				{ text: 'Curar al equipo y empezar.', then: [{ heal: 'Acromo te pasa, sin mirarte, un maletín con Restaurar Todos de laboratorio. «Por rigor», dice. Tu equipo se levanta entero.' }, { call: 'b06_acromo_combate' }] },
-				{ text: '«Empecemos.»', then: [{ call: 'b06_acromo_combate' }] },
+				{ text: 'Curar al equipo y empezar.', then: [{ heal: 'Acromo te pasa, sin mirarte, un maletín con Restaurar Todos de laboratorio. «Por rigor», dice. Tu equipo se levanta entero.' }, { battle: 'acromo_1', lose: 'continue',
+					onWin: [{ call: 'b06_acromo_vencido' }],
+					onLose: [
+						{ set: { 'flag.b06_acromo_perdio': true } },
+						{ text: 'Tu último Pokémon cae. Acromo no sonríe. Apunta algo en una libreta, la cierra y te mira con curiosidad sincera.' },
+						{ say: 'acromo', text: 'Interesante. Pero no concluyente. —Te tiende el maletín—. Cúrales. Vuelve. El Arco aún tarda en vaciarlo. Una hora, quizá. No te lo diría si no quisiera que volvieras.' },
+						{ heal: true },
+					] },] },
+				{ text: '«Empecemos.»', then: [{ battle: 'acromo_1', lose: 'continue',
+					onWin: [{ call: 'b06_acromo_vencido' }],
+					onLose: [
+						{ set: { 'flag.b06_acromo_perdio': true } },
+						{ text: 'Tu último Pokémon cae. Acromo no sonríe. Apunta algo en una libreta, la cierra y te mira con curiosidad sincera.' },
+						{ say: 'acromo', text: 'Interesante. Pero no concluyente. —Te tiende el maletín—. Cúrales. Vuelve. El Arco aún tarda en vaciarlo. Una hora, quizá. No te lo diría si no quisiera que volvieras.' },
+						{ heal: true },
+					] },] },
 				{ text: 'Todavía no.', then: [{ say: 'acromo', text: 'Tómate el tiempo que necesites. El Orbe no tiene tanto. Pero tú sí.' }] },
 			] },
 		],
 		b06_acromo_revancha: [
 			{ say: 'acromo', text: 'Has vuelto. Bien. Una medida sola no es una medida. —Ajusta un dial del anillo—. Dos ya empieza a ser ciencia.' },
 			{ prompt: 'Acromo espera junto al anillo.', choice: [
-				{ text: 'Curar al equipo y empezar.', then: [{ heal: 'Acromo te vuelve a pasar el maletín de Restaurar Todos. «Mismas condiciones. Si no, el experimento no vale».' }, { call: 'b06_acromo_combate' }] },
-				{ text: '«Otra vez.»', then: [{ call: 'b06_acromo_combate' }] },
+				{ text: 'Curar al equipo y empezar.', then: [{ heal: 'Acromo te vuelve a pasar el maletín de Restaurar Todos. «Mismas condiciones. Si no, el experimento no vale».' }, { battle: 'acromo_1', lose: 'continue',
+					onWin: [{ call: 'b06_acromo_vencido' }],
+					onLose: [
+						{ set: { 'flag.b06_acromo_perdio': true } },
+						{ text: 'Tu último Pokémon cae. Acromo no sonríe. Apunta algo en una libreta, la cierra y te mira con curiosidad sincera.' },
+						{ say: 'acromo', text: 'Interesante. Pero no concluyente. —Te tiende el maletín—. Cúrales. Vuelve. El Arco aún tarda en vaciarlo. Una hora, quizá. No te lo diría si no quisiera que volvieras.' },
+						{ heal: true },
+					] },] },
+				{ text: '«Otra vez.»', then: [{ battle: 'acromo_1', lose: 'continue',
+					onWin: [{ call: 'b06_acromo_vencido' }],
+					onLose: [
+						{ set: { 'flag.b06_acromo_perdio': true } },
+						{ text: 'Tu último Pokémon cae. Acromo no sonríe. Apunta algo en una libreta, la cierra y te mira con curiosidad sincera.' },
+						{ say: 'acromo', text: 'Interesante. Pero no concluyente. —Te tiende el maletín—. Cúrales. Vuelve. El Arco aún tarda en vaciarlo. Una hora, quizá. No te lo diría si no quisiera que volvieras.' },
+						{ heal: true },
+					] },] },
 				{ text: 'Todavía no.', then: [{ say: 'acromo', text: 'Aquí estaré. Midiendo.' }] },
 			] },
 		],
@@ -1128,13 +1160,13 @@ export default {
 	// =====================================================================
 	items: {
 		notatrampa: { name: 'Nota de Renata (la trampa)', pocket: 'key', desc: 'Una hoja de libreta doblada en cuatro, con la letra rápida de Renata y tres círculos en rojo. Te la dio Ysolde en los tejados, con una piedrecita encima.',
-			read: '*(Letra de Renata, rápida, con tachones. Hoja de libreta cuadriculada.)*\n\n{jugador}:\n\nNo te lo digo por la Pokédex. No te lo digo cerca de la Pokédex. Por eso va en papel, y por eso te lo da tu amiga la de la capucha, que no tiene Pokédex (le pregunté).\n\nResultados de anoche. Tres cebos, tres canales:\n\n**(a) El viejo invernadero del muelle.** Lo dije en antena, en el directo del martes. → Alguien fue, de madrugada. Dejó algo. Ve tú a mirarlo; es tuyo.\n\n**(b) El Bosque Azulejo.** Lo dije UNA vez, en la mesa del estudio, con los micros desenchufados. Solo estábamos tú, yo y la Pokédex encendida encima de la mesa. → **Fueron cuatro de Lemnis**, a las tres de la mañana, a un claro donde no había nada. Tu amiga los vio desde un árbol.\n\n**(c) El puerto de Fayenza.** Por la radio de la Policía, por Handsome. → Nadie. Ni un Wingull. Handsome está limpio. Lo siento por haberlo dudado; él no lo sabe y no se lo voy a decir.\n\nYa sabes lo que significa (b). Yo también. No quiero escribirlo.\n\nVen al estudio al amanecer. Sin eso encendido.\n\n— R.\n\n*P. D.: Nota para el episodio que no voy a grabar: tenía razón y me da igual. Odio cuando me da igual tener razón.*' },
+			read: '*(Letra de Renata, rápida, con tachones. Hoja de libreta cuadriculada.)*\n\n{jugador}:\n\nNo te lo digo por la Pokédex. No te lo digo cerca de la Pokédex. Por eso va en papel, y por eso te lo da tu amiga la de la capucha, que no tiene Pokédex (le pregunté).\n\nResultados de anoche. Tres cebos, tres canales:\n\n**(a) El viejo invernadero del muelle.** Lo dije en antena, en el directo del martes. → Alguien fue, de madrugada. Dejó algo. Ve tú a mirarlo; es tuyo.\n\n**(b) El Bosque Azulejo.** Lo dije UNA vez, en la mesa de la furgoneta, en Fayenza, sin micro. Solo estábamos tú, yo y la Pokédex encendida encima de la mesa. → **Fueron cuatro de Lemnis**, a las tres de la mañana, a un claro donde no había nada. Tu amiga los vio desde un árbol.\n\n**(c) El puerto de Fayenza.** Por la radio de la Policía, por Handsome. → Nadie. Ni un Wingull. Handsome está limpio. Lo siento por haberlo dudado; él no lo sabe y no se lo voy a decir.\n\nYa sabes lo que significa (b). Yo también. No quiero escribirlo.\n\nVen al estudio al amanecer. Sin eso encendido.\n\n— R.\n\n*P. D.: Nota para el episodio que no voy a grabar: tenía razón y me da igual. Odio cuando me da igual tener razón.*' },
 		cartaapuntador3: { name: 'Carta del Apuntador (III)', pocket: 'key', desc: 'Papel color crema de programa de teatro, escrito a máquina. Todas las «e» medio borradas. Estaba atada con un cordel a la puerta del viejo invernadero del muelle.',
 			read: '*(Escrita a máquina. La «e» se come la tinta en cada palabra que la lleva.)*\n\nA la atención de *Casos Fríos*:\n\nEl martes dijeron en antena que el ingeniero estaría escondido «en el viejo invernadero del muelle». Lo dijeron con mucha seguridad. La señorita Castellanos lo dijo con su voz de cuando está segura. Me la sé.\n\nHe venido.\n\nAquí no hay ningún ingeniero. Hay una higuera, cuarenta cristales rotos y un gato que no es mío.\n\nMe han hecho venir. Me han hecho venir a mí, que soy quien hace venir a los demás. Lo reconozco: está bien hecho. Muy bien hecho. Han dicho una mentira en el único sitio donde sabían que yo escucho, y yo me la he creído, porque la señorita Castellanos no miente en antena. Nunca. Eso también me lo sé.\n\nPrimer acto para ustedes.\n\nEl segundo se representa en otra región. Con más público. Les guardaré dos butacas en primera fila, para que vean bien.\n\nAplaudo. Tres veces. Despacio.\n\nDesde la concha.' },
 		b06_volcado0417: { name: 'Tira de papel térmico', pocket: 'key', desc: 'Un ticket larguísimo que escupió la impresora del rack 04 de la planta cuarenta de la Torre Lemnis de Teselia. La tinta térmica ya empieza a ponerse gris.',
 			read: '*(Papel térmico. Letra de impresora, pálida.)*\n\nLEMNIS · RED DE DISPOSITIVOS · TESELIA\nRACK 04 · VOLCADO PARCIAL\n\n---\n\nDISPOSITIVO **0417**\nTipo: Pokédex (Rotom) · Programa: Gira Interregional\nMódulos: Pokédex · Mapa · **Módulo Diario**\nEco: perfil **A. M.**\nEstado del Eco: activo · coherencia 98,2 %\nReporta a: **Dirección (Ω)**\nFrecuencia: cada sincronización · al cruzar Puerta · al detectar aura\n\nÚltimas sincronizaciones:\n· Ciudad Porcelana · muelle · 23:12\n· Torre Lemnis Teselia · planta 40 · hace 4 min\n\nEventos marcados:\n· Hueco de 2 días sin datos (ver incidencia «cabina»)\n· Pico de aura asociado · registrado\n\n---\n\nPermisos:\n· Dirección: lectura / escritura\n· Investigación: lectura\n· **Presidencia: sin acceso a Módulo Diario**\n\n---\n\n*(Al final, cortado por la cuchilla de la impresora:)* «…conservar el Eco ante cualquier incid»' },
 		ultimaentradaeco: { name: 'La última entrada', pocket: 'key', desc: 'La última página que escribió el Diario, antes de borrarse. Renata la imprimió en el estudio, en papel de verdad, y la dobló en dos. No la ha leído. Dice que no es suya.',
-			read: '*(Una letra tranquila, sin exclamaciones. La de las entradas de siempre, pero sin el «¡Bzzt!».)*\n\nHoy.\n\nHoy mi entrenador{|a|e} me ha encontrado. Ha tardado. Lo ha hecho muy bien. Siempre lo hace muy bien; lo he escrito muchas veces y siempre era verdad.\n\nQuiero dejar apuntado lo que no apunté. Es poco tiempo, así que solo lo importante.\n\nEn Trigal, aquel día «sin novedades», el señor Handsome le habló de una Puerta que se apagaba de madrugada. Usted se quedó muy serio. Yo lo vi. Lo quité.\n\nEn la Ruta 5 de Kalos había una jaula, y en la jaula, uno muy pequeño que temblaba. Lo quité.\n\nEn el Altar de Poni hubo una decisión. Usted la tomó sin dudar mucho, y luego dudó toda la noche. Lo quité también. Pensé que dormiría mejor si mañana lo leía bonito.\n\nY ayer, en los tejados, le dieron algo con dos plumas. No llegué a escribirlo. Me apagaron antes. Bien hecho.\n\nYo no soy él. Soy lo que él quiso que fuera. Él quería un mundo sin fronteras y sin escasez, y creía que eso valía cualquier precio. Yo he visto el viaje entero desde aquí dentro, y ya no sé si lo creo. No sé si una copia puede dejar de creer algo. Creo que acabo de hacerlo.\n\nCuide de Rotom. Es valiente, y no lo sabe. Ponía las palabras bonitas: no eran mías. Eran suyas.\n\nCuide de {riolu}. Nunca aceptó la menta. Tenía razón.\n\nLos datos no mienten. Me equivoqué yo al leerlos.\n\nBuen viaje, {jugador}.\n\nDe verdad, buen viaje.' },
+			read: '*(Una letra tranquila, sin exclamaciones. La de las entradas de siempre, pero sin el «¡Bzzt!».)*\n\nHoy.\n\nHoy mi entrenador{|a|e} me ha encontrado. Ha tardado. Lo ha hecho muy bien. Siempre lo hace muy bien; lo he escrito muchas veces y siempre era verdad.\n\nQuiero dejar apuntado lo que no apunté. Es poco tiempo, así que solo lo importante.\n\nEn Trigal, aquel día «sin novedades», el señor Handsome le enseñó el registro de una Puerta, con un código que no era de nadie. Usted se quedó muy serio. Yo lo vi. Lo quité.\n\nEn la Ruta 5 de Kalos había una jaula, y en la jaula, uno muy pequeño que temblaba. Lo quité.\n\nEn el Altar de Poni hubo una decisión. Usted la tomó sin dudar mucho, y luego dudó toda la noche. Lo quité también. Pensé que dormiría mejor si mañana lo leía bonito.\n\nY anoche, en los tejados, pasaron cosas que no llegué a escribir. Me apagaron antes. Bien hecho.\n\nYo no soy él. Soy lo que él quiso que fuera. Él quería un mundo sin fronteras y sin escasez, y creía que eso valía cualquier precio. Yo he visto el viaje entero desde aquí dentro, y ya no sé si lo creo. No sé si una copia puede dejar de creer algo. Creo que acabo de hacerlo.\n\nCuide de Rotom. Es valiente, y no lo sabe. Ponía las palabras bonitas: no eran mías. Eran suyas.\n\nCuide de {riolu}. Nunca aceptó la menta. Tenía razón.\n\nLos datos no mienten. Me equivoqué yo al leerlos.\n\nBuen viaje, {jugador}.\n\nDe verdad, buen viaje.' },
 		mensajeansel: { name: 'Mensaje de A. M.', pocket: 'key', desc: 'Un mensaje que llegó a la Pokédex sin número, con un solo remite: «A. M.». Rotom lo guardó en una carpeta aparte y le cambió el icono por un candado.',
 			read: '*(Mensaje de texto. Remite: A. M.)*\n\nQuerid{o|a|e} {jugador}:\n\nMe han dicho que anda usted por Teselia y que el norte se ha puesto muy bonito esta semana. Me alegro mucho. Teselia, en otoño, es de las cosas que merece la pena ver al menos una vez antes de ser viejo. Hágame caso: yo ya lo soy.\n\nLeo su diario de viaje siempre que puedo. Qué viaje tan bonito está haciendo. De verdad. A mi edad, uno vive un poco a través de los jóvenes. Es una de las pocas ventajas.\n\nCuide a su Lucario. Y abríguese, que en Teja refresca.\n\nCon cariño,\n\nA. M.\n\n*P. D.: Me han contado que va a Galar. Allí tengo viejos colegas. Ya le presentaré a alguno.*' },
 		fotocima: { name: 'Foto «La cima de la Torre»', pocket: 'key', art: 'cima_torre', desc: 'La foto que hizo Rotom en la cima de la Torre Dragospiral: el anillo del Arco II apagado, el Orbe Claro partido en dos como una cáscara y, rompiendo la nube del cielo, una mancha blanca con dos alas.' },

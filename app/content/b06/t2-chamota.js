@@ -372,7 +372,7 @@ export default {
 			] },
 			{ say: 'celia', text: 'Y la gente dice «fue el fantasma». Que lo diga. Un fantasma no paga la harina. —Te pone un panecillo en la mano sin preguntar—. Toma. Que estás muy flac{o|a|e} para andar de detective.' },
 			...AVANCE_TESTIGO,
-			{ intel: { npc: 'celia', text: 'Panadera de Chamota, 60 años. Su versión: fue el frío; su madre encendió el horno grande a medianoche y algo reventó. Dice que ella estaba en cama con fiebre, en casa de su tía. Era la aprendiza.' } },
+			{ intel: { npc: 'celia', text: 'Panadera de Chamota, 48 años. Su versión: fue el frío; su madre encendió el horno grande a medianoche y algo reventó. Dice que ella estaba en cama con fiebre, en casa de su tía. Era la aprendiza.' } },
 		],
 		b06_testigo_ines: [
 			{ set: { 'flag.b06_testigo_ines': true } },
@@ -638,18 +638,18 @@ export default {
 			{ set: { 'vars.b06_aciertos': 0 } },
 			{ text: 'Renata contesta al primer tono. Se oye una tiza contra una pizarra y, de fondo, la cafetera del estudio gorgoteando como un Wooper con asma.' },
 			// FUERA DE MICRO: la pizarra no se graba. El Apuntador no sabe nada de lo que se dice aquí.
-			{ say: 'renata', as: 'Renata (holomisor)', text: '¡Testigo! ¿Lo tienes? No me lo digas. Sí, dímelo. No, espera, que agarro la tiza buena. —Ruido de tiza—. Vale. El micro está apagado: esto es entre tú, yo y la pizarra. Nota para el episodio: no hay episodio.' },
+			{ say: 'renata', as: 'Renata (holomisor)', text: '¡Testigo! ¿Lo tienes? No me lo digas. Sí, dímelo. No, espera, que agarro la tiza buena. —Ruido de tiza—. Listo. El micro está apagado: esto es entre tú, yo y la pizarra. Nota para el episodio: no hay episodio.' },
 			{ say: 'renata', as: 'Renata (holomisor)', text: 'Pregunta cero, la de las trampas. ¿Hay **una sola explicación** para todo lo que pasó esa noche?' },
 			{ prompt: 'Renata espera con la tiza en alto.', choice: [
 				{ text: '«Sí: el fantasma del campanario lo hizo todo.»', then: [
 					{ say: 'renata', as: 'Renata (holomisor)', text: 'Ajá. ¿Un fantasma que solo rompe cristales en las calles del norte? Mira la factura del vidriero: ni uno en el sur. Los fantasmas no tienen barrio. Bueno, este a lo mejor sí, pero no paga cristales.' },
 					{ say: 'renata', as: 'Renata (holomisor)', text: 'Piénsalo otra vez. Sin prisa. Tengo café.' },
-					{ choice: [{ text: '«Vale. No es una sola cosa.»', then: [] }] },
+					{ choice: [{ text: '«Va. No es una sola cosa.»', then: [] }] },
 				] },
 				{ text: '«Sí: el frío. Todo vino del frío.»', then: [
 					{ say: 'renata', as: 'Renata (holomisor)', text: '¿El frío da campanadas? Mira el decreto: las doce dos veces salen de un papel con cuatro firmas, no de un termómetro. Y el frío no saca a una niña de casa de la mano.' },
 					{ say: 'renata', as: 'Renata (holomisor)', text: 'Piénsalo otra vez. Una causa sola es muy cómoda. Lo cómodo es sospechoso.' },
-					{ choice: [{ text: '«Vale. No es una sola cosa.»', then: [] }] },
+					{ choice: [{ text: '«Va. No es una sola cosa.»', then: [] }] },
 				] },
 				{ text: '«No. Son varias cosas que pasaron a la vez.»', then: [
 					{ say: 'renata', as: 'Renata (holomisor)', text: '¡Eso! Cool, cool, cool. Las noches raras casi nunca son una cosa rara. Son tres cosas normales que se ponen de acuerdo. —Tiza—. Vamos por partes.' },
@@ -824,11 +824,11 @@ export default {
 				{ text: '«Emítelo. Pero di que lo resolví yo.»', then: [
 					{ set: { 'flag.b06_chamota_emitido': true, 'vars.b06_credito': 1 } },
 					{ af: { renata: -5 } },
-					{ say: 'renata', as: 'Renata (holomisor)', text: '—Silencio corto—. Ah. Vale. Lo diré así. Nota para el episodio: el colaborador ha aprendido a negociar. Y yo a no apuntárselo en la lista de los buenos. Todavía.' },
+					{ say: 'renata', as: 'Renata (holomisor)', text: '—Silencio corto—. Ah. Bueno. Lo diré así. Nota para el episodio: {el|la|le} colaborador{|a|e} ha aprendido a negociar. Y yo a no apuntárselo en la lista de los buenos. Todavía.' },
 					{ call: 'b06_chamota_antena' },
 				] },
 				{ text: '«Mejor no. Que Chamota se quede fuera de la radio.»', then: [
-					{ say: 'renata', as: 'Renata (holomisor)', text: 'Me duele. Físicamente. En la parte del cerebro donde vive el episodio. —Suspira—. Vale. Tienes razón. Hay casos que son para resolverlos, no para contarlos. Lo dice siempre la Tía Rosa y nunca le hago caso.' },
+					{ say: 'renata', as: 'Renata (holomisor)', text: 'Me duele. Físicamente. En la parte del cerebro donde vive el episodio. —Suspira—. Está bien. Tienes razón. Hay casos que son para resolverlos, no para contarlos. Lo dice siempre la Tía Rosa y nunca le hago caso.' },
 					{ af: { renata: 1 } },
 				] },
 			] },
@@ -987,7 +987,7 @@ export default {
 		partebomberos: { name: 'Parte de bomberos n.º 117', pocket: 'key', desc: 'Un parte de la Brigada del Ferrocarril Regional, que siempre llevó la hora del tren. Estaba grapado al acta del cambio de hora.',
 			read: '**BRIGADA DE INCENDIOS · FERROCARRIL REGIONAL DE TESELIA**\n**Parte n.º 117** · Estación de Chamota\n\n*(Todas las horas en hora del ferrocarril)*\n\n**Aviso recibido:** 23:40, por el guardagujas, que vio resplandor sobre la calle del Pozo.\n**Llegada:** 23:48.\n**Lugar:** horno de la panadería de la calle del Pozo, propiedad de doña Asunción Prieto.\n**Causa probable:** tiro del horno grande **obstruido por hielo**. Retroceso de humos, ignición de harina en suspensión.\n**Heridos:** una aprendiza, quemaduras leves en ambas manos. Atendida en el sitio. Se niega a ir a la estación.\n**Propietaria:** llega a las 23:55, corriendo, desde la Plaza Mayor.\n**Declaración de la propietaria:** «Lo encendí yo. Algo bajó por el tiro».\n**Observaciones:** escarcha en tejados de la calle del Pozo y calles del norte, impropia de la estación. En la estación y el sur, sin novedad.\n**Extinguido:** 00:20.\n\nFirma, el cabo de guardia.' },
 		tablahorarios: { name: 'Tabla de horarios', pocket: 'key', desc: 'La tabla de la Noche Blanca que Rotom hizo con el método de Matière: dos columnas, dos relojes. Lo que no cuadra está en blanco.',
-			read: '**LA NOCHE BLANCA · TABLA DE HORARIOS**\n*(método Matière: una columna por reloj)*\n\n**Hora vieja (sol, la de Teodoro)** · **Hora nueva (tren, la de los bomberos)** · Qué pasó · Quién lo dice\n\n— **23:30** · 22:30 · Se blanquean los tejados del norte · Teodoro, factura del vidriero (solo el norte)\n— **antes de las 00:00** · 23:00 · Luz en la panadería; alguien hace pan · cuaderno de Inés\n— **00:00** · 23:00 · Primeras doce, a mano · campanero, Teodoro, Inés (ya en la muralla)\n— **00:00** · 23:00 · La villa atrasa sus relojes una hora · acta (cuatro firmas en la plaza)\n— **00:40** · **23:40** · Fuego en la panadería · Teodoro (00:40) y bomberos (23:40): **la misma hora**\n— 00:55 · 23:55 · Llega la panadera desde la plaza · parte de bomberos\n— **01:00** · **00:00** · Segundas doce: el reloj de la torre, solo · campanero, Teodoro, Inés, vecino del sur\n\n**En blanco:** ¿qué heló solo el norte? ¿Quién estaba en la panadería? ¿Quién era la niña de pelo azul?\n\n*Nota de Matière:* «Cuando dos testigos no casan, no siempre miente uno. A veces llevan relojes distintos. — M.»' },
+			read: '**LA NOCHE BLANCA · TABLA DE HORARIOS**\n*(método Matière: una columna por reloj)*\n\n**Hora vieja (sol, la de Teodoro)** · **Hora nueva (tren, la de los bomberos)** · Qué pasó · Quién lo dice\n\n— **23:30** · 22:30 · Se blanquean los tejados del norte · Teodoro, factura del vidriero (solo el norte)\n— **antes de las 00:00** · antes de las 23:00 · Luz en la panadería; alguien hace pan · cuaderno de Inés\n— **00:00** · 23:00 · Primeras doce, a mano · campanero, Teodoro, Inés (ya en la muralla)\n— **00:00** · 23:00 · La villa atrasa sus relojes una hora · acta (cuatro firmas en la plaza)\n— **00:40** · **23:40** · Fuego en la panadería · Teodoro (00:40) y bomberos (23:40): **la misma hora**\n— 00:55 · 23:55 · Llega la panadera desde la plaza · parte de bomberos\n— **01:00** · **00:00** · Segundas doce: el reloj de la torre, solo · campanero, Teodoro, Inés, vecino del sur\n\n**En blanco:** ¿qué heló solo el norte? ¿Quién estaba en la panadería? ¿Quién era la niña de pelo azul?\n\n*Nota de Matière:* «Cuando dos testigos no casan, no siempre miente uno. A veces llevan relojes distintos. — M.»' },
 		chapareloj: { name: 'Chapa del relojero', pocket: 'key', desc: 'Una chapa de latón que estaba atornillada a la caja del reloj del campanario de Chamota. El campanero te la ha dado «para que alguien la lea fuera de esta torre».',
 			read: '**COMPAÑÍA DEL FERROCARRIL REGIONAL DE TESELIA**\n*Servicio de Relojería*\n\nReloj público de la Villa de Chamota (campanario)\n\n**AJUSTADO A LA HORA DEL FERROCARRIL**\n**Atrasado una hora a medianoche, hora solar, 14 de agosto.**\n**Da las horas solo. No requiere campanero.**\n\n*(Debajo, rayado con algo puntiagudo, quizá una navaja: «Yo toco las del sol». Y al lado, muy pequeñas, dos marcas que parecen arañazos de una pata).*' },
 		escarchamuralla: { name: 'Escarcha de la muralla', pocket: 'key', desc: 'Un trozo de hielo del tamaño de un puño, sacado del fondo de una grieta de la muralla norte de Chamota. No se derrite en la mano ni en la mochila. Está frío como si lo acabaran de hacer. Si lo acercas al oído, no se oye nada. Casi.' },
@@ -1006,7 +1006,7 @@ export default {
 			name: 'Las espalderas de los huertos', icon: '🧺', hours: 20, picks: [2, 3],
 			game: { type: 'catch', level: 2, theme: 'otono', hint: 'Sacude las ramas pegadas a la muralla y recoge con la cesta. Las piñas de los pinos del norte se cuelan; no las agarres.' },
 			ask: 'Árboles de bayas en espaldera, con las ramas atadas contra la piedra de la muralla, que da calor de día. El cartel de la cancela: «Coja lo que caiga. Lo que cuelga, pregunte».',
-			text: 'Recoges lo que ha caído hoy. Un vecino te mira desde su caseta, mira lo que llevas y asiente: ha caído, vale.',
+			text: 'Recoges lo que ha caído hoy. Un vecino te mira desde su caseta, mira lo que llevas y asiente: ha caído, no hay pleito.',
 			wait: 'Las espalderas están recién sacudidas. Lo que queda cuelga, y lo que cuelga hay que preguntarlo.',
 			table: [
 				{ id: 'persimberry', w: 14, n: [1, 3] }, { id: 'sitrusberry', w: 14, n: [1, 2] }, { id: 'leppaberry', w: 12, n: [1, 2] },

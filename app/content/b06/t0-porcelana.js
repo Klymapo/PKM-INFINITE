@@ -203,7 +203,7 @@ export default {
 				{ sp: 'zoroark', lv: 61, moves: ['nightdaze', 'flamethrower', 'sludgebomb', 'focusblast'], ability: 'illusion', item: 'lifeorb', nature: 'timid', iv: 30 },
 			],
 			items: [{ id: 'hyperpotion', n: 1 }],
-			intro: 'Nota para el episodio: «la invitada propone un combate para ver cómo piensa el invitado cuando no habla». Esto no se emite. Bueno, igual sí. Depende de quién gane. ¡Cool, cool, cool!',
+			intro: 'Nota para el episodio: «la invitada propone un combate para ver cómo piensa {el|la|le} invitad{o|a|e} cuando no habla». Esto no se emite. Bueno, igual sí. Depende de quién gane. ¡Cool, cool, cool!',
 			win: '…Me fastidia. Me fastidia muchísimo. Me encanta. Has visto la ilusión a la primera, ¿verdad? No me contestes. Lo apunto como «sí».',
 			lose: 'Ah. Eso no lo has deducido. Pasa. A mí también me pasa. Con menos frecuencia. Revancha cuando quieras.' },
 
@@ -403,7 +403,7 @@ export default {
 			{ set: { 'flag.b06_brock_comida': true } },
 			{ text: 'La carpa de la Gira es una lona azul y plata atada a dos farolas, con mesas plegables, bancos y una olla del tamaño de una bañera puesta sobre tres hornillos. Detrás de la olla, con un delantal que dice «EL JEFE DE COCINA ES EL LÍDER», hay un hombre moreno, alto, de ojos que parecen siempre cerrados.' },
 			{ say: 'brock', text: '¡{jugador}! ¡Aquí! ¡Siéntate, siéntate! —Te pone un cuenco delante antes de que digas nada—. **Guiso de Porcelana**. Bueno, se llamará así cuando me salga bien. Lleva pescado del muelle, papas, pimentón y una cosa que me ha vendido un señor en la calle sin decirme qué era.' },
-			{ say: 'brock', text: 'La última vez que te vi tenías una medalla. La mía. —Se cruza de brazos, sonriendo—. Y ahora vienes con el Circuito entero en el bolsillo y una Puerta a la espalda. Así me gusta. Cuando vuelva a Kanto, presumiré de que te di la primera. Ya lo hago, pero con más datos.' },
+			{ say: 'brock', text: 'La primera vez que me ganaste te llevaste una medalla. La mía. —Se cruza de brazos, sonriendo—. Y ahora vienes con el Circuito entero en el bolsillo y una Puerta a la espalda. Así me gusta. Cuando vuelva a Kanto, presumiré de que te di la primera. Ya lo hago, pero con más datos.' },
 			{ if: LUC, then: [
 				{ text: 'Brock se agacha delante de {riolu} y le pone un cuenco más pequeño, con el pescado sin espinas. {riolu} lo huele, lo mira a él y se lo come entero sin respirar.' },
 				{ say: 'brock', text: 'Ese Lucario come como un Pokémon que sabe lo que es pasar hambre. —Se lo dice a {riolu}, no a ti—. Aquí no te va a faltar. Mientras yo tenga olla, no.' },
@@ -433,7 +433,7 @@ export default {
 				{ say: 'handsome', text: 'Handsome va a ir. Handsome ha hecho una pancarta. —Saca un cartón enrollado—. Pone «¡ÁNIMO, CAMIL!». Se le acabó el rotulador. Dice Brock que la E se adivina.' },
 			] },
 			{ if: 'flag.b04_lebrun_cebo', then: [
-				{ say: 'handsome', text: 'Y otra cosa. En **Mayólica** juegan un torneo juvenil de voleibol. Juega Camille. Lebrun la acompaña. —Pausa—. Handsome también va. Dos filas más atrás. Con otro bigote. Son las órdenes que le doy a Lebrun y las que me doy a mí.' },
+				{ say: 'handsome', text: 'Y otra cosa. En **Mayólica** juegan un torneo juvenil de voleibol. Juega Camille. Lebrun la acompaña. —Pausa—. Handsome también va. Dos filas más atrás. De incógnito. Son las órdenes que le doy a Lebrun y las que me doy a mí.' },
 				{ say: 'handsome', text: 'Si los ves… sé amable con ella. Con él, como quieras. Pero delante de ella, amable.' },
 			] },
 			{ if: 'flag.b04_lebrun_libre', then: [
@@ -512,7 +512,7 @@ export default {
 		],
 		b06_estibadores: [
 			{ text: 'En la caseta del capataz hay una estufa de butano, un calendario de hace tres años y seis estibadores tomando café de un termo enorme. Hablan de fútbol, de barcos y del pódcast del martes.' },
-			{ text: '«Yo digo que lo de la abuela es el portero». «Tú dices eso de todo». «Porque siempre es el portero». «Nunca es el portero». «Pues un día lo será, y ese día me vais a pedir perdón».', cond: CASO },
+			{ text: '«Yo digo que lo de la abuela es el portero». «Tú dices eso de todo». «Porque siempre es el portero». «Nunca es el portero». «Pues un día lo será, y ese día me van a pedir perdón».', cond: CASO },
 			{ text: '«Esta noche hay directo de *Casos Fríos*». «¿Otra vez el de los casos?». «Es los martes». «Hoy no es martes». «Hoy es martes». Silencio. Alguien mira el calendario de hace tres años.', cond: '!' + CASO },
 		],
 
@@ -606,7 +606,7 @@ export default {
 				] },
 				{ text: '«Prefiero no hablar de eso.»', then: [
 					// EN ANTENA
-					{ say: 'renata', text: 'Uh. Misterio. En un pódcast de misterio. —Sonríe—. Respeto. Nota para el episodio: el invitado guarda secretos. Bien. Así me gusta la gente.' },
+					{ say: 'renata', text: 'Uh. Misterio. En un pódcast de misterio. —Sonríe—. Respeto. Nota para el episodio: {el|la|le} invitad{o|a|e} guarda secretos. Bien. Así me gusta la gente.' },
 				] },
 			] },
 			// ----- Simón, por fin en antena -----
@@ -618,7 +618,7 @@ export default {
 				{ text: 'Renata lo mira con la boca abierta. La Tía Rosa aplaude sin hacer ruido. Nico tiene los ojos un poco húmedos y dice que es la calefacción.' },
 			], else: [
 				// EN ANTENA
-				{ say: 'simon', text: 'Y antes de seguir, un aviso de la sección del escéptico, que hoy tiene voz. Todo lo que vais a oír esta noche tiene explicación. Toda. Siempre. —Pausa—. Se me había olvidado lo bien que suena eso en un micro.' },
+				{ say: 'simon', text: 'Y antes de seguir, un aviso de la sección del escéptico, que hoy tiene voz. Todo lo que van a oír esta noche tiene explicación. Toda. Siempre. —Pausa—. Se me había olvidado lo bien que suena eso en un micro.' },
 				{ say: 'renata', text: 'Bienvenido a la antena, Simón. —Bajito, fuera del tono de radio—. Tres años. Se te ha oído bien.' },
 			] },
 			{ set: { 'flag.b06_simon_antena': true } },
@@ -711,7 +711,7 @@ export default {
 			], else: [
 				{ af: { renata: 2 } },
 				// EN ANTENA
-				{ say: 'renata', text: 'Eso. Ahí. Nos ha costado, pero ahí. Nota para el episodio: el invitado acierta cuando deja de buscar al ladrón y mira la taza.' },
+				{ say: 'renata', text: 'Eso. Ahí. Nos ha costado, pero ahí. Nota para el episodio: {el|la|le} invitad{o|a|e} acierta cuando deja de buscar al ladrón y mira la taza.' },
 			] },
 			// EN ANTENA
 			{ say: 'renata', text: 'Alguien de la familia. Con la otra llave. Que se toma un café en la taza que usaba de pequeño, la del Pidove. Y que, antes de irse, adelanta el reloj diez minutos. —Pausa—. ¿Por qué adelanta el reloj, invitad{o|a|e}?' },
@@ -769,7 +769,7 @@ export default {
 				{ text: 'En el suelo, junto a la puerta metálica, hay una caja de madera clara del tamaño de una caja de zapatos, con las esquinas de latón. No tiene nombre. En la tapa, una cerradura de botones de las antiguas, de las de los baúles de teatro: seis teclas que se encienden por orden cuando la tocas.' },
 				{ say: 'nico_ferrer', text: 'Estaba aquí a las siete y cuarto, cuando he bajado. Ni huellas, ni nota. Bueno, huellas las mías, que la he tocado sin querer. Perdón.' },
 				{ say: 'tia_rosa', text: 'Una caja con cerradura en la puerta de un pódcast de misterio, cariño. —Teje un punto—. Si esto no es una invitación, que venga alguien y me lo explique.' },
-				{ say: 'renata', text: 'Es para ti. —Te señala la tapa: en el latón, rayado con algo fino, pone «AL INVITADO DEL MARTES»—. No para mí. Para ti. Me molesta muchísimo. Ábrela.' },
+				{ say: 'renata', text: 'Es para ti. —Te señala la tapa: en el latón, rayado con algo fino, pone «AL INVITAD{O|A|E} DEL MARTES»—. No para mí. Para ti. Me molesta muchísimo. Ábrela.' },
 				{ if: LUC, then: [
 					{ text: '{riolu} pone la palma cerca de la cerradura. Al encenderse, las teclas le dejan un rastro en el aura: lo ves un instante más de lo que dura la luz. Te va a ayudar a recordar el orden.' },
 				] },
@@ -791,19 +791,19 @@ export default {
 			{ cutscene: { bg: { type: 'indoor', wall: '#5a3a3a', floor: '#3a2a2a' }, start: 'dark', time: 'manana', cam: 'still', frames: [
 				{ actors: [{ id: 'renata', at: 'right', dim: true }], on: '_c', cam: 'push', item: 'cartaapuntador1', text: 'La tapa se abre con un clic de teatro. Dentro, sobre un lecho de papel de seda, un sobre **color crema**, grueso, sin sello.' },
 				{ on: '_c', fx: 'glow', text: 'Debajo del sobre, una campanita hecha con una concha blanca, atada con un cordón. Y un papelito doblado, de esos que dan los mensajeros.' },
-				{ actors: [{ key: 'renata', dim: false, emote: '...' }], cam: 'still', fx: 'letter', text: 'En el sobre, escrito a máquina, con la «e» medio comida, como si la tecla estuviera cansada: «**Al invitado del martes. Desde la concha.**»' },
+				{ actors: [{ key: 'renata', dim: false, emote: '...' }], cam: 'still', fx: 'letter', text: 'En el sobre, escrito a máquina, con la «e» medio comida, como si la tecla estuviera cansada: «**Al invitad{o|a|e} del martes. Desde la concha.**»' },
 				{ on: '_c', cam: 'pull', fx: 'light', text: 'Renata no dice nada. Es la primera vez que la ves sin nada que decir.' },
 			] } },
 			{ read: 'cartaapuntador1' },
 			{ text: 'Renata te quita la carta de las manos. La lee dos veces, moviendo los labios. La tercera vez la lee en voz alta, solo un trozo: «No mires lo que falta: mira lo que sobra».' },
 			{ say: 'renata', text: 'Es tu frase. Palabra por palabra. Y la taza azul. Y los diez minutos. Y mi «Nota para el episodio». —Se le pone la voz fina—. Todo esto lo dijimos anoche. Con el micro.' },
-			{ say: 'nico_ferrer', text: 'Cuarenta mil oyentes, anoche. Cualquiera de ellos. —Se rasca el gorro—. Bueno, cualquiera que sepa escribir a máquina en 2026. Eso ya son menos.' },
+			{ say: 'nico_ferrer', text: 'Cuarenta mil oyentes, anoche. Cualquiera de ellos. —Se rasca el gorro—. Bueno, cualquiera que todavía sepa escribir a máquina. Eso ya son menos.' },
 			{ say: 'tia_rosa', text: 'La letra. Mírala, cariño. La «e» no marca. Es una máquina vieja, de las de cinta. Mi primer jefe de la radio tenía una igual. La «e» es la que más se gasta: es la que más usamos.' },
 			{ read: 'b06_recibo_mensajero' },
 			{ say: 'nico_ferrer', text: 'El recibo es de una mensajería de bicis. He llamado. —Ya tiene el teléfono en la mano—. Pagado en efectivo, en una consigna del metro, una sola vez. «No vuelva a llamar». Ni nombre, ni cámara. Lo dejaron en una taquilla y lo recogieron.' },
 			{ say: 'renata', text: 'Un mensajero para una vez. Así no hay dos. Así no hay patrón. —Da vueltas por el sótano—. Es listo. Es muy listo. Me cae fatal.' },
 			{ if: 'flag.b06_oshawott', then: [
-				{ say: 'renata', text: '«Desde la concha». ¿Concha de qué? ¿Del muelle? Me han dicho que ayer sacaste una concha del agua, delante de medio muelle. —Te mira—. ¿Y si el que escribe estaba allí? ¿Y si te vio?' },
+				{ say: 'renata', text: '«Desde la concha». ¿Concha de qué? ¿Del muelle? Me han dicho que sacaste una concha del agua, delante de medio muelle. —Te mira—. ¿Y si el que escribe estaba allí? ¿Y si te vio?' },
 				{ say: 'nico_ferrer', text: 'O es un pescador. O un estibador. O un Oshawott que sabe escribir a máquina.' },
 				{ say: 'renata', text: 'No descartes al Oshawott. Nunca descartes al Oshawott.' },
 			], else: [
@@ -812,7 +812,7 @@ export default {
 			{ say: 'renata', text: 'Y la cita. «Ciudad Mayólica, la noria». —Mira el corcho, buscando un hueco donde clavar algo—. Quiere que vayas. Quiere demostrar algo. Que me equivoco, supongo. Que se equivoca la narradora.' },
 			{ text: 'Clava la carta en el corcho, en una esquina, aparte de todos los hilos. Con una chincheta amarilla.' },
 			{ quest: 'b06_t_apuntador', stage: 'noria' },
-			{ intel: { npc: 'renata', text: 'Una caja en la puerta del estudio, «al invitado del martes», firmada «Desde la concha». Cita frases del directo palabra por palabra y te cita en la noria de Ciudad Mayólica. Entregada por un mensajero pagado una sola vez.' } },
+			{ intel: { npc: 'renata', text: 'Una caja en la puerta del estudio, «al invitad{o|a|e} del martes», firmada «Desde la concha». Cita frases del directo palabra por palabra y te cita en la noria de Ciudad Mayólica. Entregada por un mensajero pagado una sola vez.' } },
 			{ say: 'renata', text: 'Ahora siéntate. Que tengo una cosa que pedirte. —Se gira hacia Nico—. Nico. Apágalo todo. Todo. El micro dos también.' },
 			{ call: 'b06_renata_diario' },
 		],
@@ -862,14 +862,14 @@ export default {
 				{ say: 'renata', text: '«Proyecto Arco II · Teselia». Lo pone el expediente que me encontraste. Y en Teselia hay una empresa de frío en **Fayenza** que hace dos años firmó con una fundación de nombre largo y sin web. Lo dice el registro mercantil. Es aburridísimo. Es lo mejor que tengo.' },
 			] },
 			{ if: 'has("fotoexpediente")', then: [
-				{ say: 'renata', text: 'Y la foto. «Para D., por si preguntan». La llevo en la cartera. Si un día lo encuentro, se la doy. Es lo único que tengo de él que no es un papel.' },
+				{ say: 'renata', text: 'Y la foto que encontraste. «Para D., por si preguntan». Guárdala tú, que la cuidas mejor que yo. Si un día lo encontramos, se la das. Es lo único que tenemos de él que no es un papel.' },
 			] },
 			{ say: 'renata', text: 'Fayenza está al otro lado del puente que no bajan. Tú vas a ir de todas formas, con la Gira, a por la medalla de Brock. Cuando bajen el puente, avísame. Yo voy contigo. Sin micro.' },
 			{ quest: 'b06_t_renata', stage: 'olmedo' },
 			{ say: 'renata', text: 'Y mientras: Mayólica. Por la **Ruta 4**, al norte, por el borde del desierto. La medalla, la noria y ese señor de la concha. —Te pone una mano en el hombro, un segundo, y la quita—. Gana. Y cuéntamelo. Primero a mí.' },
 			{ quest: 'b06_m2', stage: 'mayolica' },
 			{ set: { 'flag.b06_t0_hecho': true } },
-			{ diary: 'Hoy mi entrenador{|a|e} salió en la radio. ¡Bueno, en el pódcast! Renata le hizo preguntas y resolvió un caso de una abuela, una taza y un reloj de cuco. Al final no era nadie malo. Me gustó mucho que no fuera nadie malo. Yo no hablé, pero pité una vez al final, muy bajito.\n\nEsta mañana alguien ha dejado una caja en la puerta del estudio, con una campanita de concha dentro. Renata se ha puesto muy seria. Luego estuvieron hablando un rato de sus cosas de detectives, y yo me puse a ordenar las fotos de Porcelana. Tengo cuarenta y tres rascacielos. Me falta uno.\n\nMañana, a Mayólica, por el desierto. ¡Arena! Tengo que tener cuidado con las rendijas.', cond: 'flag.b01_diario' },
+			{ diary: 'Hoy mi entrenador{|a|e} salió en la radio. ¡Bueno, en el pódcast! Renata le hizo preguntas y resolvió un caso de una abuela, una taza y un reloj de cuco. Al final no era nadie malo. Me gustó mucho que no fuera nadie malo. Yo no hablé, pero pité una vez al final, muy bajito.\n\nEsta mañana alguien ha dejado una caja en la puerta del estudio, con una campanita de concha dentro. Renata se ha puesto muy seria. Luego estuvieron hablando un rato de sus cosas de detectives. Después, yo me puse a ordenar las fotos de Porcelana. Tengo cuarenta y tres rascacielos. Me falta uno.\n\nMañana, a Mayólica, por el desierto. ¡Arena! Tengo que tener cuidado con las rendijas.', cond: 'flag.b01_diario' },
 		],
 		b06_renata_despues: [
 			{ say: 'renata', text: '¿Todavía en Porcelana? La Ruta 4 sale por el norte. La noria no se va a resolver sola. Bueno, a lo mejor sí. Pero se resolvería mal.' },
@@ -993,7 +993,7 @@ export default {
 	items: {
 		b06_concha_oshawott: { name: 'Concha de Oshawott', pocket: 'key', desc: 'Una concha blanca y crema, en forma de abanico, del tamaño de una galleta. Está húmeda. Tiene dueño, y el dueño la está esperando en el borde del muelle.' },
 		cartaapuntador1: { name: 'Carta «Desde la concha» (1)', pocket: 'key', desc: 'Un sobre color crema, grueso, sin sello, que dejaron en una caja cerrada en la puerta del estudio de «Casos Fríos». Escrita a máquina; la «e» no marca bien. Firmada «Desde la concha».',
-			read: '*(Papel color crema, grueso, con un borde perforado, como si lo hubieran arrancado de algo más grande. Letra de máquina de escribir. La «e» sale siempre a medias, como si a esa tecla le faltara tinta.)*\n\n---\n\nQuerida narradora. Querido invitado del martes:\n\n«**No mires lo que falta: mira lo que sobra.**» Lo dijo usted el martes, en antena, a las nueve y veintidós. Muy bien dicho. La taza azul. Los diez minutos. El reloj de cuco. Una abuela, un nieto y un martes por la mañana. Muy bien resuelto.\n\nY qué fácil.\n\nEse caso no lo mandó una oyente. Lo mandé yo. La abuela existe, el nieto existe y la taza existe; lo único que no existía era el misterio, hasta que se lo di a ustedes envuelto en papel de cuadros. Era una prueba. La han pasado. Nota para el episodio, como dice ella: el invitado piensa rápido.\n\nPero la narradora, señorita Castellanos, se equivoca. Siempre se equivoca un poco. Cuenta las historias como si ya supiera cómo acaban, y luego acaban de otra manera, y ella pone una pegatina y sigue. Yo no pongo pegatinas.\n\nLes propongo un juego. Yo monto los casos; ustedes los resuelven en antena. Si aciertan, lo diré. Si se equivocan, lo dirá toda Teselia.\n\nEl siguiente ya está montado. **Ciudad Mayólica, la noria.** Una cabina sube llena y baja vacía. Miren lo que sobra, si pueden.\n\nLe dejo una campanita. Es de concha, como yo. Suena bonito cuando se gana.\n\nAtentamente,\n\n**Desde la concha**' },
+			read: '*(Papel color crema, grueso, con un borde perforado, como si lo hubieran arrancado de algo más grande. Letra de máquina de escribir. La «e» sale siempre a medias, como si a esa tecla le faltara tinta.)*\n\n---\n\nQuerida narradora. Querid{o|a|e} invitad{o|a|e} del martes:\n\n«**No mires lo que falta: mira lo que sobra.**» Lo dijo usted el martes, en antena, a las nueve y veintidós. Muy bien dicho. La taza azul. Los diez minutos. El reloj de cuco. Una abuela, un nieto y un martes por la mañana. Muy bien resuelto.\n\nY qué fácil.\n\nEse caso no lo mandó una oyente. Lo mandé yo. La abuela existe, el nieto existe y la taza existe; lo único que no existía era el misterio, hasta que se lo di a ustedes envuelto en papel de cuadros. Era una prueba. La han pasado. Nota para el episodio, como dice ella: {el|la|le} invitad{o|a|e} piensa rápido.\n\nPero la narradora, señorita Castellanos, se equivoca. Siempre se equivoca un poco. Cuenta las historias como si ya supiera cómo acaban, y luego acaban de otra manera, y ella pone una pegatina y sigue. Yo no pongo pegatinas.\n\nLes propongo un juego. Yo monto los casos; ustedes los resuelven en antena. Si aciertan, lo diré. Si se equivocan, lo dirá toda Teselia.\n\nEl siguiente ya está montado. **Ciudad Mayólica, la noria.** Una cabina sube llena y baja vacía. Miren lo que sobra, si pueden.\n\nLe dejo una campanita. Es de concha, como yo. Suena bonito cuando se gana.\n\nAtentamente,\n\n**Desde la concha**' },
 		b06_recibo_mensajero: { name: 'Recibo de la mensajería', pocket: 'key', desc: 'Un papelito de una mensajería en bicicleta de Porcelana, doblado en cuatro. Venía en la caja del Apuntador, debajo de la carta.',
 			read: '**MENSAJERÍA PIDOVE EXPRÉS · PORCELANA**\n«Si vuela, llega».\n\nEncargo n.º 4471\n\nRecogida: consigna automática, estación de metro de la Avenida, taquilla 12. 6:10 h.\nEntrega: puerta del sótano del rascacielos de la esquina (escalera de servicio). Antes de las 7:30 h.\n\nPago: **en efectivo, por adelantado**, dejado dentro de la taquilla.\nCliente: no consta.\nTeléfono: no consta.\n\nObservaciones del cliente: «Una sola entrega. No vuelva a llamar».\n\nFirma del repartidor: *(un garabato con forma de Pidove)*' },
 		postal_adela_tes_l: { name: 'Postal de Adela (Teselia)', pocket: 'key', desc: 'Una postal de un prado con niebla, con matasellos de Iris, reenviada a la Gira de Teselia. La letra es pequeña y apretada.',

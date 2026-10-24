@@ -422,7 +422,7 @@ export default {
 			look: { hair: 'ponytail', hairColor: '#3a2a1e', outfit: '#3a6a4a', outfit2: '#c9a66b', skin: 3, eyesStyle: 'sharp', mouth: 'flat', acc: 'hat', hatColor: '#3a6a4a' } },
 
 		// ----- Puente Saeta -----
-		saeta_celestino: { name: 'Celestino', cls: 'Ciclista', ai: 3,
+		saeta_celestino: { name: 'Toribio', cls: 'Ciclista', ai: 3,
 			team: [
 				{ sp: 'unfezant', lv: 62 },
 				{ sp: 'zebstrika', lv: 63 },
@@ -430,14 +430,14 @@ export default {
 			intro: '¡El récord del puente es de cuatro minutos! ¡Yo hago cinco! ¡Porque paro a escuchar los cables! ¡Y porque ahora paro a pelear contigo!',
 			win: 'Seis minutos. Hoy, seis. El récord se puede quedar donde está.',
 			look: { hair: 'cap', hairColor: '#c4743a', outfit: '#f2c84a', outfit2: '#2b2b38', skin: 1, eyesStyle: 'wide', mouth: 'open', capColor: '#c4473a' } },
-		saeta_olvido: { name: 'Olvido', cls: 'Pescadora', ai: 3,
+		saeta_olvido: { name: 'Maruja', cls: 'Pescadora', ai: 3,
 			team: [
 				{ sp: 'seaking', lv: 62 },
 				{ sp: 'basculin', lv: 62 },
 				{ sp: 'jellicent', lv: 63 },
 			],
-			intro: 'Me llamo Olvido y no se me olvida nada. Ni una cara. Ni un pez. Tú vas a ser las dos cosas.',
-			win: 'Una cara que no se me va a olvidar. El pez, en cambio, se me ha escapado.',
+			intro: 'Cuarenta años pescando desde este puente. Los peces me conocen. Tú todavía no. Eso se arregla rápido.',
+			win: 'Ya te conozco. El pez, en cambio, se me ha escapado.',
 			look: { hair: 'braids', hairColor: '#8a8a8a', outfit: '#3a6a8a', outfit2: '#e9c46a', skin: 2, eyesStyle: 'sharp', mouth: 'smile', acc: 'hat', hatColor: '#e9c46a' } },
 
 		// ----- Isla Libertad -----
@@ -692,7 +692,7 @@ export default {
 				] },
 			] },
 			{ if: LUC, then: [
-				{ text: '{riolu} mira a Rotom dar vueltas por la escalera. Desde que cruzasteis la Puerta de Teselia, cada vez que miraba la Pokédex arrugaba el hocico. Ahora no. Se acerca, le pone la palma encima a la pantalla, con mucho cuidado, y se queda así un momento.' },
+				{ text: '{riolu} mira a Rotom dar vueltas por la escalera. Desde que cruzaron la Puerta de Teselia, cada vez que miraba la Pokédex arrugaba el hocico. Ahora no. Se acerca, le pone la palma encima a la pantalla, con mucho cuidado, y se queda así un momento.' },
 				{ text: 'Rotom se deja. Hace un ruidito que no le habías oído nunca. Como un ronroneo con estática.' },
 			] },
 			{ text: 'Ulises lo mira todo desde la consola, con la mano en una palanca. Por un momento no sonríe.' },
@@ -987,7 +987,7 @@ export default {
 			{ prompt: 'El Péndulo de ámbar tira de tu mano hacia el Dialga. ¿Qué haces?', choice: [
 				{ text: 'Acercarte despacio, con el péndulo por delante.', then: [{ set: { 'flag.b06_dialga_paso': true } }] },
 				{ text: 'Sentarte en la hierba y esperar a que venga él.', then: [{ set: { 'flag.b06_dialga_espera': true } }] },
-				{ text: 'Hablarle bajito, como Ulises te pidió hace mucho: sin gritar.', then: [{ set: { 'flag.b06_dialga_voz': true } }] },
+				{ text: 'Hablarle bajito, sin gritar.', then: [{ set: { 'flag.b06_dialga_voz': true } }] },
 			] },
 			{ cutscene: { time: 'tarde', weather: 'leaves', bg: { type: 'forest', ground: '#4a6a2a', far: '#c4a46a', fog: true }, start: 'light', frames: [
 				{ cam: 'still', fx: 'ripple', text: 'El valle, quieto un instante. Luego no. Las sombras de los helechos giran como agujas de reloj, todas a la vez, hacia el sol.' },
@@ -1004,7 +1004,8 @@ export default {
 			{ text: 'Durante un buen rato nadie dice nada. Ulises cierra el acordeón sin hacer ruido. Petra sigue con la mano en la tierra.' },
 			{ if: 'flag.b06_dialga_paso', then: [{ say: 'viajero', text: 'Te has acercado tú. Con el péndulo por delante, sin prisa. —Sonríe—. Eso es lo más valiente que se le puede hacer a un susto: acercarse despacio.' }] },
 			{ if: 'flag.b06_dialga_espera', then: [{ say: 'viajero', text: 'Te has sentado. Has esperado a que viniera él. —Sonríe—. La gente siempre quiere ir a buscar. Casi nadie sabe quedarse donde lo puedan encontrar.' }] },
-			{ if: 'flag.b06_dialga_voz', then: [{ say: 'viajero', text: 'Le has hablado bajito. Te acordabas. —Se le humedecen los ojos—. Te lo dije en un laberinto, hace mucho. Para ti. Para mí fue ayer.' }] },
+			{ if: 'flag.b06_dialga_voz && flag.b01_enc_viajero_2', then: [{ say: 'viajero', text: 'Le has hablado bajito. Te acordabas. —Se le humedecen los ojos—. Te lo dije en un laberinto, hace mucho. Para ti. Para mí fue ayer.' }] },
+			{ if: 'flag.b06_dialga_voz && !flag.b01_enc_viajero_2', then: [{ say: 'viajero', text: 'Le has hablado bajito. Sin gritar. —Se le humedecen los ojos—. A los pequeños que tienen miedo no se les grita. Eso lo sabías sin que nadie te lo dijera. O te lo diré. Da igual.' }] },
 			{ if: LUC, then: [
 				{ text: '{riolu} abre los ojos. Está cansado; se le nota en las orejas. Se apoya en tu pierna un momento. Luego mira hacia la cabina, hacia el rincón de los relojes, y hace algo que no le habías visto hacer nunca: sonríe con los ojos.' },
 				{ happy: { who: 'riolu', n: 8 } },
@@ -1042,7 +1043,7 @@ export default {
 				{ text: '«¿Y tú? ¿Cómo te vas sin la cabina?»', then: [
 					{ say: 'viajero', text: 'Andando. —Sonríe enorme—. Hace siglos que no ando. Literalmente. Tengo ganas. Por los sitios a los que se llega andando pasan cosas que no salen en ningún mapa.' },
 				] },
-				{ text: '«Te dije que no te dejaría irte sin mí.»', then: [
+				{ text: '«Te dije que no te dejaría irte sin mí.»', cond: 'flag.b05_ulises_caleta', then: [
 					{ say: 'viajero', text: 'Y no me has dejado. —Se le quiebra algo en la cara, un momento—. Me has acompañado hasta aquí. Esto era lo de «sin ti». Lo de después lo tengo que andar yo.' },
 				] },
 			] },
