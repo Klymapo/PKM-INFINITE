@@ -47,7 +47,10 @@ export function registerBlock(b) {
 		}
 	}
 	for (const id in b.challenges || {}) C.challenges[id] = { id, ...b.challenges[id] };
-	Object.assign(C.badges, b.badges || {});
+	// Medallas con su región (la del bloque o, si el bloque no abre región, la última registrada): vitrina del ático
+	const reg = Object.keys(b.regions || {})[0] || C._lastRegion || '';
+	if (reg) C._lastRegion = reg;
+	for (const id in b.badges || {}) C.badges[id] = { region: reg, ...b.badges[id] };
 	C.events.push(...(b.events || []));
 	C.milestones.push(...(b.milestones || []).map(m => ({ ...m, block: b.id })));
 	// Objetos propios del juego (clave, etc.)

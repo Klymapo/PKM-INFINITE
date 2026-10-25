@@ -9,6 +9,7 @@ import {
 	movesLearnedAt, isBall,
 } from './pokemon.js';
 import { isNight } from './time.js';
+import { notaPrimera } from './atico.js';
 import { rint, clone } from './util.js';
 
 // ---------- Movimiento oculto para "pasar turno" (usar objeto, fallar huida, lanzar Ball) ----------
@@ -177,6 +178,11 @@ export class BattleCtl {
 	}
 
 	sideOf(ident) { return ident?.slice(0, 2); }
+	/** Muro del ático: la primera vez que un Pokémon del jugador usa una mecánica (no sobrescribe). */
+	primera(kind, ident) {
+		if (this.sideOf(ident) !== 'p1' || G.muro?.[kind]) return;
+		try { notaPrimera(G, kind, this.simToParty?.get(this.battle.p1.active[0]), this.cfg?.loc || G.loc); } catch (e) { /* */ }
+	}
 	simPokemon(ident) {
 		if (!ident) return null;
 		const side = this.battle[this.sideOf(ident)];
@@ -265,11 +271,11 @@ export class BattleCtl {
 			this.events.push(this._mv);
 			break;
 		}
-		case '-terastallize': this.events.push({ t: 'tera', side: this.sideOf(args[1]), type: args[2] }); break;
-		case '-mega': this.events.push({ t: 'mega', side: this.sideOf(args[1]) }); break;
-		case '-zpower': this.events.push({ t: 'zpower', side: this.sideOf(args[1]) }); break;
+		case '-terastallize': this.events.push({ t: 'tera', side: this.sideOf(args[1]), type: args[2] }); this.primera('tera', args[1]); break;
+		case '-mega': this.events.push({ t: 'mega', side: this.sideOf(args[1]) }); this.primera('mega', args[1]); break;
+		case '-zpower': this.events.push({ t: 'zpower', side: this.sideOf(args[1]) }); this.primera('z', args[1]); break;
 		case '-start':
-			if (args[2] === 'Dynamax') this.events.push({ t: 'dyn', side: this.sideOf(args[1]), on: true, gmax: args[3] === 'Gmax' });
+			if (args[2] === 'Dynamax') { this.events.push({ t: 'dyn', side: this.sideOf(args[1]), on: true, gmax: args[3] === 'Gmax' }); this.primera('dyn', args[1]); }
 			else if (args[2] === 'confusion') this.events.push({ t: 'vol', side: this.sideOf(args[1]), v: 'confusion' });
 			break;
 		case '-end':

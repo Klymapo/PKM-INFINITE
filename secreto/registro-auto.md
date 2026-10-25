@@ -1,6 +1,6 @@
 # Registro automático (no editar a mano)
 
-Generado: 2026-10-24T14:24:47.149Z · contenido 2026-10-23.2
+Generado: 2026-10-25T01:23:52.750Z · contenido 2026-10-24.2
 
 ## Apariciones de NPCs (escenas por bloque)
 
@@ -66,7 +66,7 @@ Generado: 2026-10-24T14:24:47.149Z · contenido 2026-10-23.2
 | Liam (`liam`) | 0 | 0 | 0 | 0 | 9 | 2 | 11 ⚠ 2 bloque(s) |
 | Lila (`lila`) | 8 | 3 | 3 | 1 | 0 | 0 | 15 |
 | Lola Arriaga (`lola`) | 0 | 3 | 1 | 2 | 2 | 0 | 8 |
-| Lucien (`lucien`) | 5 | 3 | 0 | 0 | 1 | 0 | 9 |
+| Lucien (`lucien`) | 5 | 3 | 0 | 0 | 8 | 0 | 16 |
 | Lulú (`lulu`) | 0 | 0 | 0 | 0 | 4 | 2 | 6 ⚠ 2 bloque(s) |
 | Magda Ivers (`magda`) | 0 | 0 | 0 | 8 | 0 | 0 | 8 ⚠ 1 bloque(s) |
 | Matière (`matiere`) | 5 | 6 | 0 | 0 | 1 | 1 | 13 |
@@ -87,7 +87,7 @@ Generado: 2026-10-24T14:24:47.149Z · contenido 2026-10-23.2
 | La Mayor (`p7_mayor`) | 0 | 0 | 0 | 2 | 0 | 0 | 2 ⚠ 1 bloque(s) |
 | Rosaura (`p7_rosaura`) | 0 | 0 | 0 | 2 | 0 | 0 | 2 ⚠ 1 bloque(s) |
 | Petra (`petra`) | 3 | 5 | 6 | 4 | 0 | 14 | 32 |
-| Philippe (`philippe`) | 4 | 1 | 0 | 0 | 27 | 6 | 38 |
+| Philippe (`philippe`) | 4 | 1 | 0 | 0 | 34 | 6 | 45 |
 | Prof. Pimpinela (`pimpinela`) | 0 | 0 | 0 | 0 | 3 | 2 | 5 ⚠ 2 bloque(s) |
 | Presidente de Silph (`presidente_silph`) | 0 | 0 | 0 | 2 | 0 | 0 | 2 ⚠ 1 bloque(s) |
 | Protón (`proton`) | 0 | 2 | 0 | 0 | 0 | 0 | 2 ⚠ 1 bloque(s) |
@@ -534,6 +534,10 @@ Generado: 2026-10-24T14:24:47.149Z · contenido 2026-10-23.2
 - `b05_aether_llegada` — b05:b05_aether_llegada
 - `b05_ansel_aether` — b05:b05_ansel_aether
 - `b05_armario_visto` — b05:b05_armario
+- `b05_atico_cuarto_visto` — b05:b05_atico_cuarto_llega
+- `b05_atico_lucien` — b05:b05_atico_lucien_1
+- `b05_atico_muro_visto` — b05:b05_atico_muro
+- `b05_atico_oferta` — b05:b05_atico_oferta
 - `b05_az_poni` — b05:b05_final
 - `b05_bastien_aether` — b05:b05_bastien_aether
 - `b05_bastien_rompe` — b05:b05_bastien_aether

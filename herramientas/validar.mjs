@@ -121,7 +121,7 @@ function walk(where, list, depth = 0) {
 			break;
 		}
 		case 'unlock': if (!['mega', 'z', 'dynamax', 'tera'].includes(c.unlock)) E(w, 'unlock inválido'); break;
-		case 'read': if (typeof c.read === 'string') { if (!D.items[toID(c.read)]?.read) E(w, `read: el objeto «${c.read}» no existe o no tiene texto (read)`); } else if (!c.read?.text) E(w, 'read sin texto'); break;
+		case 'read': if (typeof c.read === 'string') { if (!D.items[toID(c.read)]?.read) E(w, `read: el objeto «${c.read}» no existe o no tiene texto (read)`); } else if (c.read?.gen) { if (!['medallas', 'muro'].includes(c.read.gen)) E(w, 'read.gen desconocido: ' + c.read.gen); } else if (!c.read?.text) E(w, 'read sin texto'); break;
 		case 'venture': if (!C.ventures[c.venture]) E(w, `negocio inexistente: ${c.venture}`); break;
 		}
 		for (const k of ['onWin', 'onLose', 'onCatch', 'onRun', 'onSolve', 'onQuit']) if (c[k]) walk(w + '.' + k, c[k], depth + 1);

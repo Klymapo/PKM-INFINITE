@@ -279,6 +279,8 @@ export function evolve(p, toId) {
 	const oldMax = maxHp(p);
 	const from = p.sp;
 	p.sp = toId;
+	// Registro para el muro del ático (app/js/atico.js): de qué especie venía y a qué nivel cambió
+	((p.flags ||= {}).evo ||= []).push({ from, to: toId, lv: p.lv, t: Date.now() });
 	const s = D.species[toId];
 	// conservar la ranura de habilidad
 	const ab = s.abil[p.abilSlot] || s.abil['0'];

@@ -274,6 +274,7 @@ Un guion es una lista de comandos. Una cadena suelta equivale a `{ text }`. Cual
 | `{ puzzle: { id, title, hint, theme, grid: [...] }, onSolve: [...], onQuit: [...] }` | puzle de rejilla táctil (ver §7.1). `onSolve` corre al resolverlo y `onQuit` si el jugador sale |
 | `{ minigame: { type, id, title, hint, theme, level, loot: [...], guaranteed: [...], … }, onWin: [...], onLose: [...], onQuit: [...] }` | minijuego para conseguir objetos: `dig` excavar, `fish` pescar, `catch` cosechar, `aura` rastrear, `lock` cerradura (ver **`docs/MINIJUEGOS.md`**). Entrega el botín él solo; perder da una consolación y salir no da nada, y los dos dejan reintentar |
 | `{ read: 'idObjeto' }` / `{ read: { title, text } }` | abre una **hoja de papel** a pantalla completa que se desplaza (cartas, notas, diarios). Con un id usa el `name` y el `read` del objeto. Úsalo cuando el jugador recibe una carta y debe leerla en ese momento; nunca metas una carta larga en un `text` (el cuadro de diálogo es para frases) |
+| `{ read: { title, gen: 'medallas' \| 'muro' } }` | hoja de papel cuyo texto genera el motor con la partida (`app/js/atico.js`): la vitrina de medallas por región o el muro de encuentros con tus Pokémon. No inventa nada: solo lee lo que ya pasó |
 | `{ venture: 'id' }` / `{ venture: 'id', join: true }` | abre la ficha de un negocio (§13); con `join: true` lo hace socio sin cobrarle la entrada (regalos de la historia). `join: true, open: true` hace las dos cosas |
 
 **Marcadores en textos:**

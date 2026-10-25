@@ -594,6 +594,7 @@ export async function evolveUI(p, toId) {
 	if (stopped) {
 		stage.innerHTML = ''; stage.append(monImg(p.sp, { shiny: p.shiny }));
 		stage.classList.remove('glow');
+		(p.flags ||= {}).noevo ||= { sp: toId, lv: p.lv, t: Date.now() }; // muro del ático: el que no quiso
 		await say(null, `¿Eh? ¡**${displayName(p)}** no ha evolucionado!`);
 		ov.remove();
 		return false;

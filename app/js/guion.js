@@ -201,7 +201,9 @@ async function runCmd(c, ctx) {
 	// Carta o nota en papel a pantalla completa: { read: 'idObjeto' } o { read: { title, text } }
 	if (c.read) {
 		const it = typeof c.read === 'string' ? D.items[toID(c.read)] : null;
-		const title = it?.name || c.read.title || 'Nota', text = tx(it?.read || c.read.text || '');
+		// { read: { title, gen: 'muro' } }: el texto lo genera el motor con la partida (app/js/atico.js)
+		const gen = c.read?.gen ? (await import('./atico.js')).genText(c.read.gen, G) : '';
+		const title = tx(it?.name || c.read.title || 'Nota'), text = tx(it?.read || c.read.text || gen || '');
 		if (UI.read) await UI.read(title, text, typeof c.read === 'string' ? toID(c.read) : null); else await UI.say(null, text);
 		return;
 	}
