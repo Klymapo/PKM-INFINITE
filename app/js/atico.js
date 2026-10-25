@@ -39,7 +39,7 @@ export function vitrina(g) {
 
 export function medallasTexto(g) {
 	const v = vitrina(g);
-	if (!v.length) return '*(Terciopelo azul, seis huecos por estante y ninguna medalla todavía. El cristal está limpio. Espera.)*';
+	if (!v.length) return '*(Terciopelo azul, huecos de sobra en cada estante y ninguna medalla todavía. El cristal está limpio. Espera.)*';
 	const out = ['*(Una vitrina de madera con un estante por región. Cada medalla tiene su ficha, escrita a mano.)*'];
 	for (const r of v) {
 		out.push('', `**${r.name}** · ${r.badges.length === 1 ? 'una medalla' : r.badges.length + ' medallas'}`);
@@ -55,6 +55,7 @@ const sp = id => D.species[id];
 const spName = id => sp(id)?.name || id;
 const locName = id => (id && C.locations[id]?.name) || '';
 const nameOf = p => p.nick || spName(p.sp);
+const aNivel = lv => lv ? `, a nivel ${lv}` : '';
 const enLugar = id => locName(id) ? ` en ${locName(id)}` : '';
 
 /** Todos los Pokémon de la partida: equipo, cajas y los que trabajan en negocios. */
@@ -111,14 +112,14 @@ export function muro(g) {
 	if (riolu) {
 		used.add(riolu.uid);
 		const o = origen(riolu, g);
-		add('primero', `${nameOf(riolu)}, el primero`, `Se unió al equipo${enLugar(riolu.metAt)}, a nivel ${riolu.metLv}${o !== riolu.sp ? `, cuando todavía era un ${spName(o)}` : ''}. Hoy es nivel ${riolu.lv}. ${animo(riolu)}`);
+		add('primero', `${nameOf(riolu)}, el primero`, `Se unió al equipo${enLugar(riolu.metAt)}${aNivel(riolu.metLv)}${o !== riolu.sp ? `, cuando todavía era un ${spName(o)}` : ''}. Hoy es nivel ${riolu.lv}. ${animo(riolu)}`);
 	}
 	// 2. El segundo (el siguiente que llegó, sea como sea)
 	const resto = mons.filter(p => p !== riolu && p.metDate).sort((a, b) => a.metDate - b.metDate);
 	if (riolu && resto[0]) {
 		const p = resto[0];
 		used.add(p.uid);
-		add('segundo', `${nameOf(p)}, el segundo`, `${p.nick ? spName(p.sp) + '. ' : ''}Se unió${enLugar(p.metAt)}, a nivel ${p.metLv}, cuando en el equipo todavía cabían todos en un banco. Hoy es nivel ${p.lv}.`);
+		add('segundo', `${nameOf(p)}, el segundo`, `${p.nick ? spName(p.sp) + '. ' : ''}Se unió${enLugar(p.metAt)}${aNivel(p.metLv)}, cuando en el equipo todavía cabían todos en un banco. Hoy es nivel ${p.lv}.`);
 	}
 	// 3. Candela
 	const candela = g?.flags?.b01_candela_unida ? mons.find(p => p.nick === 'Candela' && isLine('mareep', p.sp)) : null;
@@ -128,7 +129,7 @@ export function muro(g) {
 	}
 	// 4. Primer Pokémon de otro color
 	const shiny = mons.filter(p => p.shiny).sort((a, b) => (a.metDate || 0) - (b.metDate || 0))[0];
-	if (shiny) add('shiny', 'Un color que no tocaba', `${shiny.nick ? shiny.nick + ', un ' : 'Un '}${spName(shiny.sp)} de un color que casi nadie ve. Fue${enLugar(shiny.metAt)}, a nivel ${shiny.metLv}. ${animo(shiny)}`);
+	if (shiny) add('shiny', 'Un color que no tocaba', `${shiny.nick ? shiny.nick + ', un ' : 'Un '}${spName(shiny.sp)} de un color que casi nadie ve. Fue${enLugar(shiny.metAt)}${aNivel(shiny.metLv)}. ${animo(shiny)}`);
 	// 5. Mecánicas: la primera vez que se usaron (registro del motor) o, para la Mega, la piedra que ya lleva
 	const M = g?.muro || {};
 	const quien = r => { const p = r.uid && byUid(r.uid); return p ? nameOf(p) : (r.nick || spName(r.sp)); };
@@ -145,9 +146,9 @@ export function muro(g) {
 	const stages = x => { let n = 0; for (let id = x.p.sp; id && id !== x.o && n < 4; id = sp(id)?.prevo) n++; return n; };
 	evos.sort((a, b) => (b.p === riolu) - (a.p === riolu) || (!!b.p.nick - !!a.p.nick) || stages(b) - stages(a) || b.p.lv - a.p.lv);
 	const top = evos.filter(x => !used.has(x.p.uid)).slice(0, 4);
-	for (const x of top) add('evo_' + x.p.uid, `${nameOf(x.p)}: de ${spName(x.o)} a ${spName(x.p.sp)}`, `Dos fotos pegadas con celo, una al lado de la otra. En la primera${x.p.nick ? ` ${x.p.nick}` : ''} cabe en una mano. En la segunda, no.`);
+	for (const x of top) add('evo_' + x.p.uid, `${nameOf(x.p)}: de ${spName(x.o)} a ${spName(x.p.sp)}`, `Dos fotos pegadas con cinta, una al lado de la otra. En la primera${x.p.nick ? ` ${x.p.nick}` : ''} cabe en una mano. En la segunda, no.`);
 	const mas = evos.filter(x => !used.has(x.p.uid) && !top.includes(x));
-	if (mas.length) add('evo_mas', 'Y los demás que crecieron contigo', `Una tira de fotos de fotomatón: ${mas.slice(0, 8).map(x => nameOf(x.p)).join(', ')}${mas.length > 8 ? ` y ${mas.length - 8} más` : ''}. Todos empezaron más pequeños.`);
+	if (mas.length) add('evo_mas', 'Y los demás que crecieron contigo', `Una tira de fotos de cabina: ${mas.slice(0, 8).map(x => nameOf(x.p)).join(', ')}${mas.length > 8 ? ` y ${mas.length - 8} más` : ''}. Todos empezaron más pequeños.`);
 	// 7. El que no quiso evolucionar
 	for (const p of mons) {
 		const n = noEvo(p);
@@ -164,7 +165,7 @@ export function muro(g) {
 
 export function muroTexto(g) {
 	const m = muro(g);
-	if (!m.length) return '*(Una pared de corcho con chinchetas de colores. Todavía no hay fotos. Las primeras siempre tardan.)*';
+	if (!m.length) return '*(Una pared de corcho con tachuelas de colores. Todavía no hay fotos. Las primeras siempre tardan.)*';
 	return ['*(Fotos de la Pokédex impresas en papel brillante, cada una con una nota a lápiz debajo. Algunas están torcidas.)*']
 		.concat(m.map(c => `\n**${c.title}**\n${c.text}`)).join('\n');
 }

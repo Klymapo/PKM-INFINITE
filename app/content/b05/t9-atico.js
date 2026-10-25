@@ -24,7 +24,7 @@ export default {
 		atico_cuarto: {
 			name: 'Tu cuarto en el ático', short: 'Tu cuarto', parent: 'museo_ficha', kind: 'building',
 			bg: { type: 'indoor', wall: '#d9cfe0', floor: '#7a5a40' },
-			desc: 'El cuarto del fondo del ático, el que Philippe llamaba «el trastero con ambiciones». Techo inclinado, una ventana redonda que da a la **Puerta Lemnis** y una cama que cruje en dos idiomas.\n\nHay un PC en una mesa plegable, una vitrina vacía de madera y una pared de corcho con chinchetas sueltas. Es poco. Es tuyo.',
+			desc: 'El cuarto del fondo del ático, el que Philippe llamaba «el trastero con ambiciones». Techo inclinado, una ventana redonda que da a la **Puerta Lemnis** y una cama que cruje en dos idiomas.\n\nHay un PC en una mesa plegable, una vitrina vacía de madera y una pared de corcho con tachuelas sueltas. Es poco. Es tuyo.',
 			descs: [{ cond: 'flag.b05_atico_muebles', text: 'El cuarto del fondo del ático. Ya no parece un trastero: hay una alfombra de rayas, un sillón que no hace juego con nada y una lámpara que Philippe jura que es «de época». La ventana redonda sigue dando a la **Puerta Lemnis**, que zumba bajito.\n\nLa vitrina de las medallas brilla en su rincón y la pared de corcho se va llenando sola.' }],
 			descNight: 'De noche, la Puerta pinta el techo inclinado de azul. El zumbido se oye mejor con la luz apagada. Al rato ya no se oye: se nota, como un gato que ronronea en otra habitación.',
 			mapNote: 'Tu cuarto · cama, PC, medallas y muro',
@@ -33,7 +33,7 @@ export default {
 				{ label: 'La cama', sub: 'Cruje, pero se duerme de maravilla', icon: '🛏️', talk: [{ script: 'b05_atico_cama' }] },
 				{ label: 'El PC', sub: 'En una mesa plegable', icon: '💻', action: { pc: true } },
 				{ label: 'La vitrina de las medallas', sub: 'Un estante por región', icon: '🏅', talk: [{ script: 'b05_atico_vitrina' }] },
-				{ label: 'El muro de encuentros', sub: 'Fotos con chinchetas de colores', icon: '📌', talk: [{ script: 'b05_atico_muro' }] },
+				{ label: 'El muro de encuentros', sub: 'Fotos con tachuelas de colores', icon: '📌', talk: [{ script: 'b05_atico_muro' }] },
 				{ label: 'Un dibujo pegado en la puerta', sub: 'Con la hora escrita en una esquina', icon: '🖍️', cond: LUC, talk: [{ script: 'b05_atico_dibujo' }] },
 				{ label: 'El sillón que no hace juego', sub: 'Y una alfombra de rayas', icon: '🛋️', cond: 'flag.b05_atico_muebles', talk: [{ script: 'b05_atico_sillon' }] },
 				{ label: 'Una postal en el espejo', sub: 'Una playa y un volcán', icon: '🌺', cond: 'flag.b05_atico_muebles && visited("hauoli")', talk: [{ script: 'b05_atico_postal' }] },
@@ -130,7 +130,7 @@ export default {
 						{ text: 'Regalarle un despertador', cost: 500, result: 'Un despertador con forma de Chespin. El Chespin de verdad lo mira con mucha desconfianza. Lucien pone la alarma a las 2:16 «para estar preparado».', effect: { happy: 5 } },
 					] },
 				{ id: 'cordon', name: 'El cordón de la cinta', w: 2, npc: 'lucien', cond: LUC + ' && ' + CHESPIN + ' && !vars.lucien_viaje',
-					text: 'No te enfades. Chespin se ha comido el cordón de terciopelo de la sala de Kalos. El de no pasar. Ahora se puede pasar. Bueno, siempre se podía, era un cordón. Pero ahora también se puede pasar oficialmente.',
+					text: 'No te enojes. Chespin se ha comido el cordón de terciopelo de la sala de Kalos. El de no pasar. Ahora se puede pasar. Bueno, siempre se podía, era un cordón. Pero ahora también se puede pasar oficialmente.',
 					options: [
 						{ text: '«Que pase la gente.»', result: 'La gente pasa, toca la canica de escayola y la canica sale rodando. Philippe la persigue por el pasillo. Lucien lo apunta todo, con horas.', effect: { boost: { mult: { visitas: 0.9 }, days: 1, label: 'Sin cordón' } } },
 						{ text: 'Comprar un cordón nuevo', cost: 600, result: 'Cordón nuevo, más grueso. Chespin lo huele, lo respeta y se va a dormir debajo de la vitrina de Johto. Lucien le pone una etiqueta: «Pieza viva. No tocar».', effect: { happy: 5 } },
@@ -147,10 +147,10 @@ export default {
 						{ text: '«Deja seis más.»', result: 'Ocho macarons. Al día siguiente quedan cinco y una nota: «Perdón. Estaban buenos. —H.». Matière la guarda en una bolsa de pruebas, sonriendo.', effect: { happy: 3 } },
 						{ text: 'Pagar una caja grande de macarons', cost: 900, result: 'Una caja de veinte. Nadie roba ninguno: ya no tiene gracia. Las reuniones de la Agencia se alargan y se alquilan más salas.', effect: { boost: { mult: { eventos: 1.25 }, days: 3, label: 'Reuniones con macarons' } } },
 					] },
-				{ id: 'vecinos', name: 'Carta de la comunidad de vecinos', w: 2, npc: 'philippe',
-					text: 'Ha llegado una carta de la comunidad. Se quejan del ruido. Del zumbido. —Lo lee dos veces—. Les he contestado que el zumbido no es del ático, es de la Puerta, y que la Puerta no paga comunidad. No les ha hecho gracia. Quieren una derrama para insonorizar el portal.',
+				{ id: 'vecinos', name: 'Carta de la junta de vecinos', w: 2, npc: 'philippe',
+					text: 'Ha llegado una carta de la junta de vecinos. Se quejan del ruido. Del zumbido. —Lo lee dos veces—. Les he contestado que el zumbido no es del ático, es de la Puerta, y que la Puerta no paga mantenimiento. No les ha hecho gracia. Quieren una cuota extra para insonorizar el portal.',
 					options: [
-						{ text: 'Pagar la derrama', cost: 2000, result: 'Corcho en el portal y una alfombra en la escalera. Los vecinos dejan de escribir. Uno sube a ver el museo y firma en el libro: «No está mal. Sigue zumbando».', effect: { boost: { mult: { all: 1.1 }, days: 3, label: 'Paz en la escalera' } } },
+						{ text: 'Pagar la cuota extra', cost: 2000, result: 'Corcho en el portal y una alfombra en la escalera. Los vecinos dejan de escribir. Uno sube a ver el museo y firma en el libro: «No está mal. Sigue zumbando».', effect: { boost: { mult: { all: 1.1 }, days: 3, label: 'Paz en la escalera' } } },
 						{ text: '«Que se quejen a la Puerta.»', result: 'Philippe se lo dice así, con esas palabras. Una semana de miradas en el ascensor que no existe. Hay menos visitas.', effect: { boost: { mult: { visitas: 0.85 }, days: 2, label: 'Vecinos molestos' } } },
 					] },
 				{ id: 'caja', name: 'Una caja sin remitente', w: 2, npc: 'philippe',
@@ -206,7 +206,7 @@ export default {
 			{ text: 'Junto a la puerta del ático hay un taburete de cocina. En el taburete, Lucien, con la gorra del revés y una libreta en las rodillas. Debajo del taburete, enroscado, un Chespin que te mira con un ojo.', cond: CHESPIN },
 			{ text: 'Junto a la puerta del ático hay un taburete de cocina. En el taburete, Lucien, con la gorra del revés y una libreta en las rodillas.', cond: '!' + CHESPIN },
 			{ say: 'lucien', text: '¡Alto! ¿Nombre y hora de llegada? —Te mira—. ¡ERES TÚ! Hora de llegada: ahora. Lo apunto. Ya está. Puedes pasar. Bueno, puedes pasar siempre, que el ático es tuyo. Me lo ha dicho Philippe. ¡Es tuyo!' },
-			{ say: 'lucien', text: 'Soy el portero. Bueno, «portero en prácticas». Philippe dice que no me puede contratar porque tengo doce años. Mi madre dice que puedo venir si hago los deberes aquí. Así que hago los deberes y, de paso, vigilo.' },
+			{ say: 'lucien', text: 'Soy el portero. Bueno, «portero en prácticas». Philippe dice que no me puede contratar porque tengo doce años. Mi madre dice que puedo venir si hago la tarea aquí. Así que hago la tarea y, de paso, vigilo.' },
 			{ say: 'lucien', text: 'Y Chespin también vigila. Él vigila por abajo. Si alguien quiere robar algo, le muerde los cordones. Ya ha pasado una vez. Era Philippe. Pero Philippe no quería robar nada, quería atarse los zapatos.', cond: CHESPIN },
 			{ choice: [
 				{ text: '«¿Y por qué aquí?»', then: [
@@ -229,13 +229,13 @@ export default {
 			{ say: 'lucien', text: 'Oye, ¿cuándo te vas otra vez? Cuando te vayas, avísame, que lo apunto. Lo de cuándo vuelves también.' },
 		],
 		b05_atico_lucien_2: [
-			{ say: 'lucien', text: '¡Alola! ¡Te vas a Alola! ¡Lo he leído en el tablón de la Gira! —Se le cae la libreta—. ¿Me traes arena? En un bote. Con la hora a la que la cogiste escrita en la tapa.' },
+			{ say: 'lucien', text: '¡Alola! ¡Te vas a Alola! ¡Lo he leído en el tablón de la Gira! —Se le cae la libreta—. ¿Me traes arena? En un bote. Con la hora a la que la recogiste escrita en la tapa.' },
 			{ say: 'lucien', text: 'Chespin quiere un coco. No sabe qué es un coco, pero le he enseñado una foto y ha hecho así con las púas. Eso es que sí.', cond: CHESPIN },
 			{ say: 'lucien', text: 'Yo vigilo el ático mientras tanto. Y la Puerta. Si pasa algo raro, te lo apunto. Si no pasa nada, también, porque eso también es un dato.' },
 		],
 		b05_atico_lucien_3: [
 			{ say: 'lucien', text: '¡Has vuelto! ¡Estás más moren{o|a|e}! Hora de vuelta: ahora. Lo apunto. —Lo apunta. Lo subraya—. ¿Y mi arena?' },
-			{ say: 'lucien', text: 'Mientras estabas fuera, la Puerta ha zumbado todos los días a las 2:17. Menos uno, que zumbó a las 2:17 y otra vez a las 2:18, bajito. Como un eco. Philippe dice que fue el frigorífico. El frigorífico no hace eco.' },
+			{ say: 'lucien', text: 'Mientras estabas fuera, la Puerta ha zumbado todos los días a las 2:17. Menos uno, que zumbó a las 2:17 y otra vez a las 2:18, bajito. Como un eco. Philippe dice que fue el refrigerador. El refrigerador no hace eco.' },
 		],
 		b05_atico_lucien_4: [
 			{ say: 'lucien', text: '¿Teselia? ¿Es verdad que allí los puentes son tan largos que no se ve el final? ¡Hazles fotos! Desde el principio, para que se note que no se ve el final.' },
@@ -255,7 +255,7 @@ export default {
 		b05_atico_libreta: [
 			{ text: 'La libreta de portero de Lucien. En la tapa pone «REGISTRO OFICIAL. NO TOCAR (MENOS {jugador})».' },
 			{ if: 'flag.b06_fin', then: [{ read: { title: 'Registro de portero (Lucien)', text: '*(Letra de niño, muy apretada. La hora siempre al margen.)*\n\n**2:17** — zumba.\n**2:17** — zumba otra vez. Dos veces seguidas. Ya van seis noches.\n**2:18** — Chespin se sube al alféizar. No baja.\n**10:05** — visita: una señora con un Furfrou. Mira la baraja. Dice «qué bonito». Se va.\n**18:40** — Philippe hace el truco de la moneda. La moneda se cae por la rendija del suelo. Ya van tres.\n**2:17** — zumba. Más grave. No sé explicarlo. Lo dibujo: ~~~~~~ (pero más grave).\n\n*Nota para mí: preguntarle a {jugador} si en las otras regiones las Puertas también hablan bajito.*' } }] },
-			{ if: 'flag.b05_fin && !flag.b06_fin', then: [{ read: { title: 'Registro de portero (Lucien)', text: '*(Letra de niño, muy apretada. La hora siempre al margen.)*\n\n**9:00** — abro. (Abre Philippe. Yo llego a las 9:00 y digo «abro».)\n**11:30** — visita: un señor de Johto. Llora en la sala de la mecedora. Le doy un pañuelo de Philippe. Philippe tiene muchos.\n**2:17** — zumba.\n**2:18** — zumba otra vez, bajito. Como un eco. Philippe: «el frigorífico». Yo: «el frigorífico no hace eco».\n**17:00** — Chespin muerde el cordón de Kalos. Lo arreglo con celo.\n\n*Pendiente: arena de Alola (me la debe {jugador}).*' } }] },
+			{ if: 'flag.b05_fin && !flag.b06_fin', then: [{ read: { title: 'Registro de portero (Lucien)', text: '*(Letra de niño, muy apretada. La hora siempre al margen.)*\n\n**9:00** — abro. (Abre Philippe. Yo llego a las 9:00 y digo «abro».)\n**11:30** — visita: un señor de Johto. Llora en la sala de la mecedora. Le doy un pañuelo de Philippe. Philippe tiene muchos.\n**2:17** — zumba.\n**2:18** — zumba otra vez, bajito. Como un eco. Philippe: «el refrigerador». Yo: «el refrigerador no hace eco».\n**17:00** — Chespin muerde el cordón de Kalos. Lo arreglo con cinta.\n\n*Pendiente: arena de Alola (me la debe {jugador}).*' } }] },
 			{ if: '!flag.b05_fin', then: [{ read: { title: 'Registro de portero (Lucien)', text: '*(Letra de niño, muy apretada. La hora siempre al margen.)*\n\n**9:00** — abro.\n**9:01** — no viene nadie.\n**10:12** — viene una señora. Se ha equivocado de piso. Le enseño el museo igual. Se queda una hora.\n**13:00** — crêpe (pago).\n**16:45** — Philippe me pregunta si quiero ser mago de mayor. Le digo que no: viajero. Me dice que es casi lo mismo, que los dos desaparecen.\n**2:17** — zumba. Como siempre.\n\n*Nota: la ficha número uno (=**{jugador}**) ha comprado el ático. Eso significa que este es su ático y que yo soy su portero. Oficial.*' } }] },
 		],
 
