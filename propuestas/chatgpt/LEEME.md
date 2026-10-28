@@ -25,3 +25,29 @@ Rama `chatgpt/ilustraciones-cuento-2026-10-28`. Diseños aprobados por Mario.
 - `ENTREGA_CUENTO_2026-10-28.md`: alcance y notas de integración.
 
 PNG menores de 300 KB, sin Pokémon ni personajes canon. Listos para integrar; sin cambios al juego publicado.
+
+## Postales con ambientación Pokémon · 2026-10-28
+
+Mario aprobó el estilo de cuento, pidió añadir varios Pokémon de ambientación y autorizó subir estas 17 postales al repositorio, lo cual sustituye para esta entrega la restricción anterior de imágenes sin Pokémon.
+
+- `img/postal-luminalia.png`
+- `img/postal-novarte.png`
+- `img/postal-acuarela.png`
+- `img/postal-boceto.png`
+- `img/postal-vanitas.png`
+- `img/postal-petroglifo.png`
+- `img/postal-relieve.png`
+- `img/postal-cromlech.png`
+- `img/postal-yantra.png`
+- `img/postal-azalea.png`
+- `img/postal-trigal.png`
+- `img/postal-iris.png`
+- `img/postal-malva.png`
+- `img/postal-olivo.png`
+- `img/postal-caoba.png`
+- `img/postal-azafran.png`
+- `img/postal-lavanda.png`
+
+Todas son PNG 512×320, menores de 300 KB. Ilustraciones originales generadas con IA; especies pintadas a mano en el estilo de cuento, sin sprites extraídos. Paisajes basados en descripciones de lugares ya visitados en app/content/. La fauna incluye guiños de lore y especies de áreas vecinas como interpretación ambiental; no constituye una tabla de encuentros. La fidelidad visual a cada especie puede requerir ajustes posteriores.
+
+Entregadas en la rama de propuestas para integración. No se modificó el juego publicado.
