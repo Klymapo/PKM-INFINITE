@@ -468,6 +468,14 @@ export async function runBattle(cfg, hooks) {
 	// ---------- Final ----------
 	const summary = ctl.finish();
 	summary.trainer = trainer;
+	// Historial de combates (pedido de Mario, 2026-10-28): últimos 30
+	try {
+		const rec = { t: Date.now(), k: kind, r: summary.result, m: summary.money || 0, loc: G.loc,
+			foe: trainer ? (trainer.cls ? trainer.cls + ' ' : '') + trainer.name : (D.species[foes[0]?.sp]?.name || '?'), lv: Math.max(...foes.map(f => f.lv)),
+			team: G.party.map(p => ({ sp: p.sp, lv: p.lv })) };
+		if (trainer) rec.id = trainer.id;
+		(G.hist ||= []).unshift(rec); if (G.hist.length > 30) G.hist.length = 30;
+	} catch (e) { /* */ }
 	if (summary.result === 'win' && trainer) {
 		if (trainer.win) {
 			const n = trainer.npc ? { id: trainer.npc, ...C.npcs[trainer.npc] } : { name: trainer.name, look: trainer.look || { seed: trainer.name }, sprite: trainer.sprite };

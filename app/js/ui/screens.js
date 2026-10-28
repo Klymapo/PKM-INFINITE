@@ -2,7 +2,7 @@
 import { D, toID, TYPE_COLORS, typeStyle, typeName, STAT_NAMES, STATS, abilityName, natureName, moveName, itemName } from '../data.js';
 import { C, topLoc } from '../content.js';
 import {
-	G, newGame, setG, saveGame, beginScene, endScene, loadSaved, exportSave, importSave, deleteSave, evalCond, addItem, removeItem, count, markCaught, BOX_MAX, boxInsert,
+	G, newGame, setG, saveGame, beginScene, endScene, loadSaved, exportSave, importSave, deleteSave, listSnapshots, restoreSnapshot, evalCond, addItem, removeItem, count, markCaught, BOX_MAX, boxInsert,
 } from '../state.js';
 import {
 	createPokemon, displayName, maxHp, calcStats, healFull, expProgress, checkEvolution, addHappy, natureMod, canLearn,
@@ -11,7 +11,7 @@ import {
 	L, isRoute, spotsOf, descOf, tramoItems, tramoTerrain, encounterTable, encounterOdds, rollWild, mounted, encounterRate, canMove,
 	markTramo, walkFriendship, findPath, canEnter, healParty, whiteout, trainingOpen, avgLevel, pendingNotices, routeProg, activeEvents, eventCalendar,
 } from '../world.js';
-import { runScript, runFirst, UI, tx, findRiolu } from '../guion.js';
+import { runScript, runFirst, UI, tx, findRiolu, closeHangingThreads } from '../guion.js';
 import { monImg, itemImg, sceneCanvas, portraitCanvas, HAIRS, LOOK_DEFAULTS, ballIcon, pxItem } from '../art.js';
 import { h, $, app, say, readPaper, choose, prompt, confirm, toast, openSheet, closeAllSheets, topSheet, onSwipe, lastTab, slideIn, setTextSpeed, portraitFor, logLine, logButton, openDialogLog } from './core.js';
 import { runBattle, learnMoveUI, evolveUI } from './battle-ui.js';
@@ -156,9 +156,38 @@ async function importBackup() {
 	input.click();
 }
 
+/** Precarga en segundo plano los sprites de tu equipo y tus cajas (frente, espalda, shiny si toca) cuando hay internet. */
+async function precacheOwnSprites() {
+	if (!('caches' in self) || navigator.onLine === false) return;
+	try {
+		const { monUrls } = await import('../art.js');
+		const mons = [...G.party, ...G.boxes.flat()];
+		const seen = new Set();
+		const cache = await caches.open('sprites-v1');
+		for (const p of mons) {
+			for (const back of [false, true]) {
+				const url = monUrls(p.sp, { back, shiny: !!p.shiny })[0];
+				if (seen.has(url)) continue; seen.add(url);
+				try { if (!(await cache.match(url))) { const r = await fetch(url, { mode: 'cors' }); if (r.ok) await cache.put(url, r); } } catch (e) { /* sin red */ }
+			}
+		}
+	} catch (e) { /* */ }
+}
+/** Cada 30 días recuerda exportar un respaldo (las copias automáticas viven solo en este teléfono). */
+function backupReminder() {
+	const last = G.lastExport || G.created || 0;
+	if (Date.now() - last < 30 * 864e5 || (G.vars.backup_nag || 0) > Date.now() - 7 * 864e5) return;
+	G.vars.backup_nag = Date.now();
+	setTimeout(() => toast('💾 Hace más de un mes que no exportas un respaldo. Más › Ajustes › Exportar respaldo.', 'quest'), 4000);
+}
 function continueGame(save) {
 	setG(save);
 	mainSwipe();
+	setTimeout(precacheOwnSprites, 3000);
+	backupReminder();
+	setTimeout(() => checkDexRewards(), 6000);
+	// Historias colgadas de bloques ya terminados: se archivan una vez por versión de contenido
+	if (G.vars.hilos_v !== C.version) { G.vars.hilos_v = C.version; setTimeout(() => { for (const b of C.blocks) if (G.flags[b.id + '_fin']) closeHangingThreads(b.id); }, 2500); }
 	try { const added = retroUniques(); if (added.length) G.uniq.retroNews = added; } catch (e) { console.error(e); }
 	let fixNotes = [];
 	try { fixNotes = repairSave(); } catch (e) { console.error(e); }
@@ -1229,6 +1258,7 @@ export async function battle(cfg) {
 		tryEvolve: (p, ctx) => tryEvolve(p, ctx),
 	};
 	const res = await runBattle(cfg, hooksObj);
+	if (res.result === 'caught') setTimeout(() => checkDexRewards(), 800);
 	if (res.result === 'lose' && !cfg.canLose) {
 		const dest = whiteout();
 		await say(null, `${G.player.name} vuelve corriendo al Centro Pokémon más cercano…`);
@@ -2516,6 +2546,7 @@ function openMore() {
 		(() => { const n = Object.keys(G.uniq?.missed || {}).length; return row('🐾', 'Segundas oportunidades', n ? `${n} ${n === 1 ? 'Pokémon único volverá' : 'Pokémon únicos volverán'}` : 'Pokémon únicos que se escaparon', openUniques); })(),
 		row('🏅', 'Retos', 'Líderes y combates importantes', openChallenges),
 		row('📁', 'Expediente', 'Rivales y enemigos que conoces', openIntel),
+		row('📜', 'Historial de combates', (G.hist || []).length ? `Últimos ${Math.min(30, G.hist.length)} combates` : 'Todavía no hay combates', openHistory),
 		row('🎖️', 'Medallas', `${G.player.badges.length} medallas`, openBadges),
 		row('💾', 'Guardar', G.lastSave ? 'Último guardado: ' + new Date(G.lastSave).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }) : '', async () => { await saveGame(); toast('Partida guardada'); }),
 		row('⚙️', 'Ajustes', 'Texto, Repartir Exp., sprites y respaldos', openSettings),
@@ -2757,6 +2788,44 @@ function openChallenges() {
 	sheet.set(list);
 }
 
+function openHistory() {
+	const sheet = openSheet('Historial de combates', null);
+	const list = G.hist || [];
+	const R = { win: ['Victoria', 'ok'], lose: ['Derrota', 'bad'], caught: ['Capturado', 'ok'], run: ['Huida', ''], draw: ['Empate', ''] };
+	const fmt = t => new Date(t).toLocaleString('es-MX', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+	sheet.set([
+		h('div', { class: 'note' }, 'Tus últimos 30 combates: contra quién, dónde, con qué equipo y cómo acabó.'),
+		list.length ? h('div', { class: 'list' }, ...list.map(r => { const [txt, cls] = R[r.r] || [r.r, '']; return h('div', { class: 'row', style: { alignItems: 'flex-start' } },
+			h('div', { class: 'ico' }, r.k === 'trainer' ? '⚔️' : '🌿'),
+			h('div', { class: 'lbl' }, h('div', { class: 't' }, `${r.foe} · Nv. ${r.lv}`, h('span', { class: 'hist-res ' + cls }, txt)),
+				h('div', { class: 's' }, `${fmt(r.t)} · ${C.locations[r.loc]?.name || ''}${r.m ? ` · ${r.m > 0 ? '+' : ''}${fmtMoney(r.m)}` : ''}`),
+				h('div', { class: 's' }, (r.team || []).map(p => `${D.species[p.sp]?.name || p.sp} ${p.lv}`).join(' · ')))); })) : h('div', { class: 'empty' }, 'Todavía no hay combates registrados.'),
+	]);
+}
+
+// Recompensas de la Pokédex (pedido de Mario, 2026-10-28): el profesor Ciprés manda un regalo por cada hito de capturas.
+const DEX_REWARDS = [[25, 'rarecandy', 3], [50, 'luckyegg', 1], [75, 'abilitycapsule', 1], [100, 'shinycharm', 1], [150, 'masterball', 1], [200, 'goldbottlecap', 1], [300, 'masterball', 1]];
+/** Espera a que no haya diálogos ni combate en pantalla (para avisos que no deben pisar otros). */
+function whenIdle(maxMs = 90000) {
+	return new Promise(res => { const t0 = Date.now(); const tick = () => { if (!document.querySelector('.overlay, .battle, .cine') || Date.now() - t0 > maxMs) res(); else setTimeout(tick, 700); }; tick(); });
+}
+let dexBusy = false;
+async function checkDexRewards() {
+	if (dexBusy) return; dexBusy = true;
+	try { await whenIdle(); await dexRewardsNow(); } finally { dexBusy = false; }
+}
+async function dexRewardsNow() {
+	const n = Object.keys(G.dex?.caught || {}).length;
+	for (const [at, item, qty] of DEX_REWARDS) {
+		if (n < at || G.flags['dex_premio_' + at]) continue;
+		G.flags['dex_premio_' + at] = true;
+		addItem(item, qty);
+		await whenIdle(20000);
+		await say({ id: 'cipres', ...C.npcs.cipres }, tx(`¡{jugador}! Acabo de ver tu Pokédex: **${at} especies capturadas**. Eso merece un regalo. Te mando **${itemName(item)}${qty > 1 ? ' ×' + qty : ''}** a la mochila. ¡Sigue así!`));
+		await saveGame();
+	}
+}
+
 function openIntel() {
 	const sheet = openSheet('Expediente', null);
 	const list = h('div', {});
@@ -2810,6 +2879,7 @@ function openSettings() {
 			h('div', { class: 'list' },
 				h('button', { class: 'row', onclick: downloadBackup }, h('div', { class: 'ico' }, '💾'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Exportar respaldo'), h('div', { class: 's' }, 'Archivo con tu partida, por si cambias de teléfono'))),
 				h('button', { class: 'row', onclick: importBackup }, h('div', { class: 'ico' }, '📥'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Importar respaldo'))),
+				h('button', { class: 'row', onclick: openSnapshots }, h('div', { class: 'ico' }, '🕒'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Copias automáticas'), h('div', { class: 's' }, 'Una por día, las últimas 7. Por si algo sale mal.'))),
 				h('button', { class: 'row', onclick: async () => { if (await confirm('Esto borra tu partida de este teléfono. ¿Seguro?', 'Borrar', 'Cancelar') && await confirm('¿De verdad? No se puede deshacer.', 'Sí, borrar', 'No')) { await deleteSave(); location.reload(); } } }, h('div', { class: 'ico' }, '🗑️'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Borrar partida')))),
 			h('div', { class: 'note' }, `Pokémon Infinite · contenido ${C.version} · tiempo de juego ${fmtDuration(G.playMs || 0)}. Fangame sin ánimo de lucro. Pokémon y sus personajes son de Nintendo, Game Freak y The Pokémon Company.`),
 		]);
@@ -2825,7 +2895,22 @@ function downloadFile(name, text) {
 function downloadBackup() {
 	const d = new Date().toISOString().slice(0, 10);
 	downloadFile(`pokemon-infinite-${d}.json`, exportSave());
+	G.lastExport = Date.now(); saveGame();
 	toast('Respaldo exportado');
+}
+
+async function openSnapshots() {
+	const sheet = openSheet('Copias automáticas', null);
+	sheet.set([h('div', { class: 'empty' }, 'Buscando copias…')]);
+	const list = await listSnapshots();
+	const fmt = d => new Date(d + 'T12:00:00').toLocaleDateString('es-MX', { weekday: 'short', day: 'numeric', month: 'short' });
+	sheet.set([
+		h('div', { class: 'note' }, 'El juego guarda sola una copia de tu partida cada día que juegas (las últimas 7). Si algo se rompe, puedes volver a una. Estas copias viven solo en este teléfono: para cambiar de teléfono usa «Exportar respaldo».'),
+		list.length ? h('div', { class: 'list' }, ...list.map(s => h('button', { class: 'row', onclick: async () => {
+			if (!await confirm(`¿Volver a la copia del ${fmt(s.day)}? Tu partida actual se guarda antes como copia de hoy.`, 'Restaurar', 'Cancelar')) return;
+			try { await restoreSnapshot(s.day); toast('Copia restaurada'); location.reload(); } catch (e) { toast('No se pudo restaurar: ' + e.message); }
+		} }, h('div', { class: 'ico' }, '🕒'), h('div', { class: 'lbl' }, h('div', { class: 't' }, fmt(s.day)), h('div', { class: 's' }, `${s.name} · ${s.badges} ${s.badges === 1 ? 'medalla' : 'medallas'} · ${fmtDuration(s.playMs)} · ${C.locations[s.loc]?.name || ''}`))))) : h('div', { class: 'empty' }, 'Todavía no hay copias. Se crea la primera al guardar hoy.'),
+	]);
 }
 
 async function downloadAllSprites() {

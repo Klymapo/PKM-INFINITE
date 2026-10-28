@@ -560,3 +560,12 @@ Corregido:
 
 Auditoría: validador 0, tester 0, hub 0 graves, humo OK, Designer de Canvas 0 graves, bot 18/24 (igual que la publicación del B6; los 8 atascos son los del bot de siempre).
 Pendiente sugerido por el revisor (no hecho): cierre genérico de hilos al terminar cada bloque; aviso en pantalla cuando un NPC se marcha de una región.
+
+## Tanda 1 · técnico (2026-10-28, «adelante con todo» de Mario)
+
+- **Copias automáticas:** una por día de juego en IndexedDB (`snap:AAAA-MM-DD`, últimas 7), Ajustes › Copias automáticas con restaurar. Recordatorio cada 30 días para exportar (`G.lastExport`).
+- **Sprites:** al continuar la partida, con internet, se precachean los sprites (frente, espalda, shiny) del equipo y de las cajas.
+- **Historial de combates:** `G.hist` (últimos 30: rival, nivel, lugar, resultado, dinero, equipo). Más › Historial de combates.
+- **Cierre de hilos:** al activarse `flag.bNN_fin`, `closeHangingThreads(bNN)` (guion.js) archiva las misiones `thread` de ese bloque que `questHangs` (hub.js) confirma que ningún guion publicado avanza; quedan `autoClosed` y se reabren solas si un bloque futuro les pone etapa. También se aplica a bloques ya terminados una vez por versión de contenido (`vars.hilos_v`).
+- **Recompensas de la Pokédex:** `DEX_REWARDS` en screens.js (25 Caramelo Raro ×3, 50 Huevo Suerte, 75 Cáps. Habilidad, 100 Amuleto Iris, 150 Master Ball, 200 Chapa Dorada, 300 Master Ball), flags `dex_premio_N`, las entrega Ciprés en diálogo cuando no hay nada en pantalla. Retroactivo: Mario (117) recibe las de 25–100 al abrir.
+- Pruebas: validador 0, tester 0, hub 0 graves, humo OK, bot semilla 3 llega al final.

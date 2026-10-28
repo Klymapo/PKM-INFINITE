@@ -6,6 +6,27 @@ import { G, evalCond, setPath, addItem, removeItem, count, markCaught, saveGame,
 import { createPokemon, displayName, healFull, addHappy, maxHp } from './pokemon.js';
 import { uniqueKeyOf, uniqueResult } from './unicos.js';
 import * as MJ from './minijuegos.js';
+import { questHangs } from './hub.js';
+
+/**
+ * Al terminar un bloque, las historias de personaje de ese bloque que ningún guion publicado puede avanzar
+ * se cierran solas (pedido de Mario, 2026-10-28: «historias abiertas que me confunden»). Quedan marcadas
+ * para reabrirse si un bloque futuro las retoma.
+ */
+export function closeHangingThreads(block) {
+	let n = 0;
+	for (const id in G.quests) {
+		const q = G.quests[id], def = C.quests[id];
+		if (!def || !id.startsWith(block + '_') || def.type !== 'thread' || q.done) continue;
+		let hangs = false;
+		try { hangs = questHangs(id); } catch (e) { hangs = false; }
+		if (!hangs) continue;
+		q.done = true; q.autoClosed = true; q.finished = Date.now(); q.stage = q.stage || 'hecha';
+		n++;
+	}
+	if (n) UI.toast?.(`📔 Rotom archivó ${n} ${n === 1 ? 'historia que ya no seguía' : 'historias que ya no seguían'}`, 'quest');
+	return n;
+}
 
 export const UI = {}; // lo rellena la interfaz: say, choose, battle, toast, prompt, refresh, goto, receivePokemon, learnMove, nickname
 
@@ -83,7 +104,11 @@ async function runCmd(c, ctx) {
 		if (evalCond(c.if)) { if (c.then) await runList(c.then, ctx); } else if (c.else) await runList(c.else, ctx);
 		return;
 	}
-	if (c.set) { for (const k in c.set) setPath(k, c.set[k]); return; }
+	if (c.set) {
+		for (const k in c.set) setPath(k, c.set[k]);
+		for (const k in c.set) { const m = /^flag\.(b\d\d)_fin$/.exec(k); if (m && c.set[k]) closeHangingThreads(m[1]); }
+		return;
+	}
 	if (c.rep) { for (const k in c.rep) setPath('rep.' + k, (c.rep[k] >= 0 ? '+' : '') + c.rep[k]); return; }
 	if (c.af) {
 		for (const k in c.af) setPath('af.' + k, (c.af[k] >= 0 ? '+' : '') + c.af[k]);
@@ -136,6 +161,7 @@ async function runCmd(c, ctx) {
 	if (c.go) { await UI.goto(c.go, { silent: c.silent }); return; }
 	if (c.quest) {
 		const q = (G.quests[c.quest] ||= { stage: '', started: Date.now() });
+		if (q.done && q.autoClosed && c.stage && !c.done) { q.done = false; delete q.autoClosed; } // la cerró Rotom al acabar el bloque; la historia sí sigue
 		if (q.done) return; // una misión terminada no se reabre ni se vuelve a completar
 		const def = C.quests[c.quest];
 		const isNew = !q.stage && !q.done;

@@ -109,8 +109,48 @@ export async function saveGame() {
 	G.lastSave = Date.now();
 	const data = sceneSnap ?? JSON.stringify(G);
 	try { await idbSet('slot1', data); } catch (e) { /* ignore */ }
+	snapshotDaily(data);
 	try { localStorage.setItem('pinf-slot1', data); } catch (e) { /* lleno o bloqueado */ }
 	try { navigator.storage?.persist?.(); } catch (e) { /* */ }
+}
+
+// Copias automáticas (pedido de Mario, 2026-10-28): una por día de juego, se guardan las últimas 7 en IndexedDB.
+const SNAP_KEEP = 7;
+let snapDay = null;
+async function snapshotDaily(data) {
+	const day = new Date().toISOString().slice(0, 10);
+	if (snapDay === day) return;
+	snapDay = day;
+	try {
+		const list = (await idbGet('snaps')) || [];
+		if (!list.includes(day)) list.push(day);
+		while (list.length > SNAP_KEEP) { const old = list.shift(); await idbSet('snap:' + old, null); }
+		await idbSet('snap:' + day, data);
+		await idbSet('snaps', list);
+	} catch (e) { /* sin IndexedDB no hay copias */ }
+}
+/** Copias disponibles: [{ day, name, badges, playMs }] de la más nueva a la más vieja. */
+export async function listSnapshots() {
+	const out = [];
+	try {
+		const list = (await idbGet('snaps')) || [];
+		for (const day of list.slice().reverse()) {
+			const raw = await idbGet('snap:' + day);
+			if (!raw) continue;
+			try { const g = JSON.parse(raw); out.push({ day, name: g.player?.name || '', badges: g.player?.badges?.length || 0, playMs: g.playMs || 0, loc: g.loc }); } catch (e) { /* */ }
+		}
+	} catch (e) { /* */ }
+	return out;
+}
+/** Carga una copia como partida actual (la actual se guarda antes como copia de hoy). */
+export async function restoreSnapshot(day) {
+	const raw = await idbGet('snap:' + day);
+	if (!raw) throw new Error('Esa copia ya no existe');
+	const g = migrate(JSON.parse(raw));
+	if (!g?.player) throw new Error('Copia no válida');
+	G = g;
+	await saveGame();
+	return g;
 }
 
 export async function loadSaved() {

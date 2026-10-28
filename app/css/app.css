@@ -960,3 +960,6 @@ button.gm-move.soft { border-left-width: 5px; }
 .choices.pair { display: grid; grid-template-columns: 1fr 1fr; }
 .choices.pair .prompt { grid-column: 1 / -1; }
 .choices.pair button { text-align: center; min-height: 52px; }
+
+.hist-res { margin-left: 8px; font-size: 12px; font-weight: 900; padding: 1px 7px; border-radius: 99px; background: var(--ink-3); color: var(--muted); }
+.hist-res.ok { background: #1f4d33; color: #8ef0a6; } .hist-res.bad { background: #4d1f27; color: #ffb4a8; }
