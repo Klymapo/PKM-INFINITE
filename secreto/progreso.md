@@ -54,6 +54,9 @@
 
 ## Pedidos de Mario pendientes
 
+- **2026-10-28 · Mecánica especial asegurada:** todo Pokémon con Mega, Z exclusivo, Gigamax o forma especial por objeto tendrá su objeto o mecánica asegurada en el transcurso del juego (regla en CLAUDE.md §2.4). Pendiente concreto: **Alakazamita** con misión propia (Kadabra + Cordón Unión; Azafrán). Lista de lo que falta: por hacer en la próxima sesión.
+- **2026-10-28 · Regiones completas:** se pueden visitar por partes, pero el objetivo final es recorrer cada región entera (regla en CLAUDE.md §2.4).
+
 - **2026-10-10 · Lista grande de notas tras jugar hasta el final del B3.** Plan y reparto en `secreto/bloques/p7-plan.md`. Resumen de lo que dijo (sus palabras, para afinar el gusto):
   - **Le encantó:** la muerte de Aurelio («me gustó mucho, aunque dolió»); **la historia de Noa** («el suspenso de qué le pasará me tiene muy pendiente»); poder **encerrar a Atlas dejando libres a los demás**; los **entrenamientos antes de gimnasios** («me deja levelear bien»).
   - **No le gustó:** que Aurelio le diera **dos Pokémon de la misma línea** («ahora tengo dos Ampharos del mismo lugar. Misma especie dos veces»). **Regla nueva:** nunca regalar una especie (o línea) que ya le dimos o que ya tiene; si la historia lo pide, que el regalo sea otra cosa o que pueda quedarse a vivir en el sitio.
