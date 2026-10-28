@@ -69,7 +69,7 @@ export default {
 			{ label: 'Quiosco de la plaza', sub: 'Revistas, postales y una caja de barajas con la Torre Prisma', icon: '🗞️', cond: MAG + ' == "baraja"', new: 'true', talk: [{ script: 'p9_mag_quiosco' }] },
 		] },
 		museo_ficha: { spots: [
-			{ label: 'La vitrina del centro, con una nota pegada', sub: '«NO TOCAR. Ni yo.» Firmado: el conservador', icon: '🃏', cond: MAG + ' == "baraja" && done.b05_s_museo', new: 'true', talk: [{ script: 'p9_mag_vitrina' }] },
+			{ label: 'La vitrina del centro, con una nota pegada', sub: '«NO TOCAR. Ni yo.» Firmado: el conservador', icon: '🃏', cond: MAG + ' == "baraja" && done.b05_s_museo && done.b01_s_philippe', new: 'true', talk: [{ script: 'p9_mag_vitrina' }] },
 		] },
 		museo_sala_kalos: { spots: [
 			pieza('p9_magia', 'Una carta enmarcada, sola', 'El siete de corazones, con una esquina doblada', '🃏', 'flag.p9_magia'),
@@ -133,7 +133,7 @@ export default {
 						{ text: 'Mandarle la bolsa a Petra', cost: 1200, result: 'Un paquete certificado a un puerto que cambia cada semana. Llega. Petra manda una foto de los dientes en fila sobre una toalla, y a cambio, dos huesos que «sobraban» de su propia zanja.', effect: { items: [{ id: 'rarebone', n: 2 }], happy: 6 } },
 					] },
 				{ id: 'p9_frio', name: 'Veinte metros de frío', w: 2, npc: 'cientifico_fosiles', cond: 'flag.p9_zanja',
-					text: 'En el fondo de la zanja profunda hace frío. Yo no me resfrío; llevo veinte años de socorrista. Lo que tengo es una reacción alérgica a los veinte metros de profundidad. Es distinto. Lo he leído.',
+					text: 'En el fondo de la zanja profunda hace frío. Yo no me resfrío; llevo cuarenta años en una cantera. Lo que tengo es una reacción alérgica a los veinte metros de profundidad. Es distinto. Lo he leído.',
 					options: [
 						{ text: 'Comprarle una bufanda', cost: 600, result: 'Bufanda gris, de lana de la Ruta 42. Lazare dice que no la necesita. La lleva todos los días, también en el laboratorio, también en el puerto.', effect: { boost: { mult: { all: 1.1 }, days: 3, label: 'Bufanda' } } },
 						{ text: '«Que lo cuide Pala por holomisor.»', result: 'Pala aparece en la pantalla, lo mira fijamente y no se va hasta que Lazare se toma el jarabe. Nadie sabía que un Diggersby pudiera supervisar.', effect: { happy: 6 } },
@@ -168,14 +168,14 @@ export default {
 		// =================== PUEBLO BOCETO: UNA CARRERA AL DÍA ===================
 		p9_carr_intro: [
 			{ text: 'La pista de piedras pintadas tiene banderines nuevos, de tela roja y crema, y un poste de salida con una pizarra. En la salida, la campeona retirada sujeta dos Rhyhorn ensillados. Uno es el tuyo. El otro la mira a ella como si fuera la única persona del mundo.' },
-			{ say: 'jinete_boceto', text: '¡Ahí está! El jinete que me ganó en mi pista y se fue sin cobrar. Mira lo que has conseguido: los del pueblo se han venido arriba. Banderines. Pizarra. Hasta hay quien apuesta leche.' },
+			{ say: 'jinete_boceto', text: '¡Ahí está! El jinete que corrió contra mí en mi pista y se fue sin cobrar. Mira lo que has conseguido: los del pueblo se han venido arriba. Banderines. Pizarra. Hasta hay quien apuesta leche.' },
 			{ say: 'jinete_boceto', text: 'Te propongo una cosa seria. Una carrera al día, tú y yo. Ni dos ni media: una. El Rhyhorn se aburre si repite, y un Rhyhorn aburrido se va al huerto de la vecina. Lo sé por experiencia.' },
 			{ say: 'jinete_boceto', text: 'Si me ganas, el pueblo paga la bolsa. Si me ganas la primera vez, además te doy algo que guardo desde mi última temporada. Y si pierdes… leche Mu-mu. La leche aquí no se niega a nadie.' },
 			{ text: 'Arranca una hoja plastificada del poste y te la planta en la mano.' },
 			{ say: 'jinete_boceto', text: 'El reglamento. La versión corta. La larga se la comió uno de estos. Léelo, que luego no quiero oír «no lo sabía».' },
 			{ give: 'p9_reglamento' },
 			{ read: 'p9_reglamento' },
-			{ say: 'jinete_boceto', text: 'Mi peque escribió lo de abajo con siete años. Tenía razón, la condenada. Pero la regla dos sigue siendo la que más vale.', cond: 'badges >= 1' },
+			{ say: 'jinete_boceto', text: 'Mi peque escribió lo de abajo con siete años. Tenía razón, qué remedio. Pero la regla dos sigue siendo la que más vale.' },
 			{ set: { 'flag.p9_carrera_vista': true } },
 			{ quest: 'p9_s_carreras', stage: 'pista' },
 			{ choice: [
@@ -237,10 +237,10 @@ export default {
 		],
 
 		p9_carr_gana: [
-			{ if: 'vars.p9_carrera_t <= 45', then: [{ text: 'Menos de cuarenta y seis. El chico de la tiza se queda con la tiza en el aire. Nadie ha bajado nunca de cuarenta y seis en esta pista. Nadie que esté en la pizarra, al menos.' }],
+			{ if: 'vars.p9_carrera_t <= 46', then: [{ text: 'Cuarenta y seis. El chico de la tiza se queda con la tiza en el aire. Nadie ha bajado nunca de cuarenta y siete en esta pista. Nadie que esté en la pizarra, al menos.' }],
 				else: [{ text: 'Por debajo de cincuenta. Por un cuerno, pero por debajo. El pueblo entero resopla a la vez, igual que sus Rhyhorn.' }] },
 			{ if: '!flag.p9_carrera_1', then: [
-				{ say: 'jinete_boceto', text: '…Otra vez. Me has ganado otra vez. Y esta vez no era tu primera carrera, así que no vale lo de «casi». —Se baja. Le da una palmada a su Rhyhorn. Al tuyo, otra—. Bien hecho. Los dos.' },
+				{ say: 'jinete_boceto', text: '…Me has ganado. En mi pista, y esta vez no era tu primera carrera, así que no vale lo de «casi». —Se baja. Le da una palmada a su Rhyhorn. Al tuyo, otra—. Bien hecho. Los dos.' },
 				{ say: 'jinete_boceto', text: 'Lo prometido. Esto es de mi última temporada: me lo dio el mecánico de la pista cuando me retiré. «Para que no se te oxide», dijo. No me he oxidado. Pero ya no lo necesito.' },
 				{ give: 'p9_mt_pulimento' },
 				{ say: 'jinete_boceto', text: 'Pulimento. Lo que hace un Rhyhorn bien cuidado antes de una carrera: quitarse el polvo y salir volando. Sirve para más Pokémon de piedra de los que crees. Dáselo a uno que tenga que llegar antes que los demás.' },
@@ -269,8 +269,8 @@ export default {
 		p9_carr_muro: [
 			{ text: 'Una pizarra con un marco de madera, clavada al poste de salida. Arriba, con letra grande y tiza nueva: «CAMPEONA · 50». Debajo, nombres del pueblo y tiempos que van de los cincuenta y tantos a los sesenta y largos.' },
 			{ if: 'vars.p9_carrera_mejor == 0', then: [{ text: 'Tu nombre todavía no está. Hay un hueco justo debajo del de la campeona. El chico de la tiza lo ha dejado a propósito.' }] },
-			{ if: 'vars.p9_carrera_mejor > 0 && vars.p9_carrera_mejor <= 45', then: [{ text: 'Tu nombre está **encima** del de la campeona, con un tiempo que empieza por cuatro. Alguien ha dibujado al lado un Rhyhorn con alas. La campeona no lo ha borrado.' }] },
-			{ if: 'vars.p9_carrera_mejor > 45 && vars.p9_carrera_mejor <= 49', then: [{ text: 'Tu nombre está **encima** del de la campeona: cuarenta y pico. La tiza está un poco borrosa, como si alguien lo hubiera mirado mucho con el dedo.' }] },
+			{ if: 'vars.p9_carrera_mejor > 0 && vars.p9_carrera_mejor <= 46', then: [{ text: 'Tu nombre está **encima** del de la campeona, con un tiempo que empieza por cuatro. Alguien ha dibujado al lado un Rhyhorn con alas. La campeona no lo ha borrado.' }] },
+			{ if: 'vars.p9_carrera_mejor > 46 && vars.p9_carrera_mejor <= 49', then: [{ text: 'Tu nombre está **encima** del de la campeona: cuarenta y pico. La tiza está un poco borrosa, como si alguien lo hubiera mirado mucho con el dedo.' }] },
 			{ if: 'vars.p9_carrera_mejor >= 50 && vars.p9_carrera_mejor <= 53', then: [{ text: 'Tu nombre está justo debajo del de la campeona: cincuenta y pico. Hay un «casi» escrito al lado, con otra letra.' }] },
 			{ if: 'vars.p9_carrera_mejor > 53', then: [{ text: 'Tu nombre está entre los del pueblo, con un tiempo de los que la campeona llama «de leche». Al lado hay una flecha hacia arriba. Se entiende.' }] },
 			{ if: 'vars.p9_carrera_n >= 5', then: [{ text: 'En un rincón de la pizarra alguien lleva la cuenta de tus carreras con palitos. Ya son bastantes. Debajo pone «vuelve siempre», sin signos.' }] },
@@ -284,21 +284,21 @@ export default {
 			{ read: { title: 'Cartel · Café Soleil', text: '**I NOCHE DE MAGIA DEL CAFÉ SOLEIL**\n*Abierta a aficionados. Un truco por persona.*\n\nCon la actuación de **Philippe Dumont**, agente inmobiliario y mago.\n\n*(Más abajo, a bolígrafo, con otra letra:)* «Si al señor Dumont no le sale el truco, no vuelve a hacer trucos en mi terraza. Firmado: la dueña.»\n\n*(Más abajo aún, con la letra de Philippe:)* «Acepto. —P.»' } },
 			{ say: 'philippe', text: 'Lo firmé. Phil-osofía: un mago que no acepta un reto no es un mago, es un señor con chistera. Y yo ya soy un señor con chistera. Necesito que me salga uno. Uno. Delante de gente.' },
 			{ say: 'philippe', text: 'Y para eso necesito tres cosas. Una baraja, porque la mía… —Se toca el bolsillo del pecho—. Una baraja de la suerte no se usa. Se tiene. Como un seguro. Como una tía rica.', cond: 'done.b01_s_philippe && !done.b05_s_museo' },
-			{ say: 'philippe', text: 'Y para eso necesito tres cosas. Una baraja, porque la mía está en una vitrina, en mi museo, y el conservador ha prohibido tocarla. El conservador soy yo. Me caigo fatal cuando me pongo así.', cond: 'done.b05_s_museo' },
+			{ say: 'philippe', text: 'Y para eso necesito tres cosas. Una baraja, porque la mía está en una vitrina, en mi museo, y el conservador ha prohibido tocarla. El conservador soy yo. Me caigo fatal cuando me pongo así.', cond: 'done.b05_s_museo && done.b01_s_philippe' },
 			{ say: 'philippe', text: 'Y para eso necesito tres cosas. Una baraja, porque la mía se la quedó un Pancham en la Ruta 5 hace mucho y la he dado por emancipada.', cond: '!done.b01_s_philippe' },
 			{ say: 'philippe', text: 'Dos: ensayar. Con alguien que me diga la verdad. Tres: un ayudante en la función. Alguien que baraje, que corte y que no se ría. Lo de no reírse es negociable.' },
 			{ choice: [
 				{ text: '«Cuenta conmigo, Philippe.»', then: [{ say: 'philippe', text: '¡Lo sabía! Lo supe desde que te vendí… bueno, desde que te intenté vender aquella plaza de garaje. Hay clientes que son para siempre.' }] },
 				{ text: '«¿Y si no sale?»', then: [{ say: 'philippe', text: 'Si no sale, me quedo sin terraza. Y esta terraza tiene vistas a la Torre. Son las mejores vistas que no he conseguido vender en veinte años. No puede no salir.' }] },
 			] },
-			{ say: 'philippe', text: 'En el quiosco de la plaza de Novarte venden barajas con la Torre en el dorso. Buenas. Resbalan lo justo. —Baja la voz—. O… no. No. La pieza cero no sale de la vitrina. Olvida que lo he pensado en voz alta.', cond: 'done.b05_s_museo' },
-			{ say: 'philippe', text: 'En el quiosco de la plaza de Novarte venden barajas con la Torre en el dorso. Buenas. Resbalan lo justo. Tráeme una y empezamos.', cond: '!done.b05_s_museo' },
+			{ say: 'philippe', text: 'En el quiosco de la plaza de Novarte venden barajas con la Torre en el dorso. Buenas. Resbalan lo justo. —Baja la voz—. O… no. No. La pieza cero no sale de la vitrina. Olvida que lo he pensado en voz alta.', cond: 'done.b05_s_museo && done.b01_s_philippe' },
+			{ say: 'philippe', text: 'En el quiosco de la plaza de Novarte venden barajas con la Torre en el dorso. Buenas. Resbalan lo justo. Tráeme una y empezamos.', cond: '!(done.b05_s_museo && done.b01_s_philippe)' },
 			{ quest: 'p9_s_magia', stage: 'baraja' },
 		],
 
 		p9_mag_sin_baraja: [
 			{ say: 'philippe', text: '¿La baraja? ¿Ya? —Te mira las manos. Vacías—. No. Bueno. El quiosco de Novarte. Dorso con la Torre. Y si no, lo que tú veas: un mago trabaja con lo que hay. Yo, sobre todo.' },
-			{ say: 'philippe', text: 'Y si pasas por el ático… no mires la vitrina del centro. Ni se te ocurra. Es una orden del conservador. Que soy yo. Que no me hago caso.', cond: 'done.b05_s_museo' },
+			{ say: 'philippe', text: 'Y si pasas por el ático… no mires la vitrina del centro. Ni se te ocurra. Es una orden del conservador. Que soy yo. Que no me hago caso.', cond: 'done.b05_s_museo && done.b01_s_philippe' },
 		],
 
 		p9_mag_quiosco: [

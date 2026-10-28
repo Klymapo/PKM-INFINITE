@@ -268,7 +268,7 @@ export default {
 			] },
 			{ if: LUC, then: [
 				{ text: '{riolu} ha visto la escena entera desde la puerta, sin acercarse. Sabrina lo mira un segundo.' },
-				{ say: 'sabrina', text: 'Y tú llamaste antes de entrar, como siempre. Buenos modales. —Casi sonríe—. Hoy tu compañero ha abierto la puerta de golpe. Se le perdona: era la suya.' },
+				{ say: 'sabrina', text: 'Y tú, el de la puerta: buenos modales, como siempre. —Casi sonríe—. Hoy le tocaba a otro abrirla de golpe. Se le perdona: era la suya.' },
 				{ happy: { who: 'riolu', n: 3 } },
 			] },
 			{ happy: { who: 'alakazam', n: 10 }, cond: 'inParty("alakazam")' },
@@ -321,7 +321,7 @@ export default {
 			{ say: 'p7_dolores', text: 'Dice que abajo, en lo que queda de la vieja Torre, hay una vela que no se apaga. En un nicho sin nombre, al fondo. Los demás fantasmas no se le acercan. Él tampoco, y mira que no le tiene miedo a nada que tenga costuras.' },
 			{ if: 'inParty("chandelure") || inParty("lampent") || inParty("litwick")', then: [
 				{ text: 'Remiendo gira la cabeza de trapo hacia tu Poké Ball, la que lleva dentro una llama. Se queda así. Dolores lo nota.' },
-				{ say: 'p7_dolores', text: 'Mira cómo lo mira. Tu Pokémon de la llama. Remiendo nunca mira a nadie así: él busca caras, no fuegos. —Clava la aguja en el cojín—. A lo mejor por eso te lo cuento a ti y no al cura.' },
+				{ say: 'p7_dolores', text: 'Mira cómo lo mira. Tu Pokémon de la llama. Remiendo nunca mira a nadie así: él busca caras, no fuegos. —Clava la aguja en el cojín—. A lo mejor por eso te lo cuento a ti y no a nadie más.' },
 			], else: [
 				{ say: 'p7_dolores', text: 'Tú llevas uno de llama, ¿no? De los que nacen de una vela. Me lo dijo Remiendo. Bueno, no me lo dijo: se le abrió la cremallera cuando pasaste. Él sabe esas cosas.' },
 			] },
@@ -347,7 +347,7 @@ export default {
 					{ say: 'fuji', text: 'Lo que hacen los que tienen un Pokémon de llama. —Te mira con sus ojos cansados—. Los Litwick nacen de una vela que alguien dejó encendida por otro. Esa vela lleva cuarenta años encendida por muchos. Si tu Pokémon la acepta, la vela por fin tendrá a alguien. Y los nichos, descanso.' },
 				] },
 				{ text: '«Usted encendía esa vela.»', then: [
-					{ say: 'fuji', text: '…Sí. Todas las noches, durante años. Era lo único que sabía hacer bien entonces. —Una pausa larga—. Luego hice otras cosas, en otro sitio, y dejé de venir. Cuando volví, la Torre ya no estaba. Pensé que la vela tampoco.' },
+					{ say: 'fuji', text: '…Sí. Todas las noches, durante años. Era lo único que sabía hacer bien entonces. —Una pausa larga—. Luego pasaron cosas y dejé de bajar. Cuando quise volver, la Torre ya no estaba. Pensé que la vela tampoco.' },
 					{ say: 'fuji', text: 'Si tu Pokémon de llama la acepta, la vela por fin tendrá a alguien. Y yo podré dejar de frotar este candelero.' },
 				] },
 			] },

@@ -190,11 +190,11 @@ export default {
 		p9_pesas_llega: [
 			{ set: { 'flag.p9_pesas_vista': true } },
 			{ text: 'La sala huele a tiza y a plástico nuevo. Una mujer con coleta y silbato te mira de arriba abajo, luego mira a {riolu}, y asiente como si hubiera decidido algo.' },
-			{ say: null, as: 'Monitora', text: 'Philippe me dijo que el inquilino tenía «un equipo de campeonato». No me dijo que estaba hecho a ojo. —Da una palmada—. Aquí no se sube de nivel: aquí se decide **en qué** es bueno cada uno. Elige una pesa, pelea, y ese punto crece. Nada más. Nada menos.' },
-			{ say: null, as: 'Monitora', text: 'Con una **Brazal Firme** se gana el doble. Con los objetos **Poder** (Peso, Cinta, Cinturón, Lente, Banda, Tobillera) aún más. Cada Pokémon aguanta 510 puntos en total, 252 por stat. Lo tienes todo en el cartel.' },
+			{ say: null, as: 'Monitora', text: 'Philippe me dijo que el dueño tenía «un equipo de campeonato». No me dijo que estaba hecho a ojo. —Da una palmada—. Aquí no se sube de nivel: aquí se decide **en qué** es bueno cada uno. Elige una pesa, pelea, y ese punto crece. Nada más. Nada menos.' },
+			{ say: null, as: 'Monitora', text: 'Con un **Brazal Firme** se gana el doble. Con los objetos **Recios** (Pesa, Brazal, Cinto, Lente, Banda, Franja) aún más. Cada Pokémon aguanta 510 puntos en total, 252 por stat. Lo tienes todo en el cartel.' },
 		],
 		p9_pesas_cartel: [
-			{ text: 'CADA RIVAL ENSEÑA UNA COSA.\n\nCada Pokémon que vences deja **puntos de esfuerzo** en el que combatió: 4 puntos suben 1 de stat al nivel 100 (menos a niveles bajos, pero cuentan). Máximo **252 por stat** y **510 en total**.\n\nCon **Brazal Firme** se gana el doble; con un objeto **Poder** del stat, +8 por combate.\n\nLas pesas de esta sala dan **2 puntos** por victoria, todos del mismo stat. Reparte Exp. desactivado: solo cuenta quien pelea.' },
+			{ text: 'CADA RIVAL ENSEÑA UNA COSA.\n\nCada Pokémon que vences deja **puntos de esfuerzo** en el que combatió: 4 puntos suben 1 de stat al nivel 100 (menos a niveles bajos, pero cuentan). Máximo **252 por stat** y **510 en total**.\n\nCon **Brazal Firme** se gana el doble; con el objeto **Recio** de ese stat, +8 por combate.\n\nLas pesas de esta sala dan **2 puntos** por victoria, todos del mismo stat. Con «Repartir Experiencia» activado (Ajustes), los puntos van a todo el equipo; sin él, solo a quien pelea.' },
 		],
 		p9_pesas_libreta: [
 			{ read: { gen: 'esfuerzo' } },

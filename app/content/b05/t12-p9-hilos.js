@@ -5,7 +5,7 @@
 //                 Mareep rosada de la camada nueva, que se queda a vivir en el rancho si ya tienes la línea.
 //                 Rama `b03_rancho_lemnis`: sin misión; una Mareep fuera de la cerca (`p9_mareep_lemnis`).
 //   p9_s_bastien  «La definitiva» · Bastien con seis Pokémon (Mega-Greninja). Si rompió, está mirando el mar en el Paseo de
-//                 Hauoli; si siguió, en la clínica de Æther. Ofrece curar antes. Premio: Greninjita, con escena por rama.
+//                 Hauoli; si siguió, en la clínica de Æther. Ofrece curar antes. Premio: Greninjanita, con escena por rama.
 //   p9_buzon      El buzón de la puerta de tu cuarto (`atico_cuarto`): cartas con `read` que llegan según lo vivido
 //                 (Noa, Rhi, Lila, Kaori, Adela, Lucien). Sin misión. Flags `p9_carta_<quien>`.
 // Limitación del motor: los objetos del contenido no pueden tener efecto en combate (el simulador solo conoce los suyos), así
@@ -31,7 +31,7 @@ const QB = 'p9_s_bastien';
 // Cartas del buzón: [id, condición de llegada]
 const CARTAS = [
 	['noa', 'flag.b04_noa_celeste'],
-	['rhi', '(flag.b04_rhi_tren || flag.b05_rhi_wela)'],
+	['rhi', 'flag.b05_rhi_wela'],
 	['lila', '(flag.b03_lila_fin || flag.b03_sylveon)'],
 	['kaori', 'flag.b04_kaori_paso'],
 	['adela', `flag.b03_rancho_sobrina && done.${Q}`],
@@ -217,7 +217,7 @@ export default {
 			stages: {
 				inicio: 'Bastien quiere el combate definitivo: seis contra seis, sin cláusulas. Acepta cuando tengas el equipo listo.',
 				revancha: 'Perdiste la definitiva. Bastien sigue donde estaba, con la página abierta: vuelve cuando quieras.',
-				hecha: 'Ganaste la definitiva. Bastien te dio su Greninjita: ya no la necesita.',
+				hecha: 'Ganaste la definitiva. Bastien te dio su Greninjanita: ya no la necesita.',
 			},
 		},
 	},
@@ -405,7 +405,7 @@ export default {
 			{ say: 'p9_margaux', text: '¿Tú eres {el|la|le} del rancho de Johto? Menos mal. Esta se bajó del camión de la lana con mucha dignidad, se metió en mi huerto como si fuera suyo y se puso a dormir en el sitio de Bizcocho. Bizcocho no lo ha llevado bien.' },
 			{ say: 'p9_margaux', text: 'Dos días así. Ni comen ni se mueven. Yo les pongo la zanahoria en medio y las dos la miran como si la zanahoria fuera la culpable.' },
 			{ if: 'beat("r5_criadora_margaux")', then: [
-				{ say: 'p9_margaux', text: 'Y tú y yo ya nos conocemos, ¿eh? Hace años. Bizcocho rodó muy fuerte y perdió igual. Ha crecido. Ya no llora. Ahora se enfada.' },
+				{ say: 'p9_margaux', text: 'Y tú y yo ya nos conocemos, ¿eh? De hace unos meses. Bizcocho rodó muy fuerte y perdió igual. Ha crecido. Ya no llora. Ahora se enfada.' },
 			] },
 			{ prompt: 'Nube y Bizcocho no se mueven. ¿Qué haces?', choice: [
 				{ text: 'Partir la zanahoria en dos y darle media a cada una.', then: [
@@ -419,7 +419,7 @@ export default {
 					{ say: 'p9_margaux', text: '…Vaya. Eso ha sido diplomacia. Diplomacia de oveja. Me lo apunto.' },
 				] },
 				{ text: 'Que {riolu} se siente entre las dos.', cond: LUC, then: [
-					{ text: '{riolu} entra en el huerto, se sienta entre las dos ovejas y cierra los ojos. No hace nada. Lo mismo que hizo con Borla hace años: una voltereta. Esta vez no. Esta vez se queda quieto.' },
+					{ text: '{riolu} entra en el huerto, se sienta entre las dos ovejas y cierra los ojos. No hace nada. Lo mismo que hizo con Borla en Kalos fue una voltereta. Esta vez no. Esta vez se queda quieto.' },
 					{ text: 'A Nube se le apaga la luz de la cola, que la tenía encendida de puro enfado sin que nadie lo notara. A Bizcocho se le baja la lana del lomo. Dos minutos después están las dos dormidas, una a cada lado de {riolu}, que sigue sin abrir los ojos.' },
 					{ say: 'p9_margaux', text: 'Si eso lo hiciera yo, cobraría. Tu Pokémon lo hace gratis. Qué desperdicio.' },
 				] },
@@ -490,7 +490,7 @@ export default {
 				{ text: 'Adela te deja el sombrero de Don Aurelio. El de ala ancha, el que llevaba en Kalos. Lo descuelga del clavo del porche y te lo pone en las manos sin decir nada.' },
 				{ say: 'sobrina', text: 'Ahí dormía Chispita. Antes. —Se aclara la garganta—. Ponlo en el escalón. Y quédate. No sé qué espero. Él contaba hasta ella todas las noches y yo dejé de contar. Igual el rebaño lo nota. Igual lo noto yo.' },
 				{ cutscene: { time: 'noche', bg: { type: 'ranch', ground: '#3a4a3a', far: '#1e2238' }, start: 'dark', frames: [
-					{ item: 'cuadernoaurelio', cam: 'still', text: 'Te sientas en el escalón con el sombrero al lado, boca arriba, como una cuna vacía. El rancho se enciende poco a poco: cuarenta y ocho lucecitas detrás del cristal del establo.' },
+					{ item: 'cuadernoaurelio', cam: 'still', text: 'Te sientas en el escalón con el sombrero al lado, boca arriba, como una cuna vacía. El rancho se enciende poco a poco: cincuenta y pico lucecitas detrás del cristal del establo.' },
 					{ on: false, color: '#ffe27a', cam: 'pan-right', fx: 'glow', text: 'Cuentas. Como él. Copito, Borla, Nube, Algodón… y te paras donde se paraba él. «Y Chispita no».' },
 					{ actors: [{ mon: '{riolu}', key: 'rio', at: 0.7, size: 's', enter: 'fade' }], cam: 'still', text: '{riolu} se sienta a tu lado y mira el sombrero. Luego mira la Ruta 42, hacia el oeste, hacia donde queda Kalos. Mucho rato.', cond: LUC },
 					{ on: false, fx: 'sparkle', color: '#ffe27a', text: 'A medianoche, una Mareep del establo se separa de las demás, sale al prado y se enciende sola. Solo una. Se queda así un minuto, mirando la cancela, y vuelve a entrar.' },
@@ -648,7 +648,7 @@ export default {
 		p9_bastien_greninjita: [
 			{ text: 'Bastien se quita la pulsera negra. Saca la piedra con la uña: una esfera pequeña, azul y negra, con un remolino dentro que se mueve cuando la giras.' },
 			{ cutscene: { time: 'tarde', bg: { type: 'coast', far: '#7fc4d8', ground: '#e9d8a6' }, start: 'dark', frames: [
-				{ actors: [{ id: 'bastien', at: 'left' }], on: '_c', item: 'greninjite', cam: 'push', text: 'Una Greninjita. La piedra que su familia compró el día del contrato. La única cosa de aquel día que se quedó él.' },
+				{ actors: [{ id: 'bastien', at: 'left' }], on: '_c', item: 'greninjite', cam: 'push', text: 'Una Greninjanita. La piedra que su familia compró el día del contrato. La única cosa de aquel día que se quedó él.' },
 				{ actors: [{ mon: 'greninja', key: 'gre', at: 0.72, size: 'm', enter: 'fade' }], cam: 'still', text: 'Greninja la mira. Luego mira a Bastien. Luego a ti. Hace un gesto con la cabeza que en un Greninja es casi un encogerse de hombros.' },
 				{ fx: ['glow', 'sparkle'], on: '_c', color: '#5aa8d8', text: 'La piedra brilla un segundo entre los dedos de Bastien. Luego se apaga. Como si ya hubiera hecho lo que tenía que hacer.' },
 			] } },
@@ -656,7 +656,7 @@ export default {
 				{ say: 'bastien', text: 'Toma. Es tuya. No la necesito. —La dice despacio, como una frase que lleva tiempo ensayando—. La compraron para que ganara con la chaqueta puesta. Me he quitado la chaqueta. Lo que gane a partir de ahora lo gano sin ella: la piedra y la chaqueta.' },
 				{ say: 'bastien', text: 'Greninja está de acuerdo. Lo hemos hablado. Bueno, yo hablé y él me miró, pero es lo que hace cuando está de acuerdo.' },
 				{ if: 'flag.b01_bastien_cubierto', then: [
-					{ say: 'bastien', text: 'Me cubriste en una cueva, delante de todo el mundo. Y en Æther me dijiste que no te lo pidiera, que lo hacías igual. —Se ríe, un poco—. Pues esto es lo mismo, al revés. No me lo pidas. Lo hago igual.' },
+					{ say: 'bastien', text: 'Me cubriste en una cueva, delante de todo el mundo, sin que te lo pidiera. —Se ríe, un poco—. Pues esto es lo mismo, al revés. No me lo pidas. Lo hago igual.' },
 				], else: [
 					{ say: 'bastien', text: 'En aquella cueva no me cubriste. Me enfadé mucho tiempo. Luego me di cuenta de que fue la primera vez que alguien me dejó cargar con lo mío. —Te pone la piedra en la mano—. Esto es lo mismo. Carga tú con ella ahora.' },
 				] },
@@ -666,7 +666,7 @@ export default {
 				{ if: 'flag.b01_bastien_cubierto', then: [
 					{ say: 'bastien', text: 'Tú me cubriste una vez. Yo te dejo esto. No es lo mismo, ya lo sé. Pero es lo que tengo que no sea de ellos.' },
 				], else: [
-					{ say: 'bastien', text: 'En aquella cueva te quedaste mirando. Todavía me acuerdo. Pero también me acuerdo de que luego me dijiste que decidiera yo. Pues he decidido: la piedra, tú. Yo, los ojos abiertos. Cada uno con lo suyo.' },
+					{ say: 'bastien', text: 'En aquella cueva te quedaste mirando. Todavía me acuerdo. Pero también me acuerdo de que en Æther estabas delante cuando decidí. Pues ahora decido otra cosa: la piedra, tú. Yo, los ojos abiertos. Cada uno con lo suyo.' },
 				] },
 			] },
 			{ give: 'greninjite' },
@@ -678,8 +678,8 @@ export default {
 				{ say: 'bastien', text: 'Ya sé que no tienes un Greninja. Da igual. Un día tendrás uno, o conocerás a alguien que lo tenga, o la guardarás en un cajón y la mirarás. Las tres cosas valen. Lo importante es que no esté en un inventario.' },
 			] },
 			{ say: 'bastien', text: 'Página nueva. —La pasa—. Arriba pongo tu nombre. Debajo no pongo nada. Ya lo iremos escribiendo.' },
-			{ intel: { npc: 'bastien', text: 'Perdió «la definitiva» (seis contra seis, con Mega-Greninja) y te dio su Greninjita: la pulsera y la piedra se las compraron sus padres el día del contrato y nunca las usó delante de nadie. Su sexto Pokémon es un Golisopod que recogió de Wimpod.' } },
-			{ diary: 'Hoy mi entrenador{|a|e} ha jugado «la definitiva» contra Bastien. Seis contra seis. ¡Su Greninja se hizo enorme y oscuro un rato! Luego volvió a su tamaño y Bastien se sentó en el suelo a escribir.\n\nNos ha dado una Greninjita. Dijo que ya no la necesita. Yo creo que sí la necesitaba y por eso la ha dado; las personas hacen eso a veces y no me cuadra. ¡Bzzt! Lo apunto igual. Como él.', cond: 'flag.b01_diario' },
+			{ intel: { npc: 'bastien', text: 'Perdió «la definitiva» (seis contra seis, con Mega-Greninja) y te dio su Greninjanita: la pulsera y la piedra se las compraron sus padres el día del contrato y nunca las usó delante de nadie. Su sexto Pokémon es un Golisopod que recogió de Wimpod.' } },
+			{ diary: 'Hoy mi entrenador{|a|e} ha jugado «la definitiva» contra Bastien. Seis contra seis. ¡Su Greninja se hizo enorme y oscuro un rato! Luego volvió a su tamaño y Bastien se sentó en el suelo a escribir.\n\nNos ha dado una Greninjanita. Dijo que ya no la necesita. Yo creo que sí la necesitaba y por eso la ha dado; las personas hacen eso a veces y no me cuadra. ¡Bzzt! Lo apunto igual. Como él.', cond: 'flag.b01_diario' },
 		],
 		p9_bastien_despues: [
 			{ if: 'flag.b05_bastien_rompe', then: [
