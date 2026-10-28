@@ -6,7 +6,7 @@
 import { C } from './content.js';
 import { D } from './data.js';
 
-const GEN = { medallas: medallasTexto, muro: muroTexto };
+const GEN = { medallas: medallasTexto, muro: muroTexto, esfuerzo: esfuerzoTexto };
 export const GENS = Object.keys(GEN);
 export function genText(id, g) {
 	try { return GEN[id] ? GEN[id](g) : ''; } catch (e) { console.error(e); return '…'; }
@@ -168,4 +168,20 @@ export function muroTexto(g) {
 	if (!m.length) return '*(Una pared de corcho con tachuelas de colores. Todavía no hay fotos. Las primeras siempre tardan.)*';
 	return ['*(Fotos de la Pokédex impresas en papel brillante, cada una con una nota a lápiz debajo. Algunas están torcidas.)*']
 		.concat(m.map(c => `\n**${c.title}**\n${c.text}`)).join('\n');
+}
+
+// ---------------- Libreta de esfuerzo (sala de pesas) ----------------
+const EV_NAMES = ['PS', 'Ataque', 'Defensa', 'At. Esp.', 'Def. Esp.', 'Velocidad'];
+export function esfuerzoTexto(g) {
+	const name = p => p.nick || D.species[p.sp]?.name || p.sp;
+	const lines = ['**Libreta de esfuerzo**', 'Puntos de esfuerzo de tu equipo (máximo 252 por stat, 510 en total).', ''];
+	for (const p of g.party || []) {
+		const evs = p.evs || [0, 0, 0, 0, 0, 0];
+		const total = evs.reduce((a, b) => a + b, 0);
+		const parts = evs.map((v, i) => v ? `${EV_NAMES[i]} ${v}` : null).filter(Boolean);
+		lines.push(`**${name(p)}** · ${total}/510${total >= 510 ? ' · completo' : ''}`);
+		lines.push(parts.length ? parts.join(' · ') : 'Sin puntos todavía.');
+		lines.push('');
+	}
+	return lines.join('\n');
 }

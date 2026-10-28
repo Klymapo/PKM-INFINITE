@@ -21,6 +21,24 @@ export default {
 	// LUGAR: tu cuarto
 	// =====================================================================
 	locations: {
+		atico_pesas: {
+			name: 'Sala de pesas', short: 'Pesas', parent: 'museo_ficha', kind: 'building',
+			bg: { type: 'indoor', wall: '#c9c2b8', floor: '#5a4a3a' },
+			desc: 'Un cuarto estrecho con espejos en una pared y colchonetas en la otra. Philippe lo llama «el gimnasio del inmueble» y cobra por ello. Hay pesas de colores, un saco, y un cartel escrito a mano: «CADA RIVAL ENSEÑA UNA COSA».',
+			mapNote: 'Sala de pesas · entrena un punto de esfuerzo a la vez',
+			onEnter: [{ script: 'p9_pesas_llega', cond: '!flag.p9_pesas_vista', once: true }],
+			spots: [
+				{ label: 'Cómo funcionan los puntos de esfuerzo', sub: 'El cartel grande', icon: '📋', talk: [{ script: 'p9_pesas_cartel' }] },
+				{ label: 'Ver el esfuerzo de tu equipo', sub: 'Una libreta colgada de un clavo', icon: '📓', talk: [{ script: 'p9_pesas_libreta' }] },
+				{ label: 'Pesas de PS', sub: 'Rivales que dan PS', icon: '❤️', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben los **PS**. Cada victoria da 2 puntos de esfuerzo de PS al que combata.', wild: [{ sp: 'lapras', lv: [48, 52] }, { sp: 'snorlax', lv: [48, 52] }, { sp: 'hariyama', lv: [48, 52] }, { sp: 'drifblim', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Ataque', sub: 'Rivales que dan Ataque', icon: '⚔️', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben el **Ataque**. Cada victoria da 2 puntos de esfuerzo de Ataque.', wild: [{ sp: 'arcanine', lv: [48, 52] }, { sp: 'heracross', lv: [48, 52] }, { sp: 'scizor', lv: [48, 52] }, { sp: 'toxicroak', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Defensa', sub: 'Rivales que dan Defensa', icon: '🛡️', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben la **Defensa**. Cada victoria da 2 puntos de esfuerzo de Defensa.', wild: [{ sp: 'steelix', lv: [48, 52] }, { sp: 'forretress', lv: [48, 52] }, { sp: 'skarmory', lv: [48, 52] }, { sp: 'gliscor', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Ataque Especial', sub: 'Rivales que dan Ataque Especial', icon: '✨', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben el **Ataque Especial**. Cada victoria da 2 puntos de esfuerzo de Ataque Especial.', wild: [{ sp: 'houndoom', lv: [48, 52] }, { sp: 'espeon', lv: [48, 52] }, { sp: 'golduck', lv: [48, 52] }, { sp: 'zoroark', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Defensa Especial', sub: 'Rivales que dan Defensa Especial', icon: '🔮', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben la **Defensa Especial**. Cada victoria da 2 puntos de esfuerzo de Defensa Especial.', wild: [{ sp: 'tentacruel', lv: [48, 52] }, { sp: 'umbreon', lv: [48, 52] }, { sp: 'milotic', lv: [48, 52] }, { sp: 'slowking', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Velocidad', sub: 'Rivales que dan Velocidad', icon: '💨', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben la **Velocidad**. Cada victoria da 2 puntos de esfuerzo de Velocidad.', wild: [{ sp: 'jolteon', lv: [48, 52] }, { sp: 'starmie', lv: [48, 52] }, { sp: 'manectric', lv: [48, 52] }, { sp: 'aerodactyl', lv: [48, 52] }] } } },
+				{ label: 'Volver a tu cuarto', icon: '🚪', action: { go: 'atico_cuarto' } },
+			],
+		},
 		atico_cuarto: {
 			name: 'Tu cuarto en el ático', short: 'Tu cuarto', parent: 'museo_ficha', kind: 'building',
 			bg: { type: 'indoor', wall: '#d9cfe0', floor: '#7a5a40' },
@@ -38,6 +56,8 @@ export default {
 				{ label: 'El sillón que no hace juego', sub: 'Y una alfombra de rayas', icon: '🛋️', cond: 'flag.b05_atico_muebles', talk: [{ script: 'b05_atico_sillon' }] },
 				{ label: 'Una postal en el espejo', sub: 'Una playa y un volcán', icon: '🌺', cond: 'flag.b05_atico_muebles && visited("hauoli")', talk: [{ script: 'b05_atico_postal' }] },
 				{ label: 'La ventana redonda', sub: 'Da a la Puerta', icon: '🪟', talk: [{ script: 'b05_atico_ventana' }] },
+				// Sala de pesas (pedido de Mario, 2026-10-28): entrenar un stat concreto con rivales que dan ese punto de esfuerzo
+				{ label: 'La sala de pesas', sub: 'Un cuarto con espejos y olor a tiza', icon: '🏋️', action: { go: 'atico_pesas' }, new: '!flag.p9_pesas_vista' },
 			],
 		},
 	},
@@ -167,6 +187,19 @@ export default {
 	// GUIONES
 	// =====================================================================
 	scripts: {
+		p9_pesas_llega: [
+			{ set: { 'flag.p9_pesas_vista': true } },
+			{ text: 'La sala huele a tiza y a plástico nuevo. Una mujer con coleta y silbato te mira de arriba abajo, luego mira a {riolu}, y asiente como si hubiera decidido algo.' },
+			{ say: null, as: 'Monitora', text: 'Philippe me dijo que el inquilino tenía «un equipo de campeonato». No me dijo que estaba hecho a ojo. —Da una palmada—. Aquí no se sube de nivel: aquí se decide **en qué** es bueno cada uno. Elige una pesa, pelea, y ese punto crece. Nada más. Nada menos.' },
+			{ say: null, as: 'Monitora', text: 'Con una **Brazal Firme** se gana el doble. Con los objetos **Poder** (Peso, Cinta, Cinturón, Lente, Banda, Tobillera) aún más. Cada Pokémon aguanta 510 puntos en total, 252 por stat. Lo tienes todo en el cartel.' },
+		],
+		p9_pesas_cartel: [
+			{ text: 'CADA RIVAL ENSEÑA UNA COSA.\n\nCada Pokémon que vences deja **puntos de esfuerzo** en el que combatió: 4 puntos suben 1 de stat al nivel 100 (menos a niveles bajos, pero cuentan). Máximo **252 por stat** y **510 en total**.\n\nCon **Brazal Firme** se gana el doble; con un objeto **Poder** del stat, +8 por combate.\n\nLas pesas de esta sala dan **2 puntos** por victoria, todos del mismo stat. Reparte Exp. desactivado: solo cuenta quien pelea.' },
+		],
+		p9_pesas_libreta: [
+			{ read: { gen: 'esfuerzo' } },
+		],
+
 		// ---------- La oferta ----------
 		b05_atico_oferta: [
 			{ set: { 'flag.b05_atico_oferta': true } },

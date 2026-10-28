@@ -2,7 +2,7 @@
 import { D, toID, TYPE_COLORS, typeStyle, typeName, STAT_NAMES, STATS, abilityName, natureName, moveName, itemName } from '../data.js';
 import { C, topLoc } from '../content.js';
 import {
-	G, newGame, setG, saveGame, beginScene, endScene, loadSaved, exportSave, importSave, deleteSave, listSnapshots, restoreSnapshot, evalCond, addItem, removeItem, count, markCaught, BOX_MAX, boxInsert,
+	G, newGame, setG, saveGame, beginScene, endScene, loadSaved, exportSave, importSave, deleteSave, listSnapshots, restoreSnapshot, markSeen, evalCond, addItem, removeItem, count, markCaught, BOX_MAX, boxInsert,
 } from '../state.js';
 import {
 	createPokemon, displayName, maxHp, calcStats, healFull, expProgress, checkEvolution, addHappy, natureMod, canLearn,
@@ -21,6 +21,7 @@ import { retroUniques } from '../unicos.js';
 import { openTutor } from './tutor.js';
 import { evolutionInfo } from '../movimientos.js';
 import { openMoveManager } from './gestor.js';
+import * as DC from '../guarderia.js';
 import { moveMany, moveBox, swapBoxes, boxName, hasBoxName, setBoxName, BOX_NAME_MAX } from '../pc.js';
 import { playPuzzle } from './rejilla.js';
 import { repairSave } from '../reparaciones.js';
@@ -60,6 +61,7 @@ export function installHooks() {
 		shop: id => openShop(id),
 		center: () => pokemonCenter(),
 		pc: () => openPC(),
+		daycare: () => openDaycare(),
 		evolveCheck: async () => { for (const p of G.party) await tryEvolve(p, { trigger: 'level' }); },
 		forceEvolve: (p, to) => evolveUI(p, to),
 		cutscene: spec => playCutscene(spec),
@@ -185,6 +187,7 @@ function continueGame(save) {
 	mainSwipe();
 	setTimeout(precacheOwnSprites, 3000);
 	backupReminder();
+	try { const r = DC.tick(); if (r.egg) setTimeout(() => toast('🥚 ¡Ha aparecido un huevo en la Guardería!', 'quest'), 5000); } catch (e) { console.error(e); }
 	setTimeout(() => checkDexRewards(), 6000);
 	// Historias colgadas de bloques ya terminados: se archivan una vez por versión de contenido
 	if (G.vars.hilos_v !== C.version) { G.vars.hilos_v = C.version; setTimeout(() => { for (const b of C.blocks) if (G.flags[b.id + '_fin']) closeHangingThreads(b.id); }, 2500); }
@@ -461,6 +464,7 @@ function spotIcon(s) {
 	if (s.icon) return s.icon;
 	const a = s.action || {};
 	if (a.venture) return C.ventures[a.venture]?.icon || '🤝';
+	if (a.daycare) return '🥚';
 	if (a.center) return '❤️'; if (a.shop) return '🛒'; if (a.pc) return '💻'; if (a.gym || s.gym) return '🏅';
 	if (a.go) return '🚪'; if (a.training) return '🥋'; if (a.trainer) return '⚔️'; if (a.explore) return '🌿';
 	return '💬';
@@ -476,7 +480,7 @@ function markerEl(m) {
 }
 function spotKind(s) {
 	const a = s.action || {};
-	if (a.center || a.shop || a.pc) return 'services';
+	if (a.center || a.shop || a.pc || a.daycare) return 'services';
 	if (a.venture) return 'places';
 	if (a.go) return 'places';
 	if (a.trainer || a.training || a.unique) return 'battle';
@@ -578,6 +582,7 @@ async function doSpot(s, loc) {
 	if (a.explore) return exploreHere(loc, a.explore === true ? 'grass' : a.explore);
 	if (a.gather) return gatherHere(a.gather, loc);
 	if (a.venture) return openVenture(a.venture);
+	if (a.daycare) return openDaycare();
 }
 
 // =================== Recolección ===================
@@ -812,7 +817,13 @@ function zoneRange(t) {
 	const lvs = [];
 	for (const id of t.trainers || []) for (const m of C.trainers[id]?.team || []) lvs.push(m.lv);
 	for (const w of t.wild || []) lvs.push(Array.isArray(w.lv) ? w.lv[0] : w.lv);
-	const max = t.cap || G.vars.cap || 15;
+	let max = t.cap || G.vars.cap || 15;
+	if (max >= 100 && lvs.length) { // sin tope (sala de pesas): el rango real de los rivales
+		const his = [];
+		for (const id of t.trainers || []) for (const m of C.trainers[id]?.team || []) his.push(m.lv);
+		for (const w of t.wild || []) his.push(Array.isArray(w.lv) ? w.lv[1] : w.lv);
+		max = Math.max(...his);
+	}
 	return { min: lvs.length ? Math.min(max, ...lvs) : max, max };
 }
 const zoneRangeText = t => { const r = zoneRange(t); return r.min < r.max ? `Nv. ${r.min}–${r.max}` : `Nv. ${r.max}`; };
@@ -823,7 +834,7 @@ function zoneDirectory(here) {
 	for (const loc of Object.values(C.locations)) {
 		const top = topLoc(loc.id);
 		if (!G.visited[loc.id]) continue;
-		const add = (sp, where) => { if (sp?.action?.training && (sp.cond === undefined || evalCond(sp.cond))) rows.push({ t: sp.action.training, label: tx(sp.label || 'Entrenamiento'), where }); };
+		const add = (sp, where) => { if (sp?.action?.training && (sp.action.training.cap || 0) < 100 && (sp.cond === undefined || evalCond(sp.cond))) rows.push({ t: sp.action.training, label: tx(sp.label || 'Entrenamiento'), where }); };
 		for (const sp of loc.spots || []) add(sp, top && top.id !== loc.id ? `${top.name} › ${loc.name}` : loc.name);
 		for (const [n, items] of Object.entries(loc.route?.tramos || {})) for (const it of items) add(it.spot, `${loc.name} · tramo ${n}`);
 	}
@@ -1259,6 +1270,7 @@ export async function battle(cfg) {
 	};
 	const res = await runBattle(cfg, hooksObj);
 	if (res.result === 'caught') setTimeout(() => checkDexRewards(), 800);
+	if (DC.battleTick() && !G.flags.p9_huevo_aviso) { G.flags.p9_huevo_aviso = true; toast('🥚 ¡El huevo de la Guardería se mueve! Ve a recogerlo.', 'quest'); }
 	if (res.result === 'lose' && !cfg.canLose) {
 		const dest = whiteout();
 		await say(null, `${G.player.name} vuelve corriendo al Centro Pokémon más cercano…`);
@@ -2786,6 +2798,46 @@ function openChallenges() {
 				...lines.map(l => h('div', { class: 's', html: '• ' + fmtText(tx(l.text)) })))));
 	}
 	sheet.set(list);
+}
+
+// =================== Guardería ===================
+async function openDaycare() {
+	DC.tick();
+	const st = DC.state();
+	const sheet = openSheet('Guardería Pokémon', null, { onClose: () => { saveGame(); render(); } });
+	const draw = () => {
+		DC.tick();
+		const items = [h('div', { class: 'note' }, 'Deja hasta dos Pokémon. Suben un nivel cada 3 horas (hasta tu tope). Si son del mismo grupo huevo y de sexos distintos (o uno es Ditto), puede aparecer un huevo. Recogerlos cuesta ₽100 por nivel ganado.')];
+		items.push(h('div', { class: 'section-title' }, `En la guardería · ${st.mons.length}/2`));
+		if (st.mons.length) items.push(h('div', { class: 'list' }, ...st.mons.map(p => h('div', { class: 'mon-wrap' }, monRow(p, () => openSummary(p, draw)),
+			h('button', { class: 'lead-btn', title: 'Recoger', 'aria-label': `Recoger a ${displayName(p)}`, onclick: async () => {
+				const cost = DC.withdrawCost(p);
+				if (!await confirm(`Recoger a ${displayName(p)} (Nv. ${p.lv}) cuesta ${fmtMoney(cost)}. ¿Seguro?`, 'Recoger', 'Cancelar')) return;
+				const err = DC.withdraw(p); if (err) toast(err); else toast(`${displayName(p)} vuelve contigo`); await saveGame(); draw();
+			} }, '⬇')))));
+		else items.push(h('div', { class: 'empty' }, 'No hay nadie. El corral está tranquilo.'));
+		if (st.mons.length === 2) { const c = DC.compatible(st.mons[0], st.mons[1]); items.push(h('div', { class: 'note' }, c.ok ? '💞 Se llevan bien. Con el tiempo puede aparecer un huevo.' : '🙅 ' + c.why)); }
+		if (st.egg) {
+			const ready = DC.eggReady();
+			items.push(h('div', { class: 'section-title' }, '🥚 Huevo'),
+				h('div', { class: 'list' }, h('button', { class: 'row', onclick: async () => {
+					if (!ready) { await say(null, `El huevo está calentito. ${DC.EGG_BATTLES - st.egg.battles} ${DC.EGG_BATTLES - st.egg.battles === 1 ? 'combate' : 'combates'} más y se moverá.`); return; }
+					const baby = DC.hatch(G, G.loc); G.flags.p9_huevo_aviso = false;
+					markSeen(baby.sp); markCaught(baby.sp);
+					await say(null, `¡El huevo se abre! Es un **${D.species[baby.sp]?.name}**${baby.shiny ? ' ✨' : ''}. ${G.party.includes(baby) ? 'Se une a tu equipo.' : 'Va a la PC.'}`);
+					await saveGame(); draw();
+				} }, h('div', { class: 'ico' }, '🥚'), h('div', { class: 'lbl' }, h('div', { class: 't' }, ready ? '¡Se mueve! Toca para abrirlo' : 'Un huevo con manchas'), h('div', { class: 's' }, ready ? 'Está a punto' : `Incubando: ${st.egg.battles}/${DC.EGG_BATTLES} combates`)))));
+		}
+		if (st.mons.length < 2) {
+			items.push(h('div', { class: 'section-title' }, 'Dejar a alguien'));
+			items.push(h('div', { class: 'list' }, ...G.party.map(p => monRow(p, async () => {
+				if (!await confirm(`¿Dejar a ${displayName(p)} en la guardería?`, 'Dejar', 'Cancelar')) return;
+				const err = DC.deposit(p); if (err) toast(err); else toast(`${displayName(p)} se queda en la guardería`); await saveGame(); draw();
+			}))));
+		}
+		sheet.set(items);
+	};
+	draw();
 }
 
 function openHistory() {

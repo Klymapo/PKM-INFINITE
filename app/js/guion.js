@@ -104,6 +104,7 @@ async function runCmd(c, ctx) {
 		if (evalCond(c.if)) { if (c.then) await runList(c.then, ctx); } else if (c.else) await runList(c.else, ctx);
 		return;
 	}
+	if (c.daycare) { await UI.daycare?.(); return; }
 	if (c.set) {
 		for (const k in c.set) setPath(k, c.set[k]);
 		for (const k in c.set) { const m = /^flag\.(b\d\d)_fin$/.exec(k); if (m && c.set[k]) closeHangingThreads(m[1]); }
