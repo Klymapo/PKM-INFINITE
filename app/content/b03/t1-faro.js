@@ -223,7 +223,7 @@ export default {
 				{ label: 'Una cabina telefónica', sub: 'Dentro, una chaqueta con el 9', icon: '☎️', cond: '!flag.b03_rhi_cabina', new: 'true', talk: [{ script: 'b03_rhi_cabina' }] },
 				{ label: 'Rhi', sub: 'Sentada en un bolardo, dando toques a una Poké Ball', icon: '⚽', cond: 'flag.b03_rhi_cabina && !beat("rhi_4")', talk: [{ script: 'b03_rhi_revancha' }] },
 				{ label: 'Rhi', sub: 'Mira el mar con las manos en los bolsillos', icon: '⚽', cond: 'beat("rhi_4")', talk: [{ script: 'b03_rhi_despues' }] },
-				{ label: 'Bastien', sub: 'En el muelle, con su libreta de tapas de cuero', icon: '📒', new: '!flag.b03_bastien_olivo', talk: [{ cond: '!flag.b03_bastien_olivo', script: 'b03_bastien_olivo' }, { cond: '!beat("bastien_4")', script: 'b03_bastien_revancha' }, { script: 'b03_bastien_despues' }] },
+				{ label: 'Bastien', sub: 'En el muelle, con su libreta de tapas de cuero', icon: '📒', cond: '!flag.b03_fin', new: '!flag.b03_bastien_olivo', talk: [{ cond: '!flag.b03_bastien_olivo', script: 'b03_bastien_olivo' }, { cond: '!beat("bastien_4")', script: 'b03_bastien_revancha' }, { script: 'b03_bastien_despues' }] },
 				{ label: 'El muelle tres', sub: 'Valla azul y plata. Un guardia aburrido', icon: '🚧', talk: [{ script: 'b03_muelle_tres' }] },
 				{ label: 'Pescar desde el muelle', sub: 'El agua está fría y muy clara', icon: '🎣', action: { explore: 'water' } },
 				{ label: 'Orilla de las rocas', icon: '🐚', action: { gather: 'orilla_olivo' } },

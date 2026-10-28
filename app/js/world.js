@@ -15,6 +15,16 @@ export function activeEvents() {
 	return C.events.filter(e => inDateRange(e.from, e.to) && (e.cond === undefined || evalCond(e.cond)));
 }
 
+/** El jugador ya completó el evento (este año, si se repite). */
+export const eventDone = e => !!(e.doneCond && evalCond(e.doneCond));
+
+/**
+ * Lo que un evento completado deja a la vista: solo lo que no es misión (recolección, tiendas, etc.)
+ * o lo marcado con `keepDone: true`. Pedido de Mario (2026-10-28): que las misiones de temporada
+ * terminadas desaparezcan.
+ */
+const keepAfterDone = s => s.keepDone || (s.action && !s.talk && !s.script);
+
 /**
  * Calendario de eventos para los avisos: activos, próximos (≤ 7 días) y bloqueados por la historia.
  * Devuelve [{ e, state: 'active'|'soon', locked, done, daysTo, daysLeft, places }].
@@ -26,7 +36,7 @@ export function eventCalendar(days = 7, d = now()) {
 	const out = [];
 	for (const e of C.events) {
 		const locked = e.cond !== undefined && !evalCond(e.cond);
-		const done = !!(e.doneCond && evalCond(e.doneCond));
+		const done = eventDone(e);
 		const places = eventPlaces(e);
 		if (inDateRange(e.from, e.to, d)) {
 			let end = at(e.to, today.getFullYear());
@@ -54,7 +64,10 @@ export function eventPlaces(e) {
 /** Spots visibles de una ubicación (incluye eventos activos). */
 export function spotsOf(loc) {
 	let spots = (loc.spots || []).slice();
-	for (const e of activeEvents()) if (e.spots?.[loc.id]) spots = spots.concat(e.spots[loc.id].map(s => ({ ...s, event: e.id })));
+	for (const e of activeEvents()) if (e.spots?.[loc.id]) {
+		const done = eventDone(e);
+		spots = spots.concat(e.spots[loc.id].filter(s => !done || keepAfterDone(s)).map(s => ({ ...s, event: e.id })));
+	}
 	spots = spots.concat(uniqueSpotsAt(loc.id));
 	return spots.filter(s => s.cond === undefined || evalCond(s.cond));
 }
@@ -73,7 +86,10 @@ export function routeProg(id) {
 /** Lista de elementos de un tramo (incluye eventos activos y filtra condiciones). */
 export function tramoItems(loc, n) {
 	let items = [].concat(loc.route.tramos?.[n] || []);
-	for (const e of activeEvents()) if (e.tramos?.[loc.id]?.[n]) items = items.concat(e.tramos[loc.id][n]);
+	for (const e of activeEvents()) if (e.tramos?.[loc.id]?.[n]) {
+		const done = eventDone(e);
+		items = items.concat(e.tramos[loc.id][n].filter(x => !done || !(x.talk || x.script) || keepAfterDone(x)));
+	}
 	return items.filter(x => x.cond === undefined || evalCond(x.cond));
 }
 

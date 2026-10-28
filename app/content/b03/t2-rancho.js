@@ -96,7 +96,7 @@ export default {
 					],
 					4: [
 						{ text: 'El eco ya no es un eco. *¡HU! ¡HA!* Viene de una sala redonda, con el techo altísimo y una roca enorme en el centro. La roca tiene una abolladura. Pequeña. Muy trabajada.' },
-						{ talk: [{ cond: 'beat("kiyo_mortero")', script: 'b03_kiyo_despues' }, { script: 'b03_kiyo' }], label: 'Un karateka golpea una roca', sub: 'Hu. Ha. Hu. Ha.', icon: '🥋', new: '!flag.b03_kiyo_visto' },
+						{ talk: [{ cond: 'beat("kiyo_mortero")', script: 'b03_kiyo_despues' }, { script: 'b03_kiyo' }], cond: '!flag.b03_fin', label: 'Un karateka golpea una roca', sub: 'Hu. Ha. Hu. Ha.', icon: '🥋', new: '!flag.b03_kiyo_visto' },
 					],
 					5: [
 						{ trainer: 'mortero_leonor' },
@@ -151,7 +151,7 @@ export default {
 				{ label: 'PC', action: { pc: true } },
 				{ label: 'Tienda de Caoba', icon: '🛒', action: { shop: 'tienda_caoba' } },
 				{ label: 'Correo en el Centro Pokémon', sub: 'Un sobre con tu nombre, con letra de niño', icon: '✉️', cond: '!flag.b03_carta_lucien', new: 'true', talk: [{ script: 'b03_carta_lucien' }] },
-				{ label: 'Un puesto de cocina con toldo de rayas', sub: 'Huele a caramelo. A caramelo bien hecho', icon: '🍳', new: '!flag.b03_gaspar_caoba || (quest.b03_s_caramelo == "ingredientes" && has("honey") && has("tinymushroom"))',
+				{ label: 'Un puesto de cocina con toldo de rayas', sub: 'Huele a caramelo. A caramelo bien hecho', icon: '🍳', cond: '!flag.b03_fin || (quest.b03_s_caramelo && !done.b03_s_caramelo)', new: '!flag.b03_gaspar_caoba || (quest.b03_s_caramelo == "ingredientes" && has("honey") && has("tinymushroom"))',
 					talk: [
 						{ cond: '!flag.b03_gaspar_caoba', script: 'b03_gaspar_caoba' },
 						{ cond: 'quest.b03_s_caramelo == "ingredientes" && has("honey") && has("tinymushroom")', script: 'b03_gaspar_cocina' },

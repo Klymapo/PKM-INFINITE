@@ -2139,7 +2139,7 @@ function openDiary(startTab = null) {
 				}
 			};
 			if (tab === 'log') body.append(h('div', { class: 'qgroup log' }, h('b', {}, '⏳ En espera'), h('span', {}, 'Historias abiertas que seguirán solas más adelante. No tienes que hacer nada: cuando alguna te necesite, pasará a «Por hacer» y Rotom te avisará.')));
-			const cal = tab === 'active' ? eventCalendar() : [];
+			const cal = tab === 'active' ? eventCalendar().filter(c => !c.done) : [];
 			if (cal.length) body.append(h('div', { class: 'section-title' }, '🎉 Eventos de temporada'), h('div', { class: 'evstrip inlist' }, ...cal.map(eventRow)));
 			if (tab === 'active' && qs.length) body.append(h('div', { class: 'qgroup' }, h('b', {}, '📌 Por hacer'), h('span', {}, 'Solo lo que necesita que actúes tú ahora. Toca una misión para ver qué hacer y dónde. Las historias que esperan están en «En espera».')));
 			byType(qs, body);

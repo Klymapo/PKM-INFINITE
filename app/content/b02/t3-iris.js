@@ -123,7 +123,7 @@ export default {
 				{ label: 'Torre Quemada', sub: 'Negra, rota, con olor a ceniza', icon: '🏚️', action: { go: 'torre_quemada' }, new: '(quest.b02_m5 == "torre" || quest.b02_m5 == "decision") && !flag.b02_torre_hecha' },
 				{ label: 'Patio de la Torre Quemada', sub: 'Entrenamiento (nivel recomendado 40)', icon: '🥋', action: { go: 'patio_torre' } },
 				{ label: 'Torre Campana', sub: 'Cerrada. Solo se ve desde fuera', icon: '🔔', talk: [{ cond: 'flag.b02_fin', script: 'b02_campana_despues' }, { script: 'b02_campana' }] },
-				{ label: 'Gaspar, en un puesto de dulces', sub: 'Ha secuestrado una cocina ambulante', icon: '👨‍🍳', new: '!done.b02_t_gaspar && (quest.b02_t_gaspar == "iris" || (' + GASPAR_TODO + ') || !quest.b02_t_gaspar)', doneIf: 'done.b02_t_gaspar', talk: [
+				{ label: 'Gaspar, en un puesto de dulces', sub: 'Ha secuestrado una cocina ambulante', icon: '👨‍🍳', cond: '!flag.b02_fin || (quest.b02_t_gaspar && !done.b02_t_gaspar)', new: '!done.b02_t_gaspar && (quest.b02_t_gaspar == "iris" || (' + GASPAR_TODO + ') || !quest.b02_t_gaspar)', doneIf: 'done.b02_t_gaspar', talk: [
 					{ cond: 'done.b02_t_gaspar', script: 'b02_gaspar_final' },
 					{ cond: 'quest.b02_t_gaspar == "iris" || (quest.b02_t_gaspar == "ingredientes" && (' + GASPAR_TODO + '))', script: 'b02_gaspar_cocina' },
 					{ cond: 'quest.b02_t_gaspar == "ingredientes"', script: 'b02_gaspar_falta' },
@@ -154,7 +154,7 @@ export default {
 			mapNote: 'Kaori, la boticaria',
 			onEnter: [{ script: 'b02_teatro_llegada', cond: '!flag.b02_kaori_iris_1', once: true }],
 			spots: [
-				{ label: 'Kaori, en la botica del fondo', sub: 'Delantal, kimono y un brazo vendado', icon: '🧪', new: '(quest.b02_t_kaori == "iris" && ((' + PISTAS_OK + ') || (has("caramelolazo") && !flag.b02_kaori_caramelo))) || (quest.b02_t_kaori == "muestra" && has("muestralab"))', talk: [
+				{ label: 'Kaori, en la botica del fondo', sub: 'Delantal, kimono y un brazo vendado', icon: '🧪', cond: '!flag.b03_fin || (quest.b02_t_kaori && !done.b02_t_kaori)', new: '(quest.b02_t_kaori == "iris" && ((' + PISTAS_OK + ') || (has("caramelolazo") && !flag.b02_kaori_caramelo))) || (quest.b02_t_kaori == "muestra" && has("muestralab"))', talk: [
 					{ cond: 'quest.b02_t_kaori == "abierto" || done.b02_t_kaori', script: 'b02_kaori_generico' },
 					{ cond: 'quest.b02_t_kaori == "muestra" && has("muestralab")', script: 'b02_kaori_entrega' },
 					{ cond: 'quest.b02_t_kaori == "muestra"', script: 'b02_kaori_espera' },

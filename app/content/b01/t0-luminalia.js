@@ -59,7 +59,7 @@ export default {
 			name: 'Agencia de Detectives', parent: 'luminalia', kind: 'building', bg: { type: 'indoor', wall: '#c9b48a', floor: '#6b4a2b' },
 			desc: 'Una oficina pequeña en un callejón del Bulevar Norte. Un escritorio enorme, un perchero con siete disfraces y una placa: **«Agencia de Detectives — Jefa: Matière»**.',
 			spots: [
-				{ label: 'Hablar con Handsome y Matière', icon: '🕵️', talk: [
+				{ label: 'Hablar con Handsome y Matière', icon: '🕵️', cond: '!flag.b02_inicio_hecho', talk: [
 					{ cond: 'badges >= 1 && !flag.b01_agencia_1', script: 'b01_agencia_1' },
 					{ cond: 'flag.b01_macaron_resuelto && !flag.b01_agencia_macaron_premio', script: 'b01_agencia_premio' },
 					{ cond: 'quest.b01_t_agencia == "macaron"', script: 'b01_agencia_recordar' },

@@ -185,7 +185,7 @@ export default {
 							{ cond: '!flag.b04_bastien_puente', script: 'b04_bastien_puente' },
 							{ cond: '!beat("bastien_5")', script: 'b04_bastien_revancha' },
 							{ script: 'b04_bastien_despues' },
-						], label: 'Bastien', sub: 'Sentado en la barandilla, leyendo un contrato', icon: '📒', new: '!flag.b04_bastien_puente' },
+						], label: 'Bastien', sub: 'Sentado en la barandilla, leyendo un contrato', icon: '📒', cond: '!flag.b04_fin', new: '!flag.b04_bastien_puente' },
 					],
 					1: [
 						{ terrain: 'path' },

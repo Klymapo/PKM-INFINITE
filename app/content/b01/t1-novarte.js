@@ -84,7 +84,7 @@ export default {
 					{ cond: '!beat("rhi_1")', script: 'b01_rhi_fuente_reto' },
 					{ script: 'b01_rhi_fuente' },
 				] },
-				{ label: 'Alexia', sub: 'Revisa fotos en su cámara', icon: '📷', cond: 'quest.b01_s_fotos == "registrar" || done.b01_s_fotos', new: 'quest.b01_s_fotos == "registrar" && ' + FOTOS + ' >= 5', talk: [
+				{ label: 'Alexia', sub: 'Revisa fotos en su cámara', icon: '📷', cond: 'quest.b01_s_fotos == "registrar" || (done.b01_s_fotos && !flag.b02_puerta_cruzada)', new: 'quest.b01_s_fotos == "registrar" && ' + FOTOS + ' >= 5', talk: [
 					{ cond: 'done.b01_s_fotos', script: 'b01_alexia_fotos_despues' },
 					{ script: 'b01_alexia_fotos' },
 				] },

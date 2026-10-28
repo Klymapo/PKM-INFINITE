@@ -62,7 +62,7 @@ export default {
 					0: [{ text: 'La luz de los cristales tiñe todo de azul. Tus pasos suenan raros aquí dentro, como si la cueva los repitiera un poco más tarde.' }],
 					1: [{ trainer: 'mont_cueva' }],
 					2: [{ text: 'Un Cubone te observa desde una repisa, abrazado a su hueso. Cuando lo miras, se da la vuelta.' }, { item: 'thickclub', hidden: true }],
-					3: [{ talk: [{ cond: 'beat("tobias_cueva")', script: 'b01_tobias_despues' }, { script: 'b01_tobias_cueva' }], label: 'Un hombre que habla con una cámara invisible', sub: 'Y un Persian que te juzga', icon: '🎬', new: '!beat("tobias_cueva")' }],
+					3: [{ talk: [{ cond: 'beat("tobias_cueva")', script: 'b01_tobias_despues' }, { script: 'b01_tobias_cueva' }], cond: '!flag.b02_puerta_cruzada || (quest.b01_t_tobias && !done.b01_t_tobias)', label: 'Un hombre que habla con una cámara invisible', sub: 'Y un Persian que te juzga', icon: '🎬', new: '!beat("tobias_cueva")' }],
 					4: [{ trainer: 'cientifica_cueva', optional: true, label: 'Mide los cristales con un aparato que pita' }],
 					5: [{ text: 'Las paredes zumban. Muy bajito, en el límite del oído. Cuanto más avanzas, más claro lo oyes: no es la cueva. Son motores.' }, { item: 'superpotion' }],
 					6: [
@@ -113,7 +113,7 @@ export default {
 				{ label: 'Muro de Escalada', sub: 'Entrenamiento (nivel recomendado 23)', icon: '🥋', action: { training: { cap: 23, prize: { wins: 3, script: 'p7_premio_muro' }, trainers: ['muro_relieve_1', 'muro_relieve_2'], wild: [{ sp: 'dwebble', lv: [18, 20] }, { sp: 'binacle', lv: [18, 20] }], coach: 'Monitora del Muro', closed: 'Tu equipo ya trepa como una cabra. Aquí no vas a aprender nada más. Ve a por la medalla.' } } },
 				{ label: 'Una chica pelirroja colgada del muro', sub: 'Y un chico dormido en el suelo', icon: '⚽', cond: '!beat("blanca_g2")', new: '!flag.b01_rhi_relieve', talk: [{ cond: '!flag.b01_rhi_relieve', script: 'b01_rhi_relieve_1' }, { script: 'b01_rhi_relieve_2' }] },
 				{ label: 'Nate, en las escaleras del gimnasio', sub: 'Dormido. O casi', icon: '💤', cond: 'flag.b01_rhi_2_hecho', talk: [{ script: 'b01_nate_relieve' }] },
-				{ label: 'Alexia, la periodista', sub: 'Fotografía el muro', icon: '📷', new: '!flag.b01_alexia_relieve', talk: [{ cond: '!flag.b01_alexia_relieve', script: 'b01_alexia_relieve' }, { script: 'b01_alexia_relieve_2' }] },
+				{ label: 'Alexia, la periodista', sub: 'Fotografía el muro', icon: '📷', cond: '!flag.b02_puerta_cruzada', new: '!flag.b01_alexia_relieve', talk: [{ cond: '!flag.b01_alexia_relieve', script: 'b01_alexia_relieve' }, { script: 'b01_alexia_relieve_2' }] },
 				{ label: 'Tablón de anuncios', sub: 'Junto a la puerta del Centro', icon: '📌', new: '!flag.b01_cartel_hector', talk: [{ script: 'b01_cartel_hector' }] },
 				{ label: 'Un niño con una gorra de Lino', sub: 'Mira el gimnasio con el ceño fruncido', icon: '🧢', new: '!quest.b01_s_lino || (quest.b01_s_lino == "fan" && beat("blanca_g2"))', doneIf: 'done.b01_s_lino', talk: [
 					{ cond: 'done.b01_s_lino', script: 'b01_lino_3' },
@@ -201,8 +201,8 @@ export default {
 			spots: [
 				{ label: 'Centro Pokémon', action: { center: true } },
 				{ label: 'Tienda Pokémon', action: { shop: 'tienda_1' } },
-				{ label: 'Una investigadora frente al menhir mayor', sub: 'Sombrero enorme, libreta más grande', icon: '📓', new: '!flag.b01_irene_1', talk: [{ cond: '!flag.b01_irene_1', script: 'b01_irene_1' }, { script: 'b01_irene_2' }] },
-				{ label: 'Un turista muy sospechoso', sub: 'Sombrero de paja, cámara… y gabardina', icon: '📸', new: '!flag.b01_handsome_cromlech', talk: [
+				{ label: 'Una investigadora frente al menhir mayor', sub: 'Sombrero enorme, libreta más grande', icon: '📓', cond: '!flag.b02_puerta_cruzada', new: '!flag.b01_irene_1', talk: [{ cond: '!flag.b01_irene_1', script: 'b01_irene_1' }, { script: 'b01_irene_2' }] },
+				{ label: 'Un turista muy sospechoso', sub: 'Sombrero de paja, cámara… y gabardina', icon: '📸', cond: '!flag.b02_puerta_cruzada', new: '!flag.b01_handsome_cromlech', talk: [
 					{ cond: 'flag.b01_cromlech_hecha', script: 'b01_handsome_cromlech_despues' },
 					{ cond: 'flag.b01_handsome_cromlech', script: 'b01_handsome_cromlech_espera' },
 					{ script: 'b01_handsome_cromlech_1' },
@@ -224,7 +224,7 @@ export default {
 				{ label: 'Guardia de Lemnis', icon: '🛡️', talk: [{ script: 'b01_guardia_excavacion' }] },
 				{ label: 'Entrar esta noche con Handsome', sub: 'Cuando tengas a tu equipo listo', icon: '🌙', cond: 'flag.b01_handsome_cromlech && !flag.b01_cromlech_hecha', new: 'true', script: 'b01_cromlech_noche' },
 				{ label: 'Mirar con la Lente de Aura', icon: '🔍', cond: 'has("lenteaura")', talk: [{ script: 'b01_excavacion_lente' }] },
-				{ label: 'Un científico con un termo de café', sub: 'Sentado en una caja, junto a la valla', icon: '☕', cond: 'flag.b01_cromlech_hecha', new: '!flag.b01_xero_cafe', talk: [{ cond: '!flag.b01_xero_cafe', script: 'b01_xero_cafe' }, { script: 'b01_xero_cafe_2' }] },
+				{ label: 'Un científico con un termo de café', sub: 'Sentado en una caja, junto a la valla', icon: '☕', cond: 'flag.b01_cromlech_hecha && !flag.b02_puerta_cruzada', new: '!flag.b01_xero_cafe', talk: [{ cond: '!flag.b01_xero_cafe', script: 'b01_xero_cafe' }, { script: 'b01_xero_cafe_2' }] },
 			],
 		},
 

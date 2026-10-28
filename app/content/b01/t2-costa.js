@@ -7,6 +7,8 @@ const LUZ = 'has("farollana") || has("linternapi")';
 const MAREEP_LISTO = 'quest.b01_t_mareep == "buscar" && (vars.mareep >= 6 || (vars.mareep >= 5 && !flag.b01_mareep_jaula))';
 const GASPAR_TODO = 'has("honey") && has("tinymushroom") && has("pechaberry")';
 
+// Don Aurelio sigue en la Ruta 5 hasta que el jugador deja Kalos (o mientras su misión siga abierta). Bug reportado por Mario (2026-10-28).
+const AURELIO_AQUI = '!flag.b03_aurelio_muerto && (!flag.b02_puerta_cruzada || (quest.b01_t_mareep && !done.b01_t_mareep))';
 export default {
 	locations: {
 		// =================== RUTA 5 ===================
@@ -62,14 +64,15 @@ export default {
 						{ trainer: 'r5_criadora_margaux' },
 					],
 					7: [
-						{ script: 'b01_aurelio_1', mark: true },
+						{ script: 'b01_aurelio_1', mark: true, cond: AURELIO_AQUI },
 						{ talk: [
 							{ cond: 'quest.b01_t_mareep == "volver"', script: 'b01_aurelio_farol' },
 							{ cond: 'done.b01_t_mareep', script: 'b01_aurelio_despues' },
 							{ cond: 'quest.b01_t_mareep == "buscar"', script: 'b01_aurelio_recordar' },
 							{ script: 'b01_aurelio_1' },
-						], label: 'Don Aurelio', sub: 'Un ranchero sentado bajo un árbol', icon: '🤠', new: 'quest.b01_t_mareep == "volver"' },
-						{ text: 'Un árbol solitario con un corral improvisado de cuerda a su sombra. Dentro no hay nada. Todavía.' },
+						], label: 'Don Aurelio', sub: 'Un ranchero sentado bajo un árbol', icon: '🤠', cond: AURELIO_AQUI, new: 'quest.b01_t_mareep == "volver"' },
+						{ text: 'Un árbol solitario con un corral improvisado de cuerda a su sombra. Dentro no hay nada. Todavía.', cond: AURELIO_AQUI },
+						{ text: 'Un árbol solitario. A su sombra, una cuerda de corral enrollada con cuidado y un hueco en la hierba donde alguien estuvo sentado muchos días.', cond: '!(' + AURELIO_AQUI + ')' },
 					],
 					8: [
 						{ terrain: 'path' },
@@ -231,8 +234,9 @@ export default {
 							{ cond: 'done.b01_t_gaspar', script: 'b01_gaspar_r7_despues' },
 							{ cond: GASPAR_TODO, script: 'b01_gaspar_cocina' },
 							{ script: 'b01_gaspar_r7_falta' },
-						], label: 'Gaspar', sub: 'Cocina en la orilla, con una olla enorme', icon: '👨‍🍳', new: '!done.b01_t_gaspar && (!flag.b01_gaspar_1 || (' + GASPAR_TODO + '))' },
-						{ text: 'Una olla de hierro sobre un fuego de ramas, en la orilla. El vapor huele a mantequilla, a tomillo y a algo que no sabes nombrar.' },
+						], label: 'Gaspar', sub: 'Cocina en la orilla, con una olla enorme', icon: '👨‍🍳', cond: '!flag.b02_puerta_cruzada || (quest.b01_t_gaspar && !done.b01_t_gaspar)', new: '!done.b01_t_gaspar && (!flag.b01_gaspar_1 || (' + GASPAR_TODO + '))' },
+						{ text: 'Una olla de hierro sobre un fuego de ramas, en la orilla. El vapor huele a mantequilla, a tomillo y a algo que no sabes nombrar.', cond: '!flag.b02_puerta_cruzada || (quest.b01_t_gaspar && !done.b01_t_gaspar)' },
+						{ text: 'En la orilla, un círculo de piedras ennegrecidas donde alguien cocinaba. Todavía huele un poco a mantequilla.', cond: '!(!flag.b02_puerta_cruzada || (quest.b01_t_gaspar && !done.b01_t_gaspar))' },
 					],
 					3: [
 						{ terrain: 'flowers' },
