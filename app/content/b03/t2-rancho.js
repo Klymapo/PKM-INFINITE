@@ -96,7 +96,7 @@ export default {
 					],
 					4: [
 						{ text: 'El eco ya no es un eco. *¡HU! ¡HA!* Viene de una sala redonda, con el techo altísimo y una roca enorme en el centro. La roca tiene una abolladura. Pequeña. Muy trabajada.' },
-						{ talk: [{ cond: 'beat("kiyo_mortero")', script: 'b03_kiyo_despues' }, { script: 'b03_kiyo' }], cond: '!flag.b03_fin', label: 'Un karateka golpea una roca', sub: 'Hu. Ha. Hu. Ha.', icon: '🥋', new: '!flag.b03_kiyo_visto' },
+						{ talk: [{ cond: 'beat("kiyo_mortero")', script: 'b03_kiyo_despues' }, { script: 'b03_kiyo' }], cond: '!flag.b03_fin || !flag.b03_tyrogue', label: 'Un karateka golpea una roca', sub: 'Hu. Ha. Hu. Ha.', icon: '🥋', new: '!flag.b03_kiyo_visto' },
 					],
 					5: [
 						{ trainer: 'mortero_leonor' },

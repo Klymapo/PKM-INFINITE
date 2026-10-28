@@ -127,7 +127,7 @@ export function choose(prompt, options, opts = {}) {
 		const EXIT = /^(Cancelar|Ahora no|No|Volver|Salir|Cerrar|Nada|Mejor no|Seguir buscando|Dejarlo)$/i;
 		const DANGER = /^(Olvidar|Tirar|Borrar|Eliminar|Liberar|Soltar|Vender todo|Empezar de cero|Sí, olvidarlo|Sobrescribir)/i;
 		// Dos opciones cortas (Sí / No): lado a lado, con el mismo peso; es una pregunta, no un «cancelar».
-		const pair = options.length === 2 && options.every(o => plain(o).length <= 14);
+		const pair = !opts.choice && options.length === 2 && options.every(o => plain(o).length <= 14);
 		if (pair) box.classList.add('pair');
 		options.forEach((o, i) => {
 			const cls = !opts.choice && !pair && i === options.length - 1 && options.length > 2 && EXIT.test(plain(o)) ? 'c-exit' : !opts.choice && DANGER.test(plain(o)) ? 'c-danger' : null;

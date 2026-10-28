@@ -143,7 +143,7 @@ export function healFull(p) {
 	p.hp = maxHp(p);
 	p.status = '';
 	p.sleepTurns = 0;
-	for (const m of p.moves) m.pp = maxPP(m);
+	for (const m of p.moves || []) m.pp = maxPP(m);
 }
 export function maxPP(m) {
 	const md = D.moves[m.id];

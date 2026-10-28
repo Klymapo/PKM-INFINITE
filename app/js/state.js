@@ -17,7 +17,7 @@ export function addHito(g = G) { g.vars.hitos = hitos(g) + 1; }
 export function boxInsert(g, mon) {
 	let bi = g.boxes.findIndex(b => b.length < BOX_MAX);
 	if (bi < 0) { g.boxes.push([]); bi = g.boxes.length - 1; }
-	healFull(mon); // en la PC siempre se curan (pedido de Mario, 2026-10-28)
+	if (Array.isArray(mon?.moves) && mon.ivs) healFull(mon); // en la PC siempre se curan (pedido de Mario, 2026-10-28); los simuladores meten Pokémon incompletos
 	g.boxes[bi].push(mon);
 	return bi;
 }

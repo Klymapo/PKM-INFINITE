@@ -771,8 +771,10 @@ function eliteTrainer(id) {
 	const lv = Math.max(5, G.vars.cap || Math.round(avgLevel()));
 	const n = base.team.length;
 	return {
-		...base, id: id + '__elite', intro: '¿Modo élite? Entonces esta vez no me contengo.', win: 'Eso sí fue un combate de verdad.', lose: null,
-		team: base.team.map((m, i) => ({ sp: eliteForm(m.sp, lv), lv: i === n - 1 ? lv : lv - 1, item: m.item, ability: undefined, nature: m.nature, iv: 25 })),
+		...base, id: id + '__elite', npc: undefined, intro: '¿Modo élite? Entonces esta vez no me contengo.', win: 'Eso sí fue un combate de verdad.', lose: null,
+		// Paga poco y fijo: es para entrenar, no para hacerse rico (revisión 2026-10-28)
+		reward: 300,
+		team: base.team.map((m, i) => ({ sp: eliteForm(m.sp, lv), lv: i === n - 1 ? lv : lv - 1, item: eliteForm(m.sp, lv) === m.sp ? m.item : undefined, ability: undefined, nature: m.nature, iv: 25 })),
 	};
 }
 
@@ -791,8 +793,8 @@ function zoneDirectory(here) {
 	const rows = [];
 	for (const loc of Object.values(C.locations)) {
 		const top = topLoc(loc.id);
-		if (!G.visited[loc.id] && !G.visited[top?.id]) continue;
-		const add = (sp, where) => { if (sp?.action?.training) rows.push({ t: sp.action.training, label: tx(sp.label || 'Entrenamiento'), where }); };
+		if (!G.visited[loc.id]) continue;
+		const add = (sp, where) => { if (sp?.action?.training && (sp.cond === undefined || evalCond(sp.cond))) rows.push({ t: sp.action.training, label: tx(sp.label || 'Entrenamiento'), where }); };
 		for (const sp of loc.spots || []) add(sp, top && top.id !== loc.id ? `${top.name} › ${loc.name}` : loc.name);
 		for (const [n, items] of Object.entries(loc.route?.tramos || {})) for (const it of items) add(it.spot, `${loc.name} · tramo ${n}`);
 	}
@@ -831,7 +833,7 @@ function trainingMenu(t, s, { open, pz, cap, coach }) {
 			h('div', { class: 'tz-label' }, 'Combatir'),
 			h('div', { class: 'tz-grid' },
 				t.trainers?.length ? btn('practice', '⚔️ ' + (practice || 'Práctica'), open ? 'Experiencia y premio' : (practice ? 'Solo cuenta para el premio' : 'Tu equipo ya lo superó'), 'primary', !practice) : null,
-				t.trainers?.length ? btn('elite', '🔥 Modo élite', `Rivales a Nv. ${tope}`, 'elite') : null,
+				t.trainers?.length ? btn('elite', '🔥 Modo élite', `Rivales a Nv. ${tope} · ₽300 · no cuenta para el premio`, 'elite') : null,
 				open && t.wild?.length ? btn('wild', '🌿 Buscar salvajes', null, 'wide') : null),
 			h('div', { class: 'tz-label' }, 'Preparar'),
 			h('div', { class: 'tz-grid' },
@@ -845,7 +847,6 @@ async function training(t, s) {
 	const cap = t.cap || G.vars.cap || 15;
 	const coach = t.npc ? { id: t.npc, ...C.npcs[t.npc] } : { name: t.coach || 'Instructor', look: { seed: s.label } };
 	let pz = prizeState(t);
-	if (pz && !pz.claimed && pz.ready) return givePrize(t);
 	let open = trainingOpen(cap);
 	if (!open && !(pz && !pz.claimed) && !TR_AVISO.has(s.label)) {
 		TR_AVISO.add(s.label);
@@ -1890,7 +1891,7 @@ async function openShop(id) {
 		: 'other';
 	return new Promise(resolve => {
 		let mode = 'buy', cat = 'all', sel = null, qty = 1;
-		const sheet = openSheet(shop.name || 'Tienda', null, { onClose: resolve });
+		const sheet = openSheet(shop.name || 'Tienda', null, { onClose: () => { saveGame(); resolve(); } });
 		sheet.el.dataset.menu = 'tienda';
 		const entries = () => shop.items.map(e => typeof e === 'string' ? { id: e } : e).map(o => {
 			const it = D.items[toID(o.id)] || {};
@@ -1982,7 +1983,7 @@ async function openPC() {
 		let box = Math.max(0, Math.min(G.vars.pc_box || 0, G.boxes.length - 1));
 		let sel = null; // { where: 'party'|'box', box, idx } mientras mueves un Pokémon
 		let multi = false, marks = [], skipTap = false; // modo «Seleccionar»: Pokémon marcados, en el orden en que se tocaron
-		const sheet = openSheet('PC de almacenamiento', null, { onClose: () => { G.vars.pc_box = box; resolve(); } });
+		const sheet = openSheet('PC de almacenamiento', null, { onClose: () => { G.vars.pc_box = box; saveGame(); resolve(); } });
 		sheet.el.dataset.menu = 'pc';
 		// Barra fija de acciones del modo «Seleccionar»: va debajo del cuerpo de la hoja, no se desplaza con él
 		const bar = h('div', { class: 'pc-bar', 'data-noswipe': '' });

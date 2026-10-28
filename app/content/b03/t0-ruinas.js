@@ -60,7 +60,7 @@ export default {
 			mapNote: 'Sabio Li · Tobías graba aquí',
 			onEnter: [{ script: 'b03_torre_entrada', cond: '!flag.b03_torre_entrada', once: true }],
 			spots: [
-				{ label: 'Un hombre que narra a una cámara', sub: 'Y un Persian enorme que bosteza', icon: '🎬', cond: '!flag.b03_fin', new: '!flag.b03_tobias_1 || (beat("sabio_li") && !flag.b03_tobias_final)', talk: [
+				{ label: 'Un hombre que narra a una cámara', sub: 'Y un Persian enorme que bosteza', icon: '🎬', cond: '!flag.b03_fin || (quest.b03_t_tobias && !done.b03_t_tobias)', new: '!flag.b03_tobias_1 || (beat("sabio_li") && !flag.b03_tobias_final)', talk: [
 					{ cond: 'flag.b03_tobias_final', script: 'b03_tobias_despues' },
 					{ cond: 'flag.b03_tobias_1 && beat("sabio_li")', script: 'b03_tobias_final' },
 					{ cond: 'flag.b03_tobias_1', script: 'b03_tobias_espera' },

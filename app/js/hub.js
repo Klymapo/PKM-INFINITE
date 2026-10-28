@@ -18,7 +18,7 @@
 import { C, topLoc } from './content.js';
 import { D, toID } from './data.js';
 import { G, evalCond, count } from './state.js';
-import { L, activeEvents, isRoute } from './world.js';
+import { L, activeEvents, isRoute, eventDone } from './world.js';
 import { uniqueSpotsAt } from './unicos.js';
 import { ventureList, pending as venturePending } from './negocios.js';
 import { phase } from './time.js';
@@ -87,7 +87,7 @@ function spotsAt(loc) {
 	let v = CUR.spots.get(loc.id);
 	if (v) return v;
 	let spots = (loc.spots || []).slice();
-	for (const e of events()) if (e.spots?.[loc.id]) spots = spots.concat(e.spots[loc.id].map(s => ({ ...s, event: e.id })));
+	for (const e of events()) if (e.spots?.[loc.id]) { const d = eventDone(e); spots = spots.concat(e.spots[loc.id].filter(s => !d || s.keepDone || (s.action && !s.talk && !s.script)).map(s => ({ ...s, event: e.id }))); }
 	try { spots = spots.concat(uniqueSpotsAt(loc.id)); } catch (e) { /* */ }
 	v = spots.filter(s => ok(s.cond));
 	CUR.spots.set(loc.id, v);
@@ -99,7 +99,7 @@ function tramoAt(loc, n) {
 	let v = CUR.tramos.get(k);
 	if (v) return v;
 	let items = [].concat(loc.route.tramos?.[n] || []);
-	for (const e of events()) if (e.tramos?.[loc.id]?.[n]) items = items.concat(e.tramos[loc.id][n]);
+	for (const e of events()) if (e.tramos?.[loc.id]?.[n]) { const d = eventDone(e); items = items.concat(e.tramos[loc.id][n].filter(x => !d || !(x.talk || x.script) || x.keepDone)); }
 	v = items.filter(x => ok(x.cond));
 	CUR.tramos.set(k, v);
 	return v;
@@ -576,7 +576,7 @@ function questNeeds_(id) {
 		const pr = G.routeProg?.[loc.id] || { done: {} };
 		for (let n = 0; n <= (loc.route.length || 0); n++) {
 			const raw = [].concat(loc.route.tramos?.[n] || []);
-			for (const e of events()) if (e.tramos?.[loc.id]?.[n]) raw.push(...e.tramos[loc.id][n]);
+			for (const e of events()) if (e.tramos?.[loc.id]?.[n] && !eventDone(e)) raw.push(...e.tramos[loc.id][n]);
 			for (const it of raw) if (it.script && it.cond !== undefined && !ok(it.cond) && !pr.done?.[n + ':' + it.script] && touchOf(it.script).has(id) && stageOk(it.cond, id, q.stage)) conds.push({ cond: it.cond, where: placeOf(loc, n) });
 		}
 	}
@@ -891,7 +891,7 @@ function itemSpots_(itemId) {
 		const pr = G.routeProg?.[loc.id] || { items: {} };
 		for (let n = 0; n <= (loc.route.length || 0); n++) {
 			const list = [].concat(loc.route.tramos?.[n] || []);
-			for (const e of events()) if (e.tramos?.[loc.id]?.[n]) list.push(...e.tramos[loc.id][n]);
+			for (const e of events()) if (e.tramos?.[loc.id]?.[n] && !eventDone(e)) list.push(...e.tramos[loc.id][n]);
 			for (const it of list) if (it.item === itemId) {
 				const top = topLoc(loc.id);
 				out.push({ loc: loc.id, n, hidden: !!it.hidden, got: !!pr.items?.[n + ':' + itemId], known: !!G.visited[loc.id] || !!G.visited[top?.id] || (loc.links || []).some(x => G.visited[x]) });

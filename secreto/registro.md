@@ -543,3 +543,20 @@ Pruebas: validador sin errores, hub 0 graves (los avisos son los mismos del 2026
 - **Pendiente (en espera de Mario con Argos):** cuadros del museo con sprite encima, encargo de arte en `propuestas/`, importador con `cuadro-`/`gimnasio-`/`mapa-` y galería privada en el móvil.
 - **Ajustes del mismo día:** rango de nivel por zona (del Pokémon más bajo de sus rivales/salvajes al tope) en la ficha del lugar, el mapa y la hoja de la zona; la zona abre una hoja propia (Combatir / Preparar / Zonas que conoces, con «Tu nivel»); números de nivel, PS y precios en Nunito (el 5 pixelado parecía S); tarjetas de ataque con fondo oscuro y franja del tipo; portada con acciones agrupadas (clase `tsec-btn`, no `linkbtn`, que es global).
 - **Botones (2026-10-28):** en los diálogos de elección, la última opción de salida (Cancelar, Ahora no…) va discreta y las que borran o pierden algo (Tirar, Olvidar…) en rojo; las elecciones de historia no se tocan. Más números en Nunito (negocios, tienda, minijuegos). Saludo del Centro con `tx()` (salía «{o|a|e}» sin resolver). El listado de zonas muestra el estado del premio del instructor.
+
+## Segunda auditoría del día (2026-10-28, pedido de Mario) · revisor independiente + auditoría completa
+
+Corregido:
+- **Misiones que podían quedar colgadas** por los `cond` de salida de región de la mañana: Bastien en Olivo (`b03_t_bastien`), Tobías en la Torre Bellsprout (`b03_t_tobias`) y Bastien en el Puente Pepita (`b04_t_bastien`) ahora siguen visibles mientras su misión esté abierta.
+- **Premio de la Agencia (B1):** el spot de Handsome y Matière sigue si el caso del macaron está resuelto y el premio sin entregar.
+- **Tyrogue:** Kiyo en el Monte Mortero sigue hasta que lo regala (`!flag.b03_tyrogue`), para no romper la colección.
+- **Hub (`app/js/hub.js`):** aplica el mismo filtro de eventos completados que `world.js` (`eventDone`), para que Novedades no anuncie spots que ya no existen.
+- **Modo élite:** paga ₽300 fijos (era base × nivel, ilimitado), no registra el equipo en el Expediente, no copia el objeto si la especie cambió y el botón avisa que no cuenta para el premio.
+- **Zona con premio listo:** se entrega y luego se abre el menú (antes salía sin menú).
+- **PC y tienda guardan al cerrar.** `healFull` tolera Pokémon sin `moves`; `boxInsert` solo cura Pokémon completos (el simulador del hub mete Pokémon de mentira y tronaba: por eso la auditoría de hoy marcó 9 ✖ en `hub` que ya no están; `hub` 0 graves al reejecutar).
+- **Zonas que conoces:** solo zonas de lugares pisados de verdad y con `cond` cumplida.
+- `pair` (Sí/No lado a lado) solo fuera de las elecciones de historia.
+- Contenido: Fraxure salvaje de la terraza de Teja a Nv. 64–66 (decía 44–47). Diálogo de MT: solo ofrece a quien puede aprenderla.
+
+Auditoría: validador 0, tester 0, hub 0 graves, humo OK, Designer de Canvas 0 graves, bot 18/24 (igual que la publicación del B6; los 8 atascos son los del bot de siempre).
+Pendiente sugerido por el revisor (no hecho): cierre genérico de hilos al terminar cada bloque; aviso en pantalla cuando un NPC se marcha de una región.
