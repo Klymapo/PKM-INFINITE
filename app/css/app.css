@@ -40,7 +40,25 @@ b { font-weight: 800; }
 .topbar { display: flex; align-items: center; gap: 8px; padding: calc(8px + var(--safe-t)) 14px 8px; background: var(--ink); border-bottom: 1px solid var(--line); min-height: 48px; }
 .topbar .place { font-family: var(--pixel); font-size: 19px; flex: 1; min-width: 0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; letter-spacing: .3px; }
 .topbar .chip { font-size: 13px; color: var(--muted); display: flex; align-items: center; gap: 4px; white-space: nowrap; }
-.topbar .money { color: var(--gold); font-weight: 800; }
+.topbar .money { color: var(--gold); font-weight: 900; font-size: 16px; background: var(--ink-2); border: 1px solid var(--gold); border-radius: 99px; padding: 4px 10px 4px 5px; min-height: 32px; font-variant-numeric: tabular-nums; }
+.topbar .money .coin { display: inline-grid; place-items: center; width: 22px; height: 22px; border-radius: 50%; background: var(--gold); color: var(--ink); font-size: 13px; font-weight: 900; }
+/* Dinero en Equipo (pedido de Mario, 2026-10-28) */
+.money-bar { display: flex; align-items: center; justify-content: space-between; margin: 4px 12px 8px; padding: 10px 14px; border-radius: 12px; background: var(--ink-2); border: 1px solid var(--gold); }
+.money-bar .lab { font-size: 13px; color: var(--muted); font-weight: 700; }
+.money-bar b { color: var(--gold); font-size: 20px; font-weight: 900; font-variant-numeric: tabular-nums; }
+/* Vista rápida de movimientos del equipo */
+.qm-list { display: flex; flex-direction: column; gap: 10px; padding: 0 12px 8px; }
+.qm-card { display: block; width: 100%; text-align: left; padding: 10px; border-radius: 14px; background: var(--ink-2); border: 1px solid var(--line); }
+.qm-card.fainted { opacity: .6; }
+.qm-head { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; flex-wrap: wrap; }
+.qm-head b { font-size: 15.5px; }
+.qm-head .lv { color: var(--muted); font-size: 13px; font-weight: 700; }
+.qm-head .typechip-row { margin-left: auto; }
+.qm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+.qm-move { display: flex; flex-direction: column; gap: 2px; padding: 7px 9px; border-radius: 10px; min-width: 0; }
+.qm-move.empty { filter: grayscale(.7); opacity: .65; }
+.qm-n { font-weight: 900; font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.qm-m { display: flex; flex-direction: column; gap: 1px; font-size: 12px; font-weight: 700; }
 
 /* ---------- Contenido ---------- */
 .main { flex: 1; overflow-y: auto; overflow-x: hidden; -webkit-overflow-scrolling: touch; padding-bottom: 12px; }

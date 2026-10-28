@@ -253,7 +253,7 @@ export function render() {
 	const top = h('div', { class: 'topbar' },
 		h('div', { class: 'place' }, loc.name),
 		h('div', { class: 'chip', title: PHASE_NAMES[ph] }, PHASE_ICON[ph]),
-		h('div', { class: 'chip money' }, fmtMoney(G.player.money)));
+		h('div', { class: 'chip money', title: 'Tu dinero' }, h('span', { class: 'coin' }, '₽'), fmtMoney(G.player.money).replace(/^₽\s?/, '')));
 	const main = h('div', { class: 'main' });
 	const topL = topLoc(loc.id);
 	const scene = h('div', { class: 'scene' }, sceneCanvas({ ...(loc.bg || {}), seed: loc.bg?.seed || loc.id }),
@@ -1293,7 +1293,28 @@ function monRow(p, onclick, { sel = false } = {}) {
 
 function openParty() {
 	const sheet = openSheet('Equipo', null);
+	let tab = 'team';
+	const tabsBar = () => h('div', { class: 'tabs' }, ...[['team', 'Equipo'], ['moves', 'Movimientos']].map(([k, n]) => h('button', { class: tab === k ? 'on' : '', onclick: () => { tab = k; draw(); sheet.body.scrollTop = 0; } }, n)));
+	const moneyBar = () => h('div', { class: 'money-bar' }, h('span', { class: 'lab' }, 'Tu dinero'), h('b', {}, fmtMoney(G.player.money)));
+	/** Vista rápida de movimientos (pedido de Mario, 2026-10-28): los 4 de cada Pokémon del equipo de un vistazo. */
+	const movesView = () => h('div', { class: 'qm-list' }, ...G.party.map(p => {
+		const cat = c => c === 'Physical' ? 'Físico' : c === 'Special' ? 'Especial' : 'Estado';
+		return h('button', { class: 'qm-card' + (p.hp <= 0 ? ' fainted' : ''), onclick: () => openSummary(p, draw) },
+			h('div', { class: 'qm-head' }, h('b', {}, displayName(p)), h('span', { class: 'lv' }, 'Nv.' + p.lv),
+				h('span', { class: 'typechip-row' }, ...D.species[p.sp].types.map(t => h('span', { class: 'type', style: typeStyle(t) }, typeName(t))))),
+			h('div', { class: 'qm-grid' }, ...p.moves.map(m => {
+				const md = D.moves[m.id] || {};
+				const max = Math.floor((md.pp || m.pp) * (5 + (m.ppUps || 0)) / 5);
+				return h('div', { class: 'qm-move' + (m.pp <= 0 ? ' empty' : ''), style: typeStyle(md.type) },
+					h('span', { class: 'qm-n' }, md.name || m.id),
+					h('span', { class: 'qm-m' }, h('span', {}, `${typeName(md.type)} · ${cat(md.cat)}${md.bp ? ' · ' + md.bp : ''}`), h('span', {}, `PP ${m.pp}/${max}`)));
+			})));
+	}));
 	const draw = () => {
+		if (tab === 'moves') {
+			sheet.set([tabsBar(), moneyBar(), G.party.length ? movesView() : h('div', { class: 'empty' }, 'Todavía no tienes Pokémon.'), h('div', { class: 'note' }, 'Toca un Pokémon para ver su ficha completa.')]);
+			return;
+		}
 		const list = h('div', { class: 'list' });
 		G.party.forEach((p, i) => list.append(monRow(p, () => openSummary(p, draw))));
 		if (!G.party.length) list.append(h('div', { class: 'empty' }, 'Todavía no tienes Pokémon.'));
@@ -1303,7 +1324,7 @@ function openParty() {
 			h('div', {}, h('div', { class: 'capt' }, 'Tope de nivel'), h('div', { class: 'caps' }, G.party.some(p => p.lv >= cap)
 				? 'Los que están en el tope casi no ganan experiencia. Sube al vencer al siguiente líder o jefe.'
 				: 'Por encima de este nivel casi no se gana experiencia. Sube al vencer al siguiente líder o jefe.'))) : null;
-		sheet.set([capBox, list, h('div', { class: 'note' }, 'Toca un Pokémon para ver sus datos, cambiar su orden, darle objetos o ponerle mote.')].filter(Boolean));
+		sheet.set([tabsBar(), moneyBar(), capBox, list, h('div', { class: 'note' }, 'Toca un Pokémon para ver sus datos, cambiar su orden, darle objetos o ponerle mote.')].filter(Boolean));
 	};
 	draw();
 }
