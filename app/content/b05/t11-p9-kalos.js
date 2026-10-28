@@ -188,7 +188,7 @@ export default {
 			{ say: 'jinete_boceto', text: 'Hoy ya has corrido. Una al día: regla uno. Mira cómo te mira tu Rhyhorn: está pensando en el huerto de la vecina.' },
 			{ if: 'flag.p9_carrera_1', then: [{ say: 'jinete_boceto', text: 'Mañana, si quieres, la revancha. Yo no me retiro de la revancha. Me retiré de todo lo demás.' }],
 				else: [{ say: 'jinete_boceto', text: 'Mañana más. Y piensa en la curva mientras duermes. Yo lo hice doce temporadas.' }] },
-			{ heal: 'La campeona te sirve leche Mu-mu y tu equipo descansa en el establo. Salís como nuevos.' },
+			{ heal: 'La campeona te sirve leche Mu-mu y tu equipo descansa en el establo. Salen como nuevos.' },
 		],
 
 		p9_carr_correr: [
@@ -199,18 +199,18 @@ export default {
 			{ prompt: 'La salida. ¿Qué haces?', choice: [
 				{ text: 'Inclinarte hacia delante, pegad{o|a|e} a la silla.', then: [t(-3), { text: 'El Rhyhorn nota tu peso y arranca antes de que ella diga «tres». Sales con medio cuerpo de ventaja. Ella se ríe: le gusta.' }] },
 				{ text: 'Hablarle al oído.', then: [t(-2), { text: '«Vamos, grandullón». El Rhyhorn resopla, divertido, y sale como si lo hubieran llamado por su nombre. Que no tiene. O sí: el que tú le pusiste.' }] },
-				{ text: 'Gritar.', then: [t(1), { text: 'Gritas. El Rhyhorn también. Salís los dos gritando, medio segundo tarde y con muchísimo estilo. Los del pueblo aplauden. Los aplausos no cuentan.' }] },
+				{ text: 'Gritar.', then: [t(1), { text: 'Gritas. El Rhyhorn también. Salen los dos gritando, medio segundo tarde y con muchísimo estilo. Los del pueblo aplauden. Los aplausos no cuentan.' }] },
 			] },
-			{ text: 'La primera curva: las piedras pintadas de rojo. La campeona la coge por fuera, muy ancha, muy tranquila, como quien no tiene prisa.' },
+			{ text: 'La primera curva: las piedras pintadas de rojo. La campeona la toma por fuera, muy ancha, muy tranquila, como quien no tiene prisa.' },
 			{ prompt: 'La curva de las piedras. Regla dos.', choice: [
 				{ text: 'Frenar antes y acelerar en la salida.', then: [t(-4), { text: 'Tiras de la silla un instante antes de la curva. El Rhyhorn clava las patas, gira y sale disparado por la recta. La campeona te mira de reojo: eso lo enseñó ella.' }] },
 				{ text: 'Cerrar por dentro, como Mylène.', then: [t(-2), { text: 'Te metes por el hueco entre las piedras y el seto. El Rhyhorn roza una piedra pintada y la deja de otro color. Ganas un poco. La piedra, no.' }] },
-				{ text: 'Entrar a fondo.', then: [t(0), { text: 'Entras a fondo. El Rhyhorn también. Derrapáis los dos, levantáis medio huerto y salís de la curva en la misma dirección por pura suerte. No pierdes tiempo. Tampoco lo ganas.' }] },
+				{ text: 'Entrar a fondo.', then: [t(0), { text: 'Entras a fondo. El Rhyhorn también. Derrapan los dos, levantan medio huerto y salen de la curva en la misma dirección por pura suerte. No pierdes tiempo. Tampoco lo ganas.' }] },
 			] },
 			{ text: 'La recta del huerto. Ciruelos a un lado, muro de piedra al otro, y en el muro el agujero con forma de cuerno que nadie ha arreglado.' },
 			{ prompt: 'La recta. El Rhyhorn quiere más.', choice: [
 				{ text: 'Soltar las riendas.', then: [t(-2), { text: 'Sueltas. El Rhyhorn entiende el mensaje: ahora manda él. Y él quiere ganar más que tú.' }] },
-				{ text: 'Que {riolu} dé la señal.', cond: LUC, then: [t(-3), { text: '{riolu} va de pie en la silla, detrás de ti, con las orejas hacia atrás. Nota algo en el Rhyhorn un segundo antes que tú y golpea la silla con la pata: ¡AHORA! El Rhyhorn arranca el acelerón justo donde el suelo está más duro. Ni tú ni la campeona entendéis cómo lo ha sabido.' }] },
+				{ text: 'Que {riolu} dé la señal.', cond: LUC, then: [t(-3), { text: '{riolu} va de pie en la silla, detrás de ti, con las orejas hacia atrás. Nota algo en el Rhyhorn un segundo antes que tú y golpea la silla con la pata: ¡AHORA! El Rhyhorn arranca el acelerón justo donde el suelo está más duro. Ni tú ni la campeona entienden cómo lo ha sabido.' }] },
 				{ text: 'Agarrarte al cuerno.', then: [t(3), { text: 'Te agarras al cuerno. El Rhyhorn levanta la cabeza, ofendidísimo, y frena. Regla tres. La campeona, al pasar, ni te mira: le da vergüenza ajena.' }] },
 				{ text: 'Mirar atrás.', cond: '!' + LUC, then: [t(1), { text: 'Miras atrás. Ella no está atrás. Está al lado, y te saluda con la mano. Pierdes un segundo en volver la cabeza y otro en digerirlo.' }] },
 			] },
@@ -222,9 +222,9 @@ export default {
 			] },
 			{ text: 'La meta. Los banderines, el poste, la pizarra y medio pueblo asomado a los muros. La campeona va a tu altura, pegada a la silla, con cara de niña.' },
 			{ prompt: 'Los últimos metros.', choice: [
-				{ text: 'Todo o nada.', then: [t(-2), { text: 'Te pegas al Rhyhorn hasta que no se sabe dónde acaba uno y empieza el otro. Él lo da todo. Tú también. Cruzáis.' }] },
-				{ text: 'Mirar a la campeona y reírte.', then: [t(-1), { text: 'Te ríes. Ella también. El Rhyhorn se contagia y da un último acelerón de alegría. Cruzáis.' }] },
-				{ text: 'Llegar enter{o|a|e}.', then: [t(0), { text: 'Llegas enter{o|a|e}, con las dos manos en la silla y el barro hasta las cejas. Cruzáis. Nadie te lo va a reprochar. Bueno, ella un poco.' }] },
+				{ text: 'Todo o nada.', then: [t(-2), { text: 'Te pegas al Rhyhorn hasta que no se sabe dónde acaba uno y empieza el otro. Él lo da todo. Tú también. Cruzan la meta.' }] },
+				{ text: 'Mirar a la campeona y reírte.', then: [t(-1), { text: 'Te ríes. Ella también. El Rhyhorn se contagia y da un último acelerón de alegría. Cruzan la meta.' }] },
+				{ text: 'Llegar enter{o|a|e}.', then: [t(0), { text: 'Llegas enter{o|a|e}, con las dos manos en la silla y el barro hasta las cejas. Cruzan la meta. Nadie te lo va a reprochar. Bueno, ella un poco.' }] },
 			] },
 			{ text: 'La pizarra. Un chico del pueblo apunta el tiempo con tiza y lo tacha dos veces para que se lea bien.' },
 			{ if: 'vars.p9_carrera_t <= ' + (RIVAL - 1), then: [{ call: 'p9_carr_gana' }], else: [{ call: 'p9_carr_pierde' }] },
@@ -233,7 +233,7 @@ export default {
 				{ set: { 'vars.p9_carrera_mejor': '=vars.p9_carrera_t' } },
 				{ toast: '🏁 Mejor tiempo personal. Está en el muro.' },
 			] },
-			{ heal: 'La campeona reparte leche Mu-mu. Tu equipo descansa en el establo mientras el Rhyhorn se revuelca en el charco. Salís como nuevos.' },
+			{ heal: 'La campeona reparte leche Mu-mu. Tu equipo descansa en el establo mientras el Rhyhorn se revuelca en el charco. Salen como nuevos.' },
 		],
 
 		p9_carr_gana: [
@@ -361,7 +361,7 @@ export default {
 					{ say: 'philippe', text: '¿Igual? Barajo con arte. El arte se repite, sí, pero… —Mira la carta que tiene en la mano—. El siete de corazones. Otra vez. ¿Lo has visto venir? Lo has visto venir.' },
 				] },
 				{ text: 'Cierra los ojos al sacar la carta.', then: [
-					{ say: 'philippe', text: '¡No cierro los…! —Los cierra. Saca la carta—. El siete de corazones. —Los abre—. Vale. Cierro los ojos. Y saco siempre el siete. Es la carta en la que pienso. Siempre.' },
+					{ say: 'philippe', text: '¡No cierro los…! —Los cierra. Saca la carta—. El siete de corazones. —Los abre—. Bueno. Cierro los ojos. Y saco siempre el siete. Es la carta en la que pienso. Siempre.' },
 				] },
 			] },
 			{ text: 'Te quedas mirando el mazo. Philippe barajará lo que quiera: su mano, al final, va a buscar la carta de arriba. Y su cabeza va a decir «siete de corazones». Si la carta que elige el público es esa, y esa está arriba, el truco sale solo.' },
@@ -390,7 +390,7 @@ export default {
 				] },
 				{ text: 'En el medio, bien escondido.', then: [
 					{ text: 'Barajas de verdad. El siete se pierde por el medio. Philippe cierra los ojos, baraja con mucho arte, saca la carta de arriba y la enseña.' },
-					{ say: 'philippe', text: '¡El siete de corazones! —Es el cuatro de picas—. ¿No? Es que… es que el cuatro, bien mirado… Bueno. La magia es así: a veces la magia sois vosotros.' },
+					{ say: 'philippe', text: '¡El siete de corazones! —Es el cuatro de picas—. ¿No? Es que… es que el cuatro, bien mirado… Bueno. La magia es así: a veces la magia son ustedes.' },
 					{ text: 'Silencio. Luego la dueña suspira, para el reloj y dice: «El jueves. Última. Y la próxima vez, que baraje bien su ayudante». La terraza aplaude por compasión. Philippe saluda como si fuera por otra cosa.' },
 					{ say: 'philippe', text: 'Ha ido… bien. Ha ido casi. —Baja la voz—. El siete tiene que estar arriba, {jugador}. Arriba. Yo solo sé sacar la de arriba. Es lo único que sé hacer. Vuelve cuando quieras y lo repetimos.' },
 				] },

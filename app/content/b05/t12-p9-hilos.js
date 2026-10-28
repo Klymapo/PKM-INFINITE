@@ -379,7 +379,7 @@ export default {
 		p9_borla_leche: [
 			{ if: '!has("moomoomilk")', then: [{ call: 'p9_borla_sin' }, { end: true }] },
 			{ text: 'Borla está tumbada junto al pozo, con la lana corta y rala. Sacas la Leche Mu-mu. No la mira. Lo huele. Las Mareep tristes no miran: huelen.' },
-			{ take: 'moomoomilk' },
+			{ take: 'moomoomilk', cond: 'has("moomoomilk")' },
 			{ text: 'Le acercas la botella. Borla bebe despacio, con los ojos cerrados, como bebía Don Aurelio el café: sin prisa, porque el café no se acaba si no lo apuras.' },
 			{ prompt: 'Borla termina la leche y se queda mirándote.', choice: [
 				{ text: 'Sentarte a su lado sin decir nada.', then: [
@@ -465,9 +465,9 @@ export default {
 					{ say: 'sobrina', text: 'Mira. Mírala. Le has dicho que no y se ha quedado. Yo le digo que no a la gente y se va. Tengo que aprender eso.' },
 				] },
 				{ text: 'Darle una vuelta al prado contigo al lado, a pie, con la silla puesta. Como si fuera montura.', then: [
-					{ text: 'Caminas a su lado, muy serio, con la mano en la silla del revés. Algodón levanta la cabeza y trota con un orgullo que no le cabe en la lana. Dais la vuelta al prado entera. Las otras cuarenta y ocho os miran.' },
+					{ text: 'Caminas a su lado, muy seri{o|a|e}, con la mano en la silla del revés. Algodón levanta la cabeza y trota con un orgullo que no le cabe en la lana. Dan la vuelta al prado entera. Las otras cuarenta y ocho los miran.' },
 					{ text: 'Al terminar, Algodón se sacude la silla ella sola. Ya está. Ya ha sido montura. Un día. Con eso le vale.' },
-					{ say: 'sobrina', text: 'No sé si eso es mentirle o es otra cosa. —Pausa—. Es otra cosa. Vale.' },
+					{ say: 'sobrina', text: 'No sé si eso es mentirle o es otra cosa. —Pausa—. Es otra cosa. Va.' },
 				] },
 				{ text: 'Ponerle la silla del derecho, por lo menos.', then: [
 					{ text: 'Le das la vuelta a la silla y le ajustas la cincha. No sirve para nada, pero por lo menos parece una silla. Algodón se mira de reojo y se le enciende la cola de satisfacción.' },
