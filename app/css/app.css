@@ -954,3 +954,9 @@ button.gm-move.soft { border-left-width: 5px; }
 .tz-prz { font-size: 12px; font-weight: 800; color: var(--muted); white-space: nowrap; }
 .tz-prz.ok { color: #8ef0a6; }
 .tz-prz.ready { color: var(--gold); }
+
+/* Elecciones: panel sólido detrás (no se transparenta el texto de abajo) y Sí/No lado a lado (2026-10-28) */
+.overlay .choices { background: rgba(10,14,28,.94); border-radius: 18px; padding: 8px; margin: 0 6px 8px; }
+.choices.pair { display: grid; grid-template-columns: 1fr 1fr; }
+.choices.pair .prompt { grid-column: 1 / -1; }
+.choices.pair button { text-align: center; min-height: 52px; }
