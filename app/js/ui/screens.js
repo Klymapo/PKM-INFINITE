@@ -1765,14 +1765,14 @@ async function itemMenu(id, redraw) {
 	const it = D.items[id] || {};
 	if (it.tm) {
 		const md = D.moves[it.tm];
-		const can = G.party.filter(p => canLearn(p.sp, it.tm));
-		const opts2 = G.party.map(p => `${displayName(p)} · ${p.moves.some(m => m.id === it.tm) ? 'Ya lo sabe' : canLearn(p.sp, it.tm) ? 'Puede aprenderlo' : 'No puede'}`).concat(['Cancelar']);
-		const i2 = await choose(`**${it.name}**: ${md?.name} (${typeName(md?.type)}${md?.bp ? ', pot. ' + md.bp : ''}).\n${md?.desc || ''}\nLas MT no se gastan.`, opts2);
-		if (i2 < G.party.length) {
-			const p = G.party[i2];
-			if (!canLearn(p.sp, it.tm)) await say(null, `${displayName(p)} no puede aprender ${md?.name}.`);
-			else await learnMoveUI(p, it.tm);
-		}
+		// Solo se ofrecen los que pueden aprenderla; los demás se mencionan en el texto (2026-10-28)
+		const can = G.party.filter(p => canLearn(p.sp, it.tm) && !p.moves.some(m => m.id === it.tm));
+		const knows = G.party.filter(p => p.moves.some(m => m.id === it.tm));
+		const cant = G.party.filter(p => !can.includes(p) && !knows.includes(p));
+		const extra = [knows.length ? `Ya la saben: ${knows.map(displayName).join(', ')}.` : '', cant.length ? `No pueden: ${cant.map(displayName).join(', ')}.` : ''].filter(Boolean).join(' ');
+		const opts2 = can.map(p => `${displayName(p)} · Nv. ${p.lv}`).concat(['Cancelar']);
+		const i2 = await choose(`**${it.name}**: ${md?.name} (${typeName(md?.type)}${md?.bp ? ', pot. ' + md.bp : ''}).\n${md?.desc || ''}\n${can.length ? '¿A quién se la enseñas?' : 'Nadie de tu equipo puede aprenderla ahora.'} ${extra}\nLas MT no se gastan.`, opts2);
+		if (i2 < can.length) await learnMoveUI(can[i2], it.tm);
 		redraw();
 		return;
 	}

@@ -195,7 +195,7 @@ export default {
 			spots: [
 				{ label: 'Combatir con los domadores', sub: 'Entrenamiento (nivel recomendado 67)', icon: '🐉', action: { training: {
 					cap: 67, prize: { wins: 3, script: 'b06_premio_terraza' }, trainers: ['terraza_1', 'terraza_2', 'terraza_3'], coach: 'La vieja domadora de la terraza',
-					wild: [{ sp: 'druddigon', lv: [64, 66] }, { sp: 'fraxure', lv: [44, 47] }, { sp: 'altaria', lv: [64, 66] }, { sp: 'flygon', lv: [64, 66] }],
+					wild: [{ sp: 'druddigon', lv: [64, 66] }, { sp: 'fraxure', lv: [64, 66] }, { sp: 'altaria', lv: [64, 66] }, { sp: 'flygon', lv: [64, 66] }],
 					closed: 'La vieja domadora remueve la sopa sin mirarte. «Tus dragones, o lo que lleves, ya saben más de lo que aquí se enseña. Ve a la torre. Los de arriba no te van a esperar con sopa».',
 				} } },
 			],
