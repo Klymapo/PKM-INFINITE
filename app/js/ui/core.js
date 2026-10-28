@@ -122,8 +122,13 @@ export function choose(prompt, options, opts = {}) {
 		const ov = h('div', { class: 'overlay dim' });
 		const box = h('div', { class: 'choices' });
 		if (prompt) box.append(h('div', { class: 'prompt', html: fmtText(prompt) }));
+		// Botones con intención (2026-10-28): salir/cancelar en discreto y lo que borra o pierde algo en rojo.
+		const plain = o => String(o).replace(/[*_]/g, '').trim();
+		const EXIT = /^(Cancelar|Ahora no|No|Volver|Salir|Cerrar|Nada|Mejor no|Seguir buscando|Dejarlo)$/i;
+		const DANGER = /^(Olvidar|Tirar|Borrar|Eliminar|Liberar|Soltar|Vender todo|Empezar de cero|Sí, olvidarlo|Sobrescribir)/i;
 		options.forEach((o, i) => {
-			box.append(h('button', { onclick: () => { if (opts.choice) logLine({ k: 'pick', t: o }); ov.remove(); resolve(i); } }, h('span', { html: fmtText(o) })));
+			const cls = !opts.choice && i === options.length - 1 && options.length > 1 && EXIT.test(plain(o)) ? 'c-exit' : !opts.choice && DANGER.test(plain(o)) ? 'c-danger' : null;
+			box.append(h('button', { class: cls, onclick: () => { if (opts.choice) logLine({ k: 'pick', t: o }); ov.remove(); resolve(i); } }, h('span', { html: fmtText(o) })));
 		});
 		ov.append(box);
 		if (opts.cancel !== undefined) ov.addEventListener('click', e => { if (e.target === ov) { ov.remove(); resolve(opts.cancel); } });

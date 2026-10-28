@@ -727,7 +727,7 @@ function openGatherMenu() {
 
 async function pokemonCenter(a = {}) {
 	const nurse = { name: a.nurse || 'Enfermera Joy', look: { hair: 'long', hairColor: '#e98aa8', outfit: '#f3e6e8', outfit2: '#e85a6a', eyes: '#3a5fc4', skin: 0, acc: 'bow' } };
-	await say(nurse, '¡Hola! Bienvenid{o|a|e} al Centro Pokémon. Deja que tus Pokémon descansen un momento.');
+	await say(nurse, tx('¡Hola! Bienvenid{o|a|e} al Centro Pokémon. Deja que tus Pokémon descansen un momento.'));
 	healParty();
 	G.lastCenter = topLoc(G.loc)?.id || G.loc;
 	G.lastCenterSub = G.loc;
@@ -807,9 +807,12 @@ function zoneDirectory(here) {
 			return h('div', { class: 'tz-row' + (r.t === here ? ' here' : '') + (fit ? ' fit' : '') },
 				h('span', { class: 'tz-rlv' }, r.r.min < r.r.max ? `${r.r.min}–${r.r.max}` : String(r.r.max)),
 				h('div', { class: 'tz-rt' }, h('b', {}, r.label), h('span', {}, r.where)),
-				r.t === here ? h('span', { class: 'tz-tag' }, 'Aquí') : fit ? h('span', { class: 'tz-tag fit' }, 'Tu nivel') : null);
+				h('div', { class: 'tz-tags' },
+					r.t === here ? h('span', { class: 'tz-tag' }, 'Aquí') : fit ? h('span', { class: 'tz-tag fit' }, 'Tu nivel') : null,
+					(() => { const pz = prizeState(r.t); if (!pz) return null;
+						return pz.claimed ? h('span', { class: 'tz-prz ok' }, '🎁 Reclamado') : pz.ready ? h('span', { class: 'tz-prz ready' }, '🎁 ¡Listo!') : h('span', { class: 'tz-prz' }, `🎁 ${pz.wins}/${pz.need}`); })()));
 		})),
-		h('div', { class: 'note' }, '«Tu nivel» marca las zonas donde tu equipo, con su media actual, todavía gana experiencia.'));
+		h('div', { class: 'note' }, '«Tu nivel» marca las zonas donde tu equipo, con su media actual, todavía gana experiencia. 🎁 indica el premio del instructor: reclamado, listo o combates ganados.'));
 }
 /** Hoja de la zona de entrenamiento: rango, tu media, premio y botones agrupados. Devuelve la opción elegida o null. */
 function trainingMenu(t, s, { open, pz, cap, coach }) {

@@ -942,3 +942,15 @@ button.gm-move.soft { border-left-width: 5px; }
 .tz-rt span { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tz-tag { flex: none; font-size: 12px; font-weight: 900; padding: 2px 8px; border-radius: 99px; background: var(--aura-fill); color: white; }
 .tz-tag.fit { background: var(--gold); color: var(--ink); }
+
+/* Botones de elección con intención */
+.choices button.c-exit { background: var(--ink-2); border: 1px solid rgba(243,230,196,.35); color: rgba(243,230,196,.85); font-weight: 700; text-align: center; }
+.choices button.c-danger { border-color: #ff8a7a; color: #ffd2cb; background: #3a1a22; }
+/* Más números legibles (negocios, PC, minijuegos, PS) */
+.neg-bank-top b, .neg-wallet b, .neg-facts b, .neg-sum b, .neg-step b, .neg-plus, .neg-up .btn, .mj-stat-n, .shop-money b, .shop-card .sc-price { font-family: var(--body); font-weight: 900; font-variant-numeric: tabular-nums; }
+/* Botones de lugar: textos largos sin cortes raros */
+.tile-t { overflow-wrap: anywhere; hyphens: auto; }
+.tz-tags { flex: none; display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
+.tz-prz { font-size: 12px; font-weight: 800; color: var(--muted); white-space: nowrap; }
+.tz-prz.ok { color: #8ef0a6; }
+.tz-prz.ready { color: var(--gold); }
