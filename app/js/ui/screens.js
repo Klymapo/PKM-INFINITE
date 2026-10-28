@@ -846,13 +846,16 @@ async function training(t, s) {
 	const coach = t.npc ? { id: t.npc, ...C.npcs[t.npc] } : { name: t.coach || 'Instructor', look: { seed: s.label } };
 	let pz = prizeState(t);
 	if (pz && !pz.claimed && pz.ready) return givePrize(t);
-	const open = trainingOpen(cap);
+	let open = trainingOpen(cap);
 	if (!open && !(pz && !pz.claimed) && !TR_AVISO.has(s.label)) {
 		TR_AVISO.add(s.label);
 		await say(coach, tx(t.closed || `Tu equipo ya tiene el nivel de esta zona (media ${avgLevel().toFixed(1)} ≥ ${cap}). Si quieres un reto de verdad, prueba el modo élite.`));
 	}
 	// Menú de la zona: combates, PC y curación sin salir de aquí (pedido de Mario, 2026-10-28)
 	while (true) {
+		pz = prizeState(t);
+		open = trainingOpen(cap);
+		if (pz && !pz.claimed && pz.ready) await givePrize(t);
 		pz = prizeState(t);
 		const k = await trainingMenu(t, s, { open, pz, cap, coach });
 		if (k === 'heal') { healParty(); await saveGame(); toast('Tu equipo está como nuevo'); render(); continue; }
@@ -866,15 +869,21 @@ async function training(t, s) {
 				if (pz.ready) await givePrize(t);
 				else toast(`🎁 Premio del lugar: ${pz.wins}/${pz.need}`);
 			}
-			return res;
+			// Tras el combate se vuelve al menú de la zona (pedido de Mario, 2026-10-28); si pierdes, ya te llevaron al Centro.
+			if (res?.result === 'lose') return res;
+			render(); continue;
 		}
 		if (k === 'elite') {
 			const tr = eliteTrainer(pick(t.trainers));
-			return tr ? battle({ trainerObj: tr }) : undefined;
+			const res = tr ? await battle({ trainerObj: tr }) : undefined;
+			if (res?.result === 'lose') return res;
+			render(); continue;
 		}
 		if (k === 'wild') {
 			const e = pick(t.wild);
-			return battle({ wild: { sp: e.sp, lv: Array.isArray(e.lv) ? e.lv[0] + Math.floor(rng() * (e.lv[1] - e.lv[0] + 1)) : e.lv } });
+			const res = await battle({ wild: { sp: e.sp, lv: Array.isArray(e.lv) ? e.lv[0] + Math.floor(rng() * (e.lv[1] - e.lv[0] + 1)) : e.lv } });
+			if (res?.result === 'lose') return res;
+			render(); continue;
 		}
 		return;
 	}
