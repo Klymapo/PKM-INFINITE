@@ -20,9 +20,9 @@ function hpClass(r) { return r > 0.5 ? '' : r > 0.2 ? 'mid' : 'low'; }
 export async function runBattle(cfg, hooks) {
 	const here = hooks.currentLoc();
 	let foes, trainer = null, kind;
-	if (cfg.trainer) {
-		trainer = C.trainers[cfg.trainer];
-		if (!trainer) { toast('Entrenador inexistente: ' + cfg.trainer); return { result: 'win' }; }
+	if (cfg.trainer || cfg.trainerObj) {
+		trainer = cfg.trainerObj || C.trainers[cfg.trainer];
+		if (!trainer) { toast('Entrenador inexistente: ' + (cfg.trainer || '?')); return { result: 'win' }; }
 		foes = buildTrainerTeam(trainer, createPokemon);
 		kind = 'trainer';
 	} else {

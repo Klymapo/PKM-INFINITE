@@ -842,3 +842,52 @@ img.illus { image-rendering: pixelated; display: block; }
 .title-screen img.illus.bg, .title-screen > img.illus { position: absolute; inset: 0; width: 100%; height: 100%; z-index: -1; object-fit: cover; }
 .postcard img.illus, .postcard-big img.illus { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
 img.portrait-illus { width: 100%; height: 100%; object-fit: cover; }
+
+/* Botón de cabeza de equipo y gestor de movimientos (pedido de Mario, 2026-10-28) */
+.mon-wrap { display: flex; align-items: stretch; gap: 6px; }
+.mon-wrap > .mon { flex: 1; min-width: 0; }
+.lead-btn { flex: 0 0 48px; min-height: 48px; border-radius: 12px; background: var(--ink-2); border: 1px solid var(--line); font-size: 20px; font-weight: 900; color: var(--gold); }
+button.qm-head { width: 100%; background: none; border: 0; padding: 0; text-align: left; min-height: 44px; color: inherit; }
+.qm-actions { display: flex; gap: 8px; margin-top: 8px; align-items: center; }
+.qm-actions .btn { flex: 1; min-height: 44px; }
+.qm-lead { flex: 1; text-align: center; color: var(--gold); font-weight: 800; font-size: 13px; }
+.gm-head { display: flex; align-items: center; gap: 8px; padding: 6px 12px 10px; flex-wrap: wrap; }
+.gm-head b { font-size: 16px; }
+.gm-head .typechip-row { margin-left: auto; }
+.gm-slots, .gm-cands { padding: 0 12px; }
+button.gm-move { text-align: left; border: 2px solid transparent; min-height: 64px; }
+.gm-move.gm-sel { border-color: var(--gold); box-shadow: 0 0 0 2px var(--gold); }
+.gm-move.gm-later { opacity: .75; }
+.gm-delta { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 3px; font-size: 12px; font-weight: 900; background: rgba(10,16,34,.62); color: #fff; border-radius: 6px; padding: 1px 6px; align-self: flex-start; }
+.gm-delta .gain { color: #8ef0a6; } .gm-delta .lose { color: #ffb4a8; } .gm-delta.same { color: #fff; }
+.gm-bar { margin: 10px 12px 0; padding: 10px; border-radius: 12px; background: var(--ink-2); border: 1px solid var(--gold); }
+.gm-btns { display: flex; gap: 8px; margin-top: 8px; flex-wrap: wrap; }
+.gm-btns .btn { flex: 1; min-height: 44px; }
+.gm-hint { font-size: 13px; color: var(--muted); padding: 8px 12px 0; }
+.gm-bar .gm-hint { padding: 0; color: inherit; font-weight: 700; }
+.gm-cov { margin: 12px 12px 0; padding: 10px; border-radius: 12px; background: var(--ink-2); border: 1px solid var(--line); }
+.gm-covt { font-weight: 800; font-size: 14px; margin-bottom: 6px; }
+.gm-covl { flex-wrap: wrap; gap: 4px; }
+.gm-open { width: 100%; min-height: 48px; margin-bottom: 6px; }
+
+/* Pantalla de título (pedido de Mario, 2026-10-28) */
+.title-stage { position: absolute; inset: 0; z-index: -2; overflow: hidden; }
+.title-stage .tscene { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 1.4s ease; }
+.title-stage .tscene.on { opacity: 1; }
+.title-shade { position: absolute; inset: 0; z-index: -1; pointer-events: none; background: linear-gradient(180deg, rgba(10,14,28,.15) 0%, rgba(10,14,28,0) 30%, rgba(10,14,28,.55) 62%, rgba(10,14,28,.92) 100%); }
+.title-screen .logo { font-variant-ligatures: none; font-feature-settings: "liga" 0; background: rgba(23,34,59,.96); border: 2px solid var(--gold); border-radius: 18px; padding: 14px 22px 10px; box-shadow: 0 6px 0 rgba(10,14,28,.45); margin-top: 12vh; }
+.title-screen .logo .a { font-size: 18px; color: var(--gold); letter-spacing: 3px; }
+.title-screen .logo .b { font-size: 56px; }
+.title-screen .logo .inf { animation: inf-glow 3.2s ease-in-out infinite; }
+@keyframes inf-glow { 0%, 100% { text-shadow: 0 0 0 transparent; opacity: .8; } 50% { text-shadow: 0 0 12px var(--aura-soft); opacity: 1; } }
+.title-region { font-family: var(--pixel); font-size: 14px; letter-spacing: 2px; text-transform: uppercase; color: var(--cream); background: rgba(10,14,28,.7); border-radius: 99px; padding: 4px 12px; margin-top: auto; }
+.save-card { width: 100%; max-width: 360px; text-align: left; padding: 14px 16px; border-radius: 16px; background: rgba(23,34,59,.92); border: 2px solid var(--gold); color: var(--cream); display: flex; flex-direction: column; gap: 6px; min-height: 44px; }
+.save-card .sc-top { display: flex; align-items: baseline; justify-content: space-between; gap: 8px; }
+.save-card .sc-top b { font-size: 20px; color: white; }
+.save-card .sc-time { font-size: 14px; color: var(--gold); font-weight: 800; font-variant-numeric: tabular-nums; }
+.save-card .sc-info { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; font-weight: 700; }
+.save-card .sc-go { margin-top: 6px; text-align: center; background: var(--aura-fill); color: white; border-radius: 12px; padding: 11px; font-weight: 900; font-size: 17px; }
+.title-sec { display: flex; gap: 10px; width: 100%; max-width: 360px; }
+.linkbtn { flex: 1; min-height: 44px; border-radius: 12px; background: rgba(10,14,28,.6); border: 1px solid var(--line); color: var(--cream); font-weight: 700; font-size: 14px; }
+.title-screen .ver { color: rgba(233,227,208,.82); font-size: 12px; text-align: center; }
+@media (prefers-reduced-motion: reduce) { .title-stage .tscene { transition: none; } .title-screen .logo .inf { animation: none; } }

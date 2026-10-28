@@ -532,3 +532,12 @@ Cambios (solo `cond` y textos nuevos, ningún id):
 - **Motor:** los spots y tramos de un evento con `doneCond` cumplido se ocultan (salvo `action` sin conversación o `keepDone: true`), y el Diario ya no lista en «Por hacer» los eventos completados (`world.js` `eventDone`, `screens.js`).
 
 Pruebas: validador sin errores, hub 0 graves (los avisos son los mismos del 2026-10-24), tester 0, bot semilla 3 el 28-oct (el atasco del Encinar es el de siempre del bot).
+
+## Interfaz y comodidades (2026-10-28, pedidos de Mario)
+
+- **Equipo:** botón ⬆ por Pokémon para ponerlo en cabeza (lista y pestaña Movimientos). Pestaña «Movimientos» con «Gestionar».
+- **Gestor de movimientos** (`app/js/ui/gestor.js`): intercambio tocando dos, olvidar, candidatos (Recordar / MT / Próximos) con ★ de mismo tipo, cobertura súper eficaz y aviso +/− al reemplazar. Sustituye «Ordenar movimientos» en la ficha.
+- **PC:** todo Pokémon en la PC está curado (`boxInsert` cura y abrir la PC cura las cajas).
+- **Zonas de entrenamiento:** menú con «Curar al equipo», «Abrir la PC» y «Modo élite» (mismos entrenadores, especie canon a la que llegaría su línea al tope actual — por nivel si es por nivel, si no a partir de Nv. 40 —, todos a `vars.cap`, el as al tope y el resto uno menos). La versión élite usa ids `<id>__elite` en `G.beaten` y no cuenta para el premio del instructor.
+- **Título:** el fondo rota entre una escena por región visitada, tarjeta de partida (nombre, lugar, medallas, tiempo), botones secundarios discretos y pie solo con la versión (quitado el listado de títulos de bloque, que hacía spoiler).
+- **Pendiente (en espera de Mario con Argos):** cuadros del museo con sprite encima, encargo de arte en `propuestas/`, importador con `cuadro-`/`gimnasio-`/`mapa-` y galería privada en el móvil.

@@ -20,6 +20,7 @@ import { announceUniques, announceRetro, uniqueEncounter, openUniques, uniquesDu
 import { retroUniques } from '../unicos.js';
 import { openTutor } from './tutor.js';
 import { evolutionInfo } from '../movimientos.js';
+import { openMoveManager } from './gestor.js';
 import { moveMany, moveBox, swapBoxes, boxName, hasBoxName, setBoxName, BOX_NAME_MAX } from '../pc.js';
 import { playPuzzle } from './rejilla.js';
 import { repairSave } from '../reparaciones.js';
@@ -71,18 +72,68 @@ export function installHooks() {
 }
 
 // =================== Título ===================
+/** Una escena por región visitada en la partida (la primera ciudad o pueblo que conociste de cada una). */
+function titleScenes(save) {
+	const out = [], seen = new Set();
+	const visited = Object.keys(save?.visited || {});
+	const regionOf = l => l?.region || topLoc(l?.id)?.region;
+	for (const pass of [['city', 'town'], ['area', 'forest', 'cave', 'route']]) {
+		for (const id of visited) {
+			const l = C.locations[id], r = regionOf(l);
+			if (!l?.bg || !r || seen.has(r) || !pass.includes(l.kind) || !C.regions[r]) continue;
+			seen.add(r); out.push({ region: r, name: C.regions[r].name, bg: { ...l.bg, seed: l.bg.seed || l.id } });
+		}
+	}
+	return out;
+}
+
+let TITLE_TIMER = null;
 export async function titleScreen() {
 	const root = app();
 	root.innerHTML = '';
+	clearInterval(TITLE_TIMER);
 	const saved = await loadSaved();
-	const bg = illus('titulo.png') || sceneCanvas({ type: 'city', landmark: 'prism', seed: 'title' });
-	bg.classList.add('bg');
-	const screen = h('div', { class: 'title-screen' }, bg,
+	// Fondo: rota en vivo entre las regiones que ya visitaste (pedido de Mario, 2026-10-28)
+	const scenes = saved ? titleScenes(saved) : [];
+	const stage = h('div', { class: 'title-stage' });
+	const regionTag = h('div', { class: 'title-region' });
+	if (scenes.length) {
+		scenes.forEach((sc, i) => { const c = sceneCanvas(sc.bg); c.classList.add('bg', 'tscene'); if (i === 0) c.classList.add('on'); stage.append(c); });
+		regionTag.textContent = scenes[0].name;
+		if (scenes.length > 1) {
+			let cur = 0;
+			TITLE_TIMER = setInterval(() => {
+				if (!stage.isConnected) { clearInterval(TITLE_TIMER); return; }
+				const cs = stage.querySelectorAll('.tscene');
+				cs[cur].classList.remove('on'); cur = (cur + 1) % cs.length; cs[cur].classList.add('on');
+				regionTag.textContent = scenes[cur].name;
+			}, 7000);
+		}
+	} else {
+		const bg = illus('titulo.png') || sceneCanvas({ type: 'city', landmark: 'prism', seed: 'title' });
+		bg.classList.add('bg', 'tscene', 'on'); stage.append(bg);
+	}
+	let card = null;
+	if (saved) {
+		const loc = C.locations[saved.loc], top = loc ? topLoc(loc.id) : null;
+		const where = top && top.id !== loc?.id ? top.name : (loc?.name || '');
+		const badges = saved.player?.badges?.length || 0;
+		card = h('button', { class: 'save-card', onclick: () => continueGame(saved) },
+			h('div', { class: 'sc-top' }, h('b', {}, saved.player.name), h('span', { class: 'sc-time' }, fmtDuration(saved.playMs || 0))),
+			h('div', { class: 'sc-info' },
+				where ? h('span', {}, '📍 ' + where) : null,
+				h('span', {}, `🏅 ${badges} ${badges === 1 ? 'medalla' : 'medallas'}`)),
+			h('div', { class: 'sc-go' }, 'Continuar ▸'));
+	}
+	const screen = h('div', { class: 'title-screen' }, stage, h('div', { class: 'title-shade' }),
 		h('div', { class: 'logo' }, h('div', { class: 'a' }, 'POKéMON'), h('div', { class: 'b' }, 'Infinite'), h('span', { class: 'inf' }, '∞')),
-		saved ? h('button', { class: 'btn primary', onclick: () => continueGame(saved) }, `Continuar · ${saved.player.name} · ${fmtDuration(saved.playMs || 0)}`) : null,
-		h('button', { class: 'btn' + (saved ? '' : ' primary'), onclick: () => saved ? confirmNew() : creation() }, 'Nueva partida'),
-		h('button', { class: 'btn', onclick: importBackup }, 'Importar respaldo'),
-		h('div', { class: 'ver' }, 'Contenido ' + (C.version || '') + ' · ' + C.blocks.map(b => b.title).join(' · ')),
+		scenes.length ? regionTag : null,
+		card,
+		saved ? h('div', { class: 'title-sec' },
+			h('button', { class: 'linkbtn', onclick: confirmNew }, 'Nueva partida'),
+			h('button', { class: 'linkbtn', onclick: importBackup }, 'Importar respaldo'))
+			: [h('button', { class: 'btn primary', onclick: creation }, 'Nueva partida'), h('button', { class: 'btn', onclick: importBackup }, 'Importar respaldo')],
+		h('div', { class: 'ver' }, 'Versión ' + (C.version || '')),
 	);
 	root.append(screen);
 	async function confirmNew() {
@@ -700,33 +751,71 @@ async function givePrize(t) {
 	try { G.flags['premio:' + pz.script] = true; await runScript(pz.script); } finally { endScene(); }
 	await saveGame();
 }
+/** Forma canon a la que habría llegado una especie a cierto nivel (modo élite). */
+function eliteForm(sp, lv) {
+	for (let n = 0; n < 3; n++) {
+		const evos = (D.species[sp]?.evos || []).map(id => D.species[id] ? id : null).filter(Boolean);
+		if (!evos.length) break;
+		const next = evos.find(id => !D.species[id].forme) || evos[0];
+		const e = D.species[next];
+		const byLevel = !e.evoType && e.evoLevel;
+		if (byLevel ? lv >= e.evoLevel : lv >= 40) sp = next; else break;
+	}
+	return sp;
+}
+/** Versión élite de un entrenador de zona: su equipo evolucionado y al tope de nivel actual (pedido de Mario, 2026-10-28). */
+function eliteTrainer(id) {
+	const base = C.trainers[id];
+	if (!base) return null;
+	const lv = Math.max(5, G.vars.cap || Math.round(avgLevel()));
+	const n = base.team.length;
+	return {
+		...base, id: id + '__elite', intro: '¿Modo élite? Entonces esta vez no me contengo.', win: 'Eso sí fue un combate de verdad.', lose: null,
+		team: base.team.map((m, i) => ({ sp: eliteForm(m.sp, lv), lv: i === n - 1 ? lv : lv - 1, item: m.item, ability: undefined, nature: m.nature, iv: 25 })),
+	};
+}
+
+const TR_AVISO = new Set(); // aviso de «ya tienes el nivel», una vez por zona y sesión
 async function training(t, s) {
 	const cap = t.cap || G.vars.cap || 15;
 	const coach = t.npc ? { id: t.npc, ...C.npcs[t.npc] } : { name: t.coach || 'Instructor', look: { seed: s.label } };
 	let pz = prizeState(t);
 	if (pz && !pz.claimed && pz.ready) return givePrize(t);
-	const pzTxt = pz && !pz.claimed ? `\n🎁 Premio del lugar: ${pz.wins}/${pz.need} combates ganados.` : '';
 	const open = trainingOpen(cap);
-	if (!open && !(pz && !pz.claimed)) {
-		await say(coach, tx(t.closed || `Tu equipo ya tiene el nivel que necesita (media ${avgLevel().toFixed(1)} ≥ ${cap}). Ya estás listo. No te voy a dejar perder el tiempo aquí.`));
-		return;
+	if (!open && !(pz && !pz.claimed) && !TR_AVISO.has(s.label)) {
+		TR_AVISO.add(s.label);
+		await say(coach, tx(t.closed || `Tu equipo ya tiene el nivel de esta zona (media ${avgLevel().toFixed(1)} ≥ ${cap}). Si quieres un reto de verdad, prueba el modo élite.`));
 	}
-	const opts = [open ? 'Combate de práctica' : 'Combate de exhibición', open && t.wild ? 'Buscar Pokémon salvajes' : null, 'Ahora no'].filter(Boolean);
-	const k = opts[await choose(tx(open ? (t.prompt || `Nivel recomendado: ${cap}. Tu media: ${avgLevel().toFixed(1)}. ¿Entrenamos?`) : 'Tu equipo ya tiene nivel de sobra para esta zona, pero todavía puedes ganarte el premio del lugar.') + pzTxt, opts)];
-	if ((k === 'Combate de práctica' || k === 'Combate de exhibición') && t.trainers?.length) {
-		// Primero los que aún no has vencido: así el premio no depende de la suerte
-		const fresh = t.trainers.filter(id => !G.beaten[id]);
-		const res = await battle({ trainer: pick(fresh.length ? fresh : t.trainers) });
+	// Menú de la zona: combates, PC y curación sin salir de aquí (pedido de Mario, 2026-10-28)
+	while (true) {
 		pz = prizeState(t);
-		if (res?.result === 'win' && pz && !pz.claimed) {
-			if (pz.ready) await givePrize(t);
-			else toast(`🎁 Premio del lugar: ${pz.wins}/${pz.need}`);
+		const pzTxt = pz && !pz.claimed ? `\n🎁 Premio del lugar: ${pz.wins}/${pz.need} combates ganados.` : '';
+		const practice = open ? 'Combate de práctica' : (pz && !pz.claimed ? 'Combate de exhibición' : null);
+		const opts = [practice, open && t.wild ? 'Buscar Pokémon salvajes' : null, t.trainers?.length ? 'Modo élite' : null, 'Curar al equipo', 'Abrir la PC', 'Ahora no'].filter(Boolean);
+		const prompt = open ? (t.prompt || `Nivel recomendado: ${cap}. Tu media: ${avgLevel().toFixed(1)}.`) : `Esta zona es de nivel ${cap}. El modo élite pone a sus entrenadores a tu tope (Nv. ${G.vars.cap || Math.round(avgLevel())}).`;
+		const k = opts[await choose(tx(prompt + pzTxt), opts)];
+		if (k === 'Curar al equipo') { healParty(); await saveGame(); toast('Tu equipo está como nuevo'); render(); continue; }
+		if (k === 'Abrir la PC') { await openPC(); continue; }
+		if ((k === 'Combate de práctica' || k === 'Combate de exhibición') && t.trainers?.length) {
+			// Primero los que aún no has vencido: así el premio no depende de la suerte
+			const fresh = t.trainers.filter(id => !G.beaten[id]);
+			const res = await battle({ trainer: pick(fresh.length ? fresh : t.trainers) });
+			pz = prizeState(t);
+			if (res?.result === 'win' && pz && !pz.claimed) {
+				if (pz.ready) await givePrize(t);
+				else toast(`🎁 Premio del lugar: ${pz.wins}/${pz.need}`);
+			}
+			return res;
 		}
-		return res;
-	}
-	if (k === 'Buscar Pokémon salvajes') {
-		const e = pick(t.wild);
-		return battle({ wild: { sp: e.sp, lv: Array.isArray(e.lv) ? e.lv[0] + Math.floor(rng() * (e.lv[1] - e.lv[0] + 1)) : e.lv } });
+		if (k === 'Modo élite') {
+			const tr = eliteTrainer(pick(t.trainers));
+			return tr ? battle({ trainerObj: tr }) : undefined;
+		}
+		if (k === 'Buscar Pokémon salvajes') {
+			const e = pick(t.wild);
+			return battle({ wild: { sp: e.sp, lv: Array.isArray(e.lv) ? e.lv[0] + Math.floor(rng() * (e.lv[1] - e.lv[0] + 1)) : e.lv } });
+		}
+		return;
 	}
 }
 
@@ -1299,8 +1388,9 @@ function openParty() {
 	/** Vista rápida de movimientos (pedido de Mario, 2026-10-28): los 4 de cada Pokémon del equipo de un vistazo. */
 	const movesView = () => h('div', { class: 'qm-list' }, ...G.party.map(p => {
 		const cat = c => c === 'Physical' ? 'Físico' : c === 'Special' ? 'Especial' : 'Estado';
-		return h('button', { class: 'qm-card' + (p.hp <= 0 ? ' fainted' : ''), onclick: () => openSummary(p, draw) },
-			h('div', { class: 'qm-head' }, h('b', {}, displayName(p)), h('span', { class: 'lv' }, 'Nv.' + p.lv),
+		const idx = G.party.indexOf(p);
+		return h('div', { class: 'qm-card' + (p.hp <= 0 ? ' fainted' : '') },
+			h('button', { class: 'qm-head', onclick: () => openSummary(p, draw), 'aria-label': `Ficha de ${displayName(p)}` }, h('b', {}, displayName(p)), h('span', { class: 'lv' }, 'Nv.' + p.lv),
 				h('span', { class: 'typechip-row' }, ...D.species[p.sp].types.map(t => h('span', { class: 'type', style: typeStyle(t) }, typeName(t))))),
 			h('div', { class: 'qm-grid' }, ...p.moves.map(m => {
 				const md = D.moves[m.id] || {};
@@ -1308,15 +1398,26 @@ function openParty() {
 				return h('div', { class: 'qm-move' + (m.pp <= 0 ? ' empty' : ''), style: typeStyle(md.type) },
 					h('span', { class: 'qm-n' }, md.name || m.id),
 					h('span', { class: 'qm-m' }, h('span', {}, `${typeName(md.type)} · ${cat(md.cat)}${md.bp ? ' · ' + md.bp : ''}`), h('span', {}, `PP ${m.pp}/${max}`)));
-			})));
+			})),
+			h('div', { class: 'qm-actions' },
+				idx > 0 ? h('button', { class: 'btn', onclick: () => toLead(p) }, '⬆ A la cabeza') : h('span', { class: 'qm-lead' }, 'En cabeza'),
+				h('button', { class: 'btn primary', onclick: () => openMoveManager(p, draw) }, 'Gestionar')));
 	}));
+	/** Pone a un Pokémon en cabeza del equipo (pedido de Mario, 2026-10-28). */
+	const toLead = p => {
+		const i = G.party.indexOf(p);
+		if (i <= 0) return;
+		G.party.splice(i, 1); G.party.unshift(p);
+		saveGame(); toast(`${displayName(p)} irá en cabeza`); draw(); render();
+	};
 	const draw = () => {
 		if (tab === 'moves') {
 			sheet.set([tabsBar(), moneyBar(), G.party.length ? movesView() : h('div', { class: 'empty' }, 'Todavía no tienes Pokémon.'), h('div', { class: 'note' }, 'Toca un Pokémon para ver su ficha completa.')]);
 			return;
 		}
 		const list = h('div', { class: 'list' });
-		G.party.forEach((p, i) => list.append(monRow(p, () => openSummary(p, draw))));
+		G.party.forEach((p, i) => list.append(h('div', { class: 'mon-wrap' }, monRow(p, () => openSummary(p, draw)),
+			i > 0 ? h('button', { class: 'lead-btn', title: 'Poner en cabeza', 'aria-label': `Poner a ${displayName(p)} en cabeza`, onclick: () => toLead(p) }, '⬆') : null)));
 		if (!G.party.length) list.append(h('div', { class: 'empty' }, 'Todavía no tienes Pokémon.'));
 		const cap = G.vars.cap;
 		const capBox = cap ? h('div', { class: 'capbox' + (G.party.some(p => p.lv >= cap) ? ' hit' : '') },
@@ -1446,7 +1547,8 @@ export function openSummary(p, onChange, live = null) {
 			}), h('div', { class: 'note' }, `Base: ${s.bs.join(' / ')} (total ${s.bs.reduce((a, b) => a + b, 0)}). EVs: ${p.evs.join(' / ')}.`),
 			h('div', { class: 'note' }, 'Potencial (IVs): ' + p.ivs.map((v, i) => `${STAT_NAMES[STATS[i]]} ${v >= 31 ? '¡Máximo!' : v >= 26 ? 'Fantástico' : v >= 16 ? 'Muy bueno' : v >= 1 ? 'Bastante bueno' : 'No es bueno'}`).join(' · ')));
 		} else if (tab === 'moves') {
-			body = h('div', { class: 'list' }, ...p.moves.map(m => {
+			const gest = live?.battle ? null : h('button', { class: 'btn primary gm-open', onclick: () => openMoveManager(p, () => { onChange?.(); draw(); }) }, '🎛️ Gestionar movimientos');
+			body = h('div', { class: 'list' }, gest, ...p.moves.map(m => {
 				const md = D.moves[m.id] || {};
 				return h('div', { class: 'row', style: { alignItems: 'flex-start' } }, h('div', { class: 'ico', style: { background: TYPE_COLORS[md.type] } }, ''),
 					h('div', { class: 'lbl' }, h('div', { class: 't' }, md.name || m.id, h('span', { style: { color: 'var(--muted)', fontWeight: 600, fontSize: '13px' } }, `  ${typeName(md.type)} · ${md.cat === 'Physical' ? 'Físico' : md.cat === 'Special' ? 'Especial' : 'Estado'}${md.bp ? ' · Pot. ' + md.bp : ''}${md.acc ? ' · Prec. ' + md.acc : ''}`)),
@@ -1458,7 +1560,7 @@ export function openSummary(p, onChange, live = null) {
 				idx > 0 ? h('button', { class: 'row', onclick: () => { G.party.splice(idx, 1); G.party.unshift(p); onChange?.(); toast(`${displayName(p)} irá en cabeza`); draw(); } }, h('div', { class: 'ico' }, '⬆️'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Poner en cabeza'))) : null,
 				h('button', { class: 'row', onclick: async () => { const n = await prompt('Nuevo mote (vacío para quitarlo):', p.nick || ''); p.nick = (n || '').slice(0, 12); sheet.title(displayName(p)); onChange?.(); draw(); } }, h('div', { class: 'ico' }, '✏️'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Cambiar mote'))),
 				h('button', { class: 'row', onclick: () => giveItemTo(p, draw) }, h('div', { class: 'ico' }, '✦'), h('div', { class: 'lbl' }, h('div', { class: 't' }, p.item ? `Objeto: ${itemName(p.item)}` : 'Darle un objeto'), h('div', { class: 's' }, p.item ? 'Toca para quitarlo o cambiarlo' : 'Objetos equipables de la mochila'))),
-				h('button', { class: 'row', onclick: () => moveOrder(p, draw) }, h('div', { class: 'ico' }, '↕️'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Ordenar movimientos'))),
+				h('button', { class: 'row', onclick: () => openMoveManager(p, () => { onChange?.(); draw(); }) }, h('div', { class: 'ico' }, '🎛️'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Gestionar movimientos'), h('div', { class: 's' }, 'Ordenar, cambiar, recordar y ver la cobertura'))),
 				h('button', { class: 'row', onclick: () => openTutor(p, () => { onChange?.(); draw(); }) }, h('div', { class: 'ico' }, '🎓'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Tutor de movimientos'), h('div', { class: 's' }, 'Recordar y olvidar movimientos'))),
 			);
 		}
@@ -1804,6 +1906,8 @@ async function openShop(id) {
 
 // =================== PC ===================
 async function openPC() {
+	// Los Pokémon de la PC siempre están curados (pedido de Mario, 2026-10-28): también los que llegaron por otras vías.
+	for (const b of G.boxes) for (const p of b) healFull(p);
 	return new Promise(resolve => {
 		let box = Math.max(0, Math.min(G.vars.pc_box || 0, G.boxes.length - 1));
 		let sel = null; // { where: 'party'|'box', box, idx } mientras mueves un Pokémon
