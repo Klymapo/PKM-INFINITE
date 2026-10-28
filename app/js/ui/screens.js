@@ -128,11 +128,11 @@ export async function titleScreen() {
 	const screen = h('div', { class: 'title-screen' }, stage, h('div', { class: 'title-shade' }),
 		h('div', { class: 'logo' }, h('div', { class: 'a' }, 'POKéMON'), h('div', { class: 'b' }, 'Infinite'), h('span', { class: 'inf' }, '∞')),
 		scenes.length ? regionTag : null,
-		card,
+		h('div', { class: 'title-actions' }, card,
 		saved ? h('div', { class: 'title-sec' },
-			h('button', { class: 'linkbtn', onclick: confirmNew }, 'Nueva partida'),
-			h('button', { class: 'linkbtn', onclick: importBackup }, 'Importar respaldo'))
-			: [h('button', { class: 'btn primary', onclick: creation }, 'Nueva partida'), h('button', { class: 'btn', onclick: importBackup }, 'Importar respaldo')],
+			h('button', { class: 'tsec-btn', onclick: confirmNew }, 'Nueva partida'),
+			h('button', { class: 'tsec-btn', onclick: importBackup }, 'Importar respaldo'))
+			: [h('button', { class: 'btn primary', onclick: creation }, 'Nueva partida'), h('button', { class: 'btn', onclick: importBackup }, 'Importar respaldo')]),
 		h('div', { class: 'ver' }, 'Versión ' + (C.version || '')),
 	);
 	root.append(screen);
@@ -505,6 +505,7 @@ function renderPlace(main, loc) {
 			grid.append(h('button', { class: 'tile' + (m?.kind === 'new' ? ' q-new' : m?.kind === 'active' ? ' q-active' : (m || pzs?.ready && !pzs.claimed) ? ' hl' : '') + (done ? ' done' : '') + (s.event ? ' event' : ''), onclick: () => guarded(() => doSpot(s, loc)) },
 				h('div', { class: 'tile-top' }, h('span', { class: 'tile-ico' }, spotIcon(s)), markerEl(m || (pzs?.ready && !pzs.claimed ? { kind: 'hint' } : null))),
 				h('div', { class: 'tile-t' }, tx(s.label)),
+				a.training ? h('div', { class: 'tile-lv' }, zoneRangeText(a.training)) : null,
 				sub ? h('div', { class: 'tile-s' }, sub) : null));
 		}
 		if (xs.length) main.append(grid);
@@ -775,7 +776,68 @@ function eliteTrainer(id) {
 	};
 }
 
-const TR_AVISO = new Set(); // aviso de «ya tienes el nivel», una vez por zona y sesión
+/** Rango de nivel de una zona de entrenamiento: del Pokémon más bajo de sus rivales (o salvajes) a su tope (pedido de Mario, 2026-10-28). */
+function zoneRange(t) {
+	const lvs = [];
+	for (const id of t.trainers || []) for (const m of C.trainers[id]?.team || []) lvs.push(m.lv);
+	for (const w of t.wild || []) lvs.push(Array.isArray(w.lv) ? w.lv[0] : w.lv);
+	const max = t.cap || G.vars.cap || 15;
+	return { min: lvs.length ? Math.min(max, ...lvs) : max, max };
+}
+const zoneRangeText = t => { const r = zoneRange(t); return r.min < r.max ? `Nv. ${r.min}–${r.max}` : `Nv. ${r.max}`; };
+const TR_AVISO = new Set();
+/** Todas las zonas de entrenamiento de lugares que ya visitaste, por nivel (pedido de Mario, 2026-10-28). */
+function zoneDirectory(here) {
+	const rows = [];
+	for (const loc of Object.values(C.locations)) {
+		const top = topLoc(loc.id);
+		if (!G.visited[loc.id] && !G.visited[top?.id]) continue;
+		const add = (sp, where) => { if (sp?.action?.training) rows.push({ t: sp.action.training, label: tx(sp.label || 'Entrenamiento'), where }); };
+		for (const sp of loc.spots || []) add(sp, top && top.id !== loc.id ? `${top.name} › ${loc.name}` : loc.name);
+		for (const [n, items] of Object.entries(loc.route?.tramos || {})) for (const it of items) add(it.spot, `${loc.name} · tramo ${n}`);
+	}
+	if (rows.length < 2) return null;
+	const media = avgLevel();
+	rows.forEach(r => { r.r = zoneRange(r.t); });
+	rows.sort((a, b) => a.r.min - b.r.min || a.r.max - b.r.max);
+	return h('div', {},
+		h('div', { class: 'tz-label' }, 'Zonas que conoces'),
+		h('div', { class: 'tz-dir' }, ...rows.map(r => {
+			const fit = media >= r.r.min && media < r.r.max;
+			return h('div', { class: 'tz-row' + (r.t === here ? ' here' : '') + (fit ? ' fit' : '') },
+				h('span', { class: 'tz-rlv' }, r.r.min < r.r.max ? `${r.r.min}–${r.r.max}` : String(r.r.max)),
+				h('div', { class: 'tz-rt' }, h('b', {}, r.label), h('span', {}, r.where)),
+				r.t === here ? h('span', { class: 'tz-tag' }, 'Aquí') : fit ? h('span', { class: 'tz-tag fit' }, 'Tu nivel') : null);
+		})),
+		h('div', { class: 'note' }, '«Tu nivel» marca las zonas donde tu equipo, con su media actual, todavía gana experiencia.'));
+}
+/** Hoja de la zona de entrenamiento: rango, tu media, premio y botones agrupados. Devuelve la opción elegida o null. */
+function trainingMenu(t, s, { open, pz, cap, coach }) {
+	return new Promise(resolve => {
+		let picked = null;
+		const sheet = openSheet(tx(s.label || 'Zona de entrenamiento'), null, { onClose: () => resolve(picked) });
+		const go = k => { picked = k; sheet.close(); };
+		const media = avgLevel().toFixed(1);
+		const tope = G.vars.cap || Math.round(avgLevel());
+		const btn = (k, label, small, cls = '', disabled = false) => h('button', { class: 'btn ' + cls, onclick: () => go(k), disabled }, label, small ? h('small', {}, small) : null);
+		const practice = open ? 'Combate de práctica' : (pz && !pz.claimed ? 'Combate de exhibición' : null);
+		sheet.set([
+			h('div', { class: 'tz-head' }, h('span', { class: 'tz-lv' }, zoneRangeText(t)),
+				h('div', { class: 'tz-info' }, h('b', {}, coach?.name || 'Instructor'), h('span', {}, `Tu media: Nv. ${media}`), h('span', {}, open ? 'Aún puedes subir aquí' : 'Tu equipo ya supera esta zona'))),
+			pz && !pz.claimed ? h('div', { class: 'tz-prize' }, `🎁 Premio del lugar: ${pz.wins}/${pz.need} combates ganados`) : null,
+			h('div', { class: 'tz-label' }, 'Combatir'),
+			h('div', { class: 'tz-grid' },
+				t.trainers?.length ? btn('practice', '⚔️ ' + (practice || 'Práctica'), open ? 'Experiencia y premio' : (practice ? 'Solo cuenta para el premio' : 'Tu equipo ya lo superó'), 'primary', !practice) : null,
+				t.trainers?.length ? btn('elite', '🔥 Modo élite', `Rivales a Nv. ${tope}`, 'elite') : null,
+				open && t.wild?.length ? btn('wild', '🌿 Buscar salvajes', null, 'wide') : null),
+			h('div', { class: 'tz-label' }, 'Preparar'),
+			h('div', { class: 'tz-grid' },
+				btn('heal', '❤️ Curar al equipo', 'Gratis'),
+				btn('pc', '💻 Abrir la PC', 'Cambia tu equipo')),
+			zoneDirectory(t),
+		]);
+	});
+} // aviso de «ya tienes el nivel», una vez por zona y sesión
 async function training(t, s) {
 	const cap = t.cap || G.vars.cap || 15;
 	const coach = t.npc ? { id: t.npc, ...C.npcs[t.npc] } : { name: t.coach || 'Instructor', look: { seed: s.label } };
@@ -789,14 +851,10 @@ async function training(t, s) {
 	// Menú de la zona: combates, PC y curación sin salir de aquí (pedido de Mario, 2026-10-28)
 	while (true) {
 		pz = prizeState(t);
-		const pzTxt = pz && !pz.claimed ? `\n🎁 Premio del lugar: ${pz.wins}/${pz.need} combates ganados.` : '';
-		const practice = open ? 'Combate de práctica' : (pz && !pz.claimed ? 'Combate de exhibición' : null);
-		const opts = [practice, open && t.wild ? 'Buscar Pokémon salvajes' : null, t.trainers?.length ? 'Modo élite' : null, 'Curar al equipo', 'Abrir la PC', 'Ahora no'].filter(Boolean);
-		const prompt = open ? (t.prompt || `Nivel recomendado: ${cap}. Tu media: ${avgLevel().toFixed(1)}.`) : `Esta zona es de nivel ${cap}. El modo élite pone a sus entrenadores a tu tope (Nv. ${G.vars.cap || Math.round(avgLevel())}).`;
-		const k = opts[await choose(tx(prompt + pzTxt), opts)];
-		if (k === 'Curar al equipo') { healParty(); await saveGame(); toast('Tu equipo está como nuevo'); render(); continue; }
-		if (k === 'Abrir la PC') { await openPC(); continue; }
-		if ((k === 'Combate de práctica' || k === 'Combate de exhibición') && t.trainers?.length) {
+		const k = await trainingMenu(t, s, { open, pz, cap, coach });
+		if (k === 'heal') { healParty(); await saveGame(); toast('Tu equipo está como nuevo'); render(); continue; }
+		if (k === 'pc') { await openPC(); continue; }
+		if (k === 'practice' && t.trainers?.length) {
 			// Primero los que aún no has vencido: así el premio no depende de la suerte
 			const fresh = t.trainers.filter(id => !G.beaten[id]);
 			const res = await battle({ trainer: pick(fresh.length ? fresh : t.trainers) });
@@ -807,11 +865,11 @@ async function training(t, s) {
 			}
 			return res;
 		}
-		if (k === 'Modo élite') {
+		if (k === 'elite') {
 			const tr = eliteTrainer(pick(t.trainers));
 			return tr ? battle({ trainerObj: tr }) : undefined;
 		}
-		if (k === 'Buscar Pokémon salvajes') {
+		if (k === 'wild') {
 			const e = pick(t.wild);
 			return battle({ wild: { sp: e.sp, lv: Array.isArray(e.lv) ? e.lv[0] + Math.floor(rng() * (e.lv[1] - e.lv[0] + 1)) : e.lv } });
 		}
@@ -1234,7 +1292,7 @@ function placeServices(loc) {
 		if (l.kind === 'gym') out.add('🏅 Gimnasio');
 		for (const sp of l.spots || []) {
 			const a = sp.action || {};
-			if (a.center) out.add('❤️ Centro Pokémon'); if (a.shop) out.add('🛒 Tienda'); if (a.pc) out.add('💻 PC'); if (a.training) out.add('🥋 Entrenamiento');
+			if (a.center) out.add('❤️ Centro Pokémon'); if (a.shop) out.add('🛒 Tienda'); if (a.pc) out.add('💻 PC'); if (a.training) out.add('🥋 Entrenamiento · ' + zoneRangeText(a.training));
 		}
 	}
 	return [...out];
@@ -1395,9 +1453,9 @@ function openParty() {
 			h('div', { class: 'qm-grid' }, ...p.moves.map(m => {
 				const md = D.moves[m.id] || {};
 				const max = Math.floor((md.pp || m.pp) * (5 + (m.ppUps || 0)) / 5);
-				return h('div', { class: 'qm-move' + (m.pp <= 0 ? ' empty' : ''), style: typeStyle(md.type) },
+				return h('div', { class: 'qm-move soft' + (m.pp <= 0 ? ' empty' : ''), style: '--tc:' + (TYPE_COLORS[md.type] || '#567') },
 					h('span', { class: 'qm-n' }, md.name || m.id),
-					h('span', { class: 'qm-m' }, h('span', {}, `${typeName(md.type)} · ${cat(md.cat)}${md.bp ? ' · ' + md.bp : ''}`), h('span', {}, `PP ${m.pp}/${max}`)));
+					h('span', { class: 'qm-m' }, h('span', { class: 'qm-tl' }, h('span', { class: 'type qm-type', style: typeStyle(md.type) }, typeName(md.type)), `${cat(md.cat)}${md.bp ? ' · ' + md.bp : ''}`), h('span', {}, `PP ${m.pp}/${max}`)));
 			})),
 			h('div', { class: 'qm-actions' },
 				idx > 0 ? h('button', { class: 'btn', onclick: () => toLead(p) }, '⬆ A la cabeza') : h('span', { class: 'qm-lead' }, 'En cabeza'),

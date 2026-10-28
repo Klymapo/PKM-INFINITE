@@ -4,7 +4,7 @@
 // · Candidatos: recordar (por nivel, también de preevoluciones), MT que tienes y próximos por nivel.
 // · Cobertura: contra qué tipos pega súper eficaz el set, y qué ganas o pierdes con cada cambio.
 // Recordar y las MT siguen siendo gratis e ilimitados (las MT no se gastan).
-import { D, typeStyle, typeName, effectiveness } from '../data.js';
+import { D, typeStyle, typeName, effectiveness, TYPE_COLORS } from '../data.js';
 import { G, saveGame } from '../state.js';
 import { displayName, canLearn, maxPP } from '../pokemon.js';
 import { recallable, upcoming, ownedTMs } from '../movimientos.js';
@@ -80,9 +80,9 @@ export function openMoveManager(p, onChange = null) {
 
 	const tile = (id, { sub, onclick, cls = '', extra } = {}) => {
 		const md = D.moves[id] || {};
-		return h(onclick ? 'button' : 'div', { class: 'qm-move gm-move ' + cls, style: typeStyle(md.type), onclick },
-			h('span', { class: 'qm-n' }, stab(id) ? '★ ' : '', md.name || id),
-			h('span', { class: 'qm-m' }, h('span', {}, `${typeName(md.type)} · ${catName(md.cat)}${md.bp ? ' · ' + md.bp : ''}`), sub ? h('span', {}, sub) : null),
+		return h(onclick ? 'button' : 'div', { class: 'qm-move soft gm-move ' + cls, style: '--tc:' + (TYPE_COLORS[md.type] || '#567'), onclick },
+			h('span', { class: 'qm-n' }, stab(id) ? h('span', { class: 'gm-star' }, '★ ') : null, md.name || id),
+			h('span', { class: 'qm-m' }, h('span', { class: 'qm-tl' }, h('span', { class: 'type qm-type', style: typeStyle(md.type) }, typeName(md.type)), `${catName(md.cat)}${md.bp ? ' · ' + md.bp : ''}`), sub ? h('span', {}, sub) : null),
 			extra || null);
 	};
 

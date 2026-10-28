@@ -887,7 +887,58 @@ button.gm-move { text-align: left; border: 2px solid transparent; min-height: 64
 .save-card .sc-time { font-size: 14px; color: var(--gold); font-weight: 800; font-variant-numeric: tabular-nums; }
 .save-card .sc-info { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 14px; font-weight: 700; }
 .save-card .sc-go { margin-top: 6px; text-align: center; background: var(--aura-fill); color: white; border-radius: 12px; padding: 11px; font-weight: 900; font-size: 17px; }
-.title-sec { display: flex; gap: 10px; width: 100%; max-width: 360px; }
-.linkbtn { flex: 1; min-height: 44px; border-radius: 12px; background: rgba(10,14,28,.6); border: 1px solid var(--line); color: var(--cream); font-weight: 700; font-size: 14px; }
 .title-screen .ver { color: rgba(233,227,208,.82); font-size: 12px; text-align: center; }
 @media (prefers-reduced-motion: reduce) { .title-stage .tscene { transition: none; } .title-screen .logo .inf { animation: none; } }
+
+.tile-lv { display: inline-block; margin-top: 4px; font-size: 12px; font-weight: 900; color: var(--ink); background: var(--gold); border-radius: 6px; padding: 1px 6px; }
+
+/* Números legibles: en la fuente pixelada el 5 parece una S (queja de Mario, 2026-10-28). Niveles, PS, precios y contadores van en Nunito. */
+.mon .name .lv, .bcard .n .lv, .bcard .hpn, .pc-lv, .bcard .teamrow .tleft, .shop-money b, .shop-card .sc-price, .shop-card .sc-have, .stepper b,
+.capbox .capn, .pc-bar .pc-count, .hpnum, .tc-name .lv, .tc-mv b, .neg-wallet b, .mk {
+	font-family: var(--body); font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0;
+}
+.pc-lv { font-size: 12px; }
+
+/* Portada: tarjeta de partida y secundarios bien separados */
+.title-screen { gap: 0; }
+.title-screen > * { flex-shrink: 0; }
+.title-screen .title-region { margin-bottom: 14px; }
+
+/* Zona de entrenamiento */
+.tz-head { display: flex; align-items: center; gap: 12px; padding: 4px 12px 10px; }
+.tz-lv { font-weight: 900; font-size: 22px; color: var(--ink); background: var(--gold); border-radius: 12px; padding: 6px 12px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.tz-info { display: flex; flex-direction: column; gap: 2px; font-size: 14px; color: var(--muted); font-weight: 700; }
+.tz-info b { color: var(--text); font-size: 15px; }
+.tz-prize { margin: 0 12px 10px; padding: 8px 12px; border-radius: 10px; background: var(--ink-2); border: 1px solid var(--gold); font-weight: 800; font-size: 14px; }
+.tz-label { font-size: 12px; font-weight: 900; letter-spacing: 1px; text-transform: uppercase; color: var(--muted); padding: 6px 14px 6px; }
+.tz-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 12px 6px; }
+.tz-grid .btn { flex-direction: column; gap: 2px; min-height: 64px; text-align: center; }
+.tz-grid .btn small { font-weight: 700; font-size: 12px; opacity: .85; }
+.tz-grid .btn.wide { grid-column: 1 / -1; }
+.tz-grid .btn.elite { background: #5a2a8a; border-color: var(--gold); color: white; }
+.tz-grid .btn[disabled] { opacity: .45; }
+
+/* Tarjetas de ataque suaves: fondo oscuro, franja del tipo y etiqueta pequeña (los colores llenos cansaban la vista, 2026-10-28) */
+.qm-move.soft { background: var(--ink-3); color: var(--text); border: 1px solid var(--line); border-left: 5px solid var(--tc); text-shadow: none; }
+.qm-move.soft .qm-m { color: var(--muted); }
+.qm-tl { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.qm-type { font-size: 12px; padding: 0 6px; border-radius: 5px; line-height: 18px; }
+.gm-star { color: var(--gold); }
+button.gm-move.soft { border-left-width: 5px; }
+.gm-move.soft.gm-sel { border-color: var(--gold); border-left-color: var(--tc); box-shadow: 0 0 0 2px var(--gold); }
+.title-actions { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 12px; }
+.title-actions .save-card, .title-actions .btn { max-width: none; }
+.title-sec { display: flex; gap: 10px; width: 100%; max-width: none; }
+.tsec-btn { flex: 1 1 0; height: 48px; display: flex; align-items: center; justify-content: center; border-radius: 12px; background: rgba(10,14,28,.7); border: 1px solid var(--line); color: var(--cream); font-weight: 700; font-size: 14px; }
+
+/* Directorio de zonas de entrenamiento */
+.tz-dir { display: flex; flex-direction: column; gap: 6px; padding: 0 12px 6px; }
+.tz-row { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; background: var(--ink-2); border: 1px solid var(--line); min-height: 48px; }
+.tz-row.here { border-color: var(--aura-soft); }
+.tz-row.fit { border-color: var(--gold); }
+.tz-rlv { flex: 0 0 64px; text-align: center; font-weight: 900; font-size: 14px; font-variant-numeric: tabular-nums; color: var(--ink); background: var(--gold); border-radius: 8px; padding: 3px 0; }
+.tz-rt { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+.tz-rt b { font-size: 14px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tz-rt span { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tz-tag { flex: none; font-size: 12px; font-weight: 900; padding: 2px 8px; border-radius: 99px; background: var(--aura-fill); color: white; }
+.tz-tag.fit { background: var(--gold); color: var(--ink); }
