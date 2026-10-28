@@ -377,6 +377,7 @@ export default {
 			{ text: 'Borla abre un ojo para comprobar que te vas.' },
 		],
 		p9_borla_leche: [
+			{ if: '!has("moomoomilk")', then: [{ call: 'p9_borla_sin' }, { end: true }] },
 			{ text: 'Borla está tumbada junto al pozo, con la lana corta y rala. Sacas la Leche Mu-mu. No la mira. Lo huele. Las Mareep tristes no miran: huelen.' },
 			{ take: 'moomoomilk' },
 			{ text: 'Le acercas la botella. Borla bebe despacio, con los ojos cerrados, como bebía Don Aurelio el café: sin prisa, porque el café no se acaba si no lo apuras.' },
