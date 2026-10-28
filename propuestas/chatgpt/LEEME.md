@@ -16,3 +16,12 @@ Rama: `chatgpt/misiones-2026-10-11`. Solo propuestas; Claude revisa y decide la 
 - `AUDITORIA-ARTE-2026-10-11.md`: auditoría visual de 8 candidatos; los ocho PNG están subidos y aprobados. Continúan pendientes los demás retratos, postales, icono y título.
 
 **Archivos de arte adicionales verificados:** `retrato-lila.png`, `retrato-sera.png`, `retrato-renata.png`, `retrato-irene.png`, `retrato-petra.png`, `retrato-ysolde.png` (todos en `img/`).
+
+## Arte de cuento · 2026-10-28
+
+Rama `chatgpt/ilustraciones-cuento-2026-10-28`. Diseños aprobados por Mario.
+- `img/icono.png`: icono cuadrado 512×512, infinito dorado y aura azul.
+- `img/titulo.png`: fondo vertical 288×512, paisaje nocturno de cuento sin letras.
+- `ENTREGA_CUENTO_2026-10-28.md`: alcance y notas de integración.
+
+PNG menores de 300 KB, sin Pokémon ni personajes canon. Listos para integrar; sin cambios al juego publicado.
