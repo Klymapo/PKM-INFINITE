@@ -22,6 +22,7 @@ import { openTutor } from './tutor.js';
 import { evolutionInfo } from '../movimientos.js';
 import { openMoveManager } from './gestor.js';
 import * as DC from '../guarderia.js';
+import * as GAL from '../galeria.js';
 import { moveMany, moveBox, swapBoxes, boxName, hasBoxName, setBoxName, BOX_NAME_MAX } from '../pc.js';
 import { playPuzzle } from './rejilla.js';
 import { repairSave } from '../reparaciones.js';
@@ -2611,6 +2612,7 @@ function openMore() {
 		(() => { const n = Object.keys(G.uniq?.missed || {}).length; return row('🐾', 'Segundas oportunidades', n ? `${n} ${n === 1 ? 'Pokémon único volverá' : 'Pokémon únicos volverán'}` : 'Pokémon únicos que se escaparon', openUniques); })(),
 		row('🏅', 'Retos', 'Líderes y combates importantes', openChallenges),
 		row('📁', 'Expediente', 'Rivales y enemigos que conoces', openIntel),
+		row('🖼️', 'Galería privada', 'Tus imágenes, solo en este teléfono', openGallery),
 		row('📜', 'Historial de combates', (G.hist || []).length ? `Últimos ${Math.min(30, G.hist.length)} combates` : 'Todavía no hay combates', openHistory),
 		row('🎖️', 'Medallas', `${G.player.badges.length} medallas`, openBadges),
 		row('💾', 'Guardar', G.lastSave ? 'Último guardado: ' + new Date(G.lastSave).toLocaleTimeString('es-MX', { hour: '2-digit', minute: '2-digit' }) : '', async () => { await saveGame(); toast('Partida guardada'); }),
@@ -2672,7 +2674,7 @@ function openCollection(startTab = 'postcards') {
 				for (const t of list) {
 					const have = album[t.id];
 					const card = h('button', { class: 'postcard' + (have ? '' : ' locked'), onclick: () => have && viewPostcard(t) },
-						have ? (illus('postales/' + t.id + '.png') || sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' })) : h('div', { class: 'pc-q' }, '?'),
+						have ? (illus('postales/' + t.id + '.png') || GAL.swapIfPrivate(sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' }), 'postal-' + t.id + '.png')) : h('div', { class: 'pc-q' }, '?'),
 						h('div', { class: 'pc-name' }, have ? (t.short || t.name.replace(/^(Ciudad|Pueblo) /, '')) : '???'));
 					grid.append(card);
 				}
@@ -2713,7 +2715,7 @@ function openCollection(startTab = 'postcards') {
 }
 
 function viewPostcard(t) {
-	const cv = illus('postales/' + t.id + '.png') || sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' });
+	const cv = illus('postales/' + t.id + '.png') || GAL.swapIfPrivate(sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' }), 'postal-' + t.id + '.png');
 	const date = new Date(G.album[t.id]).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
 	const first = (descOf(t) || '').replace(/\*\*/g, '').split(/(?<=\.)\s/)[0];
 	const ov = h('div', { class: 'overlay dim art-viewer', onclick: () => ov.remove() },
@@ -2903,6 +2905,66 @@ function diaryPhoto(e, onclick) {
 	return h('button', { class: 'dphoto', onclick },
 		h('div', { class: 'dph-pic' }, cv, lead),
 		h('div', { class: 'dph-cap' }, h('b', {}, d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' }) + (loc ? ' · ' + loc.name : '')), h('span', {}, first)));
+}
+
+// =================== Galería privada ===================
+const ARGOS_URL = 'https://github.com/Klymapo/pokemon-infinito/tree/chatgpt/ilustraciones-cuento-2026-10-28/propuestas/chatgpt/img';
+async function openGallery() {
+	const sheet = openSheet('Galería privada', null);
+	const draw = async () => {
+		const keys = await GAL.listKeys();
+		const input = h('input', { type: 'file', accept: 'image/png,image/jpeg,image/webp,image/gif', multiple: true, style: { display: 'none' } });
+		input.onchange = async () => {
+			let n = 0, skip = 0;
+			for (const f of input.files || []) { if (!GAL.isImageName(f.name)) { skip++; continue; } try { await GAL.putFile(f); n++; } catch (e) { skip++; } }
+			toast(n ? `🖼️ ${n} ${n === 1 ? 'imagen guardada' : 'imágenes guardadas'}${skip ? ` · ${skip} no válidas` : ''}` : 'No se guardó nada');
+			draw();
+		};
+		const postales = keys.filter(k => GAL.describe(k).kind === 'postal').length, momentos = keys.filter(k => GAL.describe(k).kind === 'momento').length;
+		const pl = (n, a, b) => `${n} ${n === 1 ? a : b}`;
+		const titleOf = k => { const d = GAL.describe(k); return d.kind === 'postal' && C.locations[d.id] ? 'Postal · ' + C.locations[d.id].name : d.title; };
+		const grid = h('div', { class: 'gal-grid' });
+		for (const k of keys) {
+			const cell = h('button', { class: 'gal-cell', onclick: () => viewImage(k, titleOf(k), draw) }, h('div', { class: 'gal-thumb' }), h('span', {}, titleOf(k)));
+			GAL.urlOf(k).then(u => { if (u) cell.firstChild.style.backgroundImage = `url("${u}")`; });
+			grid.append(cell);
+		}
+		sheet.set([
+			h('div', { class: 'note' }, 'Estas imágenes se guardan solo en este teléfono: no se suben a ningún sitio ni salen en el juego publicado. Las postales que se llamen «postal-<lugar>.png» sustituyen a las del Álbum de postales.'),
+			h('div', { class: 'gal-actions' },
+				h('button', { class: 'btn primary', onclick: () => input.click() }, '📥 Importar imágenes'),
+				keys.length ? h('button', { class: 'btn', onclick: () => exportGallery(keys) }, '💾 Exportar todas') : null),
+			input,
+			keys.length ? h('div', { class: 'gal-count' }, [pl(keys.length, 'imagen', 'imágenes'), momentos ? pl(momentos, 'momento', 'momentos') : '', postales ? pl(postales, 'postal', 'postales') : ''].filter(Boolean).join(' · ')) : null,
+			keys.length ? grid : h('div', { class: 'empty' }, 'Todavía no hay imágenes.'),
+			h('div', { class: 'section-title' }, 'Cómo pasarlas al teléfono'),
+			h('div', { class: 'note gal-how' },
+				h('div', {}, '1. Abre la carpeta de Argos en GitHub (o tu Drive) desde el navegador del teléfono.'),
+				h('div', {}, '2. Abre cada imagen y descárgala (mantén pulsado › Descargar imagen). No les cambies el nombre.'),
+				h('div', {}, '3. Vuelve aquí, toca «Importar imágenes» y elige todas de una vez desde Descargas.'),
+				h('a', { class: 'btn', href: ARGOS_URL, target: '_blank', rel: 'noopener' }, '🔗 Abrir la carpeta de Argos')),
+		]);
+	};
+	draw();
+}
+async function viewImage(k, title, redraw) {
+	const u = await GAL.urlOf(k);
+	if (!u) return;
+	const d = { title };
+	const ov = h('div', { class: 'gal-view', onclick: e => { if (e.target === ov) ov.remove(); } },
+		h('img', { src: u, alt: d.title }),
+		h('div', { class: 'gal-view-bar' }, h('b', {}, d.title),
+			h('button', { class: 'btn', onclick: async () => { if (!await confirm(`¿Borrar «${d.title}» de este teléfono?`, 'Borrar', 'Cancelar')) return; await GAL.remove(k); ov.remove(); toast('Imagen borrada'); redraw(); } }, '🗑️ Borrar'),
+			h('button', { class: 'btn primary', onclick: () => ov.remove() }, 'Cerrar')));
+	document.body.append(ov);
+}
+async function exportGallery(keys) {
+	toast('Descargando las imágenes una por una…');
+	for (const k of keys) {
+		const b = await GAL.getBlob(k); if (!b) continue;
+		const a = document.createElement('a'); a.href = URL.createObjectURL(b); a.download = k; document.body.append(a); a.click(); a.remove();
+		await new Promise(r => setTimeout(r, 400));
+	}
 }
 
 function openHistory() {

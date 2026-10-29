@@ -581,3 +581,6 @@ Plan en `secreto/bloques/p9-plan.md`. Archivos: `b05/t10-p9-megas.js`, `t11-p9-k
 - **Hechos nuevos de canon:** existe una Mareep rosada hermana (solo con `b02_mareep_rosa`); Bastien lleva un Golisopod.
 - **Pendiente:** Tutu Moana, Puka y Margaux tienen una sola escena (regla de las 3 apariciones). La línea Greninja no se puede conseguir aún aunque se reciba la Greninjanita (Bastien lo reconoce).
 - Revisión: lector independiente apto (20 correcciones de voz y continuidad); validador 0, tester 0, hub 0 graves, humo OK, bot 19/24 en la auditoría completa.
+
+### Galería privada (2026-10-28)
+- `app/js/galeria.js` + Más › Galería privada: importa imágenes al IndexedDB del teléfono (nunca al repo), cuadrícula, visor, borrar con confirmación y exportar. `postal-<idLugar>.png` sustituye a la postal procedural del Álbum. Prueba `herramientas/test/galeria-test.mjs` (añadida a auditar.mjs).
