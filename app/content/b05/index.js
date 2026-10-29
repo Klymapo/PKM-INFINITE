@@ -19,6 +19,9 @@ import t13 from './t13-p9-sistemas.js';
 import t14 from './t14-p9-terror.js';
 import t15 from './t15-radio.js';
 import t16 from './t16-p9-copa.js';
+import t17 from './t17-negocio-cafe.js';
+import t18 from './t18-negocio-periodico.js';
+import t19 from './t19-negocio-observatorio.js';
 
 const block = {
 	id: 'b05', title: 'Acto IV · La luz robada', hours: 12, ends: 'b05_fin',
@@ -27,7 +30,7 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [], radio: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t5, t8, t6, t7, t9, t10, t11, t12, t13, t14, t15, t16];
+const parts = [comun, t0, t1, t2, t3, t5, t8, t6, t7, t9, t10, t11, t12, t13, t14, t15, t16, t17, t18, t19];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {
