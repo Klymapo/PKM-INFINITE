@@ -16,6 +16,7 @@ import t10 from './t10-p9-megas.js';
 import t11 from './t11-p9-kalos.js';
 import t12 from './t12-p9-hilos.js';
 import t13 from './t13-p9-sistemas.js';
+import t14 from './t14-p9-terror.js';
 
 const block = {
 	id: 'b05', title: 'Acto IV · La luz robada', hours: 12, ends: 'b05_fin',
@@ -24,7 +25,7 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t5, t8, t6, t7, t9, t10, t11, t12, t13];
+const parts = [comun, t0, t1, t2, t3, t5, t8, t6, t7, t9, t10, t11, t12, t13, t14];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {

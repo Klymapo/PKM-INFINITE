@@ -96,13 +96,12 @@ export async function titleScreen() {
 	root.innerHTML = '';
 	clearInterval(TITLE_TIMER);
 	const saved = await loadSaved();
-	// Fondo: rota en vivo entre las regiones que ya visitaste (pedido de Mario, 2026-10-28)
-	const scenes = saved ? titleScenes(saved) : [];
+	// Fondo: la ilustración de título de Argos, fija (pedido de Mario, 2026-10-28). Si no carga,
+	// rota entre las regiones que ya visitaste.
+	const art = illus('titulo.png');
+	const scenes = !art && saved ? titleScenes(saved) : [];
 	const stage = h('div', { class: 'title-stage' });
 	const regionTag = h('div', { class: 'title-region' });
-	// La ilustración de título (Argos, 2026-10-28) abre la rotación; luego vienen tus regiones
-	const art = illus('titulo.png');
-	if (art && scenes.length) scenes.unshift({ art, name: '' });
 	if (scenes.length) {
 		scenes.forEach((sc, i) => { const c = sc.art || sceneCanvas(sc.bg); c.classList.add('bg', 'tscene'); if (i === 0) c.classList.add('on'); stage.append(c); });
 		regionTag.textContent = scenes[0].name; regionTag.hidden = !scenes[0].name;
@@ -116,7 +115,7 @@ export async function titleScreen() {
 			}, 7000);
 		}
 	} else {
-		const bg = illus('titulo.png') || sceneCanvas({ type: 'city', landmark: 'prism', seed: 'title' });
+		const bg = art || sceneCanvas({ type: 'city', landmark: 'prism', seed: 'title' });
 		bg.classList.add('bg', 'tscene', 'on'); stage.append(bg);
 	}
 	let card = null;

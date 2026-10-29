@@ -584,3 +584,7 @@ Plan en `secreto/bloques/p9-plan.md`. Archivos: `b05/t10-p9-megas.js`, `t11-p9-k
 
 ### Galería privada (2026-10-28)
 - `app/js/galeria.js` + Más › Galería privada: importa imágenes al IndexedDB del teléfono (nunca al repo), cuadrícula, visor, borrar con confirmación y exportar. `postal-<idLugar>.png` sustituye a la postal procedural del Álbum. Prueba `herramientas/test/galeria-test.mjs` (añadida a auditar.mjs).
+
+### Noches de terror del Castillo y portada fija (2026-10-28)
+- `b05/t14-p9-terror.js`: amplía `p7_castillo` con la línea `terror` (mejora `terror`, 28 000, requiere `alanorte`, flag `p9_c_terror`) y la mejora `niebla`. Imprevistos `p9_grito` (Simón) y `p9_halloween` (24–31 oct). De noche, spot «La noche de terror»: una función al día (`vars.p9_terror_wd`), 3 decisiones → `vars.p9_terror_s`; paga 3000/1800/800 y la primera vez ≥ 8 da un Amuleto (`flag.p9_terror_premio`). Primera vez: cinemática (`flag.p9_terror_1`). Revisado por lector independiente: apto.
+- Portada: la ilustración de Argos queda fija; la rotación de regiones solo sale si la imagen no carga.
