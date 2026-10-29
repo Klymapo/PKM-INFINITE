@@ -6,7 +6,7 @@
 export default {
 	radio: [
 		// =================== CLIMA ===================
-		{ id: 'rl_clima_dia', kind: 'clima',
+		{ id: 'rl_clima_dia', kind: 'clima', cond: '!night',
 			text: 'Buenos días, Kanto del este. Les habla Maripaz desde Radio Lavanda. Cielo despejado en la Ruta 8 y algo de niebla en el valle, que aquí es como decir que el pueblo amaneció despeinado. Si salen hacia Azafrán, lleven chamarra: el viento de la tarde no perdona.' },
 		{ id: 'rl_clima_noche', kind: 'clima', cond: 'night',
 			text: 'Ya es tarde y aquí sigue Maripaz. Fresco en Lavanda, luna a medias y ni un Zubat en la antena, cosa rara. A las doce empieza «Lo que se oye cuando no suena nada». Si oyen algo, llamen. Si les contesta alguien, cuelguen.' },
@@ -31,7 +31,7 @@ export default {
 		{ id: 'rl_musica_mambo', kind: 'musica',
 			text: 'Para despertar: «Mambo del Mudbray», de la Orquesta Tropical de Akala. Trompetas, tumbadoras y un señor que grita los nombres de sus Pokémon a mitad de la canción. Si tienen un Tauros cerca, súbanle con cuidado.' },
 		{ id: 'rl_musica_balada', kind: 'musica',
-			text: '«Lo que el viento esquila», de Celia y los Ponientes. Una balada de ranchero para los que extrañan el campo desde la ciudad. Dura seis minutos. Yo lloro en el minuto cuatro. Ustedes hagan lo que quieran.' },
+			text: '«Lo que el viento esquila», de Chelo y los Ponientes. Una balada de ranchero para los que extrañan el campo desde la ciudad. Dura seis minutos. Yo lloro en el minuto cuatro. Ustedes hagan lo que quieran.' },
 		{ id: 'rl_musica_noche', kind: 'musica', cond: 'night',
 			text: 'Para manejar de madrugada: «Ruta 8, kilómetro nada», de Los Insomnes de Azafrán. Bajo, batería y una guitarra que suena como un tren que no termina de llegar. Si van por la carretera, ojos abiertos. Si van a dormir, ya se tardaron.' },
 
@@ -44,7 +44,7 @@ export default {
 			text: 'Simón, el escéptico, dedica la siguiente al Conde de Caduco «por la cena que no acepté. Otra vez». Y añade: «Que conste en antena que el frío del pasillo es una corriente de aire». Consta, Simón. Consta.' },
 		{ id: 'rl_ded_conde', kind: 'dedicatoria', from: 'el Conde de Caduco', cond: 'flag.b01_conde_1',
 			text: 'Sobre negro, lacre rojo: «Para quien cruzó mi puerta y dejó un poco de la felicidad que traía. La niebla sigue en su sitio y yo sigo sin dormir. Pongan algo de órgano. Con dignidad». No tenemos órgano, señor Conde. Va un acordeón.' },
-		{ id: 'rl_ded_dolores', kind: 'dedicatoria', from: 'Dolores', cond: 'flag.p7_dolores_1',
+		{ id: 'rl_ded_dolores', kind: 'dedicatoria', from: 'Dolores', cond: 'flag.p7_dolores_1 && (beat("p7_dolores_duelo") || flag.p9_vela_fin)',
 			text: 'Dolores, la de los muñecos, aquí en Lavanda: «Para las tumbas que no tienen visita. Y para {jugador}, que le hizo el favor a Remiendo». Dolores, va con todo el cariño. Bajito, que hay quien descansa.' },
 		{ id: 'rl_ded_lola', kind: 'dedicatoria', from: 'Lola', cond: 'flag.lola_3',
 			text: 'Esta mañana un niño dejó en la cabina una bolsa de bollos al vapor y una nota: «Lola no manda dedicatorias. Los bollos son para el turno de noche. Fiado no». Gracias, Lola. No ponemos canción, que es lo que tú pedirías.' },
@@ -55,7 +55,7 @@ export default {
 		{ id: 'rl_cromlech_alexia', kind: 'noticia', cond: 'flag.b01_delatar',
 			text: 'Titulares de Kalos: el *Diario de Luminalia* sigue con lo de Crómlech, máquinas entre las piedras y una empresa que no quiere fotos. Firma Alexia. La foto de portada sale movida: dicen que la persona retratada no se estaba quieta.' },
 		{ id: 'rl_cromlech_imanes', kind: 'noticia', cond: 'flag.b01_handsome',
-			text: 'Sección «noticias que no son noticia»: en Crómlech, Kalos, las piedras siguen en su sitio, la Policía Internacional no comenta y la tienda de recuerdos dice que un turista de gabardina se pasó una hora mirando el catálogo de imanes. No compró ninguno.' },
+			text: 'Sección «noticias que no son noticia»: en Crómlech, Kalos, las piedras siguen en su sitio, la Policía Internacional no comenta y la tienda de recuerdos dice que un turista de gabardina se pasó una hora mirando el catálogo de imanes. Se llevó tres. Uno, con forma de lemniscata.' },
 		{ id: 'rl_cromlech_silencio', kind: 'noticia', cond: 'flag.b01_trato_sera',
 			text: 'De Kalos: ni una línea sobre Crómlech en ningún periódico. Ni una. Alexia, la del *Diario de Luminalia*, escribe en su columna que, en Kalos, el silencio también es una noticia. Nosotros solo leemos. Ustedes saquen sus cuentas.' },
 
