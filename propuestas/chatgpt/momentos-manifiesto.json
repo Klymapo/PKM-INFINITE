@@ -1,5 +1,5 @@
 {
-  "estado": "parcial_24_de_28",
+  "estado": "completo_28_de_28",
   "dimensiones": [
     510,
     340
@@ -76,6 +76,11 @@
       "git_blob_sha": "feff28b23bb354070c3f3b1be2368a2e9c2de316"
     },
     {
+      "path": "img/momentos/momento-15-faro-de-olivo.png",
+      "bytes": 101387,
+      "git_blob_sha": "22f3ac4552009194a8fcee1299c1fd4a83488651"
+    },
+    {
       "path": "img/momentos/momento-16-mecedora-vacia.png",
       "bytes": 102941,
       "git_blob_sha": "5e7401407ec26d58c16a1c4eee29c25bfc73885f"
@@ -84,6 +89,11 @@
       "path": "img/momentos/momento-17-lago-de-la-furia.png",
       "bytes": 124247,
       "git_blob_sha": "1073bed63d874eddc2dc5f911e24c24c772c7194"
+    },
+    {
+      "path": "img/momentos/momento-18-jaulas-de-caoba.png",
+      "bytes": 118936,
+      "git_blob_sha": "6757300a76787c127a39e64b18f4f32783c05794"
     },
     {
       "path": "img/momentos/momento-19a-chikorita.png",
@@ -111,6 +121,11 @@
       "git_blob_sha": "ae565f91cba10b4c50e578e99c8c0f71e22df1b6"
     },
     {
+      "path": "img/momentos/momento-22-el-salto.png",
+      "bytes": 119891,
+      "git_blob_sha": "f20f924c2ca040465bc93cc1d84b88a4e6fd6f76"
+    },
+    {
       "path": "img/momentos/momento-23-el-nucleo.png",
       "bytes": 101818,
       "git_blob_sha": "ecdd025f95979056a795a8c8b81dc753fb8d3797"
@@ -124,12 +139,12 @@
       "path": "img/momentos/momento-25-litten.png",
       "bytes": 105974,
       "git_blob_sha": "037e1816a2e3b7532854d0cf1b3c1ca8f34a504a"
+    },
+    {
+      "path": "img/momentos/momento-26-galeria-del-conde.png",
+      "bytes": 115630,
+      "git_blob_sha": "12a518ebfae98e57cae19c57f23bd14482d60f9e"
     }
   ],
-  "pendientes": [
-    "15 · Faro de Olivo (Faro y Amphy)",
-    "18 · Jaulas de Caoba",
-    "22 · El salto (versión sin lentes en Ysolde)",
-    "26 · Galería del Conde (Smeargle pinta con la cola)"
-  ]
+  "pendientes": []
 }

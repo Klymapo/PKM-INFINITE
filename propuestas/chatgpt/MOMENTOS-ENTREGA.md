@@ -2,7 +2,7 @@
 
 ## Estado real
 
-Se generaron 28 momentos narrativos, incluidos los tres iniciales de Johto por separado. Para esta subida solo se recuperaron los originales locales de 24 imágenes finales. Cuatro imágenes generadas durante la desconexión del entorno no quedaron disponibles como archivos y NO se incluyen. No sustituirlas con borradores anteriores ni tratarlas como entregadas.
+Se entregan los 28 momentos narrativos, incluidos los tres iniciales de Johto por separado. Los cuatro archivos que no se conservaron tras la desconexión fueron rehechos por solicitud del usuario y revisados visualmente antes de subirlos: Faro de Olivo, jaulas de Caoba, el salto y galería del Conde.
 
 Mario pidió subir esta colección después de revisarla en el chat. Esta autorización específica sustituye para estas ilustraciones las indicaciones anteriores de galería privada y de no subir Pokémon dibujados. No se modificó main, app/ ni herramientas/.
 
@@ -35,12 +35,14 @@ Todos son PNG de 510×340 (3:2), menores de 300 KB, optimizados a 128 colores pa
 - `img/momentos/momento-24-ofrenda-en-lavanda.png`
 - `img/momentos/momento-25-litten.png`
 
-## Pendientes de recuperar
+## Cuatro escenas rehechas y añadidas
 
-- 15 · Faro de Olivo (Faro y Amphy)
-- 18 · Jaulas de Caoba
-- 22 · El salto (versión sin lentes en Ysolde)
-- 26 · Galería del Conde (Smeargle pinta con la cola)
+- `img/momentos/momento-15-faro-de-olivo.png`
+- `img/momentos/momento-18-jaulas-de-caoba.png`
+- `img/momentos/momento-22-el-salto.png`
+- `img/momentos/momento-26-galeria-del-conde.png`
+
+Revisión de estas cuatro: dos Ampharos con sus colas y esferas separadas; Magikarp permanece en agua; Ysolde sin gafas; Smeargle pinta con la punta de su propia cola; Sinistea representado en taza. Se revisaron manos, siluetas, lectura de acción y continuidad de vestuario. Estas imágenes se generaron de nuevo con la herramienta integrada de imágenes.
 
 ## Revisión y límites
 
