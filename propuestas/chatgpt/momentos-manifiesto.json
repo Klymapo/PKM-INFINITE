@@ -1,0 +1,135 @@
+{
+  "estado": "parcial_24_de_28",
+  "dimensiones": [
+    510,
+    340
+  ],
+  "archivos": [
+    {
+      "path": "img/momentos/momento-01-fennekin-perdido.png",
+      "bytes": 113168,
+      "git_blob_sha": "3486b7484b424d3c2e520634563e3ef5b2dbc4ca"
+    },
+    {
+      "path": "img/momentos/momento-02-lana-perdida.png",
+      "bytes": 113732,
+      "git_blob_sha": "0c2e543f7e836418b58441169dd4e0fbcdc5dc9d"
+    },
+    {
+      "path": "img/momentos/momento-03-chispita-en-la-jaula.png",
+      "bytes": 101331,
+      "git_blob_sha": "2c494c3fa8609136bd247287748613cb827762ce"
+    },
+    {
+      "path": "img/momentos/momento-04-candela-se-queda.png",
+      "bytes": 108209,
+      "git_blob_sha": "e8f277080db7ef02b72471ece23ea1bb1f6d6462"
+    },
+    {
+      "path": "img/momentos/momento-05-carrera-rhyhorn.png",
+      "bytes": 117520,
+      "git_blob_sha": "c9009a072798d0a0afb927d7bd104288ff8ba1bb"
+    },
+    {
+      "path": "img/momentos/momento-06-snorlax-despierta.png",
+      "bytes": 112037,
+      "git_blob_sha": "2bb2fc13dec2d8265bb1f296850fc736765ff4db"
+    },
+    {
+      "path": "img/momentos/momento-07-noche-de-cromlech.png",
+      "bytes": 114160,
+      "git_blob_sha": "bb1c341e599624020de4381335dc1c3e508d9b4c"
+    },
+    {
+      "path": "img/momentos/momento-08-torre-maestra.png",
+      "bytes": 102938,
+      "git_blob_sha": "e8c5b1e49a8a1e39acde203e84701d2f3a15b31a"
+    },
+    {
+      "path": "img/momentos/momento-09-la-puerta.png",
+      "bytes": 106787,
+      "git_blob_sha": "ae70685f42593558f88715b6f2085e430b909143"
+    },
+    {
+      "path": "img/momentos/momento-10-el-encinar.png",
+      "bytes": 121852,
+      "git_blob_sha": "62e5473dcbbac7faf340e0a90733f1cfe3e3e4aa"
+    },
+    {
+      "path": "img/momentos/momento-11-pozo-slowpoke.png",
+      "bytes": 113575,
+      "git_blob_sha": "fc69bf9259e57caec2c4e378b757a3c5ffc3db44"
+    },
+    {
+      "path": "img/momentos/momento-12-carta-de-rhi.png",
+      "bytes": 96482,
+      "git_blob_sha": "7a52a96303dc41e46eaae2962bec601f675a196a"
+    },
+    {
+      "path": "img/momentos/momento-13-faro-con-aurelio.png",
+      "bytes": 109279,
+      "git_blob_sha": "2b6a4f82cb6ea627d1d27083e9f06d8014ea3172"
+    },
+    {
+      "path": "img/momentos/momento-14-lila-y-sylveon.png",
+      "bytes": 92704,
+      "git_blob_sha": "feff28b23bb354070c3f3b1be2368a2e9c2de316"
+    },
+    {
+      "path": "img/momentos/momento-16-mecedora-vacia.png",
+      "bytes": 102941,
+      "git_blob_sha": "5e7401407ec26d58c16a1c4eee29c25bfc73885f"
+    },
+    {
+      "path": "img/momentos/momento-17-lago-de-la-furia.png",
+      "bytes": 124247,
+      "git_blob_sha": "1073bed63d874eddc2dc5f911e24c24c772c7194"
+    },
+    {
+      "path": "img/momentos/momento-19a-chikorita.png",
+      "bytes": 113523,
+      "git_blob_sha": "3bb985c9e81cc4cd8ec62e752e7a0609403ac155"
+    },
+    {
+      "path": "img/momentos/momento-19b-cyndaquil.png",
+      "bytes": 117357,
+      "git_blob_sha": "d47a8811c1d3e9011e31329726cdd45ee8940303"
+    },
+    {
+      "path": "img/momentos/momento-19c-totodile.png",
+      "bytes": 109682,
+      "git_blob_sha": "3b9f1de5fb124fb9cf838c19fd2c3ed9a20cfb3a"
+    },
+    {
+      "path": "img/momentos/momento-20-tren-magnetico.png",
+      "bytes": 89929,
+      "git_blob_sha": "cc82c813ddec1b92127d96931fc4e4dc91a6b95f"
+    },
+    {
+      "path": "img/momentos/momento-21-tobias-y-duquesa-en-lavanda.png",
+      "bytes": 110073,
+      "git_blob_sha": "ae565f91cba10b4c50e578e99c8c0f71e22df1b6"
+    },
+    {
+      "path": "img/momentos/momento-23-el-nucleo.png",
+      "bytes": 101818,
+      "git_blob_sha": "ecdd025f95979056a795a8c8b81dc753fb8d3797"
+    },
+    {
+      "path": "img/momentos/momento-24-ofrenda-en-lavanda.png",
+      "bytes": 93477,
+      "git_blob_sha": "510c421f10a3e4a0afd19870bb2958f97d3fcc2a"
+    },
+    {
+      "path": "img/momentos/momento-25-litten.png",
+      "bytes": 105974,
+      "git_blob_sha": "037e1816a2e3b7532854d0cf1b3c1ca8f34a504a"
+    }
+  ],
+  "pendientes": [
+    "15 · Faro de Olivo (Faro y Amphy)",
+    "18 · Jaulas de Caoba",
+    "22 · El salto (versión sin lentes en Ysolde)",
+    "26 · Galería del Conde (Smeargle pinta con la cola)"
+  ]
+}

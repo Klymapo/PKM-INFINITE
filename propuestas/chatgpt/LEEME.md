@@ -51,3 +51,10 @@ Mario aprobó el estilo de cuento, pidió añadir varios Pokémon de ambientaci�
 Todas son PNG 512×320, menores de 300 KB. Ilustraciones originales generadas con IA; especies pintadas a mano en el estilo de cuento, sin sprites extraídos. Paisajes basados en descripciones de lugares ya visitados en app/content/. La fauna incluye guiños de lore y especies de áreas vecinas como interpretación ambiental; no constituye una tabla de encuentros. La fidelidad visual a cada especie puede requerir ajustes posteriores.
 
 Entregadas en la rama de propuestas para integración. No se modificó el juego publicado.
+
+## Momentos narrativos · subida solicitada por Mario
+
+- 24 PNG recuperados en `img/momentos/`, 510×340, menos de 300 KB cada uno.
+- Estado, lista y límites en `MOMENTOS-ENTREGA.md`.
+- Faltan los archivos finales de Faro de Olivo, jaulas de Caoba, salto y galería del Conde, generados durante una desconexión. NO declarar 28 imágenes subidas.
+- Los 8 combates con líderes todavía no se han generado.
