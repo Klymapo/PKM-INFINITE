@@ -1,0 +1,49 @@
+{
+  "estado": "completo_8_de_8",
+  "dimensiones": [
+    510,
+    340
+  ],
+  "archivos": [
+    {
+      "path": "img/combates/combate-01-brock.png",
+      "bytes": 115037,
+      "git_blob_sha": "21d3f959fa3a888f701e0741852224742b80c909"
+    },
+    {
+      "path": "img/combates/combate-02-blanca.png",
+      "bytes": 119383,
+      "git_blob_sha": "e92de098fb0b09166705212ecf3c0b9f655902e3"
+    },
+    {
+      "path": "img/combates/combate-03-corelia-yantra.png",
+      "bytes": 93995,
+      "git_blob_sha": "4a4b3940a91cd8e1e03c50ce674e4eba744ff0bb"
+    },
+    {
+      "path": "img/combates/combate-04-anton.png",
+      "bytes": 109508,
+      "git_blob_sha": "03b994d0a5e7bebacbfc6508934292b29d0d8597"
+    },
+    {
+      "path": "img/combates/combate-05-morti.png",
+      "bytes": 106053,
+      "git_blob_sha": "282f054fe7a0a1dd2221f87d0ed269a6fec474c2"
+    },
+    {
+      "path": "img/combates/combate-06-corelia-trigal.png",
+      "bytes": 99405,
+      "git_blob_sha": "46fcc40ef2a3799b46bd4a1fa3d987e78dfd4b1b"
+    },
+    {
+      "path": "img/combates/combate-07-yasmina.png",
+      "bytes": 115119,
+      "git_blob_sha": "da4dc3b508d7f7e25e577230bed5995666654d49"
+    },
+    {
+      "path": "img/combates/combate-08-misty.png",
+      "bytes": 104314,
+      "git_blob_sha": "a5fa23e783ab251b351a18e0e80bf90e20d3ac7b"
+    }
+  ]
+}

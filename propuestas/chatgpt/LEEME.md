@@ -54,7 +54,24 @@ Entregadas en la rama de propuestas para integración. No se modificó el juego 
 
 ## Momentos narrativos · subida solicitada por Mario
 
-- 24 PNG recuperados en `img/momentos/`, 510×340, menos de 300 KB cada uno.
+- 28 PNG finales en `img/momentos/`, 510×340, menos de 300 KB cada uno.
 - Estado, lista y límites en `MOMENTOS-ENTREGA.md`.
-- Faltan los archivos finales de Faro de Olivo, jaulas de Caoba, salto y galería del Conde, generados durante una desconexión. NO declarar 28 imágenes subidas.
-- Los 8 combates con líderes todavía no se han generado.
+- Los cuatro archivos perdidos fueron rehechos y subidos; los 28 están verificados.
+- Los 8 combates con líderes están generados y se entregan abajo.
+
+## Combates con líderes · 2026-10-28
+
+Ocho ilustraciones finales en `img/combates/`, PNG de 510×340 y menos de 300 KB. Se incluyen las versiones corregidas, sin los borradores duplicados. Lista y trazabilidad en `COMBATES-ENTREGA.md`.
+
+- `img/combates/combate-01-brock.png`
+- `img/combates/combate-02-blanca.png`
+- `img/combates/combate-03-corelia-yantra.png`
+- `img/combates/combate-04-anton.png`
+- `img/combates/combate-05-morti.png`
+- `img/combates/combate-06-corelia-trigal.png`
+- `img/combates/combate-07-yasmina.png`
+- `img/combates/combate-08-misty.png`
+
+## Registro de cambios
+
+- 2026-10-28: añadidos los ocho combates por solicitud de Admin; corregido el estado desactualizado de los 28 momentos en este índice. Entrega en rama de propuestas, sin integración en el juego publicado.
