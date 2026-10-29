@@ -967,3 +967,7 @@ button.gm-move.soft { border-left-width: 5px; }
 /* Botón rápido de montura en la barra superior */
 .topbar .mount-chip { min-width: 44px; min-height: 44px; justify-content: center; border-radius: 12px; font-size: 20px; background: var(--ink-2); border: 1px solid var(--line); filter: grayscale(1); opacity: .6; }
 .topbar .mount-chip.on { filter: none; opacity: 1; border-color: var(--gold); }
+
+.title-stage img.tscene { object-fit: cover; }
+.title-region[hidden] { display: block; visibility: hidden; }
+.title-stage img.illus { image-rendering: auto; }

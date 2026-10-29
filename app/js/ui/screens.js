@@ -99,16 +99,19 @@ export async function titleScreen() {
 	const scenes = saved ? titleScenes(saved) : [];
 	const stage = h('div', { class: 'title-stage' });
 	const regionTag = h('div', { class: 'title-region' });
+	// La ilustración de título (Argos, 2026-10-28) abre la rotación; luego vienen tus regiones
+	const art = illus('titulo.png');
+	if (art && scenes.length) scenes.unshift({ art, name: '' });
 	if (scenes.length) {
-		scenes.forEach((sc, i) => { const c = sceneCanvas(sc.bg); c.classList.add('bg', 'tscene'); if (i === 0) c.classList.add('on'); stage.append(c); });
-		regionTag.textContent = scenes[0].name;
+		scenes.forEach((sc, i) => { const c = sc.art || sceneCanvas(sc.bg); c.classList.add('bg', 'tscene'); if (i === 0) c.classList.add('on'); stage.append(c); });
+		regionTag.textContent = scenes[0].name; regionTag.hidden = !scenes[0].name;
 		if (scenes.length > 1) {
 			let cur = 0;
 			TITLE_TIMER = setInterval(() => {
 				if (!stage.isConnected) { clearInterval(TITLE_TIMER); return; }
 				const cs = stage.querySelectorAll('.tscene');
 				cs[cur].classList.remove('on'); cur = (cur + 1) % cs.length; cs[cur].classList.add('on');
-				regionTag.textContent = scenes[cur].name;
+				regionTag.textContent = scenes[cur].name; regionTag.hidden = !scenes[cur].name;
 			}, 7000);
 		}
 	} else {
