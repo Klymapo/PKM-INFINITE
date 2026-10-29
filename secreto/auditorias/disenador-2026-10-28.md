@@ -2,7 +2,7 @@
 
 > Diseño del juego con ojos de diseñador. **✖ grave** · **⚠ detalle** · **· curiosidad** (opinable).
 
-**Total:** 0 graves · 0 detalles · 2 curiosidades. 133 misiones, 6 bloques y 200 lugares revisados.
+**Total:** 0 graves · 0 detalles · 3 curiosidades. 142 misiones, 6 bloques y 201 lugares revisados.
 
 ## Hub de misiones: fichas que no te guían (0)
 
@@ -16,9 +16,10 @@ Bien resuelto. ✅
 
 - · **Fiado no [b02_t_lola]** — Hilo sin final todavía (normal si sigue en bloques futuros; que no se olvide).
 
-## Reglas de diseño por bloque (1)
+## Reglas de diseño por bloque (2)
 
 - · **Bloque 04** — Sus misiones suman ~18.2 h estimadas; la meta son unas 12 h (o falta poner `est`).
+- · **Bloque 05** — Sus misiones suman ~22.0 h estimadas; la meta son unas 12 h (o falta poner `est`).
 
 ## Lugares (0)
 
