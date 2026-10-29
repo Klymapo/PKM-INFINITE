@@ -569,3 +569,15 @@ Pendiente sugerido por el revisor (no hecho): cierre genérico de hilos al termi
 - **Cierre de hilos:** al activarse `flag.bNN_fin`, `closeHangingThreads(bNN)` (guion.js) archiva las misiones `thread` de ese bloque que `questHangs` (hub.js) confirma que ningún guion publicado avanza; quedan `autoClosed` y se reabren solas si un bloque futuro les pone etapa. También se aplica a bloques ya terminados una vez por versión de contenido (`vars.hilos_v`).
 - **Recompensas de la Pokédex:** `DEX_REWARDS` en screens.js (25 Caramelo Raro ×3, 50 Huevo Suerte, 75 Cáps. Habilidad, 100 Amuleto Iris, 150 Master Ball, 200 Chapa Dorada, 300 Master Ball), flags `dex_premio_N`, las entrega Ciprés en diálogo cuando no hay nada en pantalla. Retroactivo: Mario (117) recibe las de 25–100 al abrir.
 - Pruebas: validador 0, tester 0, hub 0 graves, humo OK, bot semilla 3 llega al final.
+
+## Pasada 9 · Secundarias en zonas ya jugadas y sistemas (publicada 2026-10-28)
+
+Plan en `secreto/bloques/p9-plan.md`. Archivos: `b05/t10-p9-megas.js`, `t11-p9-kalos.js`, `t12-p9-hilos.js`, `t13-p9-sistemas.js`; sala de pesas en `b05/t9-atico.js`; motor nuevo `app/js/guarderia.js` (+ `herramientas/test/guarderia-test.mjs`) y generador `esfuerzo` en `app/js/atico.js`.
+
+- **Megas y Z:** `p9_s_alakazamita` (Sabrina, Azafrán; exhibición opcional `p9_sabrina_mega`), `p9_s_chandelurita` (Lavanda: Dolores → Fuji → sótano de la Torre de noche), `p9_s_snorlium` (festival de malasadas, Hauoli; `p9_tutu_snorlax`), `p9_s_incinium` (Kiawe, Wela; exhibición `p9_kiawe_z`).
+- **Kalos:** `p9_s_carreras` (Boceto, una al día por `vars.p9_carrera_wd`; MT `p9_mt_pulimento`), `p9_s_magia` (Philippe; pieza de museo `museo_p9_magia`, solo con `done.b01_s_philippe` para la vitrina), `p9_s_fosiles` (mejora «Zanja profunda» de `p7_excavacion`, línea de fósiles, revive los 6 fósiles que el B3 no admitía).
+- **Hilos:** `p9_s_mareep` (cinco Mareep, `parts`; rama Lemnis sin misión), `p9_s_bastien` (`p9_bastien_6`, premio Greninjanita), buzón del ático con cartas `p9_carta_<quién>`.
+- **Sistemas:** sala de pesas (`atico_pesas`, entrenar un stat), guardería de la Ruta 34 (comando `{ daycare: true }`, `G.dc`).
+- **Hechos nuevos de canon:** existe una Mareep rosada hermana (solo con `b02_mareep_rosa`); Bastien lleva un Golisopod.
+- **Pendiente:** Tutu Moana, Puka y Margaux tienen una sola escena (regla de las 3 apariciones). La línea Greninja no se puede conseguir aún aunque se reciba la Greninjanita (Bastien lo reconoce).
+- Revisión: lector independiente apto (20 correcciones de voz y continuidad); validador 0, tester 0, hub 0 graves, humo OK, bot 19/24 en la auditoría completa.
