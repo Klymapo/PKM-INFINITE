@@ -333,6 +333,8 @@ export function render() {
 	const top = h('div', { class: 'topbar' },
 		h('div', { class: 'place' }, loc.name),
 		h('div', { class: 'chip', title: PHASE_NAMES[ph] }, PHASE_ICON[ph]),
+		// Botón rápido de montura (pedido de Mario, 2026-10-28): subir o bajar con un toque
+		G.vars.mount && G.flags['mount_' + G.vars.mount] ? h('button', { class: 'chip mount-chip' + (G.settings.useMount !== false ? ' on' : ''), title: G.settings.useMount !== false ? 'Bajar de la montura' : 'Subir a la montura', 'aria-label': G.settings.useMount !== false ? 'Bajar de la montura' : 'Subir a la montura', onclick: () => { G.settings.useMount = G.settings.useMount === false; saveGame(); toast(G.settings.useMount ? '🐎 Montura: activada' : '🚶 Montura: desactivada'); render(); } }, '🐎') : null,
 		h('div', { class: 'chip money', title: 'Tu dinero' }, h('span', { class: 'coin' }, '₽'), fmtMoney(G.player.money).replace(/^₽\s?/, '')));
 	const main = h('div', { class: 'main' });
 	const topL = topLoc(loc.id);
