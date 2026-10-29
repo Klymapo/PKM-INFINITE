@@ -54,6 +54,12 @@
 
 ## Pedidos de Mario pendientes
 
+### Regiones por completar (pedido de Mario, 2026-10-28)
+Regla: no reescribir lo publicado; completarlo en las siguientes visitas a la región. Tachar aquí al publicarlo.
+- **Alola:** prueba de la capitana **Lulú** (Planta) con dominante y **Planastal Z** (hoy solo existe su restaurante en Konikoni con duelo de cocina y combate opcional: no tocarlo; la prueba va aparte, p. ej. Jungla Umbría junto a la Ruta 5). **Isla Ula'ula completa**: capitanes **Chris** (Eléctrico) y **Zarala** (Fantasma), kahuna **Denio** (Siniestro), sus pueblos y rutas. Capitana **Mina** (Hada) en Poni. Cristales Z sin fuente: Eléctrico, Fantasma, Siniestro, Hada, Hielo, Volador, Bicho, Veneno, Acero, Planta (y los exclusivos de especie que Mario use).
+- **Kalos, Johto y Kanto:** los gimnasios, pueblos y rutas canon que no han salido aún (revisar contra la lista canon de cada región antes de planear la vuelta). Los gimnasios «de intercambio» del Circuito no sustituyen al líder local: el líder canon de cada ciudad debe acabar existiendo.
+- **Mecánica especial asegurada** (ver CLAUDE.md §2.4): la lista de Megapiedras y cristales que falta se mantiene aquí también.
+
 - **2026-10-28 · Mecánica especial asegurada:** todo Pokémon con Mega, Z exclusivo, Gigamax o forma especial por objeto tendrá su objeto o mecánica asegurada en el transcurso del juego (regla en CLAUDE.md §2.4). Pendiente concreto: **Alakazamita** con misión propia (Kadabra + Cordón Unión; Azafrán). Lista de lo que falta: por hacer en la próxima sesión.
 - **2026-10-28 · Regiones completas:** se pueden visitar por partes, pero el objetivo final es recorrer cada región entera (regla en CLAUDE.md §2.4).
 
