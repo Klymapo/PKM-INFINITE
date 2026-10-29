@@ -19,11 +19,11 @@ const E = (w, m) => errors.push(`${w}: ${m}`);
 const checkGather = () => { for (const [gid, g] of Object.entries(C.gather || {})) { if (!Array.isArray(g.table) || !g.table.length) E('recolección ' + gid, 'tabla vacía'); for (const e of g.table || []) { if (!D.items[e.id]) E('recolección ' + gid, 'objeto inexistente: ' + e.id); if (e.cond) { try { new Function('s', 'with(s){return (' + e.cond + ')}'); } catch (x) { E('recolección ' + gid, 'condición inválida: ' + e.cond); } } } for (const m of checkGatherGame(gid, g, MG_CTX)) E('recolección ' + gid, 'game: ' + m); if (g.game && !checkGatherGame(gid, g, MG_CTX).length) { const gd = gatherGame(gid, g); if (g.table.some(e => e.rare)) { const rr = rareRate(gd, { n: 60, table: g.table, picks: g.picks }); if (rr.had >= 5 && !rr.got) E('recolección ' + gid, 'game: las entradas rare no se consiguen nunca'); } minigames.push({ w: 'recolección ' + gid, id: gd.id, type: gd.type, level: gd.level, win: winRate({ ...gd, loot: g.table }, { n: 30 }).win }); } else if (!g.game && (g.table || []).some(e => e.rare)) W('recolección ' + gid, 'entradas rare sin game: salen como cualquier otra'); } };
 const W = (w, m) => warns.push(`${w}: ${m}`);
 
-const KNOWN_CMDS = new Set(['daycare', 'say', 'text', 'choice', 'if', 'set', 'rep', 'af', 'give', 'take', 'money', 'pokemon', 'battle', 'wild', 'heal', 'go', 'quest', 'diary', 'intel', 'badge', 'cap', 'call', 'end', 'notice', 'toast', 'scene', 'wait', 'happy', 'learn', 'unlock', 'shop', 'save', 'evolveCheck', 'nickname', 'center', 'pc', 'mapUnlock', 'clearRoute', 'cutscene', 'input', 'forceEvolve', 'puzzle', 'read', 'venture', 'minigame']);
+const KNOWN_CMDS = new Set(['daycare', 'torneo', 'say', 'text', 'choice', 'if', 'set', 'rep', 'af', 'give', 'take', 'money', 'pokemon', 'battle', 'wild', 'heal', 'go', 'quest', 'diary', 'intel', 'badge', 'cap', 'call', 'end', 'notice', 'toast', 'scene', 'wait', 'happy', 'learn', 'unlock', 'shop', 'save', 'evolveCheck', 'nickname', 'center', 'pc', 'mapUnlock', 'clearRoute', 'cutscene', 'input', 'forceEvolve', 'puzzle', 'read', 'venture', 'minigame']);
 const AUX_KEYS = new Set(['cond', 'as', 'n', 'silent', 'stage', 'done', 'then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'lose', 'canRun', 'prompt', 'nickname', 'who', 'jingle', 'dim', 'mood', 'onSolve', 'onQuit', 'join', 'open']);
 const COND_NS = /\b(flag|flags|vars|rep|af|quest|done)\.([A-Za-z0-9_]+)/g;
 const COND_FUNCS = ['has', 'count', 'badge', 'inParty', 'owns', 'seen', 'caught', 'visited', 'cleared', 'beat', 'date', 'zero', 'works', 'partner'];
-const COND_VARS = ['badges', 'money', 'maxLv', 'partySize', 'pron', 'time', 'night', 'day', 'morning', 'evening', 'season', 'year', 'weekday', 'true', 'false', 'null', 'undefined'];
+const COND_VARS = ['badges', 'dex', 'money', 'maxLv', 'partySize', 'pron', 'time', 'night', 'day', 'morning', 'evening', 'season', 'year', 'weekday', 'true', 'false', 'null', 'undefined'];
 
 const flagsSet = new Set(), flagsRead = new Map(), varsSet = new Set();
 for (const gid in C.gather || {}) flagsSet.add('rec_' + gid); // el motor activa flag.rec_<id> la primera vez que se recoge en un punto
@@ -223,6 +223,18 @@ for (const [id, q] of Object.entries(C.quests)) if (q.parts) {
 }
 for (const [id, c] of Object.entries(C.challenges)) { if (c.trainer && !C.trainers[c.trainer]) E('reto ' + id, 'entrenador inexistente'); if (c.npc && !C.npcs[c.npc]) E('reto ' + id, 'npc inexistente'); checkCond('reto ' + id, c.cond); for (const i of c.info || []) checkCond('reto ' + id, i.cond); }
 for (const [id, s] of Object.entries(C.shops)) for (const e of s.items) checkItem('tienda ' + id, typeof e === 'string' ? e : e.id);
+// Radio Lavanda (docs/CONTENIDO.md §14)
+{
+	const ids = new Set(), KINDS = ['noticia', 'dedicatoria', 'consejo', 'musica', 'clima'];
+	for (const r of C.radio || []) {
+		const w = 'radio ' + (r.id || '?');
+		if (!r.id || ids.has(r.id)) E(w, 'pieza sin id o con id repetido'); ids.add(r.id);
+		if (!KINDS.includes(r.kind)) E(w, 'kind desconocido: ' + r.kind);
+		if (!r.text) E(w, 'sin texto'); else if (r.text.length > 300) W(w, 'texto de más de 300 caracteres');
+		checkCond(w, r.cond);
+	}
+	if ((C.radio || []).length && (C.radio || []).filter(r => !r.cond).length < 6) W('radio', 'menos de 6 piezas sin condición');
+}
 for (const ev of C.events) {
 	const w = 'evento ' + ev.id;
 	if (!/^\d\d-\d\d$/.test(ev.from) || !/^\d\d-\d\d$/.test(ev.to)) E(w, 'fechas inválidas');

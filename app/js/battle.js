@@ -703,7 +703,7 @@ export class BattleCtl {
 			summary.money = Math.floor(money);
 			G.player.money += summary.money;
 		}
-		if (this.result === 'lose') {
+		if (this.result === 'lose' && !this.cfg.noLoss) {
 			const mult = [8, 16, 24, 36, 48, 64, 80, 100, 120][Math.min(8, G.player.badges.length)];
 			const maxLv = Math.max(1, ...G.party.map(p => p.lv));
 			const lost = Math.min(G.player.money, mult * maxLv);

@@ -23,6 +23,8 @@ import { evolutionInfo } from '../movimientos.js';
 import { openMoveManager } from './gestor.js';
 import * as DC from '../guarderia.js';
 import * as GAL from '../galeria.js';
+import * as RADIO from '../radio.js';
+import * as TOR from '../torneo.js';
 import { moveMany, moveBox, swapBoxes, boxName, hasBoxName, setBoxName, BOX_NAME_MAX } from '../pc.js';
 import { playPuzzle } from './rejilla.js';
 import { repairSave } from '../reparaciones.js';
@@ -63,6 +65,7 @@ export function installHooks() {
 		center: () => pokemonCenter(),
 		pc: () => openPC(),
 		daycare: () => openDaycare(),
+		torneo: () => openTorneo(),
 		evolveCheck: async () => { for (const p of G.party) await tryEvolve(p, { trigger: 'level' }); },
 		forceEvolve: (p, to) => evolveUI(p, to),
 		cutscene: spec => playCutscene(spec),
@@ -187,6 +190,8 @@ function backupReminder() {
 }
 function continueGame(save) {
 	setG(save);
+	// Si el juego se cerró a mitad de la Copa, vuelve tu equipo de verdad
+	if (Array.isArray(G.copaBak)) { G.party = G.copaBak; delete G.copaBak; }
 	mainSwipe();
 	setTimeout(precacheOwnSprites, 3000);
 	backupReminder();
@@ -2611,6 +2616,7 @@ function openMore() {
 		(() => { const n = Object.keys(G.uniq?.missed || {}).length; return row('🐾', 'Segundas oportunidades', n ? `${n} ${n === 1 ? 'Pokémon único volverá' : 'Pokémon únicos volverán'}` : 'Pokémon únicos que se escaparon', openUniques); })(),
 		row('🏅', 'Retos', 'Líderes y combates importantes', openChallenges),
 		row('📁', 'Expediente', 'Rivales y enemigos que conoces', openIntel),
+		RADIO.radioOn(G) ? row('📻', 'Radio Lavanda', RADIO.newToday(G) ? '✨ Programa nuevo de hoy' : 'Ya escuchaste el programa de hoy', openRadio) : null,
 		row('🖼️', 'Galería privada', 'Tus imágenes, solo en este teléfono', openGallery),
 		row('📜', 'Historial de combates', (G.hist || []).length ? `Últimos ${Math.min(30, G.hist.length)} combates` : 'Todavía no hay combates', openHistory),
 		row('🎖️', 'Medallas', `${G.player.badges.length} medallas`, openBadges),
@@ -2904,6 +2910,79 @@ function diaryPhoto(e, onclick) {
 	return h('button', { class: 'dphoto', onclick },
 		h('div', { class: 'dph-pic' }, cv, lead),
 		h('div', { class: 'dph-cap' }, h('b', {}, d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' }) + (loc ? ' · ' + loc.name : '')), h('span', {}, first)));
+}
+
+// =================== Copa Luminalia ===================
+async function openTorneo() {
+	const pts = () => G.vars.copa_pts || 0;
+	const mons = [...G.party, ...G.boxes.flat()].filter(p => p && !p.egg && D.species[p.sp]);
+	const types = TOR.eligibleTypes(mons);
+	const k = await choose(`**Copa Luminalia** · 4 combates seguidos.\nReglas: un solo tipo, 3 Pokémon (del equipo o del PC), todos a Nv. 50, sin objetos ni Mochila. Se cura todo entre ronda y ronda y no se gana experiencia. Si pierdes, no pierdes dinero.\nInscripción: ${fmtMoney(TOR.TORNEO.fee)} · Tus puntos: **${pts()}**${G.vars.copa_titulos ? ` · Copas: ${G.vars.copa_titulos}` : ''}`, ['Inscribirme', 'Ahora no']);
+	if (k !== 0) return;
+	if (!types.length) { await say(null, `Para inscribirte necesitas al menos ${TOR.TORNEO.size} Pokémon de un mismo tipo, entre tu equipo y el PC.`); return; }
+	if (G.player.money < TOR.TORNEO.fee) { await say(null, 'No te alcanza para la inscripción.'); return; }
+	const ti = await choose('¿Con qué tipo te inscribes?', [...types.map(typeName), 'Cancelar']);
+	if (ti < 0 || ti >= types.length) return;
+	const type = types[ti];
+	const picked = await pickCopaTeam(mons.filter(p => TOR.typesOf(p.sp).includes(type)), type);
+	if (!picked) return;
+	const err = TOR.checkEntry(type, picked); if (err) { toast(err); return; }
+	G.player.money -= TOR.TORNEO.fee;
+	const seed = Date.now().toString(36);
+	G.copaBak = G.party;
+	G.party = picked.map(p => { const c = TOR.entrant(p); healFull(c); return c; });
+	let wins = 0;
+	try {
+		await saveGame();
+		for (let r = 0; r < TOR.TORNEO.rounds; r++) {
+			await say(null, r === TOR.TORNEO.rounds - 1 ? '🏆 **La final de la Copa Luminalia.**' : `🎟️ **Ronda ${r + 1} de ${TOR.TORNEO.rounds}.**`);
+			const res = await battle({ trainerObj: TOR.rival(r, seed), canRun: false, canLose: true, noExp: true, noLoss: true, noBag: true, terrain: 'gym' });
+			if (res.result !== 'win') break;
+			wins++;
+			for (const c of G.party) healFull(c);
+		}
+	} finally {
+		G.party = G.copaBak; delete G.copaBak;
+	}
+	const got = TOR.pointsFor(wins);
+	G.vars.copa_pts = pts() + got;
+	if (wins >= TOR.TORNEO.rounds) G.vars.copa_titulos = (G.vars.copa_titulos || 0) + 1;
+	G.vars.copa_mejor = Math.max(G.vars.copa_mejor || 0, wins);
+	await saveGame();
+	await say(null, wins >= TOR.TORNEO.rounds ? `🏆 ¡Ganaste la Copa Luminalia! +${got} puntos (llevas ${pts()}).` : got ? `Llegaste a ganar ${wins} ${wins === 1 ? 'ronda' : 'rondas'}. +${got} puntos (llevas ${pts()}).` : 'Esta vez no hubo suerte. Tus Pokémon vuelven tal cual estaban.');
+	render();
+}
+function pickCopaTeam(list, type) {
+	return new Promise(resolve => {
+		const sel = new Set();
+		const sheet = openSheet(`Copa · tipo ${typeName(type)}`, null, { onClose: () => resolve(null) });
+		const draw = () => sheet.set([
+			h('div', { class: 'note' }, `Elige ${TOR.TORNEO.size}. Pelearán a Nv. 50 y sin objeto; los tuyos no cambian.`),
+			h('div', { class: 'list' }, ...list.map(p => h('button', { class: 'row' + (sel.has(p) ? ' hl' : ''), onclick: () => { if (sel.has(p)) sel.delete(p); else if (sel.size < TOR.TORNEO.size) sel.add(p); draw(); } },
+				h('div', { class: 'ico' }, sel.has(p) ? '✅' : '⬜'),
+				h('div', { class: 'lbl' }, h('div', { class: 't' }, displayName(p)), h('div', { class: 's' }, `${p.nick ? D.species[p.sp].name + ' · ' : ''}Nv. ${p.lv} → 50${G.party.includes(p) ? ' · en el equipo' : ' · en el PC'}`))))),
+			h('div', { class: 'gal-actions' },
+				h('button', { class: 'btn primary', disabled: sel.size !== TOR.TORNEO.size, onclick: () => { const out = [...sel]; resolve(out); sheet.close(); } }, `Inscribir (${sel.size}/${TOR.TORNEO.size})`)),
+		]);
+		draw();
+	});
+}
+
+// =================== Radio Lavanda ===================
+const RADIO_KIND = { noticia: ['📰', 'Noticias'], dedicatoria: ['💌', 'Dedicatoria'], consejo: ['💡', 'El consejo'], musica: ['🎵', 'Suena'], clima: ['🌦️', 'El tiempo'] };
+function openRadio() {
+	const sheet = openSheet('Radio Lavanda', null);
+	const show = RADIO.programa(G, { cond: evalCond });
+	RADIO.markHeard(G, show); saveGame();
+	const fecha = new Date().toLocaleDateString('es-MX', { weekday: 'long', day: 'numeric', month: 'long' });
+	sheet.set([
+		h('div', { class: 'radio-head' }, h('div', { class: 'radio-dial' }, h('span', {}, 'AM 1220'), h('i', {})), h('div', {}, h('b', {}, 'Radio Lavanda'), h('span', {}, 'La voz del este · ' + fecha))),
+		show.length ? h('div', { class: 'radio-show' }, ...show.map(p => {
+			const [ico, lbl] = RADIO_KIND[p.kind] || ['📻', 'Al aire'];
+			return h('div', { class: 'radio-seg' }, h('div', { class: 'radio-k' }, ico + ' ' + lbl + (p.from ? ' · de ' + p.from : '')), h('p', { html: fmtText(tx(p.text)) }));
+		})) : h('div', { class: 'empty' }, 'Solo se oye estática. Prueba mañana.'),
+		h('div', { class: 'note' }, 'Un programa nuevo cada día. Hablan de lo que pasa por ahí… y a veces de lo que hiciste tú.'),
+	]);
 }
 
 // =================== Galería privada ===================

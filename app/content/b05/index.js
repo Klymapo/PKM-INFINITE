@@ -17,15 +17,17 @@ import t11 from './t11-p9-kalos.js';
 import t12 from './t12-p9-hilos.js';
 import t13 from './t13-p9-sistemas.js';
 import t14 from './t14-p9-terror.js';
+import t15 from './t15-radio.js';
+import t16 from './t16-p9-copa.js';
 
 const block = {
 	id: 'b05', title: 'Acto IV · La luz robada', hours: 12, ends: 'b05_fin',
 	regions: { alola: { name: 'Alola', h: 100, land: 'M6,22 L14,8 L30,6 L42,14 L44,30 L36,44 L22,48 L8,42 Z M44,34 L56,28 L70,30 L78,44 L84,62 L82,78 L70,82 L56,76 L46,66 L42,50 Z M80,34 L90,34 L92,44 L82,46 Z M60,8 L80,4 L94,10 L92,22 L76,26 L62,20 Z M14,76 L28,72 L44,78 L48,90 L38,97 L20,96 L10,88 Z' } },
 	npcs, quests: misiones,
-	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [],
+	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [], radio: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t5, t8, t6, t7, t9, t10, t11, t12, t13, t14];
+const parts = [comun, t0, t1, t2, t3, t5, t8, t6, t7, t9, t10, t11, t12, t13, t14, t15, t16];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {
@@ -41,6 +43,7 @@ for (const part of parts) {
 	}
 	block.events.push(...(part.events || []));
 	block.milestones.push(...(part.milestones || []));
+	block.radio.push(...(part.radio || []));
 	for (const loc in part.extraSpots || {}) (extraSpots[loc] ||= []).push(...part.extraSpots[loc]);
 	// Parches a lugares del B1: se acumulan (varios tramos pueden tocar el mismo lugar)
 	for (const loc in part.patches || {}) {

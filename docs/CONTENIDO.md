@@ -366,7 +366,7 @@ Son expresiones JavaScript sobre este ámbito:
 | `quest.b01_m1 == 'huida'`, `done.b01_m1` | etapa y si está terminada |
 | `has('pokeflute')`, `count('potion') > 2` | objetos |
 | `badges >= 1`, `badge('medalla_roca')` | medallas |
-| `money`, `maxLv`, `partySize` | dinero, nivel máximo, tamaño del equipo |
+| `money`, `maxLv`, `partySize`, `dex` | dinero, nivel máximo, tamaño del equipo, especies capturadas |
 | `inParty('riolu')`, `owns('fennekin')`, `seen('x')`, `caught('x')` | Pokémon |
 | `visited('id')`, `cleared('id')`, `beat('trainerId')` | progreso |
 | `partner('rancho_prado')`, `works('ampharos')` | eres socio de ese negocio · tienes un Pokémon de esa especie trabajando en algún negocio (§13) |
@@ -472,3 +472,21 @@ ventures: {
 - Los Pokémon que trabajan salen del PC o del equipo y vuelven cuando el jugador quiera; ganan amistad. `owns()` los cuenta; `inParty()` no.
 
 **Mejoras cruzadas (2026-10-28):** un negocio puede rendir más si el jugador es socio de otro que lo abastece: `synergy: [{ from: '<idNegocio>', line?: '<línea del otro>', min?: 10, mult: { <línea|all>: 1.15 }, label, desc }]`. Activa si es socio de `from` y (con `line`) le dedica al menos `min` % de esfuerzo. Para ampliar un negocio de otro bloque, repite su id en `ventures` con solo `synergy`. Se ve en la pantalla del negocio («Con tus otros negocios») y en el desglose.
+
+## 14. Radio Lavanda
+
+> Pedido de Mario, 2026-10-28. Motor en `app/js/radio.js`, pantalla en Más › Radio Lavanda (sale en cuanto el jugador ha pisado Pueblo Lavanda).
+
+Cada día real el juego arma un programa de 4 piezas entre las que cumplen su `cond` (orden: clima, noticia, dedicatoria, noticia, consejo, música). Mismo día, mismo programa; lo oído hace poco pierde prioridad, y las piezas con `cond` pesan el doble que las genéricas.
+
+```js
+radio: [
+  { id: 'rl_rancho_adela', kind: 'noticia', cond: 'flag.b03_rancho_sobrina', text: 'Lo que dice la locutora ({jugador}, {o|a|e} valen).' },
+  { id: 'rl_ded_hector', kind: 'dedicatoria', from: 'Héctor', cond: 'flag.p7_hector', text: '…' },
+  // kind: 'noticia' | 'dedicatoria' | 'consejo' | 'musica' | 'clima'; w: peso opcional
+],
+```
+
+- Las piezas **solo comentan lo que el jugador ya vivió**: nada de spoilers ni de secretos que aún no sabe.
+- Cada bloque nuevo añade 4–8 piezas sobre sus grandes decisiones (con una variante por rama).
+- Mantén siempre al menos 6 piezas sin `cond`, para que el programa nunca salga vacío.

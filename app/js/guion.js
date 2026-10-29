@@ -32,7 +32,7 @@ export const UI = {}; // lo rellena la interfaz: say, choose, battle, toast, pro
 
 class Abort extends Error {}
 
-/** Sustituye marcadores en textos: {jugador}, {riolu}, {o|a|e} según pronombres, {dinero}. */
+/** Sustituye marcadores en textos: {jugador}, {riolu}, {o|a|e} según pronombres, {dinero}, {vars.x}, {item:id}. */
 export function tx(s) {
 	if (!s) return '';
 	const pron = G?.player?.pron || 'el';
@@ -44,6 +44,8 @@ export function tx(s) {
 			return p ? displayName(p) : 'Riolu';
 		})
 		.replace(/\{dinero\}/g, () => '₽' + (G?.player?.money || 0))
+		.replace(/\{vars\.(\w+)\}/g, (m, k) => String(G?.vars?.[k] || 0))
+		.replace(/\{item:(\w+)\}/g, (m, k) => D.items[k]?.name || k)
 		.replace(/\{([^{}|]*)\|([^{}|]*)\|([^{}|]*)\}/g, (m, a, b, c) => [a, b, c][pi]);
 }
 
@@ -105,6 +107,7 @@ async function runCmd(c, ctx) {
 		return;
 	}
 	if (c.daycare) { await UI.daycare?.(); return; }
+	if (c.torneo) { await UI.torneo?.(); return; }
 	if (c.set) {
 		for (const k in c.set) setPath(k, c.set[k]);
 		for (const k in c.set) { const m = /^flag\.(b\d\d)_fin$/.exec(k); if (m && c.set[k]) closeHangingThreads(m[1]); }

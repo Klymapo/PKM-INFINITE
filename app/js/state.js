@@ -274,6 +274,7 @@ function scope() {
 		visited: id => !!G.visited[id],
 		cleared: id => !!G.cleared[id],
 		beat: id => !!G.beaten[id],
+		dex: Object.keys(G.dex.caught || {}).length, // especies capturadas (Pokédex)
 		maxLv: Math.max(0, ...G.party.map(p => p.lv)),
 		partySize: G.party.length,
 		pron: G.player.pron,

@@ -1001,3 +1001,17 @@ button.gm-move.soft { border-left-width: 5px; }
 .gal-view-bar b { flex: 1 1 100%; color: var(--cream); font-size: 15px; text-align: center; }
 .gal-view-bar .btn { flex: 1; }
 img.illus.priv { image-rendering: auto; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; display: block; }
+
+/* Radio Lavanda */
+.radio-head { display: flex; align-items: center; gap: 12px; padding: 4px 14px 12px; }
+.radio-head b { display: block; font-family: 'Pixelify Sans', sans-serif; font-size: 18px; }
+.radio-head span { font-size: 13px; color: var(--muted); }
+.radio-dial { position: relative; width: 74px; height: 44px; border-radius: 8px; background: #2a2016; border: 2px solid #8a6a3a; display: flex; align-items: flex-start; justify-content: center; padding-top: 4px; flex: none; }
+.radio-dial span { font-family: 'Pixelify Sans', sans-serif; font-size: 13px; color: #ffd27a; }
+.radio-dial i { position: absolute; left: 50%; bottom: 6px; width: 2px; height: 16px; background: #ff6a3a; animation: radio-needle 4s ease-in-out infinite alternate; }
+@keyframes radio-needle { from { transform: translateX(-18px); } to { transform: translateX(14px); } }
+@media (prefers-reduced-motion: reduce) { .radio-dial i { animation: none; } }
+.radio-show { display: flex; flex-direction: column; gap: 10px; padding: 0 12px 12px; }
+.radio-seg { background: var(--ink-2); border: 1px solid var(--line); border-left: 3px solid #c79a4a; border-radius: 10px; padding: 10px 12px; }
+.radio-k { font-size: 12.5px; font-weight: 800; color: #e8c27a; margin-bottom: 4px; }
+.radio-seg p { margin: 0; line-height: 1.5; }

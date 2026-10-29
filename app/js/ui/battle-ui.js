@@ -42,7 +42,7 @@ export async function runBattle(cfg, hooks) {
 	const terrain = cfg.terrain || trainer?.terrain || here?.battleTerrain || (here?.route ? hooks.terrainHere() : (here?.kind === 'gym' ? 'gym' : 'city'));
 	const ctl = new BattleCtl({
 		kind, foes, trainer, terrain, loc: G.loc, canRun: cfg.canRun !== false, shift: (G.settings?.battleStyle ?? 'shift') === 'shift',
-		wildGimmick: cfg.wild?.gimmick, noCatch: cfg.wild?.noCatch,
+		wildGimmick: cfg.wild?.gimmick, noCatch: cfg.wild?.noCatch, noExp: !!cfg.noExp, noLoss: !!cfg.noLoss,
 	});
 
 	// ---------- DOM ----------
@@ -277,7 +277,7 @@ export async function runBattle(cfg, hooks) {
 			log.innerHTML = fmtText(`¿Qué debería hacer **${meName}**?`);
 			panel.append(
 				h('button', { class: 'btn fight', onclick: showMoves }, 'Luchar'),
-				h('button', { class: 'btn bag', onclick: showBag }, 'Mochila'),
+				h('button', { class: 'btn bag', onclick: showBag, disabled: !!cfg.noBag, title: cfg.noBag ? 'Sin objetos en este torneo' : null }, 'Mochila'),
 				h('button', { class: 'btn pkmn', onclick: () => showSwitch(false) }, 'Pokémon'),
 				h('button', { class: 'btn run', onclick: () => resolve({ type: 'run' }) }, kind === 'wild' ? 'Huir' : 'Huir'),
 			);
