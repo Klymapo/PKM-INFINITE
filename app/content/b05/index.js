@@ -29,6 +29,11 @@ const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {
 		for (const id in part[k] || {}) {
+			if (k === 'ventures' && block[k][id]) { // ampliar un negocio del mismo bloque: se acumulan las listas
+				const cur = block[k][id], v = part[k][id];
+				for (const kk in v) cur[kk] = Array.isArray(v[kk]) && Array.isArray(cur[kk]) ? cur[kk].concat(v[kk]) : (Array.isArray(v[kk]) && !cur[kk] ? v[kk] : (cur[kk] ?? v[kk]));
+				continue;
+			}
 			if (block[k][id] && k !== 'npcs') console.warn(`[b05] ${k} duplicado: ${id}`);
 			block[k][id] = part[k][id];
 		}

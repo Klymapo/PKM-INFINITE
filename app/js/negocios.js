@@ -120,6 +120,7 @@ export function rates(id) {
 	if (wb) addMult({ all: 1 + wb }, `Pokémon trabajando (+${Math.round(wb * 100)} %)`);
 	const t = Date.now();
 	for (const b of st.boosts || []) if (b.until > t) addMult(b.mult, b.label || 'Racha');
+	for (const sy of synergiesOf(id)) if (sy.active) addMult(sy.mult, '🔗 ' + sy.label);
 	let gross = 0;
 	const items = {}, perLine = {};
 	for (const k in lines) {
@@ -134,6 +135,20 @@ export function rates(id) {
 	const pct = sharePct(id);
 	const profit = Math.max(0, gross - upkeep);
 	return { perLine, gross, upkeep, profit, pct, money: profit * pct / 100, items, why, red: gross < upkeep };
+}
+
+/**
+ * Mejoras cruzadas (pedido de Mario, 2026-10-28): un negocio rinde más si tienes otro que lo abastece.
+ * En el contenido: `synergy: [{ from: '<idNegocio>', line?: '<línea del otro>', min?: <% de esfuerzo>, mult: {...}, label, desc }]`.
+ * Activa si eres socio de `from` y (si hay `line`) le dedicas al menos `min` % de esfuerzo (por defecto 10).
+ */
+export function synergiesOf(id) {
+	const def = ventureDef(id);
+	return (def?.synergy || []).filter(sy => C.ventures?.[sy.from]).map(sy => {
+		const other = ventureState(sy.from);
+		const active = !!other?.owned && (!sy.line || (other.effort?.[sy.line] || 0) >= (sy.min ?? 10));
+		return { ...sy, active, fromName: C.ventures[sy.from].name };
+	});
 }
 
 /** Acumula lo producido desde la última vez (hasta llenar el almacén). */

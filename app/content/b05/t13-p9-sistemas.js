@@ -13,6 +13,21 @@ export default {
 			},
 		},
 	},
+	// Mejoras cruzadas entre negocios (2026-10-28): mismo id → el motor acumula `synergy`
+	ventures: {
+		b05_taller: { synergy: [
+			{ from: 'p7_rancho', line: 'lana', min: 20, mult: { monturas: 1.2 }, label: 'Lana del Rancho Prado', desc: 'Adela manda fardos de lana para acolchar las sillas de montura.' },
+		] },
+		p7_rancho: { synergy: [
+			{ from: 'b05_taller', line: 'piezas', min: 10, mult: { lana: 1.15 }, label: 'Piezas del Taller Kahale', desc: 'Leilani le repasa la esquiladora cada mes por correo. Ya no da calambre.' },
+		] },
+		b05_atico: { synergy: [
+			{ from: 'p7_excavacion', line: 'fosiles', min: 10, mult: { visitas: 1.15 }, label: 'Fósiles de la cantera', desc: 'Un fósil nuevo en la vitrina del vestíbulo cada temporada. La gente vuelve a verlo.' },
+		] },
+		p7_castillo: { synergy: [
+			{ from: 'b05_atico', mult: { visitas: 1.1 }, label: 'Folletos en el museo', desc: 'Philippe deja folletos del castillo en la taquilla del ático. Cobra comisión, claro.' },
+		] },
+	},
 	scripts: {
 		p9_guarderia_abre: [
 			{ if: '!flag.p9_guarderia_vista', then: [

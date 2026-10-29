@@ -85,5 +85,23 @@ for (const id of Object.keys(C.ventures)) {
 	st.lastEvent = Date.now() - 2 * N.DAY;
 	ok(!(def.events || []).length || N.rollEvent(id, () => 0) !== null, `${id}: al día siguiente sí`);
 }
+// Mejoras cruzadas (2026-10-28): solo cuentan si eres socio del otro negocio y le dedicas el esfuerzo pedido
+for (const id of Object.keys(C.ventures)) for (const sy of C.ventures[id].synergy || []) {
+	ok(!!C.ventures[sy.from], `${id}: la mejora cruzada «${sy.label}» viene de un negocio que existe (${sy.from})`);
+	if (!C.ventures[sy.from]) continue;
+	fresh();
+	N.joinVenture(id);
+	const base = N.rates(id);
+	ok(!N.synergiesOf(id).find(x => x.from === sy.from).active, `${id}: «${sy.label}» apagada sin ser socio de ${sy.from}`);
+	N.joinVenture(sy.from);
+	const ost = N.ventureState(sy.from);
+	if (sy.line) { ok(!!N.linesOf(sy.from)[sy.line] || !!C.ventures[sy.from].lines?.[sy.line], `${id}: la línea «${sy.line}» de ${sy.from} existe`); ost.effort = { [sy.line]: 100 }; }
+	const on = N.synergiesOf(id).find(x => x.from === sy.from);
+	if (!sy.line || N.linesOf(sy.from)[sy.line]) {
+		ok(on.active, `${id}: «${sy.label}» se enciende`);
+		ok(N.rates(id).why.some(w => w.label.includes(sy.label)), `${id}: «${sy.label}» aparece en el desglose`);
+		ok(N.rates(id).gross >= base.gross, `${id}: con «${sy.label}» no produce menos`);
+	} else ok(true, `${id}: «${sy.label}» depende de una línea aún bloqueada (${sy.line})`);
+}
 console.log(fails ? `\n${fails} fallos` : '\nTodo bien');
 process.exit(fails ? 1 : 0);

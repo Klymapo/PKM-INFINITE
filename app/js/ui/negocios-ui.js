@@ -8,6 +8,7 @@ import { monImg, itemImg } from '../art.js';
 import { h, say, choose, toast, openSheet, portraitFor } from './core.js';
 import { fmtMoney, fmtText } from '../util.js';
 import {
+	synergiesOf,
 	ventureDef, ventureState, ventureList, owned, linesOf, joinVenture, upgradesOf, managersOf, slotsOf, storeDays, sharePct,
 	workerBonus, rates, pending, collect, shiftEffort, buyUpgrade, setManager, assignWorker, recallWorker, rollEvent, eventOptions, resolveEvent, tick,
 } from '../negocios.js';
@@ -191,6 +192,16 @@ export function openVenture(id, onChange) {
 			if (r.why.length) {
 				body.push(h('button', { class: 'linkbtn neg-why-btn', onclick: () => { showWhy = !showWhy; draw(); } }, showWhy ? 'Ocultar el desglose' : 'Ver qué suma y qué resta'));
 				if (showWhy) body.push(h('div', { class: 'neg-why' }, ...r.why.map(w => h('div', {}, h('span', {}, w.label), h('b', {}, Object.entries(w.m).map(([k, m]) => `${k === 'all' ? 'Todo' : (def.lines[k]?.name || k)} ${pctTxt(m)}`).join(' · '))))));
+			}
+
+			// Mejoras cruzadas con tus otros negocios (2026-10-28)
+			const sys = synergiesOf(id);
+			if (sys.length) {
+				body.push(section('Con tus otros negocios'));
+				body.push(h('div', { class: 'list' }, ...sys.map(sy => h('div', { class: 'row neg-syn' + (sy.active ? ' on' : '') },
+					h('div', { class: 'ico' }, sy.active ? '🔗' : '⛓️‍💥'),
+					h('div', { class: 'lbl' }, h('div', { class: 't' }, sy.label),
+						h('div', { class: 's' }, (sy.desc ? tx(sy.desc) + ' ' : '') + (sy.active ? `Activa: ${Object.entries(sy.mult).map(([k, m]) => `${k === 'all' ? 'Todo' : (def.lines[k]?.name || k)} ${pctTxt(m)}`).join(' · ')}.` : `Necesita: ser socio de ${sy.fromName}${sy.line ? ` y dedicar al menos ${sy.min ?? 10} % a «${C.ventures[sy.from].lines?.[sy.line]?.name || sy.line}»` : ''}.`)))))));
 			}
 
 			// Pokémon trabajando

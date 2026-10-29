@@ -470,3 +470,5 @@ ventures: {
 - Cada negocio tiene 2–4 líneas, 5–8 mejoras, 2–3 encargados posibles (con voz propia: son personajes que ya conoce el jugador) y 5–8 imprevistos escritos con la voz del encargado. Los imprevistos son el sitio para el humor y para que el mundo se mueva.
 - Un bloque posterior puede **ampliar** un negocio repitiendo su id en `ventures`: las listas (mejoras, imprevistos, encargados) se suman y los objetos (líneas, jobs) se mezclan.
 - Los Pokémon que trabajan salen del PC o del equipo y vuelven cuando el jugador quiera; ganan amistad. `owns()` los cuenta; `inParty()` no.
+
+**Mejoras cruzadas (2026-10-28):** un negocio puede rendir más si el jugador es socio de otro que lo abastece: `synergy: [{ from: '<idNegocio>', line?: '<línea del otro>', min?: 10, mult: { <línea|all>: 1.15 }, label, desc }]`. Activa si es socio de `from` y (con `line`) le dedica al menos `min` % de esfuerzo. Para ampliar un negocio de otro bloque, repite su id en `ventures` con solo `synergy`. Se ve en la pantalla del negocio («Con tus otros negocios») y en el desglose.
