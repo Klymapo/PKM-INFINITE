@@ -1,13 +1,13 @@
 # Registro automático (no editar a mano)
 
-Generado: 2026-10-28T21:54:05.639Z · contenido 2026-10-28.1
+Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 
 ## Apariciones de NPCs (escenas por bloque)
 
 | NPC | b01 | b02 | b03 | b04 | b05 | b06 | Total |
 |---|---|---|---|---|---|---|---|
 | Acromo (`acromo`) | 0 | 0 | 0 | 0 | 0 | 9 | 9 ⚠ 1 bloque(s) |
-| Alexia (`alexia`) | 7 | 2 | 0 | 3 | 3 | 1 | 16 |
+| Alexia (`alexia`) | 7 | 2 | 0 | 3 | 10 | 1 | 23 |
 | Dr. Ansel Moreau (`ansel`) | 3 | 0 | 0 | 1 | 1 | 0 | 5 |
 | Antón (`anton`) | 0 | 6 | 0 | 0 | 0 | 0 | 6 ⚠ 1 bloque(s) |
 | Atenea (`atenea`) | 0 | 3 | 0 | 5 | 0 | 0 | 8 ⚠ 2 bloque(s) |
@@ -33,7 +33,7 @@ Generado: 2026-10-28T21:54:05.639Z · contenido 2026-10-28.1
 | Gonzalo (`cg_puente_teo`) | 0 | 0 | 0 | 5 | 0 | 0 | 5 ⚠ 1 bloque(s) |
 | Dr. Lazare (`cientifico_fosiles`) | 4 | 0 | 9 | 8 | 10 | 0 | 31 |
 | Prof. Ciprés (`cipres`) | 7 | 2 | 0 | 0 | 1 | 0 | 10 |
-| Conde Vladimiro (`conde`) | 8 | 1 | 0 | 6 | 3 | 0 | 18 |
+| Conde Vladimiro (`conde`) | 8 | 1 | 0 | 6 | 6 | 0 | 21 |
 | Corelia (`corelia`) | 8 | 3 | 5 | 1 | 0 | 0 | 17 |
 | Cornelio (`cornelio`) | 5 | 0 | 0 | 2 | 0 | 0 | 7 ⚠ 2 bloque(s) |
 | Dámaso Ferrán (`damaso`) | 0 | 2 | 5 | 0 | 0 | 1 | 8 |
@@ -43,13 +43,13 @@ Generado: 2026-10-28T21:54:05.639Z · contenido 2026-10-28.1
 | Francine (`francine`) | 0 | 0 | 0 | 0 | 6 | 6 | 12 ⚠ 2 bloque(s) |
 | Señor Fuji (`fuji`) | 0 | 0 | 0 | 9 | 4 | 0 | 13 ⚠ 2 bloque(s) |
 | Prof. Gadd (`gadd`) | 3 | 0 | 0 | 2 | 1 | 0 | 6 |
-| Gaspar (`gaspar`) | 8 | 6 | 4 | 0 | 1 | 2 | 21 |
+| Gaspar (`gaspar`) | 8 | 6 | 4 | 0 | 10 | 2 | 30 |
 | Gladio (`gladio`) | 0 | 0 | 0 | 0 | 10 | 0 | 10 ⚠ 1 bloque(s) |
 | Handsome (`handsome`) | 12 | 11 | 1 | 9 | 3 | 10 | 46 |
-| Héctor (`hector`) | 5 | 1 | 0 | 2 | 0 | 1 | 9 |
+| Héctor (`hector`) | 5 | 1 | 0 | 2 | 1 | 1 | 10 |
 | Hela (`hela`) | 0 | 0 | 0 | 0 | 10 | 0 | 10 ⚠ 1 bloque(s) |
 | Inés Garza (`ines`) | 0 | 0 | 0 | 0 | 0 | 6 | 6 ⚠ 1 bloque(s) |
-| Dra. Irene Solberg (`irene`) | 3 | 1 | 9 | 0 | 0 | 0 | 13 |
+| Dra. Irene Solberg (`irene`) | 3 | 1 | 9 | 0 | 7 | 0 | 20 |
 | Campeona retirada (`jinete_boceto`) | 4 | 0 | 0 | 0 | 5 | 0 | 9 ⚠ 2 bloque(s) |
 | Kalena (`kalena`) | 0 | 0 | 0 | 0 | 6 | 0 | 6 ⚠ 1 bloque(s) |
 | Kaori (`kaori`) | 0 | 8 | 3 | 5 | 3 | 2 | 21 |
@@ -67,7 +67,7 @@ Generado: 2026-10-28T21:54:05.639Z · contenido 2026-10-28.1
 | Lila (`lila`) | 8 | 3 | 3 | 1 | 0 | 0 | 15 |
 | Lola Arriaga (`lola`) | 0 | 3 | 1 | 2 | 2 | 0 | 8 |
 | Lucien (`lucien`) | 5 | 3 | 0 | 0 | 8 | 0 | 16 |
-| Lulú (`lulu`) | 0 | 0 | 0 | 0 | 4 | 2 | 6 ⚠ 2 bloque(s) |
+| Lulú (`lulu`) | 0 | 0 | 0 | 0 | 5 | 2 | 7 ⚠ 2 bloque(s) |
 | Magda Ivers (`magda`) | 0 | 0 | 0 | 8 | 0 | 0 | 8 ⚠ 1 bloque(s) |
 | Matière (`matiere`) | 5 | 6 | 0 | 0 | 1 | 1 | 13 |
 | Mayla (`mayla`) | 0 | 0 | 0 | 0 | 8 | 1 | 9 ⚠ 2 bloque(s) |
@@ -75,7 +75,7 @@ Generado: 2026-10-28T21:54:05.639Z · contenido 2026-10-28.1
 | Misty (`misty`) | 0 | 0 | 0 | 14 | 7 | 0 | 21 ⚠ 2 bloque(s) |
 | Morti (`morti`) | 0 | 4 | 0 | 0 | 0 | 0 | 4 ⚠ 1 bloque(s) |
 | Nate (`nate`) | 6 | 2 | 0 | 0 | 0 | 0 | 8 ⚠ 2 bloque(s) |
-| Nereida (`nereida`) | 0 | 0 | 0 | 0 | 7 | 0 | 7 ⚠ 1 bloque(s) |
+| Nereida (`nereida`) | 0 | 0 | 0 | 0 | 8 | 0 | 8 ⚠ 1 bloque(s) |
 | Nico Ferrer (`nico_ferrer`) | 0 | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Noa Lambert (`noa`) | 4 | 2 | 2 | 1 | 0 | 1 | 10 |
 | Matías Olmedo (`olmedo`) | 0 | 0 | 0 | 0 | 0 | 3 | 3 ⚠ 1 bloque(s) |
@@ -97,7 +97,7 @@ Generado: 2026-10-28T21:54:05.639Z · contenido 2026-10-28.1
 | Fabien Rouxel (`rouxel`) | 3 | 1 | 0 | 0 | 2 | 0 | 6 |
 | Sabrina (`sabrina`) | 0 | 0 | 0 | 2 | 6 | 0 | 8 ⚠ 2 bloque(s) |
 | Serafina Lemnis (`sera`) | 4 | 8 | 0 | 3 | 1 | 1 | 17 |
-| Simón (`simon`) | 3 | 0 | 0 | 2 | 3 | 4 | 12 |
+| Simón (`simon`) | 3 | 0 | 0 | 2 | 4 | 4 | 13 |
 | Adela (`sobrina`) | 0 | 0 | 5 | 14 | 11 | 0 | 30 |
 | Tadeo Lis (`tadeo`) | 0 | 0 | 0 | 0 | 0 | 2 | 2 ⚠ 1 bloque(s) |
 | Don Teodoro (`teodoro`) | 0 | 0 | 0 | 0 | 0 | 4 | 4 ⚠ 1 bloque(s) |
@@ -873,6 +873,20 @@ Generado: 2026-10-28T21:54:05.639Z · contenido 2026-10-28.1
 - `museo_v_titular` — b05:museo_titular
 - `museo_v_torre` — b05:museo_torre
 - `museo_vitrina_vista` — b05:museo_vitrina
+- `p10_cafe_abierta` — b05:p10_cafe_entrada
+- `p10_charla_1` — b05:p10_cafe_charla
+- `p10_irene_charla` — b05:p10_irene_noche, b05:p10_irene_dia
+- `p10_lulu` — b05:p10_lulu_llega
+- `p10_nereida` — b05:p10_nereida_llega
+- `p10_nombre` — b05:p10_c_up_nombre
+- `p10_nombre_mitad` — b05:p10_c_up_nombre
+- `p10_nombre_olla` — b05:p10_c_up_nombre
+- `p10_nombre_rocafort` — b05:p10_c_up_nombre
+- `p10_numero_leido` — b05:p10_numero
+- `p10_obs_visto` — b05:p10_obs_apertura
+- `p10_oferta` — b05:p10_propuesta
+- `p10_propuesta` — b05:p10_cafe_propuesta
+- `p10_redaccion_vista` — b05:p10_redaccion
 - `p7_adela_aviso` — b04:p7_adela_aviso
 - `p7_c_propuesta` — b04:p7_castillo_propuesta
 - `p7_c_tasa` — b04:p7_c_up_tasa
@@ -921,6 +935,16 @@ Generado: 2026-10-28T21:54:05.639Z · contenido 2026-10-28.1
 - `p9_carta_noa` — b05:p9_buzon_cartas
 - `p9_carta_rhi` — b05:p9_buzon_cartas
 - `p9_chandelurita` — b05:p9_vela_escena
+- `p9_copa_aggronite` — b05:p9_copa_mostrador
+- `p9_copa_blastoisinite` — b05:p9_copa_mostrador
+- `p9_copa_charizarditex` — b05:p9_copa_mostrador
+- `p9_copa_charizarditey` — b05:p9_copa_mostrador
+- `p9_copa_garchompite` — b05:p9_copa_mostrador
+- `p9_copa_houndoominite` — b05:p9_copa_mostrador
+- `p9_copa_manectite` — b05:p9_copa_mostrador
+- `p9_copa_medichamite` — b05:p9_copa_mostrador
+- `p9_copa_venusaurite` — b05:p9_copa_mostrador
+- `p9_copa_vista` — b05:p9_copa
 - `p9_danza_1` — b05:p9_danza_traer, b05:p9_danza_cria, b05:p9_danza_incineroar
 - `p9_danza_cria` — b05:p9_danza_cria
 - `p9_espejos_1` — b05:p9_alk_inicio
@@ -949,6 +973,8 @@ Generado: 2026-10-28T21:54:05.639Z · contenido 2026-10-28.1
 - `p9_mareep_rosada_vive` — b05:p9_mareep_final
 - `p9_pesas_vista` — b05:p9_pesas_llega
 - `p9_snorlium` — b05:p9_fest_concurso
+- `p9_terror_1` — b05:p9_terror
+- `p9_terror_premio` — b05:p9_terror
 - `p9_vela_1` — b05:p9_vela_dolores
 - `p9_vela_fin` — b05:p9_vela_fin
 
