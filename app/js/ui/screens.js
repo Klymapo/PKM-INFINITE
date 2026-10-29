@@ -833,6 +833,34 @@ function zoneRange(t) {
 }
 const zoneRangeText = t => { const r = zoneRange(t); return r.min < r.max ? `Nv. ${r.min}–${r.max}` : `Nv. ${r.max}`; };
 const TR_AVISO = new Set();
+// ---------- Escalera élite (pedido de Mario, 2026-10-28) ----------
+const LADDER = 10;
+const ladderKey = t => 'escalera:' + (t.trainers || []).join(',');
+const eliteWins = t => (t.trainers || []).reduce((n, id) => n + (G.beaten[id + '__elite'] || 0), 0);
+/** Tipo que domina en una zona (por los Pokémon de sus entrenadores). */
+function zoneType(t) {
+	const n = {};
+	for (const id of t.trainers || []) for (const m of C.trainers[id]?.team || []) for (const ty of D.species[m.sp]?.types || []) n[ty] = (n[ty] || 0) + 1;
+	return Object.entries(n).sort((a, b) => b[1] - a[1])[0]?.[0] || 'Normal';
+}
+const bst = sp => Object.values(D.species[sp]?.bs || {}).reduce((x, y) => x + y, 0);
+/** El «verdadero equipo» del instructor: las formas élite de todos los Pokémon de la zona, sin repetir, al tope + 2. */
+function ladderTrainer(t, coach) {
+	const lv = Math.max(5, (G.vars.cap || Math.round(avgLevel())) + 2);
+	const seen = new Set(), team = [];
+	for (const id of t.trainers || []) for (const m of C.trainers[id]?.team || []) { const sp = eliteForm(m.sp, lv); if (!seen.has(sp)) { seen.add(sp); team.push({ sp, lv, iv: 31, nature: m.nature }); } }
+	team.sort((a, b) => bst(b.sp) - bst(a.sp));
+	return { id: ladderKey(t).replace(/[:,]/g, '_'), name: coach?.name || 'Instructor', cls: '', npc: undefined, look: coach?.look, ai: 4, reward: 1500,
+		intro: 'Diez victorias. Vale. Se acabó el calentamiento: este es mi equipo de verdad.', win: 'Así se entrena. Ya no te puedo enseñar nada más aquí.', lose: null,
+		team: team.slice(0, 6) };
+}
+/** Premio de la escalera: la MT más fuerte del tipo de la zona que aún no tengas; si no hay, Caramelos Raros. */
+function ladderPrize(t) {
+	const ty = zoneType(t);
+	const tms = Object.keys(D.items).filter(id => D.items[id]?.tm && D.moves[toID(D.items[id].tm)]?.type === ty && !(G.bag[id] > 0))
+		.sort((a, b) => (D.moves[toID(D.items[b].tm)]?.bp || 0) - (D.moves[toID(D.items[a].tm)]?.bp || 0));
+	return tms[0] ? { id: tms[0], n: 1 } : { id: 'rarecandy', n: 3 };
+}
 /** Todas las zonas de entrenamiento de lugares que ya visitaste, por nivel (pedido de Mario, 2026-10-28). */
 function zoneDirectory(here) {
 	const rows = [];
@@ -878,7 +906,8 @@ function trainingMenu(t, s, { open, pz, cap, coach }) {
 			h('div', { class: 'tz-label' }, 'Combatir'),
 			h('div', { class: 'tz-grid' },
 				t.trainers?.length ? btn('practice', '⚔️ ' + (practice || 'Práctica'), open ? 'Experiencia y premio' : (practice ? 'Solo cuenta para el premio' : 'Tu equipo ya lo superó'), 'primary', !practice) : null,
-				t.trainers?.length ? btn('elite', '🔥 Modo élite', `Rivales a Nv. ${tope} · ₽300 · no cuenta para el premio`, 'elite') : null,
+				t.trainers?.length ? btn('elite', '🔥 Modo élite', `Rivales a Nv. ${tope} · ₽300 · escalera ${Math.min(eliteWins(t), LADDER)}/${LADDER}`, 'elite') : null,
+				t.trainers?.length && eliteWins(t) >= LADDER ? btn('ladder', G.flags[ladderKey(t)] ? '👑 Revancha con el instructor' : '👑 El verdadero equipo', G.flags[ladderKey(t)] ? 'Sin premio · por el gusto' : `Nv. ${tope + 2} · premio propio`, 'elite wide') : null,
 				open && t.wild?.length ? btn('wild', '🌿 Buscar salvajes', null, 'wide') : null),
 			h('div', { class: 'tz-label' }, 'Preparar'),
 			h('div', { class: 'tz-grid' },
@@ -916,6 +945,19 @@ async function training(t, s) {
 				else toast(`🎁 Premio del lugar: ${pz.wins}/${pz.need}`);
 			}
 			// Tras el combate se vuelve al menú de la zona (pedido de Mario, 2026-10-28); si pierdes, ya te llevaron al Centro.
+			if (res?.result === 'lose') return res;
+			render(); continue;
+		}
+		if (k === 'ladder') {
+			const tr = ladderTrainer(t, coach);
+			const res = await battle({ trainerObj: tr });
+			if (res?.result === 'win' && !G.flags[ladderKey(t)]) {
+				G.flags[ladderKey(t)] = true;
+				const pz = ladderPrize(t);
+				addItem(pz.id, pz.n);
+				await say(coach, tx(`Toma. Me la guardaba para quien llegara hasta aquí: **${itemName(pz.id)}${pz.n > 1 ? ' ×' + pz.n : ''}**. Te la has ganado.`));
+				await saveGame();
+			}
 			if (res?.result === 'lose') return res;
 			render(); continue;
 		}
