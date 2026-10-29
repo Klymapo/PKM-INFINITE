@@ -17,6 +17,9 @@ const LUC_AQUI = SOCIO + ' && !vars.lucien_viaje';
 const CHESPIN = 'flag.b01_lucien_chespin';
 
 export default {
+	npcs: {
+		mireille: { name: 'Mireille', title: 'Monitora de la sala de pesas', look: { hair: 'ponytail', hairColor: '#c4743a', outfit: '#c4473a', outfit2: '#2b2b38', skin: 2, eyes: '#3a5aa8', eyesStyle: 'sharp', mouth: 'flat', brows: 'thick', head: 'oval', build: 'normal', collar: 'tshirt', acc: 'headband' } },
+	},
 	// =====================================================================
 	// LUGAR: tu cuarto
 	// =====================================================================
@@ -26,16 +29,17 @@ export default {
 			bg: { type: 'indoor', wall: '#c9c2b8', floor: '#5a4a3a' },
 			desc: 'Un cuarto estrecho con espejos en una pared y colchonetas en la otra. Philippe lo llama «el gimnasio del inmueble» y cobra por ello. Hay pesas de colores, un saco, y un cartel escrito a mano: «CADA RIVAL ENSEÑA UNA COSA».',
 			mapNote: 'Sala de pesas · entrena un punto de esfuerzo a la vez',
-			onEnter: [{ script: 'p9_pesas_llega', cond: '!flag.p9_pesas_vista', once: true }],
+			onEnter: [{ script: 'p9_pesas_llega', cond: '!flag.p9_pesas_vista', once: true }, { script: 'p9_pesas_explica', cond: 'flag.p9_pesas_vista && !flag.p9_pesas_explicada', once: true }],
 			spots: [
+				{ label: 'Mireille', sub: 'Te explica cómo se entrena aquí', icon: '🗣️', talk: [{ script: 'p9_pesas_explica' }] },
 				{ label: 'Cómo funcionan los puntos de esfuerzo', sub: 'El cartel grande', icon: '📋', talk: [{ script: 'p9_pesas_cartel' }] },
 				{ label: 'Ver el esfuerzo de tu equipo', sub: 'Una libreta colgada de un clavo', icon: '📓', talk: [{ script: 'p9_pesas_libreta' }] },
-				{ label: 'Pesas de PS', sub: 'Rivales que dan PS', icon: '❤️', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben los **PS**. Cada victoria da 2 puntos de esfuerzo de PS al que combata.', wild: [{ sp: 'lapras', lv: [48, 52] }, { sp: 'snorlax', lv: [48, 52] }, { sp: 'hariyama', lv: [48, 52] }, { sp: 'drifblim', lv: [48, 52] }] } } },
-				{ label: 'Pesas de Ataque', sub: 'Rivales que dan Ataque', icon: '⚔️', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben el **Ataque**. Cada victoria da 2 puntos de esfuerzo de Ataque.', wild: [{ sp: 'arcanine', lv: [48, 52] }, { sp: 'heracross', lv: [48, 52] }, { sp: 'scizor', lv: [48, 52] }, { sp: 'toxicroak', lv: [48, 52] }] } } },
-				{ label: 'Pesas de Defensa', sub: 'Rivales que dan Defensa', icon: '🛡️', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben la **Defensa**. Cada victoria da 2 puntos de esfuerzo de Defensa.', wild: [{ sp: 'steelix', lv: [48, 52] }, { sp: 'forretress', lv: [48, 52] }, { sp: 'skarmory', lv: [48, 52] }, { sp: 'gliscor', lv: [48, 52] }] } } },
-				{ label: 'Pesas de Ataque Especial', sub: 'Rivales que dan Ataque Especial', icon: '✨', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben el **Ataque Especial**. Cada victoria da 2 puntos de esfuerzo de Ataque Especial.', wild: [{ sp: 'houndoom', lv: [48, 52] }, { sp: 'espeon', lv: [48, 52] }, { sp: 'golduck', lv: [48, 52] }, { sp: 'zoroark', lv: [48, 52] }] } } },
-				{ label: 'Pesas de Defensa Especial', sub: 'Rivales que dan Defensa Especial', icon: '🔮', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben la **Defensa Especial**. Cada victoria da 2 puntos de esfuerzo de Defensa Especial.', wild: [{ sp: 'tentacruel', lv: [48, 52] }, { sp: 'umbreon', lv: [48, 52] }, { sp: 'milotic', lv: [48, 52] }, { sp: 'slowking', lv: [48, 52] }] } } },
-				{ label: 'Pesas de Velocidad', sub: 'Rivales que dan Velocidad', icon: '💨', action: { training: { cap: 100, coach: 'La monitora de la sala', prompt: 'Rivales que suben la **Velocidad**. Cada victoria da 2 puntos de esfuerzo de Velocidad.', wild: [{ sp: 'jolteon', lv: [48, 52] }, { sp: 'starmie', lv: [48, 52] }, { sp: 'manectric', lv: [48, 52] }, { sp: 'aerodactyl', lv: [48, 52] }] } } },
+				{ label: 'Pesas de PS', sub: 'Rivales que dan PS', icon: '❤️', action: { training: { cap: 100, npc: 'mireille', prompt: 'Rivales que suben los **PS**. Cada victoria da 2 puntos de esfuerzo de PS al que combata.', wild: [{ sp: 'lapras', lv: [48, 52] }, { sp: 'snorlax', lv: [48, 52] }, { sp: 'hariyama', lv: [48, 52] }, { sp: 'drifblim', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Ataque', sub: 'Rivales que dan Ataque', icon: '⚔️', action: { training: { cap: 100, npc: 'mireille', prompt: 'Rivales que suben el **Ataque**. Cada victoria da 2 puntos de esfuerzo de Ataque.', wild: [{ sp: 'arcanine', lv: [48, 52] }, { sp: 'heracross', lv: [48, 52] }, { sp: 'scizor', lv: [48, 52] }, { sp: 'toxicroak', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Defensa', sub: 'Rivales que dan Defensa', icon: '🛡️', action: { training: { cap: 100, npc: 'mireille', prompt: 'Rivales que suben la **Defensa**. Cada victoria da 2 puntos de esfuerzo de Defensa.', wild: [{ sp: 'steelix', lv: [48, 52] }, { sp: 'forretress', lv: [48, 52] }, { sp: 'skarmory', lv: [48, 52] }, { sp: 'gliscor', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Ataque Especial', sub: 'Rivales que dan Ataque Especial', icon: '✨', action: { training: { cap: 100, npc: 'mireille', prompt: 'Rivales que suben el **Ataque Especial**. Cada victoria da 2 puntos de esfuerzo de Ataque Especial.', wild: [{ sp: 'houndoom', lv: [48, 52] }, { sp: 'espeon', lv: [48, 52] }, { sp: 'golduck', lv: [48, 52] }, { sp: 'zoroark', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Defensa Especial', sub: 'Rivales que dan Defensa Especial', icon: '🔮', action: { training: { cap: 100, npc: 'mireille', prompt: 'Rivales que suben la **Defensa Especial**. Cada victoria da 2 puntos de esfuerzo de Defensa Especial.', wild: [{ sp: 'tentacruel', lv: [48, 52] }, { sp: 'umbreon', lv: [48, 52] }, { sp: 'milotic', lv: [48, 52] }, { sp: 'slowking', lv: [48, 52] }] } } },
+				{ label: 'Pesas de Velocidad', sub: 'Rivales que dan Velocidad', icon: '💨', action: { training: { cap: 100, npc: 'mireille', prompt: 'Rivales que suben la **Velocidad**. Cada victoria da 2 puntos de esfuerzo de Velocidad.', wild: [{ sp: 'jolteon', lv: [48, 52] }, { sp: 'starmie', lv: [48, 52] }, { sp: 'manectric', lv: [48, 52] }, { sp: 'aerodactyl', lv: [48, 52] }] } } },
 				{ label: 'Volver a tu cuarto', icon: '🚪', action: { go: 'atico_cuarto' } },
 			],
 		},
@@ -190,8 +194,17 @@ export default {
 		p9_pesas_llega: [
 			{ set: { 'flag.p9_pesas_vista': true } },
 			{ text: 'La sala huele a tiza y a plástico nuevo. Una mujer con coleta y silbato te mira de arriba abajo, luego mira a {riolu}, y asiente como si hubiera decidido algo.' },
-			{ say: null, as: 'Monitora', text: 'Philippe me dijo que el dueño tenía «un equipo de campeonato». No me dijo que estaba hecho a ojo. —Da una palmada—. Aquí no se sube de nivel: aquí se decide **en qué** es bueno cada uno. Elige una pesa, pelea, y ese punto crece. Nada más. Nada menos.' },
-			{ say: null, as: 'Monitora', text: 'Con un **Brazal Firme** se gana el doble. Con los objetos **Recios** (Pesa, Brazal, Cinto, Lente, Banda, Franja) aún más. Cada Pokémon aguanta 510 puntos en total, 252 por stat. Lo tienes todo en el cartel.' },
+			{ call: 'p9_pesas_explica' },
+		],
+		// Explicación hablada (queja de Mario, 2026-10-29: «nadie me explicó las dinámicas, puro texto»).
+		p9_pesas_explica: [
+			{ set: { 'flag.p9_pesas_explicada': true } },
+			{ say: 'mireille', text: 'Mireille. Monitora. Philippe me dijo que tenías «un equipo de campeonato». No me dijo que estaba hecho a ojo. —Da una palmada—. Te lo explico una vez bien y ya.' },
+			{ say: 'mireille', text: 'Aquí **no se sube de nivel**. Aquí se decide **en qué es bueno** cada uno: PS, Ataque, Defensa, Ataque Especial, Defensa Especial o Velocidad. Cada pesa de la sala es una de esas.' },
+			{ say: 'mireille', text: 'Tocas una pesa y te salen rivales que enseñan **solo ese stat**. Cada victoria deja **2 puntos de esfuerzo** en quien peleó. Cada 4 puntos, 1 de stat a nivel 100; a menos nivel se nota menos, pero cuenta igual.' },
+			{ say: 'mireille', text: 'Límites: **252 por stat** y **510 en total** por Pokémon. Cuando llegas al tope de uno, ya no sube más, así que piensa antes de gastar.' },
+			{ say: 'mireille', text: 'Trucos: con el **Brazal Firme** equipado se gana el doble, y con el objeto **Recio** de ese stat, 8 más por combate. Si tienes activado **Repartir Experiencia** en Ajustes, los puntos van a todo el equipo; si no, solo a quien pelea.' },
+			{ say: 'mireille', text: 'Y para saber cómo vas, la **libreta del clavo**: ahí sale lo que lleva cada uno. ¿Dudas? Me vuelves a hablar. Para eso cobro.' },
 		],
 		p9_pesas_cartel: [
 			{ text: 'CADA RIVAL ENSEÑA UNA COSA.\n\nCada Pokémon que vences deja **puntos de esfuerzo** en el que combatió: 4 puntos suben 1 de stat al nivel 100 (menos a niveles bajos, pero cuentan). Máximo **252 por stat** y **510 en total**.\n\nCon **Brazal Firme** se gana el doble; con el objeto **Recio** de ese stat, +8 por combate.\n\nLas pesas de esta sala dan **2 puntos** por victoria, todos del mismo stat. Con «Repartir Experiencia» activado (Ajustes), los puntos van a todo el equipo; sin él, solo a quien pelea.' },

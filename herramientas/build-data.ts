@@ -112,7 +112,12 @@ for (const id in Pokedex) {
 	if (s.forme && !esPokedex[id]?.name) name = (esName?.name || s.baseSpecies) + (s.forme ? ' (' + s.forme + ')' : '');
 	species[id] = {
 		num: s.num,
-		pid: pap ? +pap.id : s.num,
+		// Dominantes sin forma propia en PokeAPI: usar la de su forma regional, no la de Kanto.
+		pid: (() => {
+			const p = pap ? +pap.id : s.num;
+			const reg = /totem$/.test(id) && p === s.num ? species[id.replace(/totem$/, '')] : null;
+			return reg ? reg.pid : p;
+		})(),
 		name,
 		nameEn: s.name,
 		base: baseId !== id ? baseId : undefined,
