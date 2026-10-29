@@ -210,7 +210,7 @@ export default {
 			{ text: 'Sopa de pescado, arroz con coco y un vaso de agua de Baya Tamate. Comes en una mesa coja, mirando al puerto. Un pescador se asoma, huele, se sienta sin preguntar. Detrás, otro.' },
 			{ say: 'gaspar', text: 'Los Pokémon que quieras traer, que vengan. Aquí hay trabajo para quien sepa del fuego, del agua o simplemente de comer. Y si alguno sabe de dulces… ese que venga primero.' },
 			{ diary: 'Hoy hemos abierto una fonda en Konikoni con Gaspar. El contrato está escrito en una servilleta. Tiene una mancha de aceite en una esquina y Gaspar dice que eso le da valor legal.\n\nLa fonda ya sale en mi pantalla de Negocios. ¡Bzzt! Si se llena el almacén, aviso. Si se acaban las malasadas, también. Eso es más urgente.', cond: 'flag.b01_diario' },
-			{ intel: { npc: 'gaspar', text: 'Sois socios de la fonda del mercado de Konikoni. El contrato es una servilleta con cinco puntos; el quinto: «no se pregunta qué hay en la olla».' } },
+			{ intel: { npc: 'gaspar', text: 'Son socios de la fonda del mercado de Konikoni. El contrato es una servilleta con cinco puntos; el quinto: «no se pregunta qué hay en la olla».' } },
 		],
 
 		// ---- Charla de siempre (cambia con lo que se ha comprado) ----
@@ -262,7 +262,7 @@ export default {
 			{ say: 'gaspar', text: 'Es preciosa. No me mires así. Es preciosa por dentro. Como un guiso feo.' },
 			{ say: 'gaspar', text: 'Yo no sé pescar. Sé limpiar, cortar y cocinar lo que otro ha pescado. Pero en Akala hay una capitana que dicen que pesca con la mano. Si alguna mañana la ves por aquí, dile que la barca está libre.', cond: 'flag.b05_nereida_hecha' },
 			{ say: 'gaspar', text: 'Yo no sé pescar. Sé limpiar, cortar y cocinar lo que otro ha pescado. De momento, saldrá algún chico de la lonja. Ya aparecerá alguien que sepa de verdad.', cond: '!flag.b05_nereida_hecha' },
-			{ text: 'Le dais la vuelta entre l{o|a|e}s dos. Pesa más de lo que parece. Debajo, pegada a la madera, hay una concha con una perla diminuta dentro. Gaspar te la da sin decir nada, como quien da la vuelta de una compra.' },
+			{ text: 'Entre los dos le dan la vuelta. Pesa más de lo que parece. Debajo, pegada a la madera, hay una concha con una perla diminuta dentro. Gaspar te la da sin decir nada, como quien da la vuelta de una compra.' },
 			{ give: 'pearl' },
 		],
 		p10_c_up_olla: [
@@ -290,9 +290,9 @@ export default {
 			{ set: { 'flag.p10_nereida': true } },
 			{ text: 'Hay una chica sentada en la barca de la fonda, que sigue en la rampa. Pelo azul, pies descalzos, un cubo entre las rodillas. Tiene el brazo metido en el cubo hasta el codo.' },
 			{ say: 'nereida', text: 'Hola. Esta barca tiene un agujero. —Pausa—. Era mentira. Pero lo has mirado.' },
-			{ say: 'nereida', text: 'Me han dicho que buscáis a alguien que pesque. Yo pesco. Con la mano. —Saca el brazo del cubo. Tiene un Magikarp agarrado, muy tranquilo—. Esto no cuenta. Es de casa.' },
+			{ say: 'nereida', text: 'Me han dicho que buscan a alguien que pesque. Yo pesco. Con la mano. —Saca el brazo del cubo. Tiene un Magikarp agarrado, muy tranquilo—. Esto no cuenta. Es de casa.' },
 			{ say: 'gaspar', text: '—Desde el mostrador—. ¡Si trae pescado de verdad, que pase! ¡Si trae mentiras, también, que las mentiras con hambre son peores!' },
-			{ say: 'nereida', text: 'Salgo antes del sol. Vuelvo cuando la red pesa. Lo que hay dentro de las conchas no se cocina: os lo dejo. —Te mira, muy seria—. Cobro poco. Y no me llevo bien con los remos. Los dos son de barcas distintas.' },
+			{ say: 'nereida', text: 'Salgo antes del sol. Vuelvo cuando la red pesa. Lo que hay dentro de las conchas no se cocina: se lo dejo a ustedes. —Te mira, muy seria—. Cobro poco. Y no me llevo bien con los remos. Los dos son de barcas distintas.' },
 			{ say: 'nereida', text: '…Eso no era mentira.' },
 			{ toast: 'Nereida puede llevar la Fonda de Gaspar. Elígela en la ficha del negocio.' },
 			{ intel: { npc: 'nereida', text: 'Sale de madrugada en la barca de la fonda de Gaspar. Dice que pesca con la mano y deja para el negocio lo que aparece dentro de las conchas.' } },

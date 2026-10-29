@@ -32,7 +32,7 @@ export default {
 	patches: {
 		luminalia: { spots: [
 			{ label: 'Alexia, en el escalón de una imprenta', sub: 'Con una llave enorme y cara de haber decidido algo', icon: '📰', cond: OFERTA, new: 'true', talk: [{ script: 'p10_propuesta' }] },
-			{ label: 'La Gaceta Viajera', sub: 'La imprenta vieja de la calle del Reloj', icon: '🗞️', cond: 'flag.p10_oferta || ' + SOCIO, new: '!' + SOCIO, action: { venture: V } },
+			{ label: 'La Gaceta Viajera', sub: 'La imprenta vieja de la calle del Reloj', icon: '🗞️', cond: 'flag.p10_oferta || ' + SOCIO, action: { venture: V } },
 			{ label: 'Alexia, en la redacción', sub: 'Escribe con la cámara en el regazo', icon: '📸', cond: SOCIO, new: '!flag.p10_redaccion_vista', talk: [{ script: 'p10_redaccion' }] },
 			{ label: 'El número de hoy', sub: 'Colgado de una pinza en el escaparate', icon: '📄', cond: SOCIO, new: '!flag.p10_numero_leido', talk: [{ script: 'p10_numero' }] },
 		] },
@@ -53,7 +53,7 @@ export default {
 				cronica: { name: 'Crónica de la Gira', icon: '✍️', desc: 'Lo que pasa en la Gira, contado por quien va en ella. Alexia escribe en trenes, en barcos y en salas de espera. Se vende en los quioscos de toda Kalos.', money: 2400 },
 				anuncios: { name: 'Anuncios por palabras', icon: '📌', desc: 'Bicicletas sin pedal, Pidove perdidos y clases de magia. Algunos anunciantes pagan en especie: una tienda de Balls, en Balls; la panadería de la esquina, en crêpes.', money: 1500,
 					items: [{ id: 'quickball', perDay: 0.5 }, { id: 'lumiosegalette', perDay: 0.5 }] },
-				fauna: { name: 'Sección de fauna', icon: '🦎', cond: 'dex >= 60', desc: 'Una ficha por especie con las fotos de tu Pokédex: dónde vive, qué come y a qué hora conviene no molestarla. Cuantas más especies registres, más fichas y más lectores. Los lectores que coleccionan las fichas mandan cosas.', money: 4000,
+				fauna: { name: 'Sección de fauna', icon: '🦎', cond: 'dex >= 60', desc: 'Una ficha por especie con las fotos de tu Pokédex: dónde vive, qué come y a qué hora conviene no molestarla. Cuantas más especies registres, más fichas y más lectores. Los lectores que coleccionan las fichas mandan cosas.', money: 3500,
 					items: [{ id: 'ultraball', perDay: 0.6, cond: 'dex >= 100' }, { id: 'nugget', perDay: 0.15, cond: 'dex >= 150' }, { id: 'rarecandy', perDay: 0.03, cond: 'dex >= 200' }] },
 				reportajes: { name: 'Reportajes', icon: '🧳', locked: true, desc: 'Alexia viaja detrás de una historia y vuelve con la historia y con lo que la gente le da para que la cuente bien: un disco raro, una escama, un mineral que nadie sabe para qué sirve. Salen pocos y nunca dos iguales.', money: 600,
 					items: [{ id: 'dubiousdisc', perDay: 0.03 }, { id: 'protector', perDay: 0.03 }, { id: 'electirizer', perDay: 0.03 }, { id: 'magmarizer', perDay: 0.03 }, { id: 'reapercloth', perDay: 0.03 }, { id: 'upgrade', perDay: 0.03 }, { id: 'prismscale', perDay: 0.03 }, { id: 'ovalstone', perDay: 0.04 }, { id: 'ppup', perDay: 0.05 }, { id: 'heartscale', perDay: 0.2 }, { id: 'rarecandy', perDay: 0.05 }] },
@@ -69,9 +69,9 @@ export default {
 					desc: 'Una mochila, una cámara de repuesto y los billetes de las Puertas pagados. Alexia sale detrás de las historias en vez de esperar a que lleguen. Abre una línea nueva: los reportajes.' },
 				{ id: 'atlas', name: 'Atlas a color', cost: 28000, cond: 'dex >= 100', mult: { fauna: 1.5 }, slots: 1, script: 'p10_up_atlas',
 					desc: 'Las fichas, a color y en papel bueno, con un mapa de cada región que dice dónde sale cada especie. Mucha más fauna y sitio para un Pokémon más trabajando. Se abre con **100 especies**.' },
-				{ id: 'suplemento', name: 'Suplemento de domingo', cost: 45000, cond: 'dex >= 150', mult: { fauna: 1.5, reportajes: 1.2 },
+				{ id: 'suplemento', name: 'Suplemento de domingo', cost: 45000, cond: 'dex >= 150', mult: { fauna: 1.3, reportajes: 1.2 },
 					desc: 'Un cuadernillo los domingos solo de fauna: las especies raras, las que salen de noche y las que nadie ha visto dos veces. Se abre con **150 especies**.' },
-				{ id: 'coleccionista', name: 'Edición de coleccionista', cost: 60000, cond: 'dex >= 200', mult: { fauna: 1.6, all: 1.1 }, script: 'p10_up_coleccionista',
+				{ id: 'coleccionista', name: 'Edición de coleccionista', cost: 60000, cond: 'dex >= 200', mult: { fauna: 1.3, all: 1.1 }, script: 'p10_up_coleccionista',
 					desc: 'Todas las fichas en un tomo de tapas duras, para guardar en un cajón y enseñar a los nietos. Se abre con **200 especies**.' },
 				{ id: 'cabecera', name: 'Registrar la cabecera', cost: 35000, share: 15, need: ['quioscos'],
 					desc: 'El nombre «La Gaceta Viajera», registrado a nombre de los dos, con sello y todo. Alexia te apunta 15 puntos más de la caja: «Lo que es tuyo se pone por escrito».' },
@@ -153,7 +153,7 @@ export default {
 			{ say: 'alexia', text: '¡{jugador}! Justo te iba a llamar. Me he venido en la Puerta de las seis, con la cámara y sin desayunar. Siéntate. El escalón está limpio. Bueno, en el centro.' },
 			{ say: 'alexia', text: 'Mariquita. Ya sé, ya sé. Te lo sigo diciendo porque me da suerte a mí.', cond: 'flag.b04_alexia_tren' },
 			{ say: 'alexia', text: 'Te cuento. En el *Diario de Luminalia*, la Gira va en la página siete. Siempre. La portada es de quien paga la portada. Llevo meses mandando crónicas desde Johto y desde Kanto, y salen recortadas, entre la cartelera y el horóscopo.' },
-			{ say: 'alexia', text: 'Lo de Alola ni lo han publicado. «No interesa». Una isla con un volcán, cuatro guardianes y una Puerta en la playa. No interesa.', cond: 'visited("hauoli")' },
+			{ say: 'alexia', text: 'Lo de Alola ni lo han publicado. «No interesa». Cuatro islas, un volcán, cuatro guardianes y una Puerta junto al muelle. No interesa.', cond: 'visited("hauoli")' },
 			{ say: 'alexia', text: 'Desde que me diste aquella declaración en la inauguración, mi editor me pide que «baje el tono». Yo bajo el tono. Lo que no bajo es lo que cuento.', cond: 'flag.b01_prensa_verdad' },
 			{ say: 'alexia', text: 'Y no es por ti, ¿eh? Tu frase de la inauguración la usaron en tres anuncios. Te quedó muy bien. Pero yo quiero un periódico donde las frases no acaben en anuncios.', cond: 'flag.b01_prensa_lemnis' },
 			{ say: 'alexia', text: 'Y desde lo de Crómlech, mi editor revisa mis textos con regla. Literal: con una regla de madera. Para ver si me salgo de la columna.', cond: 'flag.b01_delatar' },
@@ -263,7 +263,7 @@ export default {
 				{ if: 'visited("hauoli")', then: [
 					{ read: { title: 'La Gaceta Viajera · número de hoy', text: '**LA GACETA VIAJERA** · *Precio: lo que valga un café*\n\n**EN PORTADA: «LA GIRA, BAJO EL SOL»**\nLos novatos del Circuito ya pisan Alola. Pruebas en lugar de gimnasios, capitanes en lugar de líderes y una Puerta en la playa con el mar detrás. *(Crónica de Alexia, pág. 2.)*\n\n**FAUNA**\nEsta semana: Pokémon que en Alola tienen otro color, otro tipo o directamente otra cara. Con fotos de la Pokédex de nuestr{o|a|e} soci{o|a|e}.\n\n**ANUNCIOS POR PALABRAS**\n· *Se busca bigote postizo, buen estado, perdido en una hamaca. Gratificación en macarons.*\n· *Se ofrecen clases de surf con Lapras. Se recomienda saber nadar. Al Lapras le da igual.*\n· *Clases de magia a domicilio. Resultados no garantizados. Pañuelos incluidos.*\n\n**FE DE ERRATAS**\nLa malasada de la foto de la pág. 4 no era de nuestra reportera. Se la comió igual.' } },
 				], else: [
-					{ read: { title: 'La Gaceta Viajera · número de hoy', text: '**LA GACETA VIAJERA** · *Precio: lo que valga un café*\n\n**EN PORTADA: «LA GIRA, DE VUELTA EN CASA»**\nLos novatos del Circuito Infinito traen ocho medallas y una lista de regiones que no cabe en el pasaporte. Esta semana, lo que se cuenta en los andenes. *(Crónica de Alexia, pág. 2.)*\n\n**FAUNA**\nEsta semana: especies que llegaron de lejos y se quedaron. Con fotos de la Pokédex de nuestr{o|a|e} soci{o|a|e}.\n\n**ANUNCIOS POR PALABRAS**\n· *Se vende bicicleta. Le falta un pedal. El otro está como nuevo.*\n· *Perdido Pidove gris, responde a «Croqueta». No responde a nada más.*\n· *Clases de magia a domicilio. Resultados no garantizados. Pañuelos incluidos.*\n\n**FE DE ERRATAS**\nEn el número anterior, el horóscopo de Capricornio era el de Acuario. Los de Acuario no se han quejado.' } },
+					{ read: { title: 'La Gaceta Viajera · número de hoy', text: '**LA GACETA VIAJERA** · *Precio: lo que valga un café*\n\n**EN PORTADA: «LA GIRA, ENTRE DOS REGIONES»**\nLos novatos del Circuito Infinito cierran Kanto con ocho medallas y una lista de regiones que no cabe en el pasaporte. Esta semana, lo que se cuenta en los andenes. *(Crónica de Alexia, pág. 2.)*\n\n**FAUNA**\nEsta semana: especies que llegaron de lejos y se quedaron. Con fotos de la Pokédex de nuestr{o|a|e} soci{o|a|e}.\n\n**ANUNCIOS POR PALABRAS**\n· *Se vende bicicleta. Le falta un pedal. El otro está como nuevo.*\n· *Perdido Pidove gris, responde a «Croqueta». No responde a nada más.*\n· *Clases de magia a domicilio. Resultados no garantizados. Pañuelos incluidos.*\n\n**FE DE ERRATAS**\nEn el número anterior, el horóscopo de Capricornio era el de Acuario. Los de Acuario no se han quejado.' } },
 				] },
 			] },
 			{ say: 'rotom', text: '¡Bzzt! ¡La foto de la fauna es mía! Se nota porque salgo yo un poquito en el reflejo.', cond: 'dex >= 60' },

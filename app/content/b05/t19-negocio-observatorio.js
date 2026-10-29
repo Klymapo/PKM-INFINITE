@@ -33,7 +33,7 @@ export default {
 	patches: {
 		cromlech: { spots: [
 			{ label: 'Una cúpula abierta en la loma del sur', sub: 'Alguien ha subido un telescopio. Y un taburete', icon: '🔭', cond: ABRE + ' && !flag.p10_obs_visto', new: 'true', talk: [{ script: 'p10_obs_apertura' }] },
-			{ label: 'El observatorio de la loma', sub: 'La vieja estación meteorológica, con la cúpula a medio abrir', icon: '🔭', cond: 'flag.p10_obs_visto', new: '!' + SOCIO, action: { venture: V } },
+			{ label: 'El observatorio de la loma', sub: 'La vieja estación meteorológica, con la cúpula a medio abrir', icon: '🔭', cond: 'flag.p10_obs_visto', action: { venture: V } },
 			{ label: 'Irene, con la libreta abierta', sub: 'Escribe sin mirar el papel', icon: '📓', cond: 'flag.p10_obs_visto', new: '!flag.p10_irene_charla', talk: [
 				{ cond: 'night', script: 'p10_irene_noche' },
 				{ script: 'p10_irene_dia' },
@@ -53,12 +53,12 @@ export default {
 			share: [{ pct: 40 }],
 			upkeep: 600, store: 3,
 			lines: {
-				visitas: { name: 'Noches de telescopio', icon: '🌌', desc: 'Grupos pequeños, mantas y diez minutos por persona delante del ocular. Irene explica lo que ven. Se pasa del tiempo siempre, y nadie se queja.', money: 1800 },
+				visitas: { name: 'Noches de telescopio', icon: '🌌', desc: 'Grupos pequeños, mantas y diez minutos por persona delante del ocular. Irene explica lo que ven. Se pasa del tiempo siempre, y nadie se queja.', money: 2400 },
 				polvo: { name: 'Lo que cae del cielo', icon: '✨', desc: 'Tras cada lluvia de estrellas, la loma amanece con granitos rojos entre la hierba. La mayoría es polvo. De vez en cuando, no.', money: 200,
 					items: [{ id: 'stardust', perDay: 0.4 }, { id: 'starpiece', perDay: 0.06 }, { id: 'cometshard', perDay: 0.015 }] },
 				piedras: { name: 'Piedras del círculo', icon: '🪨', desc: 'Los vecinos traen las piedras raras que encuentran entre los menhires. Irene las cataloga; las que no le sirven a la ciencia, se quedan en la caja de «sin catalogar». Algunas hacen evolucionar a ciertos Pokémon.',
 					items: [{ id: 'moonstone', perDay: 0.05 }, { id: 'sunstone', perDay: 0.04 }, { id: 'dawnstone', perDay: 0.03 }, { id: 'duskstone', perDay: 0.03 }, { id: 'shinystone', perDay: 0.03 }, { id: 'icestone', perDay: 0.02 }] },
-				cupula: { name: 'La cúpula grande', icon: '🌕', desc: 'La cúpula del ala vieja, con el telescopio de la universidad que nadie desmontó. Se ve más lejos y cae más cerca. Se cobra aparte.', locked: true, money: 600,
+				cupula: { name: 'La cúpula grande', icon: '🌕', desc: 'La cúpula del ala vieja, con el telescopio de la universidad que nadie desmontó. Se ve más lejos y cae más cerca. Se cobra aparte.', locked: true, money: 1000,
 					items: [{ id: 'moonstone', perDay: 0.06 }, { id: 'starpiece', perDay: 0.08 }, { id: 'cometshard', perDay: 0.03 }, { id: 'moonball', perDay: 0.15 }] },
 			},
 			upgrades: [
@@ -97,7 +97,7 @@ export default {
 						{ text: 'Pagar un autobús desde Yantra', cost: 1500, result: 'Llega un autobús lleno de gente con termos. Irene da la charla subida a un banco. Nadie mira el reloj, salvo ella.', effect: { money: 4200, boost: { mult: { visitas: 1.2 }, days: 2, label: 'Lo cuentan en Yantra' } } },
 					] },
 				{ id: 'focos', name: 'Los focos del norte', w: 3, npc: 'irene', cond: 'night && !flag.p10_o_pantallas',
-					text: 'Otra vez. Los focos de la excavación encendidos toda la noche, apuntando hacia arriba. No hacia la excavación: hacia arriba. Medio cielo blanco. No sé qué iluminan. No me dejan acercarme a preguntarlo.',
+					text: 'Otra vez. Los focos de la excavación, encendidos toda la noche. Medio cielo blanco. He subido a pedir que los bajen un poco. No me han dejado ni acercarme a la valla.',
 					options: [
 						{ text: '«Mira hacia el sur.»', result: 'Esa noche se mira hacia el sur. El sur está bien. El sur no tiene focos. Irene lo apunta todo con letra muy apretada.', effect: { boost: { mult: { all: 0.9 }, days: 2, label: 'Medio cielo' } } },
 						{ text: 'Pagar unas lonas provisionales', cost: 1200, result: 'Dos lonas negras atadas a la valla de la loma. No tapan todo. Tapan lo suficiente para que vuelva el Dragón.', effect: { boost: { mult: { all: 1.1 }, days: 3, label: 'Lonas provisionales' } } },
