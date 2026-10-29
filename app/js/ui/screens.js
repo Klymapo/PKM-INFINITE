@@ -2389,9 +2389,15 @@ function openDiary(startTab = null) {
 			if (NS.unread) body.append(h('div', { class: 'pad' }, h('button', { class: 'btn', style: { width: '100%' }, onclick: () => { G.news.unread = {}; newsCache = null; draw(); } }, 'Marcar todo como visto')));
 		} else if (tab === 'diary') {
 			if (!G.diary.length) body.append(h('div', { class: 'empty' }, 'Rotom todavía no ha escrito nada.'));
-			for (const e of G.diary.slice().reverse()) {
+			// Álbum de fotos del Diario (pedido de Mario, 2026-10-28)
+			if (G.diary.length) body.append(h('div', { class: 'tabs dlg-mode' }, ...[['text', '📔 Texto'], ['album', '📷 Álbum']].map(([k, n]) => h('button', { class: (diaryMode === k ? 'on' : ''), onclick: () => { diaryMode = k; draw(); } }, n))));
+			if (diaryMode === 'album' && G.diary.length) {
+				const grid = h('div', { class: 'dalbum' });
+				for (const e of G.diary.slice().reverse()) grid.append(diaryPhoto(e, () => { diaryMode = 'text'; draw(); setTimeout(() => document.getElementById('de-' + e.t)?.scrollIntoView({ block: 'center' }), 50); }));
+				body.append(grid);
+			} else for (const e of G.diary.slice().reverse()) {
 				const d = new Date(e.t);
-				body.append(h('div', { class: 'diary-entry' }, h('div', { class: 'when' }, d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' }) + ' · ' + (L(e.loc)?.name || '')), h('div', { html: fmtText(e.text) })));
+				body.append(h('div', { class: 'diary-entry', id: 'de-' + e.t }, h('div', { class: 'when' }, d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' }) + ' · ' + (L(e.loc)?.name || '')), h('div', { html: fmtText(e.text) })));
 			}
 		} else {
 			const qs = tab === 'active' ? todo : tab === 'avail' ? avail : tab === 'log' ? logq : done;
@@ -2885,6 +2891,18 @@ async function openDaycare() {
 		sheet.set(items);
 	};
 	draw();
+}
+
+let diaryMode = 'text';
+/** Foto de una entrada del Diario: la escena del lugar a la hora en que se escribió, con quien iba delante. */
+function diaryPhoto(e, onclick) {
+	const loc = L(e.loc), d = new Date(e.t);
+	const cv = sceneCanvas({ ...(loc?.bg || {}), seed: loc?.bg?.seed || e.loc || 'x' }, { phase: phase(d) });
+	const lead = e.lead && D.species[e.lead] ? h('div', { class: 'dph-lead' }, monImg(e.lead, { anim: false, shiny: e.shiny })) : null;
+	const first = String(e.text || '').replace(/[*_]/g, '').split(/(?<=[.!?…])\s/)[0].slice(0, 90);
+	return h('button', { class: 'dphoto', onclick },
+		h('div', { class: 'dph-pic' }, cv, lead),
+		h('div', { class: 'dph-cap' }, h('b', {}, d.toLocaleDateString('es-MX', { day: 'numeric', month: 'short' }) + (loc ? ' · ' + loc.name : '')), h('span', {}, first)));
 }
 
 function openHistory() {

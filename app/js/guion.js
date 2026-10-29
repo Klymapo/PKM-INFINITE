@@ -177,7 +177,8 @@ async function runCmd(c, ctx) {
 		return;
 	}
 	if (c.diary) {
-		G.diary.push({ t: Date.now(), text: tx(c.diary), loc: G.loc });
+		// Cada entrada guarda su «foto»: el lugar, quién iba delante y si era shiny (álbum del Diario, 2026-10-28)
+		G.diary.push({ t: Date.now(), text: tx(c.diary), loc: G.loc, lead: G.party?.[0]?.sp, shiny: !!G.party?.[0]?.shiny });
 		if (!c.silent) UI.toast?.('📔 Nueva entrada en el Diario', 'diary');
 		return;
 	}
