@@ -19,12 +19,12 @@ export function playFocus({ def, level = 2 }) {
 		const mon = h('div', { class: 'ft-mon', style: { left: (center * 100) + '%' } }, monImg(def.sp, { anim: true }));
 		const finder = h('div', { class: 'ft-finder', style: { width: (P.zone * 100) + '%' } });
 		const shotsEl = h('div', { class: 'ft-shots' }, stars(0));
-		const msg = h('div', { class: 'ft-msg' }, tx(def.hint || 'Dispara cuando lo tengas dentro del recuadro.'));
+		const msg = h('div', { class: 'ft-msg' }, tx(def.hint || 'Dispara cuando el recuadro se ponga verde.'));
 		let shots = 0, hits = 0, t0 = performance.now(), raf = 0, pos = 0, done = false;
 		const btn = h('button', { class: 'btn primary ft-shoot', onclick: () => {
 			if (done) return;
 			shots++;
-			const ok = focusHit(pos, center, P.zone);
+			const ok = focusHit(pos, center, P.zone, P.grace);
 			if (ok) hits++;
 			flash.classList.remove('on'); void flash.offsetWidth; flash.classList.add('on');
 			msg.textContent = ok ? '¡Clic! Esa sale nítida.' : 'Clic… movida. Otra vez.';
@@ -45,6 +45,7 @@ export function playFocus({ def, level = 2 }) {
 			const x = ((now - t0) / 1000 * P.speed) % 2;
 			pos = x < 1 ? x : 2 - x; // de lado a lado
 			finder.style.left = `calc(${pos * 100}% - ${P.zone * 50}%)`;
+			finder.classList.toggle('in', focusHit(pos, center, P.zone));
 			raf = requestAnimationFrame(loop);
 		};
 		raf = requestAnimationFrame(loop);

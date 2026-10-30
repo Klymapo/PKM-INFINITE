@@ -1031,7 +1031,8 @@ img.illus.priv { image-rendering: auto; width: 100%; aspect-ratio: 16 / 10; obje
 .ft-pic canvas { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
 .ft-mon { position: absolute; bottom: 18%; width: 96px; height: 96px; transform: translateX(-50%); }
 .ft-mon img, .ft-mon canvas { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
-.ft-finder { position: absolute; top: 6%; bottom: 6%; border: 3px solid #fff; border-radius: 8px; box-shadow: 0 0 0 999px rgba(0,0,0,.28); pointer-events: none; }
+.ft-finder { position: absolute; top: 6%; bottom: 6%; border: 3px solid #fff; border-radius: 8px; box-shadow: 0 0 0 999px rgba(0,0,0,.28); pointer-events: none; transition: border-color .08s; }
+.ft-finder.in { border-color: #5ee07a; box-shadow: 0 0 0 999px rgba(0,0,0,.28), inset 0 0 0 2px rgba(94,224,122,.45); }
 .ft-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
 .ft-flash.on { animation: ftflash .35s ease-out; }
 @keyframes ftflash { from { opacity: .9; } to { opacity: 0; } }

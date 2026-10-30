@@ -25,7 +25,7 @@ const guion = (id, intro, win, level = 2) => [
 export default {
 	items: {
 		camara: { name: 'Cámara de la Gaceta', pocket: 'key', desc: 'Una réflex vieja y pesada que Alexia te prestó «hasta nuevo aviso». Tiene una pegatina de Helioptile en la tapa del objetivo. Sirve para fotografiar momentos raros de los Pokémon salvajes.',
-			read: '**CÁMARA DE LA GACETA** · *instrucciones escritas a mano por Alexia, pegadas con celo debajo*\n\n1. Los momentos raros no avisan. Un Pokémon haciendo algo que no debería, a una hora en la que no debería. Si lo ves, no corras: respira.\n\n2. El recuadro se mueve; el Pokémon, no tanto. Dispara cuando lo tengas dentro. Tres disparos. Cada uno nítido, una estrella.\n\n3. Si la foto sale movida, no pasa nada. Ellos vuelven a hacer lo suyo otro rato.\n\n4. Las fotos nuevas, a la Gaceta. Pago lo que puedo. Si me traes una mejor de algo que ya tengo, pago la diferencia.\n\n5. No molestes al Pokémon por una foto. Nunca. Ninguna foto vale eso.\n\n— A.' },
+			read: '**CÁMARA DE LA GACETA** · *instrucciones escritas a mano por Alexia, pegadas con celo debajo*\n\n1. Los momentos raros no avisan. Un Pokémon haciendo algo que no debería, a una hora en la que no debería. Si lo ves, no corras: respira.\n\n2. El que se mueve es el recuadro, no el Pokémon. Cuando el recuadro se pone verde, dispara. Tres disparos. Cada uno nítido, una estrella.\n\n3. Si la foto sale movida, no pasa nada. Ellos vuelven a hacer lo suyo otro rato.\n\n4. Las fotos nuevas, a la Gaceta. Pago lo que puedo. Si me traes una mejor de algo que ya tengo, pago la diferencia.\n\n5. No molestes al Pokémon por una foto. Nunca. Ninguna foto vale eso.\n\n— A.' },
 	},
 
 	photos: {

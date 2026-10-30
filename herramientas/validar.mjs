@@ -272,7 +272,7 @@ checkVentures();
 for (const m of C.milestones) if (!flagsSet.has(m.flag)) W('hito', `el flag ${m.flag} nunca se activa`);
 // flags leídos que nunca se activan
 for (const [f, where] of flagsRead) {
-	if (f.startsWith('mec_') || f.startsWith('mount_') || f.startsWith('map_')) continue;
+	if (f.startsWith('mec_') || f.startsWith('mount_') || f.startsWith('map_') || f.startsWith('carrera_')) continue; // carrera_<id>_ganada lo pone el motor (carreras.js)
 	if (!flagsSet.has(f)) W(where, `el flag "${f}" se consulta pero ningún guion lo activa`);
 }
 // Apariciones de NPCs con nombre

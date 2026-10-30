@@ -118,20 +118,23 @@ export default {
 
 	patches: {
 		boceto: { spots: [
-			{ label: 'Gran Premio de Boceto', sub: 'Tres jinetes y una pizarra con tiempos', icon: '🏁', cond: K, new: '!flag.carr_kalos_vista', talk: [
+			{ label: 'Gran Premio de Boceto', sub: 'Tres jinetes y una pizarra con tiempos', icon: '🏁', cond: K, new: '!flag.carr_kalos_vista || (flag.carrera_kalos_ganada && !flag.carr_kalos_trofeo)', talk: [
 				{ cond: '!flag.carr_kalos_vista', script: 'carr_kalos_intro' },
+				{ cond: 'flag.carrera_kalos_ganada && !flag.carr_kalos_trofeo', script: 'carr_kalos_trofeo' },
 				{ script: 'carr_kalos_correr' },
 			] },
 		] },
 		ohana: { spots: [
-			{ label: 'La Vuelta del Rancho', sub: 'Un altavoz con cinta aislante grita tiempos', icon: '🐂', cond: A, new: '!flag.carr_alola_vista', talk: [
+			{ label: 'La Vuelta del Rancho', sub: 'Un altavoz con cinta aislante grita tiempos', icon: '🐂', cond: A, new: '!flag.carr_alola_vista || (flag.carrera_alola_ganada && !flag.carr_alola_trofeo)', talk: [
 				{ cond: '!flag.carr_alola_vista', script: 'carr_alola_intro' },
+				{ cond: 'flag.carrera_alola_ganada && !flag.carr_alola_trofeo', script: 'carr_alola_trofeo' },
 				{ script: 'carr_alola_correr' },
 			] },
 		] },
 		chamota: { spots: [
-			{ label: 'La Vuelta de Chamota', sub: 'Don Teodoro, con un cronómetro y la libreta', icon: '⏱️', cond: T, new: '!flag.carr_teselia_vista', talk: [
+			{ label: 'La Vuelta de Chamota', sub: 'Don Teodoro, con un cronómetro y la libreta', icon: '⏱️', cond: T, new: '!flag.carr_teselia_vista || (flag.carrera_teselia_ganada && !flag.carr_teselia_trofeo)', talk: [
 				{ cond: '!flag.carr_teselia_vista', script: 'carr_teselia_intro' },
+				{ cond: 'flag.carrera_teselia_ganada && !flag.carr_teselia_trofeo', script: 'carr_teselia_trofeo' },
 				{ script: 'carr_teselia_correr' },
 			] },
 		] },
@@ -157,13 +160,41 @@ export default {
 			{ choice: [
 				{ text: 'A la salida.', then: [
 					{ race: 'kalos', onWin: [
-						{ say: 'jinete_boceto', text: 'Bien corrido. Has frenado antes que nadie en las curvas. Eso no se enseña; se tiene o se pierde.' },
+						{ if: '!flag.carr_kalos_trofeo', then: [{ call: 'carr_kalos_trofeo' }], else: [
+							{ say: 'jinete_boceto', text: 'Bien corrido. Has frenado antes que nadie en las curvas. Eso no se enseña; se tiene o se pierde.' },
+						] },
 					], onLose: [
 						{ say: 'jinete_boceto', text: 'La pista no se gana el primer día. Ni el segundo. Vuelve cuando quieras: aquí no se cierra.' },
 					] },
 				] },
 				{ text: 'Otro rato.', then: [{ say: 'jinete_boceto', text: 'La pizarra no se va a ningún sitio. Yo tampoco.' }] },
 			] },
+		],
+		// Entrega del trofeo en la meta (pedido de Mario, 2026-10-30: «gané y no hubo diálogo»). Los objetos ya los da el motor
+		// al ganar la primera vez; aquí solo se entregan en escena. También sale al volver si se ganó antes de existir la escena.
+		carr_kalos_trofeo: [
+			{ text: 'En la meta, la campeona retirada saca de la caja de herramientas algo envuelto en un trapo. Los tres jinetes se bajan de las monturas sin que nadie se lo pida.' },
+			{ say: 'jinete_boceto', text: 'Espera. Esto no se apunta en la pizarra. Se entrega en la meta, con las botas llenas de barro. Así me la dieron a mí.' },
+			{ say: 'jinete_boceto', text: 'Es la herradura de mi primer Rhyhorn. Mi primera carrera ganada. Veinte años colgada en la cocina. Ya le tocaba salir de casa.' },
+			{ say: 'rhi', text: '¡¿De oro?! ¡Yo quiero una de oro! ¡La próxima es mía! ¡Delante de testigos lo digo!' },
+			{ say: 'corelia', text: '¡Eso es un trofeo de verdad! ¡De los que pesan! ¡A topísimo!' },
+			{ say: 'hector', text: 'El héroe recibe su emblema en la meta. —Se quita el casco despacio, muy solemne. Se le engancha en un cuerno del Rhyhorn—. Felicidades. De corazón.' },
+			{ if: RIOLU, then: [{ text: '{riolu} olfatea la herradura, estornuda y se aparta muy digno. Huele a Rhyhorn.' }] },
+			{ read: 'carrtrofeokalos' },
+			{ say: 'jinete_boceto', text: 'Y la Garra Rápida también es tuya, para salir antes. Aunque por lo que he visto, eso ya lo sabes hacer.' },
+			{ set: { 'flag.carr_kalos_trofeo': true } },
+		],
+		carr_alola_trofeo: [
+			{ text: 'Leilani salta del Tauros, saca de la mochila un banderín doblado y lo sacude al aire. Huele a grasa y a pasto.' },
+			{ say: 'leilani', text: '¡Ceremonia! No es oficial, pero es ceremonia. ¿Sí o qué?' },
+			{ say: 'soldabot', text: 'Reproduciendo himno de victoria. —Un pitido largo—. Ese era el himno. Excelente actuación. Para ser un público de tres.' },
+			{ say: 'kiawe', text: 'Has corrido sin que se notara el esfuerzo. Como un buen baile. —Asiente una sola vez—. Bien.' },
+			{ say: 'lulu', text: '¡Bien-bien! ¿Y ahora la merienda? Me prometieron merienda en la meta… ¿Verdad que hay merienda?' },
+			{ say: 'leilani', text: 'El banderín lo bordé yo. La mancha de grasa no venía en el plan, pero ya es parte del diseño. Y el punto de soldadura es cosa de Soldi.' },
+			{ if: RIOLU, then: [{ text: '{riolu} sigue con la mirada el altavoz de Soldi, que se balancea en la cuerda. Por si acaso.' }] },
+			{ read: 'carrtrofeoalola' },
+			{ say: 'leilani', text: 'Y el Cascabel Concha, para el camino. Si pegas, te curas un poco. Si no pegas, suena bonito.' },
+			{ set: { 'flag.carr_alola_trofeo': true } },
 		],
 		// ---------------- Alola ----------------
 		carr_alola_intro: [
@@ -182,7 +213,9 @@ export default {
 			{ choice: [
 				{ text: 'A la salida.', then: [
 					{ race: 'alola', onWin: [
-						{ say: 'soldabot', text: 'Ganador registrado. Excelente. Para ser alguien sin brazo robótico.' },
+						{ if: '!flag.carr_alola_trofeo', then: [{ call: 'carr_alola_trofeo' }], else: [
+							{ say: 'soldabot', text: 'Ganador registrado. Excelente. Para ser alguien sin brazo robótico.' },
+						] },
 					], onLose: [
 						{ say: 'leilani', text: '¡Casi! Los datos me sirven igual. Vuelve cuando quieras: el rancho no cierra y Soldi no duerme.' },
 					] },
@@ -202,12 +235,25 @@ export default {
 			{ set: { 'flag.carr_teselia_vista': true } },
 			{ call: 'carr_teselia_correr' },
 		],
+		carr_teselia_trofeo: [
+			{ text: 'Don Teodoro cierra la libreta, arranca una hoja con mucho cuidado y se la pasa a Celia, que se mete corriendo en la panadería.' },
+			{ say: 'teodoro', text: 'Espere aquí. Lo importante se entrega en mano. Que conste.' },
+			{ say: 'celia', text: '¡Ya está! Le puse el marco de la foto de mi abuela. La foto la quité, eh. La abuela lo entendería. Creo.' },
+			{ say: 'ines', text: 'El cristal es mío, del buzón viejo. —Se recoloca la gorra—. Si no, el correo llega mojado. Y las crónicas también.' },
+			{ say: 'camila', text: 'Bien corrido. —Se baja las gafas—. Hoy el brillo te lo dejo a ti. Solo hoy.' },
+			{ if: RIOLU, then: [{ text: '{riolu} se pone de puntillas para ver la hoja enmarcada. Don Teodoro la baja un poco, sin decir nada.' }] },
+			{ read: 'carrtrofeoteselia' },
+			{ say: 'teodoro', text: 'Y la Cinta Experto, para su Pokémon. Lo que se aprende con oficio se nota en el golpe.' },
+			{ set: { 'flag.carr_teselia_trofeo': true } },
+		],
 		carr_teselia_correr: [
 			{ say: 'teodoro', text: '¿Otra vuelta? El cronómetro tiene cuerda. Yo también, todavía.' },
 			{ choice: [
 				{ text: 'A la salida.', then: [
 					{ race: 'teselia', onWin: [
-						{ say: 'teodoro', text: 'Primer puesto. Lo apunto con tinta, no con lápiz. —Carraspea—. La tinta es para lo que importa.' },
+						{ if: '!flag.carr_teselia_trofeo', then: [{ call: 'carr_teselia_trofeo' }], else: [
+							{ say: 'teodoro', text: 'Primer puesto. Lo apunto con tinta, no con lápiz. —Carraspea—. La tinta es para lo que importa.' },
+						] },
 					], onLose: [
 						{ say: 'teodoro', text: 'Lo apunto igual. En el archivo también caben los que llegan después. Sobre todo esos.' },
 					] },
