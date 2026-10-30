@@ -619,3 +619,21 @@ cases: { det_c1: { name, loc, partner: 'quintana', rep: 10, brief,
 - **Justos:** la prueba comprueba que todas las pistas (y las de `proof`) se alcanzan desde cero, que la prueba no está a la vista en el primer registro y que enseñar una pista a alguien destapa algo. Nada sobrenatural como solución; nada de la trama principal.
 - El motor pone `flag.<id>_resuelto` o `flag.<id>_fallido`, guarda la reputación de detective en `G.casos.rep` y da `prize` al resolver.
 - Llegan escalonados por el Buzón (`mail` con `cond` sobre la carta anterior y `days ≥ 2`).
+
+## 22. Historias por capítulos (seriales)
+
+> Pedido de Mario, 2026-10-30 («pueblo maldito por capítulos»). Motor en `app/js/capitulos.js` (y `serialOpen` en `state.js`); primer serial: **Pueblo Cirio** (`app/content/b06/t18-cirio.js`, plan de los capítulos siguientes en `secreto/bloques/p16-cirio-plan.md`). Prueba: `herramientas/test/capitulos-test.mjs`.
+
+Un capítulo por **semana real**: el capítulo *n* se abre `gap` días (7) después de que el jugador termine el *n−1*, y solo si ya está escrito (`written`). Lo que hizo el jugador se guarda en flags normales y el capítulo siguiente los lee.
+
+```js
+serials: { cirio: { name: 'Pueblo Cirio', loc: 'pueblo_cirio', gap: 7, written: 1,
+  chapters: [ { n: 1, title: 'La nana' }, { n: 2, title: '…' }, … ] } }
+// guion: { chapter: { id: 'cirio', done: 1 } }    termina el capítulo (una vez) y dice cuándo llega el siguiente
+// guion: { chapter: { id: 'cirio', wait: true } }  solo dice cuándo llega
+// cond:  capitulo('cirio', 2)  ·  capituloHecho('cirio', 1)
+```
+
+- **Para escribir el capítulo n+1:** añade su contenido con `cond: "capitulo('cirio', n+1)"` (spots, `onEnter`), sube `written` y cierra con `{ chapter: { id, done: n+1 } }`. Lee el plan y los flags del capítulo anterior; no reescribas lo publicado.
+- Entre capítulos, un spot con `capituloHecho(id, n) && !capitulo(id, n+1)` deja hablar a un vecino y corre `{ chapter: { id, wait: true } }`.
+- El validador avisa si un capítulo escrito no tiene quién lo termine.

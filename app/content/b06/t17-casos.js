@@ -98,14 +98,14 @@ export default {
 			brief: 'El domingo por la noche desapareció del despacho la **lata con la recaudación del fin de semana**. La ventana del despacho está **rota** y no hay más daños. Tienen llave la dueña y el repostero. La camarera, no.',
 			clues: {
 				cristales: { name: 'Cristales en la acera', icon: '🪟', text: 'Los cristales de la ventana del despacho están **fuera**, en la acera. La ventana se rompió **desde dentro**.', partner: 'Si entras rompiendo, los cristales caen hacia dentro. Estos han caído hacia la calle. A ver, a ver.' },
-				alquiler: { name: 'Aviso del casero', icon: '📄', text: 'Carta del casero a Solène: debe **tres meses** de alquiler y tiene hasta el lunes para pagar.', partner: 'Tres meses. Eso es un motivo. No es una prueba, pero se apunta.' },
+				alquiler: { name: 'Aviso del casero', icon: '📄', text: 'Carta del casero a Solène: debe **tres meses** de alquiler y tiene hasta el lunes para pagar.', partner: 'Tres meses. Eso es un motivo. Un motivo no es una prueba. A ver, a ver.' },
 				recibo: { name: 'Recibo del alquiler', icon: '🧾', text: 'Recibo sellado: Solène pagó los tres meses el **sábado por la mañana**, con un préstamo de su hermana.', partner: 'Sábado. Antes del robo. Quien ya ha pagado no necesita robarse a sí misma.' },
 				pendiente: { name: 'Pendiente de fresa', icon: '🍓', text: 'Un pendiente con forma de fresa, debajo del escritorio del despacho, junto al cajón de la lata.', partner: 'Alguien ha estado agachado junto a ese cajón. No sé cuándo.' },
 				arqueo: { name: 'Hoja de arqueo del sábado', icon: '📋', text: 'El sábado por la noche Amandine y Solène contaron la caja **juntas** en el despacho. Firman las dos.', partner: 'Así que el pendiente se cayó el sábado, delante de la dueña. Eso explica el pendiente. Y nada más.' },
 				horno: { name: 'Registro del horno', icon: '🔥', text: 'El horno grande apunta cuándo se enciende. El lunes se encendió a las **3:12** de la madrugada.', partner: 'Los hornos no mienten. No saben.' },
-				hora: { name: 'Florián: «llegué a las cinco»', icon: '🕔', text: 'Florián dice que llegó a las **5:00**, como siempre, y que la ventana ya estaba rota.', partner: 'Lo apunto tal cual. Con sus palabras.' },
+				hora: { name: 'Florián: «llegué a las cinco»', icon: '🕔', text: 'Florián dice que llegó a las **5:00**, como siempre, y que la ventana ya estaba rota.', partner: 'Las cinco. Con sus palabras. Las guardo tal cual.' },
 				tres: { name: 'Florián llegó a las tres', icon: '🕒', text: 'Florián admite que llegó a las **3:00** para ensayar una tarta de concurso. Insiste en que la ventana ya estaba rota al llegar.', partner: 'Dos horas que no estaban en la primera versión. Eso no cuadra.' },
-				cerrojo: { name: 'El cerrojo de atrás', icon: '🔒', text: 'Según Florián, la puerta de atrás tenía el **cerrojo echado por dentro** cuando llegó. Lo quitó él.', partner: 'Por la puerta no entró nadie, entonces. Me lo apunto.' },
+				cerrojo: { name: 'El cerrojo de atrás', icon: '🔒', text: 'Según Florián, la puerta de atrás tenía el **cerrojo echado por dentro** cuando llegó. Lo quitó él.', partner: 'Por la puerta de atrás no entró nadie, entonces. Una puerta cerrada por dentro y una ventana rota desde dentro. A ver, a ver.' },
 				florista: { name: 'Lo que oyó la florista', icon: '💐', text: 'La florista de enfrente montó el puesto a las **4:30**: la acera estaba limpia. A las **4:50** oyó el cristal romperse. Solo había luz en el **obrador**.', partner: 'A las cuatro y cincuenta. Con alguien en el obrador desde las tres.' },
 				moto: { name: 'Carta del concesionario', icon: '🛵', text: 'En la taquilla de Florián: un aviso de **cuatro plazos sin pagar** de una moto. Si no paga esta semana, se la quitan.', partner: 'Otro motivo. En esta pastelería hay más motivos que cruasanes.' },
 			},
@@ -146,7 +146,7 @@ export default {
 				amandine: { npc: 'det_amandine', role: 'La camarera. Cerró con la dueña.',
 					questions: [
 						{ id: 'noche', q: '¿Qué hiciste el domingo al salir?', a: ['Cerramos a las nueve, Solène y yo. Cogí el autobús de las nueve y cuarto. Mi compañera de piso me vio llegar: estaba viendo la tele.'] },
-						{ id: 'sueldo', q: '¿Estás contenta aquí?', a: ['Pedí un aumento hace un mes. Me dijo que no. Así que… contenta, contenta, no.', { who: Q, t: 'Lo dice sin bajar la voz. Eso también se apunta.' }] },
+						{ id: 'sueldo', q: '¿Estás contenta aquí?', a: ['Pedí un aumento hace un mes. Me dijo que no. Así que… contenta, contenta, no.', { who: Q, t: 'Lo dice sin bajar la voz. Quien tiene algo que esconder suele bajarla. Suele.' }] },
 						{ id: 'llaves', q: '¿Tienes llave del local?', a: ['No. Nunca me la quisieron dar. Para entrar sin llave tendría que haber trepado, y con este uniforme ni de broma.'] },
 					],
 					present: {
@@ -220,7 +220,7 @@ export default {
 					questions: [
 						{ id: 'anoche', q: '¿Quién guardó el cuenco?', a: ['Don Haruki. Dijo que una pieza así no la tocaba un aprendiz. Lo envolvió él, de espaldas, y lo metió en la caja. Yo solo até el cordón.'], gives: ['guardo'] },
 						{ id: 'bronca', q: '¿Tenías miedo de que te echaran?', a: ['Sí. Mucho. Pero yo no lo he roto. Si lo hubiera roto, lo diría. Ya rompí un plato y lo dije.'] },
-						{ id: 'pesado', q: '¿Notaste algo raro al servir?', a: ['Pesaba poco. Pensé que era cosa mía, que me temblaban las manos. Doña Sumire siempre dice que pesa «como una piedra de río».', { who: Q, t: 'Pesaba poco. Apuntado con letra grande.' }] },
+						{ id: 'pesado', q: '¿Notaste algo raro al servir?', a: ['Pesaba poco. Pensé que era cosa mía, que me temblaban las manos. Doña Sumire siempre dice que pesa «como una piedra de río».', { who: Q, t: 'Pesaba poco. Una piedra de río que pesa poco. Eso no cuadra.' }] },
 					],
 					present: {
 						aipom: { a: ['¡Es Momo, mi Aipom! Entró a las ocho, durante la cena, y se llevó un caqui. Doña Sumire lo vio. A las nueve y media, cuando guardamos el cuenco, ya estaba durmiendo en mi cuarto.'], gives: ['aipom_hora'] },
@@ -229,7 +229,7 @@ export default {
 					presentDefault: ['P-perdone, no sé qué tengo que ver. Lo siento. Perdone.'] },
 				haruki: { npc: 'det_haruki', role: 'Tasador de antigüedades. Invitado de la ceremonia.',
 					questions: [
-						{ id: 'tasacion', q: '¿Cuándo tasó el cuenco?', a: ['Hace dos semanas y media. Me lo llevé dos días a la tienda, con su permiso, claro. Una pieza magnífica. Le aconsejé subir el seguro. Es mi deber.'] },
+						{ id: 'tasacion', q: '¿Cuándo tasó el cuenco?', a: ['Hace dos semanas. Me lo llevé dos días a la tienda, con su permiso, claro. Una pieza magnífica. Le aconsejé subir el seguro. Es mi deber.'] },
 						{ id: 'anoche', q: '¿Cómo estaba el cuenco al guardarlo?', a: ['Entero. Perfecto. Lo envolví en su seda con estas manos. Si se rompió, fue después. Quizá el chico, o ese mono…'] },
 						{ id: 'negocio', q: '¿Qué tal va su tienda?', a: ['Floja. Las antigüedades ya no se llevan. La gente quiere cosas nuevas que parezcan viejas. —Se ríe solo.'] },
 					],
@@ -258,7 +258,7 @@ export default {
 			],
 			escape: [
 				{ who: null, t: 'Cuando volvéis al recibidor, el maletín ya no está. Ni los zapatos de Don Haruki.' },
-				{ who: Q, t: 'Se ha ido. Lo apunto. Un tasador sin tienda dura poco. Y el cuenco de verdad, algún día, aparecerá en una subasta.' },
+				{ who: Q, t: 'Se ha ido. Un tasador sin tienda dura poco. Y el cuenco de verdad, algún día, aparecerá en una subasta.' },
 			],
 			prize: [{ id: 'goldbottlecap', n: 1 }] },
 
@@ -273,7 +273,7 @@ export default {
 				rondas: { name: 'Libro de rondas', icon: '📒', text: 'Ronda de las **0:00**: todo cerrado. Ronda de la **1:00**: todo cerrado. Ronda de las **2:00**: puerta lateral abierta, caja fuerte vacía.', partner: 'Entre la una y las dos. Si el vigilante dice la verdad. Me lo apunto con su firma.' },
 				pestillo: { name: 'Cartón en el pestillo', icon: '📰', text: 'En el pestillo de la puerta lateral, un cartón doblado: la puerta no llegó a cerrar. Es un **horario del Magnetotrén** con la salida de las **23:30 de Trigal a Azafrán** subrayada.', partner: 'Alguien dejó la puerta preparada. Y alguien estaba mirando trenes.' },
 				resguardo: { name: 'Billete junto a la caja', icon: '🎫', text: 'Bajo la caja fuerte, un billete usado del Magnetotrén: **Trigal → Azafrán, 23:30, de anoche**. Llegada 23:58. Picado con el **abono nº 0417**.', partner: 'Alguien vino de Trigal anoche y estuvo arrodillado aquí. Ahora, ¿quién viaja con el 0417?' },
-				salida: { name: 'El último en salir', icon: '🚪', text: 'Ayer, al cerrar a las 20:00, **Octavio Lerma** fue el último en salir, por la puerta lateral. Dijo: «Ya cierro yo».', partner: 'Muy amable. La amabilidad también se apunta.' },
+				salida: { name: 'El último en salir', icon: '🚪', text: 'Ayer, al cerrar a las 20:00, **Octavio Lerma** fue el último en salir, por la puerta lateral. Dijo: «Ya cierro yo».', partner: 'Muy amable. Cuando alguien me cierra una puerta sin que se lo pida, me dan ganas de abrirla.' },
 				codigo: { name: 'La combinación, en voz alta', icon: '🔢', text: 'Don Anselmo ve mal y dice la combinación **en voz alta** cada mañana al abrir la caja fuerte. Quien esté en la tienda a las diez la oye.', partner: 'Una caja fuerte que canta. A ver quién venía a las diez.' },
 				hotel: { name: 'La coartada de Octavio', icon: '🏨', text: 'Octavio enseña un recibo: entró en un hotel de **Trigal a las 22:40**. Dice que a las 23:47 estaba allí, dormido.', partner: 'Le enseñas una hora y ya traía el papel para esa hora en el bolsillo. Qué previsor.' },
 				ida: { name: 'El billete de ida de Octavio', icon: '🎟️', text: 'Octavio fue a Trigal en el Magnetotrén de las **22:05**. Su billete de ida está picado con su abono: el **nº 0417**.', partner: 'Viaja con abono. Mucha gente viaja con abono. Lo apunto con el número.' },
@@ -293,7 +293,7 @@ export default {
 					questions: [
 						{ id: 'cierre', q: '¿Quién cerró ayer?', a: ['Cerramos a las ocho. Don Octavio se quedó hasta el final dándole la lata a mi tío con el reloj. Salió por la lateral y dijo «ya cierro yo». Mi tío le dio las gracias.'], gives: ['salida'] },
 						{ id: 'reloj', q: '¿Ese reloj parado es normal?', needs: ['reloj'], a: ['¿Parado? Imposible. Le di cuerda yo ayer a las siete. Es de ocho días. Si está parado, alguien lo ha parado. Y ha movido las agujas: ayer iba en hora.'], gives: ['cuerda'] },
-						{ id: 'herencia', q: '¿El reloj de bolsillo te tocaría a ti?', a: ['Algún día. Y no lo quiero en una caja. Quiero abrir mi propio taller, y mi tío no me suelta. Lo sé: suena fatal.', { who: Q, t: 'Suena a motivo. Lo dice ella sola. Se apunta igual.' }] },
+						{ id: 'herencia', q: '¿El reloj de bolsillo te tocaría a ti?', a: ['Algún día. Y no lo quiero en una caja. Quiero abrir mi propio taller, y mi tío no me suelta. Lo sé: suena fatal.', { who: Q, t: 'Suena a motivo. Y lo dice ella sola. Eso cuenta, para un lado o para el otro.' }] },
 					],
 					present: {
 						vista: { a: ['¡Volví a por el cargador del móvil! Lo dejé en el taller. Luego me fui al karaoke con mis amigos, de once y media a las tres. Mire, las fotos tienen la hora. Y el ticket.'], gives: ['karaoke'] },
@@ -328,7 +328,7 @@ export default {
 					},
 					presentDefault: ['No veo qué relación tiene eso conmigo, la verdad.'] },
 			},
-			culprit: 'octavio', proof: ['abono'],
+			culprit: 'octavio', proof: ['abono', 'resguardo'],
 			objection: {
 				culpable: ['Eh, eh. Despacio. Con eso no se acusa a nadie. Esa persona tiene una explicación que se sostiene. Antes de mirar a quién, mira a qué hora pasó de verdad.'],
 				prueba: ['A esa persona la miro igual que tú. Pero esa pista no la pone delante de la caja fuerte. Necesito algo que la ponga ahí, anoche.'],
@@ -451,11 +451,11 @@ export default {
 			{ call: 'det_c2_seguir' },
 		],
 		det_c2_seguir: seguir('det_c2', [
-			{ say: Q, text: 'Una copia buena engaña a los ojos. A una báscula, no. Lo apunto para el próximo curso de peritos.' },
+			{ say: Q, text: 'Una copia buena engaña a los ojos. A una báscula, no. Se lo contaré a los del próximo curso de peritos.' },
 			{ text: 'Doña Sumire os sirve té en un cuenco cualquiera, blanco y desportillado. Dice que sabe igual. Luego dice que no, que sabe mejor.' },
 		], [
 			{ say: Q, text: 'Se nos fue. Pasa. El cuenco de verdad sigue en algún sitio. Las cosas bonitas no se esconden mucho tiempo.' },
-			{ say: Q, text: 'Lo apunto. Y me tomo el té, que se enfría.' },
+			{ say: Q, text: 'Y me tomo el té, que se enfría. Quien vende un cuenco así acaba presumiendo de él. Ya saldrá.' },
 		]),
 
 		// ---- Caso 3 · Azafrán ----

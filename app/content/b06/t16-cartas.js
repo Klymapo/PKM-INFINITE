@@ -119,7 +119,7 @@ export default {
 				'Te he hecho un sobre. Con tus Pokémon. Los he dibujado yo de memoria. …El de las orejas no me salió.',
 			]),
 			{ say: 'cq_aficionada', text: '¡Si quieres practicar antes de enfrentarte a él, juego contigo! Él hace trampa. Bueno, no. Pero lo parece.' },
-			{ say: 'philippe', text: '¡No hago trampa! Hago *misdirección*. Es distinto. Lo pone en el libro.' },
+			{ say: 'philippe', text: '¡No hago trampa! Te distraigo. Es distinto. Lo pone en el libro.' },
 			{ set: { 'flag.cq_lum_vista': true } },
 			{ call: 'cq_lum_mesa' },
 		],
@@ -144,7 +144,7 @@ export default {
 			{ say: 'lola', text: 'Mira quién. Siéntate. No vendo, hoy juego. El Cuadrante lo trajo un turista de Kalos hace años y ahora en el andén no se habla de otra cosa.' },
 			{ say: 'lola', text: 'Aquí se juega como en todas partes: cinco cartas, nueve casillas, y la que pones gira a las que tiene al lado si les gana en ese lado. Lo único distinto es que aquí no se fía.' },
 			SOBRE('lola', [
-				'¿No tienes cartas? —Suspira—. Ten. Me sobraron de un lote. Le he pedido al de la imprenta que te hiciera unas de tus bichos. Me debía una.',
+				'¿No tienes cartas? —Suspira—. Ten. Le pedí al de la imprenta unas de tus bichos, por si pasabas. Me debía una.',
 			]),
 			{ say: 'cq_aficionado', text: 'Si quieres calentar, juego contigo mientras llega el tren. Lola no perdona ni a su madre.' },
 			{ say: 'lola', text: 'A mi madre menos. Ella me enseñó.' },
@@ -169,7 +169,7 @@ export default {
 		// ---------------- Azafrán: Sabrina ----------------
 		cq_aza_intro: [
 			{ text: 'En la sala de espera del gimnasio hay una mesa baja con un tablero de nueve casillas. Las cartas se barajan solas en el aire, despacio, y se posan en un montón perfecto.' },
-			{ say: 'sabrina', text: 'Sabía que vendrías a esta mesa. No por eso. Porque todo el que entra en esta sala acaba mirándola.' },
+			{ say: 'sabrina', text: 'Sabía que vendrías a esta mesa. Y no lo he leído en tu mente: todo el que entra en esta sala acaba mirándola.' },
 			{ say: 'sabrina', text: 'Juego al Cuadrante porque es un juego en el que todo está a la vista. Las cartas, la mesa, la mano del otro. No hay nada que adivinar. Me descansa.' },
 			SOBRE('sabrina', [
 				'Cinco cartas cada quien. Pones una al lado de las mías y, si tu número de ese lado es mayor, la carta cambia de dueño. El tipo ayuda un poco.',

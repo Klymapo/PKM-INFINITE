@@ -188,3 +188,11 @@
   - **Voz:** tranquilo, educado, frases cortas; tutea al jugador desde la primera carta. Cuenta cosas en voz alta («tres tazas, dos platos»). Antes de lo importante dice **«una cosita nada más»** (guiño escondido; como mucho una vez por caso). Muletillas: «a ver, a ver», «eso no cuadra». No acusa sin pruebas y no deja que el jugador lo haga: si acusas mal, **reclama** con calma y firmeza («Eh, eh. Despacio. Con eso no se acusa a nadie»). Nunca humilla. Humor seco, sobre todo sobre su gabardina y sobre Héctor («me manda vídeos de sí mismo saltando»).
   - **Reglas de sus casos:** misterios **justos y sin nada sobrenatural**: todas las pistas para acusar se consiguen antes de acusar. Nada de Lemnis, Rocket, Flare ni de la trama principal: son siniestros de la vida diaria. Si el culpable se escapa, Quintana lo apunta sin dramas.
   - **Apariciones:** casos 1 (Luminalia), 2 (Iris), 3 (Azafrán) y sus cartas del Buzón (2026-10-30).
+
+## Fichas nuevas (2026-10-30 · Pueblo Cirio, serial por capítulos)
+
+Plan, verdad del misterio y flags en `secreto/bloques/p16-cirio-plan.md`. Los cuatro salen en el capítulo 1 con 4+ escenas cada uno y siguen en los capítulos 2–5.
+- **Consuelo Ibarra** (`consuelo`, ~55): posadera de La Mecha. Habla mucho y deprisa («mi vida», «¡ay, no!», «¡ándale!»); da de comer para todo; su Furret le roba la silla.
+- **Don Hilario** (`hilario`, ~78): barquero. Frases de tres palabras; habla del tiempo para no hablar de otra cosa; nunca dice «no sé»: «el lago sabrá».
+- **Abril Lucero** (`abril`, ~31): farera, antes ingeniera en Trigal. Escéptica, irónica, contesta con preguntas, apunta todo («las pruebas no se rezan»). Lanturn.
+- **Benigna Arnau** (`benigna`, ~68): hermana del cerero desaparecido. De usted, frases exactas, vocabulario de cera; segura de que «es él».

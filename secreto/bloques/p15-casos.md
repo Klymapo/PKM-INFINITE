@@ -90,7 +90,7 @@ Cinemática: solo en `det_c1_intro` (llegada de Quintana y Lupa, 5 frames).
 
 **Las dos pistas que se combinan:** `cuerda` + `rondas` → el reloj parado es una hora falsa; el robo fue entre la 1 y las 2. Eso desmonta la coartada del hotel (que solo cubre las 23:47). Después, `resguardo` + `ida` (mismo abono) → Octavio volvió a Azafrán; enseñar el resguardo lo confirma (`abono`).
 
-**Prueba:** `abono`. El billete de vuelta de anoche, picado con su abono, estaba debajo de la caja fuerte: lo pone dentro de la tienda, junto a la caja, después de su supuesta coartada.
+**Prueba:** `abono` (también vale `resguardo`: con el billete de ida, el abono 0417 ya es suyo). El billete de vuelta de anoche, picado con su abono, estaba debajo de la caja fuerte: lo pone dentro de la tienda, junto a la caja, después de su supuesta coartada.
 
 **Pistas falsas:** el reloj parado (hora falsa que apunta a quien no tenga coartada a las 23:47, sobre todo a Nerea); Nerea vista a las 23:00 → karaoke. Fermín tiene motivo (deudas) y la noche entera, pero no sabe la combinación (trabaja de 21:00 a 7:00) ni viaja en Magnetotrén; su Growlithe estaba en el Centro Pokémon (por eso no ladró).
 

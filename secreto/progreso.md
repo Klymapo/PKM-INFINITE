@@ -76,6 +76,14 @@ Todos publicados en `main`:
 Capturas de las pantallas nuevas: `python3 herramientas/test/pantallas-nuevas.py`.
 Lector independiente: 22 correcciones aplicadas. Auditoría completa final: **apta** (18/24 recorridos; antes de corregir al bot, que se quedaba dando vueltas alrededor de Bruna tras perder, 9/24). Aviso de balance: Bruna sale como «muro» del bot (1,6 derrotas de media), es opcional; vigilar si Mario la encuentra demasiado dura.
 
+## Diseño aprobado (puntos 14–16) · sesión del 2026-10-30 (noche)
+
+Todos publicados en `main`:
+14. ✔ **Cuadrante** (juego de cartas propio): tablero 3×3, mazo de 5, valores de stats (PS/ataque/defensa/velocidad), bono de tipo, una carta del rival al ganar, colección y mazo en Más › Cuadrante, IA de 4 niveles que sube al ganarle. Campeones: Philippe (Luminalia), Lola (Trigal), Sabrina (Azafrán), Soldi (Kantai, taller) y Camila (Mayólica) + 2 aficionados. Prueba `cartas-test.mjs`.
+15. ✔ **Casos de detective** con Mauro Quintana (`quintana`): Registrar/Preguntar/Enseñar pista/Libreta/Acusar con prueba; dos errores = se escapa (queda en Más › Casos). 3 casos (Luminalia, Iris, Azafrán) que llegan escalonados por el Buzón (3 días entre uno y otro). Soluciones en `secreto/bloques/p15-casos.md`. Prueba `casos-test.mjs` (incluye que sean justos).
+16. ✔ **Pueblo Cirio** (Johto, al este de Malva): motor de seriales (un capítulo por semana real) y **capítulo 1 publicado** (~1 h, 3 cinemáticas, decisión `cirio_c1_costumbre` / `_prueba` / `_guardia`). **Capítulos 2–5 (+ epílogo) por escribir** según `secreto/bloques/p16-cirio-plan.md` (formato en CONTENIDO §22). Prueba `capitulos-test.mjs`.
+Lector independiente: apto en los tres (correcciones aplicadas). Pendientes menores: el bot de recorrido no vuelve a Johto para jugar Cirio (lo cubre `capitulos-test`); Cirio sin recuerdo `art` (falta pintar uno en `acuarela.js`).
+
 ## Pedidos de Mario pendientes
 
 ### Regiones por completar (pedido de Mario, 2026-10-28)
@@ -84,7 +92,7 @@ Regla: no reescribir lo publicado; completarlo en las siguientes visitas a la re
 - **Kalos, Johto y Kanto:** los gimnasios, pueblos y rutas canon que no han salido aún (revisar contra la lista canon de cada región antes de planear la vuelta). Los gimnasios «de intercambio» del Circuito no sustituyen al líder local: el líder canon de cada ciudad debe acabar existiendo.
 - **Mecánica especial asegurada** (ver CLAUDE.md §2.4): la lista de Megapiedras y cristales que falta se mantiene aquí también.
 
-- **2026-10-28 · Mecánica especial asegurada:** todo Pokémon con Mega, Z exclusivo, Gigamax o forma especial por objeto tendrá su objeto o mecánica asegurada en el transcurso del juego (regla en CLAUDE.md §2.4). Pendiente concreto: **Alakazamita** con misión propia (Kadabra + Cordón Unión; Azafrán). Lista de lo que falta: por hacer en la próxima sesión.
+- **2026-10-28 · Mecánica especial asegurada:** todo Pokémon con Mega, Z exclusivo, Gigamax o forma especial por objeto tendrá su objeto o mecánica asegurada en el transcurso del juego (regla en CLAUDE.md §2.4). ~~Pendiente concreto: Alakazamita~~ **HECHO: Mario dice que YA TIENE la Alakazamita (2026-10-30)** (misión `p9_s_alakazamita`, Azafrán). Lista de lo que falta: por hacer en la próxima sesión.
 - **2026-10-28 · Regiones completas:** se pueden visitar por partes, pero el objetivo final es recorrer cada región entera (regla en CLAUDE.md §2.4).
 
 - **2026-10-10 · Lista grande de notas tras jugar hasta el final del B3.** Plan y reparto en `secreto/bloques/p7-plan.md`. Resumen de lo que dijo (sus palabras, para afinar el gusto):
