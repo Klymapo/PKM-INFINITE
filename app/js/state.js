@@ -264,7 +264,7 @@ function scope() {
 		badge: id => G.player.badges.includes(id),
 		money: G.player.money,
 		inParty: spId => G.party.some(p => p.sp === toID(spId) || D.species[p.sp]?.base === toID(spId)),
-		owns: spId => G.party.some(p => p.sp === toID(spId)) || G.boxes.some(b => b.some(p => p.sp === toID(spId))) || Object.values(G.neg || {}).some(v => (v.workers || []).some(p => p.sp === toID(spId))),
+		owns: spId => G.party.some(p => p.sp === toID(spId)) || G.boxes.some(b => b.some(p => p.sp === toID(spId))) || Object.values(G.neg || {}).some(v => (v.workers || []).some(p => p.sp === toID(spId))) || (G.exp?.active || []).some(e => e.mon?.sp === toID(spId)),
 		// ¿Hay un Pokémon de esa especie o de una evolución suya (works('mareep') ve a un Ampharos) trabajando en algún negocio? works('ampharos')
 		works: spId => { const want = toID(spId); const line = sp => { for (let i = 0, id = sp; i < 4 && id; i++, id = D.species[id]?.prevo) if (id === want) return true; return D.species[sp]?.base === want; }; return Object.values(G.neg || {}).some(v => (v.workers || []).some(p => line(p.sp))); },
 		// ¿Eres socio de ese negocio? partner('rancho_prado')

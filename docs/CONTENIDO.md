@@ -529,3 +529,9 @@ photos: { snorlax_hojas: { sp: 'snorlax', loc: 'ruta7', title: '…', caption: '
 - La Gaceta paga 60 / 80 / 100 % de `pay` según las estrellas (y la diferencia si mejoras una ya vendida). `gift` solo la primera vez. Pagos modestos: 1 000–1 600.
 - `foto("id")` en condiciones = estrellas de esa foto (0 si no la tienes). Quedan en Diario › Rotom › 🎞️ Fotos.
 - Sin sprites en el repo: la foto se compone con el sprite que el móvil ya descarga.
+
+## 17. Expediciones
+
+> Pedido de Mario, 2026-10-29. Motor en `app/js/expedicion.js`, pantalla en `app/js/ui/expedicion-ui.js` (Más › Expediciones). No necesita contenido propio.
+
+Se manda un Pokémon **del PC** (no del equipo ni de los negocios) a una **ruta visitada con puntos de recolección**; hasta 3 a la vez, de 4, 8 u 12 h reales. Vuelve con 2 objetos por cada 4 h sacados de los `gather` de esa ruta (lo común; rara vez una entrada `rare`), una bitácora procedural de 2–3 líneas, amistad (+10 por cada 4 h) y algo de experiencia (como mucho un nivel). Nunca dinero. Mientras está fuera no está en su caja (`owns()` lo cuenta). **Cada `gather` nuevo en una ruta amplía lo que traen las expediciones**: revisa que sus tablas no regalen nada que rompa la curva.

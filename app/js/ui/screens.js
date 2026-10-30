@@ -35,6 +35,8 @@ import { MINI_INFO, gatherGame, gatherCargo, prepare, settle, sumCargo } from '.
 import { openVentures, openVenture, setVentureHooks } from './negocios-ui.js';
 import { openMailbox, checkMail, unreadMail } from './correo-ui.js';
 import { playFocus, photoCard } from './foto-ui.js';
+import { openExpeditions, readyCount as expReady } from './expedicion-ui.js';
+import { expState, destinations as expDests } from '../expedicion.js';
 import { album as photoAlbum, photoCount } from '../foto.js';
 import { ventureList, venturesSummary, pending as venturePending, bestVenturesFor } from '../negocios.js';
 import { phase, PHASE_NAMES, isNight } from '../time.js';
@@ -201,6 +203,8 @@ function continueGame(save) {
 	backupReminder();
 	try { const r = DC.tick(); if (r.egg) setTimeout(() => toast('🥚 ¡Ha aparecido un huevo en la Guardería!', 'quest'), 5000); } catch (e) { console.error(e); }
 	setTimeout(() => checkDexRewards(), 6000);
+	// Expediciones: aviso si alguien volvió mientras no jugabas
+	try { const n = expReady(); if (n) setTimeout(() => toast(`🧭 ${n === 1 ? 'Ha vuelto un Pokémon' : `Han vuelto ${n} Pokémon`} de expedición: Más › Expediciones`), 10000); } catch (e) { console.error(e); }
 	// Buzón: lo que ya toca llega al abrir (y cada vez que cambias de lugar)
 	setTimeout(() => { mailCheckedAt = Date.now(); checkMail(); }, 9000);
 	// Negocios: aviso antes de perder producción (2026-10-30)
@@ -2636,6 +2640,7 @@ function openMore() {
 		row('📍', 'Guía de zona', 'Qué Pokémon hay por aquí', openZoneGuide),
 		(() => { const v = venturesSummary(); return (v.mine || v.offers) ? row('🤝', 'Negocios', v.mine ? `${v.mine} ${v.mine === 1 ? 'negocio' : 'negocios'} · por recoger ${fmtMoney(v.money)}${v.ready ? ' · ❗ te necesitan' : v.almost ? ' · ⏳ almacén casi lleno' : ''}${v.offers ? ` · ${v.offers} ${v.offers === 1 ? 'oportunidad' : 'oportunidades'}` : ''}` : `${v.offers} ${v.offers === 1 ? 'oportunidad' : 'oportunidades'} para invertir`, () => openVentures()) : null; })(),
 		(() => { const n = unreadMail(); return row('📬', 'Buzón', n ? `✨ ${n} ${n === 1 ? 'cosa sin abrir' : 'cosas sin abrir'}` : 'Cartas, periódicos y encargos', openMailbox); })(),
+		(() => { if (!expDests().length) return null; const n = expReady(), a = expState().active.length; return row('🧭', 'Expediciones', n ? `✨ ${n} ${n === 1 ? 'ha vuelto' : 'han vuelto'}` : a ? `${a} de expedición` : 'Manda Pokémon del PC a explorar', openExpeditions); })(),
 		row('🎓', 'Tutor de movimientos', 'Recordar, olvidar y buscar movimientos', () => openTutor()),
 		(() => { const n = Object.keys(G.uniq?.missed || {}).length; return row('🐾', 'Segundas oportunidades', n ? `${n} ${n === 1 ? 'Pokémon único volverá' : 'Pokémon únicos volverán'}` : 'Pokémon únicos que se escaparon', openUniques); })(),
 		row('🏅', 'Retos', 'Líderes y combates importantes', openChallenges),
