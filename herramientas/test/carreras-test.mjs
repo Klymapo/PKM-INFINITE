@@ -57,6 +57,27 @@ for (const id of Object.keys(C.races)) {
 	// Nada de dinero
 	ok(G.player.money === newGame({ name: 'x' }).player.money, `${id}: las carreras no dan dinero`);
 }
+// Entrega del trofeo (2026-10-30): la primera victoria abre una escena; quien ganó antes la ve al volver al puesto.
+{
+	const { runScript, UI } = await import('../../app/js/guion.js');
+	const said = [];
+	UI.say = async (who, text) => { said.push(who); }; UI.choose = async () => 0; UI.toast = () => {}; UI.refresh = () => {}; UI.read = async () => {};
+	for (const id of Object.keys(C.races)) {
+		const sc = 'carr_' + id;
+		if (!C.scripts[sc + '_trofeo']) { ok(false, `${id}: falta la escena del trofeo`); continue; }
+		fresh();
+		UI.race = async rid => { const r = CR.autoRun(rid, OWN[rid], 3, 'fijo'); return CR.finishRace(rid, OWN[rid], r.mine, r.rivals); };
+		await runScript(sc + '_correr');
+		ok(G.flags[sc + '_trofeo'] && G.flags['carrera_' + id + '_ganada'], `${id}: la primera victoria entrega el trofeo en escena`);
+		const n = Object.values(G.bag).reduce((a, b) => a + b, 0);
+		await runScript(sc + '_trofeo');
+		ok(Object.values(G.bag).reduce((a, b) => a + b, 0) === n, `${id}: la escena no da objetos repetidos`);
+		fresh({ ['carrera_' + id + '_ganada']: true });
+		const spot = Object.values(C.locations).flatMap(l => l.spots || []).find(s => (s.talk || []).some(t => t.script === sc + '_trofeo'));
+		ok(spot && spot.talk.find(t => t.script === sc + '_trofeo').cond.includes('carrera_' + id + '_ganada'), `${id}: quien ya había ganado ve la entrega al volver`);
+	}
+	delete UI.race;
+}
 ok(CR.fmtTime(64.3) === '1:04,3' && CR.fmtTime(9.25).startsWith('9,'), 'formato de tiempo');
 console.log(fails ? `\n✖ ${fails} fallos` : '\n✔ Carreras: todo bien');
 process.exit(fails ? 1 : 0);

@@ -52,9 +52,11 @@ export const skipFocus = () => ({ ok: true, q: 2 });
 /**
  * Enfoque: el visor barre de lado a lado y hay que disparar cuando el Pokémon está dentro del recuadro.
  * 3 disparos; cada acierto es una estrella. Nivel 1–3: recuadro más estrecho y visor más rápido.
+ * Ajuste 2026-10-30 (Mario «nunca le atino»): el recuadro es siempre más ancho que el sprite (96 px en un visor de ~350 px ≈ 0,27),
+ * el visor va más lento y hay un margen (`grace`) que compensa el retraso del toque en el móvil. El recuadro se pone verde cuando cuenta.
  */
 export function focusParams(level = 2) {
 	const L = Math.max(1, Math.min(3, level));
-	return { shots: 3, zone: [0.30, 0.24, 0.18][L - 1], speed: [0.55, 0.75, 0.95][L - 1] }; // zona = ancho del recuadro (0–1); speed = recorridos por segundo
+	return { shots: 3, zone: [0.44, 0.38, 0.32][L - 1], speed: [0.32, 0.42, 0.52][L - 1], grace: 0.04 }; // zona = ancho del recuadro (0–1); speed = recorridos por segundo
 }
-export function focusHit(pos, center, zone) { return Math.abs(pos - center) <= zone / 2; }
+export function focusHit(pos, center, zone, grace = 0) { return Math.abs(pos - center) <= zone / 2 + grace; }
