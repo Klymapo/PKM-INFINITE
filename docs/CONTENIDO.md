@@ -577,3 +577,25 @@ races: {
 - **Equipo:** `buildRival()` elige especies evolucionadas y no legendarias que llevan los tipos que más daño hacen a tus tres más usados y aguantan los suyos; movimientos legales de su aprendizaje (nivel, MT, tutor). As = tope − 2 + reto (máximo tope + 1); tamaño según hitos (balance §4.2), +1 desde el reto 2.
 - **Reto:** si le ganas 3 veces seguidas con el mismo equipo, sube (`G.rx.tier`, 0–3): mejor IA, más nivel, más IV y más pociones.
 - **Comandos de guion:** `{ rival: 'saludo' }` (frases que recuerdan los combates anteriores), `{ rival: 'prep' }` (pone el equipo en `rx_bruna`), `{ rival: 'gana' | 'pierde' }` (apunta el resultado y comenta). Antes del combate el guion cura siempre (`{ heal: true }`).
+
+## 20. Cuadrante (juego de cartas)
+
+> Pedido de Mario, 2026-10-30. Motor en `app/js/cartas.js`, pantalla en `app/js/ui/cartas-ui.js` (partida y Más › Cuadrante), rivales en `app/content/b06/t16-cartas.js`. Prueba: `herramientas/test/cartas-test.mjs`.
+
+Juego propio del mundo (nada de nombres ni reglas de juegos registrados). Tablero de 3×3; cada jugador, 5 cartas. Cada carta es un Pokémon con 4 valores de 1 a 10 sacados de sus stats base (`round(stat / 13)`): **arriba PS, derecha el mayor ataque, abajo la mayor defensa, izquierda velocidad**. Al poner una carta, cada vecina del rival se gira si tu valor de ese lado es **mayor** que el suyo enfrentado; si el tipo principal de tu carta es eficaz contra la otra, tu valor cuenta +1. Sin capturas en cadena. Gana quien tenga más cartas al llenarse el tablero (tablero + la que quede en la mano). Ganar da **una carta del mazo del rival, a elegir**, y la primera vez sus premios; perder no quita nada. Nunca dinero.
+
+```js
+cardPlayers: {
+  lum_philippe: { npc: 'philippe', loc: 'luminalia', champion: true, cond: '…',
+    level: 3, max: 4, every: 1,            // IA 1 azar · 2 la que más gira · 3 cuida lo expuesto · 4 mira 3 jugadas; sube 1 cada `every` derrotas tuyas hasta `max`
+    deck: ['mrmime', 'meowstic', 'klefki', 'furfrou', 'delphox'],   // exactamente 5
+    prize: [{ id: 'bottlecap', n: 1 }],    // solo la primera victoria
+    win: '…', lose: '…', draw: '…' },      // lo que dice al acabar (win = gana el rival)
+}
+// guion: { cards: 'lum_philippe', onWin: [...], onLose: [...], onDraw: [...] }   (sin interfaz juega sola)
+// guion: { cardStarter: true }   sobre de inicio, una vez: las especies de tu equipo (hasta 5) + comunes hasta 8
+```
+
+- Un **campeón por ciudad grande** ya visitada, con nombre y voz que el jugador ya conoce; los aficionados pueden ser genéricos. El que te enseña primero da el sobre (`flag.cq_sobre`).
+- El motor pone `flag.cartas_<id>_ganada` la primera vez que le ganas. Colección y mazo en `G.cards`.
+- El validador comprueba mazos de 5 especies reales, niveles 1–4, NPC, lugar y premios.

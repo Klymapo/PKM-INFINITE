@@ -3,7 +3,7 @@ import { D, toID } from './data.js';
 
 export const C = {
 	blocks: [], regions: {}, locations: {}, npcs: {}, trainers: {}, quests: {}, scripts: {}, shops: {},
-	challenges: {}, events: [], milestones: [], radio: [], mail: [], photos: {}, badges: {}, gather: {}, ventures: {}, races: {}, sharedEvents: [], pedidos: [], version: '',
+	challenges: {}, events: [], milestones: [], radio: [], mail: [], photos: {}, badges: {}, gather: {}, ventures: {}, races: {}, sharedEvents: [], pedidos: [], cardPlayers: {}, cases: {}, serials: {}, version: '',
 };
 
 function mergeLocation(base, patch) {
@@ -56,6 +56,9 @@ export function registerBlock(b) {
 	C.mail.push(...(b.mail || []));
 	Object.assign(C.photos, b.photos || {});
 	Object.assign(C.races, b.races || {});
+	Object.assign(C.cardPlayers, b.cardPlayers || {});
+	Object.assign(C.cases, b.cases || {});
+	Object.assign(C.serials, b.serials || {});
 	C.sharedEvents.push(...(b.sharedEvents || []));
 	C.pedidos.push(...(b.pedidos || []));
 	C.milestones.push(...(b.milestones || []).map(m => ({ ...m, block: b.id })));

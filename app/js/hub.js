@@ -309,6 +309,8 @@ function probe_(script) {
 				branches(st, depth, ['onWin', 'onLose'].filter(k => c[k]).map(k => [c[k], null]));
 				continue;
 			}
+			if (c.case) { eff(st, 'caso', true); branches(st, depth, ['onSolve', 'onFail'].filter(k => c[k]).map(k => [c[k], null])); continue; }
+			if (c.cards) { eff(st, 'cartas', true); branches(st, depth, ['onWin', 'onLose', 'onDraw'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.race) { eff(st, 'carrera', true); branches(st, depth, ['onWin', 'onLose'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.photoSell) { branches(st, depth, ['onSale', 'onNone'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.input) { eff(st, 'estado', true); continue; }

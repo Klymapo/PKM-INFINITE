@@ -36,6 +36,10 @@ import { openVentures, openVenture, setVentureHooks } from './negocios-ui.js';
 import { openMailbox, checkMail, unreadMail } from './correo-ui.js';
 import { playFocus, photoCard } from './foto-ui.js';
 import { playRace } from './carreras-ui.js';
+import { playCards, openCards } from './cartas-ui.js';
+import { hasCards, cardState } from '../cartas.js';
+import { playCase, openCases } from './casos-ui.js';
+import { caseList } from '../casos.js';
 import { openExpeditions, readyCount as expReady } from './expedicion-ui.js';
 import { expState, destinations as expDests } from '../expedicion.js';
 import { album as photoAlbum, photoCount } from '../foto.js';
@@ -81,6 +85,8 @@ export function installHooks() {
 		venture: id => openVenture(id),
 		photo: o => playFocus(o),
 		race: id => playRace(id),
+		cards: id => playCards(id),
+		detective: id => playCase(id),
 	});
 	setVentureHooks({ travel: id => guarded(() => travelTo(id)), summary: (p, onChange) => openSummary(p, onChange, { battle: true, hp: p.hp, maxhp: maxHp(p) }) });
 }
@@ -2643,6 +2649,8 @@ function openMore() {
 		(() => { const v = venturesSummary(); return (v.mine || v.offers) ? row('🤝', 'Negocios', v.mine ? `${v.mine} ${v.mine === 1 ? 'negocio' : 'negocios'} · por recoger ${fmtMoney(v.money)}${v.ready ? ' · ❗ te necesitan' : v.almost ? ' · ⏳ almacén casi lleno' : ''}${v.pedido ? ' · 📨 pedido' : ''}${v.offers ? ` · ${v.offers} ${v.offers === 1 ? 'oportunidad' : 'oportunidades'}` : ''}` : `${v.offers} ${v.offers === 1 ? 'oportunidad' : 'oportunidades'} para invertir`, () => openVentures()) : null; })(),
 		(() => { const n = unreadMail(); return row('📬', 'Buzón', n ? `✨ ${n} ${n === 1 ? 'cosa sin abrir' : 'cosas sin abrir'}` : 'Cartas, periódicos y encargos', openMailbox); })(),
 		(() => { if (!expDests().length) return null; const n = expReady(), a = expState().active.length; return row('🧭', 'Expediciones', n ? `✨ ${n} ${n === 1 ? 'ha vuelto' : 'han vuelto'}` : a ? `${a} de expedición` : 'Manda Pokémon del PC a explorar', openExpeditions); })(),
+		caseList().length ? row('🕵️', 'Casos', `Expediente de casos · ${caseList().length}`, () => openCases()) : null,
+		hasCards() ? row('🃏', 'Cuadrante', `Mazo, colección y rivales · ${Object.keys(cardState().owned).length} cartas`, () => openCards()) : null,
 		row('🎓', 'Tutor de movimientos', 'Recordar, olvidar y buscar movimientos', () => openTutor()),
 		(() => { const n = Object.keys(G.uniq?.missed || {}).length; return row('🐾', 'Segundas oportunidades', n ? `${n} ${n === 1 ? 'Pokémon único volverá' : 'Pokémon únicos volverán'}` : 'Pokémon únicos que se escaparon', openUniques); })(),
 		row('🏅', 'Retos', 'Líderes y combates importantes', openChallenges),

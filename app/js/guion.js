@@ -303,6 +303,42 @@ async function runCmd(c, ctx) {
 		if (next) await runList(next, ctx);
 		return;
 	}
+	if (c.cards) {
+		// Cuadrante (app/js/cartas.js): sin interfaz, juega sola con el nivel 2 contra la IA del rival y se queda la primera carta
+		const K = await import('./cartas.js');
+		const def = K.playerDef(c.cards);
+		if (!def) return;
+		if (K.myDeck().length < K.DECK) K.giveStarter();
+		let res;
+		if (UI.cards) res = await UI.cards(c.cards);
+		else {
+			const r = K.autoMatch(K.myDeck(), def.deck, 2, K.aiLevelFor(c.cards), 'auto' + K.cardState().games);
+			res = K.finishMatch(c.cards, r.res, def.deck.find(sp => !K.cardState().owned[sp]) || def.deck[0]);
+		}
+		ctx.lastCards = res;
+		const next = res && !res.quit ? (res.res === 'win' ? c.onWin : res.res === 'lose' ? c.onLose : (c.onDraw || c.onLose)) : null;
+		if (next) await runList(next, ctx);
+		return;
+	}
+	if (c.case) {
+		// Casos de detective (app/js/casos.js): sin interfaz, lo resuelve solo (bot y pruebas)
+		const K = await import('./casos.js');
+		if (!K.caseDef(c.case)) return;
+		const st = K.caseState(c.case);
+		let res;
+		if (st.status === 'resuelto' || st.status === 'fallido') res = { result: st.status };
+		else if (UI.detective) res = await UI.detective(c.case);
+		else res = K.autoSolve(c.case);
+		const next = res && !res.quit ? (res.result === 'resuelto' ? c.onSolve : res.result === 'fallido' ? c.onFail : null) : null;
+		if (next) await runList(next, ctx);
+		return;
+	}
+	if (c.cardStarter) {
+		const K = await import('./cartas.js');
+		const got = K.giveStarter();
+		if (got.length) UI.toast?.(`🃏 Sobre de Cuadrante: ${got.length} cartas (Más › Cuadrante)`, 'quest');
+		return;
+	}
 	if (c.photoSell) {
 		const FT = await import('./foto.js');
 		const r = FT.sellPhotos();

@@ -120,6 +120,34 @@ with sync_playwright() as p:
         pg.evaluate("() => { const t = document.querySelector('.neg-net-box'); if (t) t.scrollIntoView(); }"); time.sleep(0.4); shot(pg, 'red-2-mapa')
         pg.click('.neg-link >> nth=0'); time.sleep(0.6); shot(pg, 'red-3-enlace')
 
+    if not solo or 'cartas' in solo:
+        pg.evaluate("""async () => {
+            const K = await import('./js/cartas.js');
+            const P = await import('./js/pokemon.js'); const S = await import('./js/state.js');
+            S.G.party = [P.createPokemon('lucario', { level: 50 }), P.createPokemon('ampharos', { level: 50 }), P.createPokemon('tyrantrum', { level: 50 })];
+            K.giveStarter();
+            const U = await import('./js/ui/cartas-ui.js');
+            window.__cq = U.playCards('lum_philippe');
+        }""")
+        time.sleep(1.0); shot(pg, 'cartas-1-mesa')
+        for t in range(5):
+            if not pg.query_selector('.cq-hand.me button.cq-card'): break
+            pg.click('.cq-hand.me button.cq-card >> nth=0'); time.sleep(0.3)
+            if t == 0: shot(pg, 'cartas-2-elegida')
+            cells = pg.query_selector_all('.cq-cell:not([disabled])')
+            if not cells: break
+            cells[0].click(); time.sleep(1.4)
+            if t == 2: shot(pg, 'cartas-3-mitad')
+        time.sleep(1.2); shot(pg, 'cartas-4-final')
+        btn = pg.query_selector('.cq-pick button.cq-card') or pg.query_selector('.cq-box .ft-btns button.primary')
+        if btn: btn.click(); time.sleep(0.6); shot(pg, 'cartas-5-premio')
+        b2 = pg.query_selector('.cq-box .ft-btns button.primary')
+        if b2: b2.click(); time.sleep(0.4)
+        pg.evaluate("""async () => { const U = await import('./js/ui/cartas-ui.js'); U.openCards(); }""")
+        time.sleep(0.8); shot(pg, 'cartas-6-mazo')
+        pg.evaluate("() => document.querySelectorAll('.sheet .tabs button')[1].click()"); time.sleep(0.5); shot(pg, 'cartas-7-coleccion')
+        pg.evaluate("() => document.querySelectorAll('.sheet .tabs button')[2].click()"); time.sleep(0.5); shot(pg, 'cartas-8-rivales')
+
     b.close()
 srv.shutdown()
 print(f'Capturas en {args.salida}')

@@ -21,6 +21,7 @@ import carreras from './t12-carreras.js';
 import rival from './t13-rival.js';
 import historias from './t14-historias.js';
 import red from './t15-red.js';
+import cartas from './t16-cartas.js';
 
 const block = {
 	id: 'b06', title: 'Acto V · La voz del narrador', hours: 16, ends: 'b06_fin',
@@ -29,7 +30,7 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [], mail: [], radio: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t4, t5, museo, ecos, encargos, botica, serafina, fotos, carreras, rival, historias, red];
+const parts = [comun, t0, t1, t2, t3, t4, t5, museo, ecos, encargos, botica, serafina, fotos, carreras, rival, historias, red, cartas];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {
@@ -46,6 +47,9 @@ for (const part of parts) {
 	block.radio.push(...(part.radio || []));
 	Object.assign((block.photos ||= {}), part.photos || {});
 	Object.assign((block.races ||= {}), part.races || {});
+	Object.assign((block.cardPlayers ||= {}), part.cardPlayers || {});
+	Object.assign((block.cases ||= {}), part.cases || {});
+	Object.assign((block.serials ||= {}), part.serials || {});
 	(block.pedidos ||= []).push(...(part.pedidos || []));
 	(block.sharedEvents ||= []).push(...(part.sharedEvents || []));
 	for (const loc in part.extraSpots || {}) (extraSpots[loc] ||= []).push(...part.extraSpots[loc]);

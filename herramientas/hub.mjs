@@ -485,7 +485,7 @@ async function child() {
 			if (a.venture) { const N = await import('../app/js/negocios.js'); const def = N.ventureDef(a.venture); if (def && !N.owned(a.venture) && S.evalCond(def.cond || 'true')) N.joinVenture(a.venture); return; }
 			return;
 		}
-		if (/"(minigame|race)"/.test(JSON.stringify(script))) rec.minigame = true;
+		if (/"(minigame|race|cards|case)"/.test(JSON.stringify(script))) rec.minigame = true;
 		await GU.runScript(script);
 	}
 	/** Corre un sitio desde `from` (por defecto, la partida base) probando varias ramas de las decisiones. */
