@@ -536,7 +536,7 @@ photos: { snorlax_hojas: { sp: 'snorlax', loc: 'ruta7', title: '…', caption: '
 // venta:  { photoSell: true, onSale: [ … ], onNone: [ … ] }
 ```
 
-- Enfoque: el recuadro barre de lado a lado y se pone verde cuando el Pokémon está dentro (siempre más ancho que el sprite, con margen para el retraso del toque); 3 disparos, cada acierto una estrella. Sin estrellas no hay foto (se puede repetir). Una foto con más estrellas sustituye a la anterior.
+- Sin minijuego (Mario lo pidió quitar, 2026-10-30): la interfaz devuelve siempre 3 estrellas. El enfoque sigue en `ui/foto-ui.js` por si se recupera, pero no se usa. Sin estrellas no hay foto (se puede repetir). Una foto con más estrellas sustituye a la anterior.
 - La Gaceta paga 60 / 80 / 100 % de `pay` según las estrellas (y la diferencia si mejoras una ya vendida). `gift` solo la primera vez. Pagos modestos: 1 000–1 600.
 - `foto("id")` en condiciones = estrellas de esa foto (0 si no la tienes). Quedan en Diario › Rotom › 🎞️ Fotos.
 - Sin sprites en el repo: la foto se compone con el sprite que el móvil ya descarga.
