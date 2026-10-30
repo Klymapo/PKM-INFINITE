@@ -21,7 +21,7 @@ import { G, evalCond, count } from './state.js';
 import { L, activeEvents, isRoute, eventDone } from './world.js';
 import { uniqueSpotsAt } from './unicos.js';
 import { rivalSpotsAt } from './rival.js';
-import { ventureList, pending as venturePending } from './negocios.js';
+import { ventureList, pending as venturePending, peekPedido } from './negocios.js';
 import { phase } from './time.js';
 
 /**
@@ -770,6 +770,8 @@ function scanVentures() {
 			else if (p.full) out.push({ key: 'vf:' + v.id + ':' + Math.floor((v.st.last || 0) / 864e5), kind: 'venture', icon: v.def.icon || '🤝', title: v.def.name, sub: '📦 Almacén lleno: pasa a recoger', venture: v.id, loc: v.def.loc, place: '' });
 		}
 	}
+	// Pedido entre encargados (2026-10-30): sale en la ficha del negocio que lo pide
+	try { const pd = peekPedido(); if (pd && C.ventures[pd.to]) out.push({ key: 'vp:' + pd.id + ':' + pd.since, kind: 'venture', icon: '📨', title: C.ventures[pd.to].name, sub: '📨 Un pedido de otro negocio', venture: pd.to, loc: C.ventures[pd.to].loc, place: '' }); } catch (e) { /* */ }
 	return out;
 }
 /**

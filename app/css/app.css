@@ -1061,3 +1061,20 @@ img.illus.priv { image-rendering: auto; width: 100%; aspect-ratio: 16 / 10; obje
 .cr-table { display: grid; gap: 4px; }
 .cr-rowt { display: grid; grid-template-columns: 44px 1fr auto; gap: 8px; padding: 8px 10px; border-radius: 10px; background: var(--ink-2); font-size: 15px; }
 .cr-rowt.me { outline: 2px solid var(--gold); font-weight: 800; }
+/* Sinergias dinámicas (2026-10-30) */
+.neg-supply { display: grid; grid-template-columns: 48px 1fr 48px; gap: 8px; align-items: center; margin-top: 8px; }
+.neg-supply .btn { min-height: 44px; min-width: 44px; padding: 0; font-size: 20px; font-weight: 800; }
+.neg-supply-v { display: grid; text-align: center; line-height: 1.2; }
+.neg-supply-v b { font-size: 18px; color: var(--gold); }
+.neg-supply-v span { font-size: 12px; color: var(--muted); }
+.neg-syn-st { font-weight: 700; }
+.neg-net-box { margin: 6px 0 10px; padding: 8px; border: 1px solid var(--line); border-radius: 12px; background: var(--ink-2); }
+.neg-net { width: 100%; height: auto; display: block; }
+.neg-net-legend { display: flex; gap: 14px; justify-content: center; font-size: 12px; color: var(--muted); }
+.neg-net-legend .on { color: #5fd08a; }
+.neg-arrow { font-size: 20px; font-weight: 800; }
+.neg-arrow.on { color: #5fd08a; }
+.neg-arrow.off { color: #8a93a6; }
+.neg-pedido { margin: 8px 0; padding: 12px; border: 1px solid var(--gold); border-radius: 12px; background: var(--ink-2); display: grid; gap: 6px; font-size: 14px; line-height: 1.45; }
+.neg-pedido-h { font-weight: 800; color: var(--gold); }
+.neg-pedido .btn { min-height: 44px; }

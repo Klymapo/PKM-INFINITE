@@ -5,7 +5,7 @@
 // El jugador entra como socio, reparte el esfuerzo entre sus líneas de producción, compra mejoras,
 // pone a trabajar a Pokémon del PC, elige encargado y pasa a recoger lo que se acumula en tiempo real.
 // Lo que no se recoge se pierde cuando el almacén se llena: hay que pasar a verlo.
-import { G, evalCond, addItem, setPath, boxInsert } from './state.js';
+import { G, evalCond, addItem, removeItem, setPath, boxInsert } from './state.js';
 import { C } from './content.js';
 import { D, toID } from './data.js';
 import { addHappy } from './pokemon.js';
@@ -60,7 +60,7 @@ export function joinVenture(id) {
 	const cost = def.buy?.cost || 0;
 	if (G.player.money < cost) return { ok: false, msg: 'No te alcanza.' };
 	G.player.money -= cost;
-	(G.neg ||= {})[id] = { owned: true, since: Date.now(), last: Date.now(), fill: 0, bank: { money: 0, items: {} }, frac: {}, effort: {}, ups: {}, workers: [], manager: null, boosts: [], lastEvent: Date.now(), pending: null, earned: 0, spent: cost, log: [] };
+	(G.neg ||= {})[id] = { owned: true, since: Date.now(), last: Date.now(), fill: 0, bank: { money: 0, items: {} }, frac: {}, effort: {}, ups: {}, workers: [], manager: null, boosts: [], lastEvent: Date.now(), pending: null, earned: 0, spent: cost, log: [], supply: {}, feed: {}, chain: {}, synStr: {} };
 	normEffort(id);
 	G.neg[id].manager = homeManager(id);
 	for (const k in def.buy?.set || {}) setPath(k, def.buy.set[k]);
@@ -119,17 +119,23 @@ export function rates(id) {
 	if (wb) addMult({ all: 1 + wb }, `Pokémon trabajando (+${Math.round(wb * 100)} %)`);
 	const t = Date.now();
 	for (const b of st.boosts || []) if (b.until > t) addMult(b.mult, b.label || 'Racha');
-	for (const sy of synergiesOf(id)) if (sy.active) addMult(sy.mult, '🔗 ' + sy.label);
+	for (const sy of synergiesOf(id)) {
+		if (sy.strength > 0) { const m = {}; for (const k in sy.mult) m[k] = 1 + (sy.mult[k] - 1) * sy.strength; addMult(m, `🔗 ${sy.label}${sy.strength < 0.99 ? ` (suministro al ${Math.round(sy.strength * 100)} %)` : ''}`); }
+		if (sy.chain) addMult({ all: 1 + CHAIN[sy.chain] }, `⛓️ Cadena con ${sy.fromName} (nivel ${sy.chain})`);
+	}
+	// Lo que este negocio manda a otros (suministro) no lo produce para ti
+	const sent = suppliedFrom(id);
 	let gross = 0;
 	const items = {}, perLine = {};
 	for (const k in lines) {
-		const ln = lines[k], eff = (st.effort?.[k] || 0) / 100, m = mult.all * (mult[k] || 1);
+		const ln = lines[k], eff = (st.effort?.[k] || 0) / 100, m = mult.all * (mult[k] || 1) * (1 - Math.min(0.9, (sent[k] || 0) + (sent._all || 0)));
 		const money = (ln.money || 0) * eff * m;
 		gross += money;
 		const its = (ln.items || []).filter(i => ok(i.cond)).map(i => ({ id: toID(i.id), perDay: i.perDay * eff * m }));
 		for (const i of its) items[i.id] = (items[i.id] || 0) + i.perDay;
-		perLine[k] = { money, items: its, pct: st.effort?.[k] || 0 };
+		perLine[k] = { money, items: its, pct: st.effort?.[k] || 0, sent: Math.min(0.9, (sent[k] || 0) + (sent._all || 0)) };
 	}
+	for (const k in sent) if (sent[k] > 0) why.push({ label: `📦 Suministro a otros negocios`, m: { [k === '_all' ? 'all' : k]: 1 - Math.min(0.9, sent[k]) } });
 	const upkeep = Math.max(0, (def.upkeep || 0) + (def.upgrades || []).reduce((a, u) => a + (st.ups?.[u.id] ? (u.upkeep || 0) : 0), 0) + (mgr?.wage || 0));
 	const pct = sharePct(id);
 	const profit = Math.max(0, gross - upkeep);
@@ -137,28 +143,129 @@ export function rates(id) {
 }
 
 /**
- * Mejoras cruzadas (pedido de Mario, 2026-10-28): un negocio rinde más si tienes otro que lo abastece.
- * En el contenido: `synergy: [{ from: '<idNegocio>', line?: '<línea del otro>', min?: <% de esfuerzo>, mult: {...}, label, desc }]`.
- * Activa si eres socio de `from` y (si hay `line`) le dedicas al menos `min` % de esfuerzo (por defecto 10).
+ * Mejoras cruzadas (pedido de Mario, 2026-10-28) y sinergias dinámicas (2026-10-30).
+ * En el contenido: `synergy: [{ from: '<idNegocio>', line?: '<línea del otro>', min?: <% de esfuerzo>, need?: <% de suministro>, mult: {...}, label, desc }]`.
+ * (a) Suministro real: el jugador elige qué % de la producción del proveedor (de esa línea, o de todo) se manda aquí
+ *     (`st.supply[from]`, 0–100 de 10 en 10). Lo que se manda no lo produce el proveedor para ti. Llega a un pequeño
+ *     depósito (`st.feed[from]`, como mucho 2 días) y aquí se consume: con `need` % (30 por defecto) la mejora rinde entera;
+ *     con menos, a medias. Si el proveedor tiene el almacén lleno (no se recoge a tiempo) o su línea parada, no manda nada.
+ * (c) Cadena: días seguidos con la mejora activa (≥ 50 %) → nivel 1/2/3 a los 3/7/14 días: +5/+10/+15 % a todo.
+ *     Si se descuida, baja a la mitad de ritmo.
  */
+export const CHAIN = [0, 0.05, 0.10, 0.15];
+export const CHAIN_DAYS = [0, 3, 7, 14];
+export const FEED_DAYS = 2;
+const NEED = 30;
+const linkKey = sy => sy.from + (sy.line ? ':' + sy.line : '');
+export const chainLevel = days => days >= CHAIN_DAYS[3] ? 3 : days >= CHAIN_DAYS[2] ? 2 : days >= CHAIN_DAYS[1] ? 1 : 0;
+
+/** Partidas de antes del 2026-10-30: las mejoras que ya rendían siguen rindiendo (suministro al 30 %), y se avisa. */
+function migrateSupply(id) {
+	const st = ventureState(id), def = ventureDef(id);
+	if (!st?.owned || st.supply) return;
+	st.supply = {}; st.feed = {}; st.chain = {}; st.synStr = {};
+	for (const sy of def?.synergy || []) {
+		const k = linkKey(sy), other = ventureState(sy.from);
+		const was = !!other?.owned && (!sy.line || (other.effort?.[sy.line] || 0) >= (sy.min ?? 10));
+		st.supply[k] = was ? NEED : 0;
+		if (was) { st.feed[k] = 1; st.synStr[k] = 1; logVenture(id, `Suministro de ${C.ventures[sy.from]?.name}: ${NEED} % (cámbialo en la red de negocios)`); }
+	}
+}
 export function synergiesOf(id) {
-	const def = ventureDef(id);
+	const def = ventureDef(id), st = ventureState(id);
+	if (st?.owned) migrateSupply(id);
 	return (def?.synergy || []).filter(sy => C.ventures?.[sy.from]).map(sy => {
-		const other = ventureState(sy.from);
-		const active = !!other?.owned && (!sy.line || (other.effort?.[sy.line] || 0) >= (sy.min ?? 10));
-		return { ...sy, active, fromName: C.ventures[sy.from].name };
+		const k = linkKey(sy), other = ventureState(sy.from);
+		const pct = st?.supply?.[k] || 0;
+		const lineOk = !sy.line || (other?.effort?.[sy.line] || 0) >= (sy.min ?? 10);
+		const full = !!other?.owned && (other.fill || 0) >= storeDays(sy.from) - 1e-6;
+		const strength = st?.owned ? (st.synStr?.[k] || 0) : 0;
+		const chainDays = st?.chain?.[k] || 0;
+		const missing = !other?.owned ? 'socio' : !lineOk ? 'linea' : !pct ? 'suministro' : full ? 'lleno' : pct < (sy.need ?? NEED) ? 'poco' : null;
+		return { ...sy, key: k, pct, need: sy.need ?? NEED, lineOk, full, strength, active: strength >= 0.5, chainDays, chain: chainLevel(chainDays), missing, fromName: C.ventures[sy.from].name };
 	});
+}
+/** Cuánto manda este negocio a otros, por línea (fracción 0–0.9; `_all` si el enlace no dice línea). */
+export function suppliedFrom(id) {
+	const out = {};
+	for (const vid in C.ventures || {}) {
+		const st = ventureState(vid);
+		if (!st?.owned || !st.supply) continue;
+		for (const sy of C.ventures[vid].synergy || []) {
+			if (sy.from !== id) continue;
+			const p = (st.supply[linkKey(sy)] || 0) / 100;
+			if (p > 0) out[sy.line || '_all'] = (out[sy.line || '_all'] || 0) + p;
+		}
+	}
+	return out;
+}
+/** Cambia el % de suministro de un enlace (pasos de 10). */
+export function setSupply(id, key, pct) {
+	tick(id);
+	const st = ventureState(id);
+	migrateSupply(id);
+	const v = Math.max(0, Math.min(100, Math.round(pct / 10) * 10));
+	st.supply[key] = v;
+	const sy = (ventureDef(id).synergy || []).find(x => linkKey(x) === key);
+	if (sy) { tick(sy.from); logVenture(id, `Suministro de ${C.ventures[sy.from]?.name}: ${v} %`); }
+	return v;
+}
+/** El proveedor manda su parte durante `use` días produciendo. */
+function pushSupply(fromId, use) {
+	if (use <= 0) return;
+	const fst = ventureState(fromId);
+	for (const vid in C.ventures || {}) {
+		const st = ventureState(vid);
+		if (!st?.owned || !st.supply) continue;
+		for (const sy of C.ventures[vid].synergy || []) {
+			if (sy.from !== fromId) continue;
+			const k = linkKey(sy), p = (st.supply[k] || 0);
+			if (!p) continue;
+			if (sy.line && (fst.effort?.[sy.line] || 0) < (sy.min ?? 10)) continue;
+			const cap = FEED_DAYS * (sy.need ?? NEED);
+			(st.feed ||= {})[k] = Math.min(cap, (st.feed[k] || 0) + use * p);
+		}
+	}
+}
+/** Este negocio gasta lo que le ha llegado durante `use` días: decide cuánto rinde cada mejora y sube o baja la cadena. */
+function drawSupply(id, use) {
+	const st = ventureState(id), def = ventureDef(id);
+	if (!st?.supply || use <= 0) return;
+	for (const sy of def.synergy || []) {
+		const k = linkKey(sy), need = (sy.need ?? NEED) * use;
+		const other = ventureState(sy.from);
+		if (!other?.owned) { st.synStr[k] = 0; } else {
+			const got = Math.min(st.feed?.[k] || 0, need);
+			st.feed[k] = (st.feed[k] || 0) - got;
+			st.synStr[k] = need > 0 ? got / need : 0;
+		}
+		const days = st.chain[k] || 0;
+		st.chain[k] = st.synStr[k] >= 0.5 ? Math.min(30, days + use) : Math.max(0, days - use * 0.5);
+	}
 }
 
 /** Acumula lo producido desde la última vez (hasta llenar el almacén). */
+const TICKING = new Set();
 export function tick(id, t = Date.now()) {
 	const st = ventureState(id);
 	if (!st?.owned) return;
+	if (TICKING.has(id)) return;
+	TICKING.add(id);
+	try {
+		migrateSupply(id);
+		// primero, que los proveedores manden lo suyo hasta ahora
+		for (const sy of ventureDef(id)?.synergy || []) if (ventureState(sy.from)?.owned) tick(sy.from, t);
+		tickSelf(id, st, t);
+	} finally { TICKING.delete(id); }
+}
+function tickSelf(id, st, t) {
 	const cap = storeDays(id);
 	const dt = Math.max(0, (t - (st.last || t)) / DAY);
 	const use = Math.max(0, Math.min(dt, cap - (st.fill || 0)));
 	st.last = t;
 	if (use <= 0) return;
+	drawSupply(id, use);
+	pushSupply(id, use);
 	const r = rates(id);
 	st.fill = (st.fill || 0) + use;
 	st.bank.money += r.money * use;
@@ -350,10 +457,10 @@ export function allWorkers(g = G) {
 export function rollEvent(id, rnd = Math.random) {
 	const def = ventureDef(id), st = ventureState(id);
 	if (!st?.owned) return null;
-	if (st.pending) return (def.events || []).find(e => e.id === st.pending) || (st.pending = null);
+	if (st.pending) return eventsOf(id).find(e => e.id === st.pending) || (st.pending = null);
 	const t = Date.now();
 	if (t - (st.lastEvent || st.since) < 20 * 3600e3) return null;
-	const pool = (def.events || []).filter(e => ok(e.cond) && !(e.once && st.seen?.[e.id]));
+	const pool = eventsOf(id).filter(e => ok(e.cond) && !(e.once && st.seen?.[e.id]));
 	if (!pool.length) return null;
 	st.lastEvent = t;
 	if (rnd() > (def.eventRate ?? 0.7)) return null;
@@ -376,6 +483,17 @@ export function resolveEvent(id, ev, opt) {
 	if (e.money) st.bank.money = Math.max(0, st.bank.money + e.money);
 	for (const it of e.items || []) st.bank.items[toID(it.id)] = (st.bank.items[toID(it.id)] || 0) + (it.n || 1);
 	if (e.boost) (st.boosts ||= []).push({ mult: e.boost.mult, until: Date.now() + (e.boost.days || 1) * DAY, label: e.boost.label || ev.name || 'Racha' });
+	// Imprevisto compartido: el efecto llega también al otro negocio (y se le quita si lo tenía pendiente)
+	if (ev.shared) {
+		const ost = ventureState(ev.shared);
+		if (ost?.owned) {
+			tick(ev.shared);
+			if (e.boost) (ost.boosts ||= []).push({ mult: e.boost.mult, until: Date.now() + (e.boost.days || 1) * DAY, label: e.boost.label || ev.name || 'Racha' });
+			if (e.happy) for (const p of ost.workers || []) addHappy(p, e.happy);
+			if (ost.pending === ev.id) ost.pending = null;
+			logVenture(ev.shared, (ev.name ? ev.name + ': ' : '') + (opt.log || opt.text));
+		}
+	}
 	for (const k in e.set || {}) setPath(k, e.set[k]);
 	if (e.happy) for (const p of st.workers || []) addHappy(p, e.happy);
 	st.pending = null;
@@ -389,7 +507,8 @@ export function venturesSummary() {
 	const mine = list.filter(v => v.status === 'owned');
 	let ready = 0, money = 0, almost = 0;
 	for (const v of mine) { const p = pending(v.id); money += p.money; if (p.full || v.st.pending) ready++; else if (almostFull(v.id)) almost++; }
-	return { mine: mine.length, offers: list.length - mine.length, ready, money, almost };
+	let pedido = null; try { pedido = currentPedido(); } catch (e) { /* */ }
+	return { mine: mine.length, offers: list.length - mine.length, ready, money, almost, pedido };
 }
 
 // ---------- Plantilla de trabajadores (pedido de Mario, 2026-10-29) ----------
@@ -461,4 +580,73 @@ export function applySuggestion(s) {
 		if (idx >= 0) return assignWorker(s.id, { where: 'box', box: bi, idx });
 	}
 	return { ok: false, msg: 'Ya no está disponible.' };
+}
+
+// ---------- Imprevistos compartidos (2026-10-30) ----------
+// `sharedEvents: [{ id, ventures: [a, b], managers?: { a: 'npc', b: 'npc' }, npc, name, text, w, cond, options }]` (content.js los junta).
+// Salen en cualquiera de los dos negocios si eres socio de ambos y los encargados que se conocen están al frente.
+export function sharedFor(id) {
+	const out = [];
+	for (const ev of C.sharedEvents || []) {
+		if (!ev.ventures?.includes(id)) continue;
+		const other = ev.ventures.find(v => v !== id);
+		if (!owned(id) || !owned(other)) continue;
+		if (ev.managers && !Object.entries(ev.managers).every(([v, m]) => ventureState(v)?.manager === m)) continue;
+		out.push({ ...ev, shared: other });
+	}
+	return out;
+}
+/** Imprevistos posibles de un negocio: los suyos y los compartidos que tocan ahora. */
+export function eventsOf(id) {
+	const def = ventureDef(id), st = ventureState(id);
+	const list = (def?.events || []).slice().concat(sharedFor(id));
+	// uno compartido que quedó pendiente aunque ya no cumpla (cambió el encargado): se puede resolver igual
+	if (st?.pending && !list.some(e => e.id === st.pending)) { const ev = (C.sharedEvents || []).find(e => e.id === st.pending); if (ev) list.push({ ...ev, shared: ev.ventures.find(v => v !== id) }); }
+	return list;
+}
+
+// ---------- Pedidos entre encargados (2026-10-30) ----------
+// `pedidos: [{ id, to, from, npc?, cond?, item, n, text, thanks, boost?: { mult, days } }]`: el encargado de `to`
+// (si `npc`, solo cuando está al frente) le pide al de `from` algo que allí se produce. Cada pocos días sale uno; tienes
+// unos días para servirlo con lo que llevas en la mochila. Si lo sirves: un empujón temporal. Si no, no pasa nada grave.
+export const PEDIDO_EVERY = 3 * DAY, PEDIDO_TTL = 3 * DAY;
+const pedState = () => (G.negPed ||= { cur: null, last: 0, n: 0, done: {} });
+export const pedidoDef = id => (C.pedidos || []).find(p => p.id === id);
+export function pedidoOk(p) { return owned(p.to) && owned(p.from) && (!p.npc || ventureState(p.to)?.manager === p.npc) && ok(p.cond); }
+/** El pedido de ahora (o null). Saca uno nuevo si toca; caduca el viejo sin castigo. */
+export function currentPedido(now = Date.now(), rnd = Math.random) {
+	if (!G) return null;
+	const ps = pedState();
+	if (ps.cur && now > ps.cur.until) { const d = pedidoDef(ps.cur.id); if (d && owned(d.to)) logVenture(d.to, `Pedido sin servir: ${D.items[toID(d.item)]?.name || d.item} ×${d.n || 1}. No pasa nada; otra vez será.`); ps.cur = null; ps.last = now; }
+	if (ps.cur) { const d = pedidoDef(ps.cur.id); if (d) return { ...d, until: ps.cur.until, since: ps.cur.t }; ps.cur = null; }
+	if (now - (ps.last || 0) < PEDIDO_EVERY) return null;
+	const pool = (C.pedidos || []).filter(p => pedidoOk(p) && p.id !== ps.lastId);
+	if (!pool.length) return null;
+	const d = pool[Math.floor(rnd() * pool.length)];
+	ps.cur = { id: d.id, t: now, until: now + PEDIDO_TTL };
+	ps.last = now; ps.lastId = d.id; ps.n++;
+	return { ...d, until: ps.cur.until, since: now };
+}
+/** El pedido vigente, sin sacar uno nuevo ni caducar nada (para el Diario y Novedades). */
+export function peekPedido(now = Date.now()) {
+	const cur = G?.negPed?.cur;
+	if (!cur || now > cur.until) return null;
+	const d = pedidoDef(cur.id);
+	return d && owned(d.to) ? { ...d, until: cur.until, since: cur.t } : null;
+}
+/** Servir el pedido con lo que llevas. Devuelve { ok, msg }. */
+export function fulfillPedido(now = Date.now()) {
+	const ps = pedState(), cur = ps.cur && pedidoDef(ps.cur.id);
+	if (!cur) return { ok: false, msg: 'No hay ningún pedido ahora.' };
+	const id = toID(cur.item), n = cur.n || 1;
+	if ((G.bag[id] || 0) < n) return { ok: false, msg: `Te falta: ${D.items[id]?.name || cur.item} ×${n}.` };
+	removeItem(id, n);
+	tick(cur.to);
+	const st = ventureState(cur.to);
+	const b = cur.boost || { mult: { all: 1.1 }, days: 2 };
+	(st.boosts ||= []).push({ mult: b.mult, until: now + (b.days || 2) * DAY, label: 'Pedido servido' });
+	logVenture(cur.to, `Pedido servido desde ${ventureDef(cur.from)?.name}: ${D.items[id]?.name || id} ×${n}`);
+	ps.done[cur.id] = (ps.done[cur.id] || 0) + 1;
+	ps.cur = null;
+	return { ok: true, def: cur };
 }

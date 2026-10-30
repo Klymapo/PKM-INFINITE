@@ -105,6 +105,21 @@ with sync_playwright() as p:
             el = pg.query_selector('.cs, .cine, .overlay')
             if el: el.evaluate('e => e.click()')
 
+    if not solo or 'red' in solo:
+        pg.evaluate("""async () => {
+            const S = await import('./js/state.js'); const N = await import('./js/negocios.js');
+            S.G.player.money = 5e6;
+            for (const v of ['p7_rancho', 'b06_botica', 'p10_cafe', 'b05_taller']) N.joinVenture(v);
+            const k = N.synergiesOf('b06_botica')[0].key; N.setSupply('b06_botica', k, 30);
+            N.ventureState('b06_botica').last -= N.DAY; N.ventureState('p7_rancho').last -= N.DAY; N.tick('b06_botica');
+            N.currentPedido(Date.now(), () => 0);
+            const U = await import('./js/ui/negocios-ui.js');
+            window.__st = U.openStaff();
+        }""")
+        time.sleep(1.0); shot(pg, 'red-1-plantilla')
+        pg.evaluate("() => { const t = document.querySelector('.neg-net-box'); if (t) t.scrollIntoView(); }"); time.sleep(0.4); shot(pg, 'red-2-mapa')
+        pg.click('.neg-link >> nth=0'); time.sleep(0.6); shot(pg, 'red-3-enlace')
+
     b.close()
 srv.shutdown()
 print(f'Capturas en {args.salida}')

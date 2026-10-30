@@ -96,7 +96,13 @@ for (const id of Object.keys(C.ventures)) for (const sy of C.ventures[id].synerg
 	N.joinVenture(sy.from);
 	const ost = N.ventureState(sy.from);
 	if (sy.line) { ok(!!N.linesOf(sy.from)[sy.line] || !!C.ventures[sy.from].lines?.[sy.line], `${id}: la línea «${sy.line}» de ${sy.from} existe`); ost.effort = { [sy.line]: 100 }; }
-	const on = N.synergiesOf(id).find(x => x.from === sy.from);
+	let on = N.synergiesOf(id).find(x => x.from === sy.from);
+	ok(!on.active && on.missing === 'suministro', `${id}: «${sy.label}» no se enciende sola (falta elegir el suministro)`);
+	// sinergias dinámicas (2026-10-30): suministro elegido a mano y un día de producción
+	N.setSupply(id, on.key, 30);
+	N.ventureState(id).last = N.ventureState(sy.from).last = Date.now() - N.DAY;
+	N.tick(id);
+	on = N.synergiesOf(id).find(x => x.from === sy.from);
 	if (!sy.line || N.linesOf(sy.from)[sy.line]) {
 		ok(on.active, `${id}: «${sy.label}» se enciende`);
 		ok(N.rates(id).why.some(w => w.label.includes(sy.label)), `${id}: «${sy.label}» aparece en el desglose`);

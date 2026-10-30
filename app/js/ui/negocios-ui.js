@@ -12,6 +12,7 @@ import {
 	ventureDef, ventureState, ventureList, owned, linesOf, joinVenture, upgradesOf, managersOf, slotsOf, storeDays, sharePct,
 	workerBonus, rates, pending, collect, shiftEffort, buyUpgrade, setManager, managerBusyAt, managerConflicts, resolveManagerConflict, assignWorker, recallWorker, rollEvent, eventOptions, resolveEvent, tick, collectAll, fullIn, almostFull,
 	typeGuide, freeSlots, moveWorker, suggestWorkers, applySuggestion, partyMovable, favsOf,
+	setSupply, currentPedido, fulfillPedido, CHAIN, CHAIN_DAYS,
 } from '../negocios.js';
 
 let hooks = {}; // { travel(locId), summary(p, onChange) } — los pone screens.js
@@ -33,6 +34,120 @@ export function guideBox(id) {
 		g.types.length ? h('div', {}, h('span', { class: 'neg-gk' }, 'Tipos ideales '), chips(g.types)) : null,
 		g.favs.length ? h('div', {}, h('span', { class: 'neg-gk' }, '⭐ Favoritos '), g.favs.map(spName).join(', '), h('span', { class: 'neg-gs' }, ' (y su línea evolutiva)')) : null,
 		g.lines.length ? h('div', {}, h('span', { class: 'neg-gk' }, 'Produce '), g.lines.join(', ')) : null);
+}
+
+
+// ---------- Sinergias dinámicas (2026-10-30): red, suministro, cadenas y pedidos ----------
+const lineName = (vid, k) => C.ventures[vid]?.lines?.[k]?.name || k;
+/** Qué falta para que un enlace rinda entero, en una frase. */
+function missingText(sy) {
+	switch (sy.missing) {
+		case 'socio': return `Falta: ser socio de ${sy.fromName}.`;
+		case 'linea': return `Falta: que ${sy.fromName} dedique al menos ${sy.min ?? 10} % a «${lineName(sy.from, sy.line)}».`;
+		case 'suministro': return `Falta: elegir cuánto de ${sy.line ? '«' + lineName(sy.from, sy.line) + '»' : 'su producción'} se manda aquí.`;
+		case 'lleno': return `Ahora no llega nada: el almacén de ${sy.fromName} está lleno. Pasa a recoger.`;
+		case 'poco': return `Llega poco: con ${sy.need} % rendiría entera.`;
+		default: return sy.strength >= 0.99 ? 'Funciona a pleno rendimiento.' : sy.strength > 0 ? `Rinde al ${Math.round(sy.strength * 100)} %: el depósito se ha ido vaciando.` : 'Todavía no ha llegado nada: dale unas horas.';
+	}
+}
+const chainTxt = sy => sy.chain ? `⛓️ Cadena nivel ${sy.chain} (+${Math.round(CHAIN[sy.chain] * 100)} % a todo)` : sy.chainDays > 0.2 ? `⛓️ Cadena: ${Math.floor(sy.chainDays)}/${CHAIN_DAYS[1]} días para el nivel 1` : '';
+/** Fila de un enlace con su deslizador de suministro (− 10 % / +10 %). */
+function supplyRow(id, sy, redraw) {
+	const def = ventureDef(id);
+	const multTxt = Object.entries(sy.mult).map(([k, m]) => `${k === 'all' ? 'Todo' : (def.lines[k]?.name || k)} ${pctTxt(m)}`).join(' · ');
+	const step = d => { setSupply(id, sy.key, sy.pct + d); saveGame(); redraw(); };
+	const ctrl = sy.missing === 'socio' || sy.missing === 'linea' ? null : h('div', { class: 'neg-supply' },
+		h('button', { class: 'btn', disabled: sy.pct <= 0, 'aria-label': 'Menos suministro', onclick: () => step(-10) }, '−'),
+		h('div', { class: 'neg-supply-v' }, h('b', {}, sy.pct + ' %'), h('span', {}, `de ${sy.line ? '«' + lineName(sy.from, sy.line) + '»' : 'su producción'}`)),
+		h('button', { class: 'btn', disabled: sy.pct >= 100, 'aria-label': 'Más suministro', onclick: () => step(10) }, '+'));
+	return h('div', { class: 'row neg-syn' + (sy.active ? ' on' : '') },
+		h('div', { class: 'ico' }, sy.active ? '🔗' : '⛓️‍💥'),
+		h('div', { class: 'lbl' }, h('div', { class: 't' }, `${sy.label} · desde ${sy.fromName}`),
+			h('div', { class: 's' }, (sy.desc ? tx(sy.desc) + ' ' : '') + `Con todo: ${multTxt}.`),
+			h('div', { class: 's neg-syn-st' }, missingText(sy)),
+			chainTxt(sy) ? h('div', { class: 's' }, chainTxt(sy)) : null,
+			ctrl,
+			sy.pct ? h('div', { class: 's neg-gs' }, `${sy.fromName} produce un ${sy.pct} % menos de eso para ti: lo manda aquí.`) : null));
+}
+/** Todos los enlaces entre negocios que conoces (al menos uno tuyo). */
+function networkLinks() {
+	const out = [];
+	for (const id in C.ventures) {
+		for (const sy of synergiesOf(id)) if (owned(id) || owned(sy.from)) out.push({ to: id, ...sy });
+	}
+	return out;
+}
+/** Mapa de la red: nodos en círculo y flechas verdes (activa) o grises (apagada). */
+function networkMap(links) {
+	const ids = [...new Set(links.flatMap(l => [l.from, l.to]))];
+	if (!ids.length) return null;
+	const W = 340, H = 240, R = 88, cx = W / 2, cy = H / 2;
+	const pos = {}; ids.forEach((id, i) => { const a = -Math.PI / 2 + i * 2 * Math.PI / ids.length; pos[id] = [cx + R * 1.45 * Math.cos(a), cy + R * Math.sin(a)]; });
+	const NS = 'http://www.w3.org/2000/svg';
+	const el = (tag, at, txt) => { const e = document.createElementNS(NS, tag); for (const k in at) e.setAttribute(k, at[k]); if (txt) e.textContent = txt; return e; };
+	const svg = el('svg', { viewBox: `0 0 ${W} ${H}`, class: 'neg-net', role: 'img', 'aria-label': 'Mapa de la red de negocios' });
+	const defs = el('defs', {});
+	for (const [k, c] of [['on', '#5fd08a'], ['off', '#8a93a6']]) { const m = el('marker', { id: 'ar-' + k, viewBox: '0 0 10 10', refX: 9, refY: 5, markerWidth: 6, markerHeight: 6, orient: 'auto-start-reverse' }); m.append(el('path', { d: 'M0,0 L10,5 L0,10 z', fill: c })); defs.append(m); }
+	svg.append(defs);
+	for (const l of links) {
+		const [x1, y1] = pos[l.from], [x2, y2] = pos[l.to];
+		const dx = x2 - x1, dy = y2 - y1, d = Math.hypot(dx, dy) || 1, ox = -dy / d * 6, oy = dx / d * 6, r = 20;
+		svg.append(el('line', { x1: x1 + dx / d * r + ox, y1: y1 + dy / d * r + oy, x2: x2 - dx / d * r + ox, y2: y2 - dy / d * r + oy, stroke: l.active ? '#5fd08a' : '#8a93a6', 'stroke-width': l.active ? 3 : 2, 'stroke-dasharray': l.active ? '' : '5 4', 'marker-end': `url(#ar-${l.active ? 'on' : 'off'})` }));
+	}
+	for (const id of ids) {
+		const [x, y] = pos[id], mine = owned(id);
+		svg.append(el('circle', { cx: x, cy: y, r: 18, fill: mine ? '#2a3550' : '#1c2233', stroke: mine ? '#f2c84a' : '#56607a', 'stroke-width': 2 }));
+		svg.append(el('text', { x, y: y + 6, 'text-anchor': 'middle', 'font-size': 17 }, C.ventures[id].icon || '🏠'));
+	}
+	return h('div', { class: 'neg-net-box' }, svg, h('div', { class: 'neg-net-legend' }, h('span', { class: 'on' }, '━ activa'), h('span', { class: 'off' }, '┅ apagada'), h('span', {}, '◯ dorado: tuyo')));
+}
+/** Sección «Red de negocios» de la Plantilla. */
+function networkSection(redraw) {
+	const links = networkLinks();
+	if (!links.length) return [];
+	const out = [section('🕸️ Red de negocios'), h('div', { class: 'note' }, 'Cada flecha es un negocio que abastece a otro. Tú decides cuánto se manda: lo que se manda, el proveedor no lo produce para ti. Si el proveedor tiene el almacén lleno, deja de mandar. Toca una para ver qué le falta.')];
+	const map = networkMap(links);
+	if (map) out.push(map);
+	out.push(h('div', { class: 'list' }, ...links.map(l => h('button', { class: 'row neg-link' + (l.active ? ' on' : ''), onclick: () => openLink(l.to, l.key, redraw) },
+		h('div', { class: 'ico' }, h('span', { class: 'neg-arrow ' + (l.active ? 'on' : 'off') }, '➜')),
+		h('div', { class: 'lbl' }, h('div', { class: 't' }, `${C.ventures[l.from].icon || ''} ${l.fromName} ➜ ${C.ventures[l.to].icon || ''} ${C.ventures[l.to].name}`),
+			h('div', { class: 's' }, l.active ? `Activa · suministro ${l.pct} %${l.chain ? ' · cadena nivel ' + l.chain : ''}` : missingText(l))),
+		h('span', { class: 'chev' }, '›')))));
+	return out;
+}
+/** Detalle de un enlace (desde el mapa). */
+function openLink(id, key, onChange) {
+	const sheet = openSheet('Enlace', null, { onClose: () => onChange?.() });
+	sheet.el.dataset.menu = 'negocios';
+	const draw = () => {
+		const sy = synergiesOf(id).find(x => x.key === key);
+		if (!sy) { sheet.close(); return; }
+		sheet.set([
+			h('div', { class: 'note' }, `${sy.fromName} ➜ ${ventureDef(id).name}`),
+			owned(id) ? h('div', { class: 'list' }, supplyRow(id, sy, draw)) : h('div', { class: 'note warn' }, `Para que funcione, hazte socio de ${ventureDef(id).name}.`),
+			h('div', { class: 'pad' }, h('button', { class: 'btn', style: { width: '100%' }, onclick: () => { sheet.close(); openVenture(owned(id) ? id : sy.from, onChange); } }, 'Ir a la ficha del negocio')),
+		]);
+	};
+	draw();
+}
+/** Recuadro del pedido de ahora (si hay). */
+function pedidoBox(redraw, only = null) {
+	let p = null; try { p = currentPedido(); } catch (e) { return null; }
+	if (!p || (only && p.to !== only && p.from !== only)) return null;
+	const id = toID(p.item), have = G.bag[id] || 0, n = p.n || 1;
+	const left = Math.max(0, p.until - Date.now());
+	return h('div', { class: 'neg-pedido' },
+		h('div', { class: 'neg-pedido-h' }, `📨 Pedido para ${ventureDef(p.to).name}`),
+		h('div', { class: 's', html: fmtText(tx(p.text)) }),
+		h('div', { class: 's' }, `Necesita: ${itemName(id)} ×${n} (llevas ${have}) · se produce en ${ventureDef(p.from).name} · quedan ${hoursTxt(left / 3600e3)}`),
+		h('button', { class: 'btn' + (have >= n ? ' gold' : ''), disabled: have < n, onclick: async () => {
+			const r = fulfillPedido();
+			if (!r.ok) { toast(r.msg); return; }
+			await saveGame();
+			await say(null, tx(r.def.thanks || '¡Gracias!'));
+			toast('📨 Pedido servido: empujón de unos días', 'quest');
+			redraw();
+		} }, have >= n ? 'Servir el pedido' : 'Aún no lo tienes'));
 }
 
 /** Plantilla: todos los Pokémon trabajando, encargados, puestos libres, mover y «Sugerir». */
@@ -66,6 +181,8 @@ export function openStaff(onChange) {
 		const working = mine.reduce((a, v) => a + (v.st.workers || []).length, 0);
 		body.push(h('div', { class: 'note' }, `${working} ${working === 1 ? 'Pokémon trabaja' : 'Pokémon trabajan'} en tus negocios · ${totalFree} ${totalFree === 1 ? 'puesto libre' : 'puestos libres'}. Los que trabajan ganan amistad y suben la producción. Toca uno para moverlo de negocio o traerlo de vuelta.`));
 		body.push(h('div', { class: 'pad' }, h('button', { class: 'btn' + (totalFree ? ' primary' : ''), style: { width: '100%' }, disabled: !totalFree, onclick: () => act(suggestFlow) }, totalFree ? '✨ Sugerir quién cubre los puestos libres' : 'No hay puestos libres')));
+		{ const pb = pedidoBox(draw); if (pb) body.push(pb); }
+		body.push(...networkSection(draw));
 		for (const v of mine) {
 			const st = v.st, slots = slotsOf(v.id), ws = st.workers || [];
 			const mgr = managersOf(v.id).find(m => m.id === st.manager);
@@ -133,7 +250,8 @@ export function openVentures() {
 				await saveGame();
 				draw();
 			} }, tot ? 'Recoger todo' : 'Nada que recoger por ahora')));
-			body.push(h('div', { class: 'pad' }, h('button', { class: 'btn', style: { width: '100%' }, onclick: () => openStaff(draw) }, '👥 Plantilla: quién trabaja dónde')));
+			body.push(h('div', { class: 'pad' }, h('button', { class: 'btn', style: { width: '100%' }, onclick: () => openStaff(draw) }, '👥 Plantilla y red de negocios')));
+			{ const pb = pedidoBox(draw); if (pb) body.push(pb); }
 			body.push(section('Tus negocios'), h('div', { class: 'list' }, ...rows));
 			body.push(h('div', { class: 'note' }, `Entre todos te dan unos ${fmtMoney(total)} al día, más lo que produzcan en objetos. Se acumula aunque no juegues, hasta que se llena el almacén de cada uno.`));
 		}
@@ -296,15 +414,13 @@ export function openVenture(id, onChange) {
 				if (showWhy) body.push(h('div', { class: 'neg-why' }, ...r.why.map(w => h('div', {}, h('span', {}, w.label), h('b', {}, Object.entries(w.m).map(([k, m]) => `${k === 'all' ? 'Todo' : (def.lines[k]?.name || k)} ${pctTxt(m)}`).join(' · '))))));
 			}
 
-			// Mejoras cruzadas con tus otros negocios (2026-10-28)
+			// Mejoras cruzadas con tus otros negocios (2026-10-28) · suministro y cadenas (2026-10-30)
 			const sys = synergiesOf(id);
 			if (sys.length) {
 				body.push(section('Con tus otros negocios'));
-				body.push(h('div', { class: 'list' }, ...sys.map(sy => h('div', { class: 'row neg-syn' + (sy.active ? ' on' : '') },
-					h('div', { class: 'ico' }, sy.active ? '🔗' : '⛓️‍💥'),
-					h('div', { class: 'lbl' }, h('div', { class: 't' }, sy.label),
-						h('div', { class: 's' }, (sy.desc ? tx(sy.desc) + ' ' : '') + (sy.active ? `Activa: ${Object.entries(sy.mult).map(([k, m]) => `${k === 'all' ? 'Todo' : (def.lines[k]?.name || k)} ${pctTxt(m)}`).join(' · ')}.` : `Necesita: ser socio de ${sy.fromName}${sy.line ? ` y dedicar al menos ${sy.min ?? 10} % a «${C.ventures[sy.from].lines?.[sy.line]?.name || sy.line}»` : ''}.`)))))));
+				body.push(h('div', { class: 'list' }, ...sys.map(sy => supplyRow(id, sy, draw))));
 			}
+			{ const pb = pedidoBox(draw, id); if (pb) body.push(pb); }
 
 			// Pokémon trabajando
 			const slots = slotsOf(id), ws = st.workers || [];

@@ -475,6 +475,15 @@ ventures: {
 
 **Mejoras cruzadas (2026-10-28):** un negocio puede rendir más si el jugador es socio de otro que lo abastece: `synergy: [{ from: '<idNegocio>', line?: '<línea del otro>', min?: 10, mult: { <línea|all>: 1.15 }, label, desc }]`. Activa si es socio de `from` y (con `line`) le dedica al menos `min` % de esfuerzo. Para ampliar un negocio de otro bloque, repite su id en `ventures` con solo `synergy`. Se ve en la pantalla del negocio («Con tus otros negocios») y en el desglose.
 
+**Sinergias dinámicas (2026-10-30, motor en `app/js/negocios.js`, prueba `herramientas/test/sinergias-test.mjs`):**
+
+- **Suministro real (no automático):** cada enlace `synergy` tiene un deslizador (0–100 %, de 10 en 10) que elige el jugador en la ficha del negocio o en Plantilla › Red de negocios. Ese % de la línea `line` del proveedor (o de todo, si no hay `line`) deja de producirse para el jugador y llega a un depósito del negocio que depende (como mucho 2 días). Con `need` % (30 por defecto) la mejora rinde entera; con menos, a medias. **Si el proveedor tiene el almacén lleno** (no se recoge a tiempo) o no dedica `min` % a esa línea, no manda nada y el otro rinde menos. Partidas de antes: los enlaces que ya rendían arrancan al 30 % (se avisa en el registro del negocio).
+- **Cadenas:** días seguidos con la mejora rindiendo ≥ 50 % → nivel 1/2/3 a los 3/7/14 días (+5/+10/+15 % a todo el negocio que depende). Si se descuida, baja a la mitad de ritmo.
+- **Pedidos entre encargados** (`pedidos: [{ id, to, from, npc?, cond?, item, n, text, thanks, boost? }]`): cada 3 días reales sale uno (si eres socio de los dos y, con `npc`, si esa persona está al frente de `to`), con la voz de quien pide. Se sirve con objetos de la mochila (que se producen en `from`) durante 3 días; servirlo da un empujón temporal (`boost`, como mucho +30 %). Si caduca, no pasa nada.
+- **Imprevistos compartidos** (`sharedEvents: [{ id, ventures: [a, b], managers?: { a: npc, b: npc }, npc, name, text, w, options }]`): salen en cualquiera de los dos negocios cuando están al frente los encargados que tienen historia; el efecto (`boost`, `happy`) llega a los dos. Siempre una opción gratis.
+- **Mapa de la red** en Plantilla: nodos (dorado = tuyo) y flechas verdes (activa) o grises (apagada); al tocar un enlace, qué le falta y su deslizador.
+- Nada imprime dinero: lo que se manda sale de la producción del proveedor y los empujones son temporales (la prueba compara 10 días con y sin red).
+
 ## 14. Radio Lavanda
 
 > Pedido de Mario, 2026-10-28. Motor en `app/js/radio.js`, pantalla en Más › Radio Lavanda (sale en cuanto el jugador ha pisado Pueblo Lavanda).

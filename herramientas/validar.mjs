@@ -329,6 +329,28 @@ checkEvolutions();
 	}
 }
 
+// ---------- Red de negocios: pedidos e imprevistos compartidos ----------
+for (const p of C.pedidos || []) {
+	const w = 'pedido ' + p.id;
+	if (!C.ventures[p.to] || !C.ventures[p.from]) E(w, `negocio inexistente: ${p.to} / ${p.from}`);
+	else {
+		if (p.npc && !(C.ventures[p.to].managers || []).some(m => (m.id || m.npc) === p.npc)) E(w, `${p.npc} no es encargad@ de ${p.to}`);
+		const made = Object.values(C.ventures[p.from].lines || {}).some(l => (l.items || []).some(i => toID(i.id) === toID(p.item)));
+		if (!made) W(w, `${p.item} no lo produce ${p.from}`);
+	}
+	checkItem(w, p.item);
+	if (!p.text || !p.thanks) E(w, 'falta text o thanks');
+	if (p.boost) for (const v of Object.values(p.boost.mult || {})) if (v > 1.3) W(w, 'empujón demasiado grande');
+	checkCond(w, p.cond);
+}
+for (const ev of C.sharedEvents || []) {
+	const w = 'imprevisto compartido ' + ev.id;
+	if ((ev.ventures || []).length !== 2 || ev.ventures.some(v => !C.ventures[v])) E(w, 'necesita dos negocios que existan');
+	for (const [v, m] of Object.entries(ev.managers || {})) if (!(C.ventures[v]?.managers || []).some(x => (x.id || x.npc) === m)) E(w, `${m} no es encargad@ de ${v}`);
+	if (!(ev.options || []).some(o => !o.cost && !o.cond)) E(w, 'necesita una opción gratis y sin condición');
+	if (ev.npc && !C.npcs[ev.npc]) E(w, 'npc inexistente: ' + ev.npc);
+}
+
 // ---------- Negocios ----------
 function checkVentures() {
 	for (const [id, v] of Object.entries(C.ventures || {})) {

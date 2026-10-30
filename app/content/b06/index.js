@@ -20,6 +20,7 @@ import fotos from './t11-fotos.js';
 import carreras from './t12-carreras.js';
 import rival from './t13-rival.js';
 import historias from './t14-historias.js';
+import red from './t15-red.js';
 
 const block = {
 	id: 'b06', title: 'Acto V · La voz del narrador', hours: 16, ends: 'b06_fin',
@@ -28,11 +29,13 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [], mail: [], radio: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t4, t5, museo, ecos, encargos, botica, serafina, fotos, carreras, rival, historias];
+const parts = [comun, t0, t1, t2, t3, t4, t5, museo, ecos, encargos, botica, serafina, fotos, carreras, rival, historias, red];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {
 		for (const id in part[k] || {}) {
+			// un negocio de este mismo bloque se puede ampliar desde otra parte (p. ej. sinergias): se suman las listas
+			if (k === 'ventures' && block[k][id]) { const cur = block[k][id] = { ...block[k][id] }; for (const kk in part[k][id]) cur[kk] = Array.isArray(cur[kk]) && Array.isArray(part[k][id][kk]) ? cur[kk].concat(part[k][id][kk]) : part[k][id][kk]; continue; }
 			if (block[k][id] && k !== 'npcs') console.warn(`[b06] ${k} duplicado: ${id}`);
 			block[k][id] = part[k][id];
 		}
@@ -43,6 +46,8 @@ for (const part of parts) {
 	block.radio.push(...(part.radio || []));
 	Object.assign((block.photos ||= {}), part.photos || {});
 	Object.assign((block.races ||= {}), part.races || {});
+	(block.pedidos ||= []).push(...(part.pedidos || []));
+	(block.sharedEvents ||= []).push(...(part.sharedEvents || []));
 	for (const loc in part.extraSpots || {}) (extraSpots[loc] ||= []).push(...part.extraSpots[loc]);
 	// Parches a lugares de bloques anteriores: se acumulan (varios tramos pueden tocar el mismo lugar)
 	for (const loc in part.patches || {}) {
