@@ -66,6 +66,16 @@ Todos publicados en `main` salvo el negocio de Serafina (preparado, sin publicar
 9. ◐ Serafina: **reconciliación publicada**; **negocio pendiente** en `app/content/pendientes/serafina-negocio.js` hasta que exista Paldea (conectarlo en ese bloque).
 Pendientes del lector independiente: ver `secreto/registro.md`, «Publicación del 2026-10-30».
 
+## Diseño aprobado (puntos 10–13) · sesión del 2026-10-30 (tarde)
+
+Todos publicados en `main`:
+10. ✔ Carreras de monturas: 3 circuitos (Kalos/Boceto, Alola/Ohana, Teselia/Chamota), 3 rivales con nombre cada uno, atajos por montura, salto con toque a tiempo, premios en objetos y récord. Prueba `carreras-test.mjs`.
+11. ✔ Rival que aprende: Bruna (contador de uso en combate, cada 2 hitos, coberturas contra los 3 más usados, sube de reto tras 3 victorias seguidas con lo mismo, cura antes). Prueba `rival-test.mjs`.
+12. ✔ Historias de tus Pokémon: 3 escenas de Candela y 3 del compañero, por amistad e hitos, con cinemáticas. Prueba `historias-test.mjs`. Siguientes candidatos: Tyrantrum (fósil del B1), Faro (Ampharos de Aurelio), Fennekin/Delphox.
+13. ✔ Sinergias dinámicas: suministro con deslizador, cadenas, pedidos con voz, imprevistos compartidos y mapa de la red en la Plantilla; Botica conectada. Prueba `sinergias-test.mjs` (y `negocios-test` ampliada).
+Capturas de las pantallas nuevas: `python3 herramientas/test/pantallas-nuevas.py`.
+Lector independiente: 22 correcciones aplicadas. Auditoría completa final: **apta** (18/24 recorridos; antes de corregir al bot, que se quedaba dando vueltas alrededor de Bruna tras perder, 9/24). Aviso de balance: Bruna sale como «muro» del bot (1,6 derrotas de media), es opcional; vigilar si Mario la encuentra demasiado dura.
+
 ## Pedidos de Mario pendientes
 
 ### Regiones por completar (pedido de Mario, 2026-10-28)

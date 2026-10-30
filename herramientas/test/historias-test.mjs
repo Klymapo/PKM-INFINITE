@@ -3,7 +3,7 @@
 // Uso: node herramientas/test/historias-test.mjs
 import { loadDataNode } from './node-env.mjs';
 import { C, registerBlock } from '../../app/js/content.js';
-import { newGame, setG, G, evalCond } from '../../app/js/state.js';
+import { newGame, setG, G, evalCond, setExtraScope } from '../../app/js/state.js';
 import { createPokemon } from '../../app/js/pokemon.js';
 import { UI, runScript, findCandela } from '../../app/js/guion.js';
 import { checkCutscene } from '../../app/js/cine-spec.js';
@@ -74,8 +74,12 @@ ok(spotIn('torre_maestra', 'hc_lucario_2'), 'la 2 aparece en la Torre Maestra');
 await runScript('hc_lucario_2');
 luc.happy = 240;
 G.vars.hitos = 6;
+setExtraScope(() => ({ night: true, day: false }));
 ok(!spotIn('puerto_olivo', 'hc_lucario_3'), 'la 3 espera a tener 10 hitos');
 G.vars.hitos = 10;
+setExtraScope(() => ({ night: false, day: true }));
+ok(!spotIn('puerto_olivo', 'hc_lucario_3'), 'la 3 solo de noche');
+setExtraScope(() => ({ night: true, day: false }));
 ok(spotIn('puerto_olivo', 'hc_lucario_3'), 'la 3 aparece en el puerto de Olivo');
 await runScript('hc_lucario_3');
 ok(G.flags.hc_lucario_3 && G.bag.hclucario3 === 1 && luc.happy === 255, 'la 3 se cierra y la amistad no pasa de 255');

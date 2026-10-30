@@ -173,7 +173,7 @@ export function rivalSpotsAt(locId) {
 	if (placeNow() !== locId) return [];
 	const st = G.rx || { n: 0, hist: [] };
 	const first = !st.n && !st.hist.length;
-	return [{ label: first ? 'Una entrenadora con una libreta' : 'Bruna, con su libreta', sub: first ? 'Te mira, mira la libreta, te vuelve a mirar' : st.hist.at(-1)?.res === 'lose' ? 'Quiere la revancha' : 'Ha vuelto a apuntar cosas sobre ti', icon: '📓', new: 'true', talk: [{ script: first ? 'rx_primera' : 'rx_encuentro' }], rival: true }];
+	return [{ label: first ? 'Una entrenadora con una libreta' : 'Bruna, con su libreta', sub: first ? 'Te mira, mira la libreta, te vuelve a mirar' : st.hist.at(-1)?.res === 'lose' ? 'Te espera para la revancha' : 'Ha vuelto a apuntar cosas sobre ti', icon: '📓', new: st.hist.at(-1)?.res === 'lose' && st.hist.at(-1)?.n === st.n ? 'false' : 'true', talk: [{ script: first ? 'rx_primera' : 'rx_encuentro' }], rival: true }];
 }
 
 // ---------------- Antes y después del combate ----------------
@@ -191,7 +191,7 @@ export function record(res) {
 	const st = rxState();
 	const sig = sigOf(G.party);
 	const tops = (st.team?.tops || []).map(t => t.sp);
-	st.hist.push({ t: Date.now(), res, tops, team: (st.team?.team || []).map(m => m.sp), tier: st.tier, sig });
+	st.hist.push({ t: Date.now(), n: st.n, res, tops, team: (st.team?.team || []).map(m => m.sp), tier: st.tier, sig });
 	if (st.hist.length > 12) st.hist.shift();
 	let tierUp = false;
 	if (res === 'win') {
@@ -219,7 +219,7 @@ export function greetLines() {
 	const tipos = list(r.threats.slice(0, 2).map(t => D.types[t]?.name?.toLowerCase() || t));
 	const out = [];
 	if (!prev) out.push(`Llevo semanas viendo tus combates. Datos: ${list(tops)} salen más que nadie. Ya sé lo que haces. Ahora falta saber si sé lo que vas a hacer.`);
-	else if (prev.res === 'lose') out.push(`Revancha. La otra vez no me dio. —Pasa una página—. Sigues con ${list(tops)}. No he cambiado nada. A veces los datos tienen razón y la que falla soy yo.`);
+	else if (prev.res === 'lose') out.push(`La revancha es tuya, no mía. —Pasa una página—. Sigues con ${list(tops)}. Yo no he cambiado nada: la otra vez funcionó. Si hoy me ganas, la que cambia soy yo.`);
 	else {
 		const before = prev.tops.map(sp => D.species[sp]?.name || sp);
 		const same = prev.tops.join() === r.tops.map(t => t.sp).join();
@@ -234,6 +234,6 @@ export function greetLines() {
 /** Frase tras el combate. */
 export function afterLine(res, tierUp) {
 	const st = rxState();
-	if (res === 'win') return tierUp ? 'Tercera vez con lo mismo. Vale. Lo apunto en rojo. La próxima no va a ser igual.' : st.wins === 1 ? 'Me has ganado. Lo apunto. Todo se apunta. Nos vemos dentro de dos medallas: ya sabré algo más.' : 'Otra página para la libreta. Dentro de dos medallas te busco. Tú sigue igual, por favor. Me lo pones fácil. O no.';
+	if (res === 'win') return tierUp ? 'Tercera vez con lo mismo. Vale. Lo apunto en rojo. La próxima no va a ser igual.' : st.wins === 1 ? 'Me has ganado. Lo apunto. Todo se apunta. Nos vemos dentro de dos medallas o dos combates gordos: ya sabré algo más.' : 'Otra página para la libreta. Dentro de dos medallas te busco. Tú sigue igual, por favor. Me lo pones fácil. O no.';
 	return 'Te he ganado. —Mira la libreta como si no se lo creyera—. Ahora cúrate. Me quedo aquí hasta la revancha: un dato suelto no es una tendencia.';
 }

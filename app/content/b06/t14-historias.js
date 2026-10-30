@@ -9,12 +9,12 @@
 
 const C = n => `bond("candela") >= ${n}`;
 const R = n => `bond("riolu") >= ${n}`;
-const cuento = (title, text) => ({ pocket: 'key', name: title, desc: 'Una hoja escrita a mano por Rotom, que jura que solo ha puesto en palabras lo que vio. Se puede leer.', read: text });
+const cuento = (title, text) => ({ pocket: 'key', name: title, desc: 'Una hoja que Rotom escribió mirando muy de cerca a tu Pokémon. Jura que no se ha inventado nada. Se puede leer.', read: text });
 
 export default {
 	items: {
 		hccandela1: cuento('Cuento de Candela I · La grieta', '**LA GRIETA**\n*Contado como lo vio Candela*\n\nAntes, la oscuridad era una cosa que se te metía en la lana.\n\nMe escondí en una grieta porque las grietas tienen paredes, y las paredes no se mueven. Brillaba sin querer. Cuanto más miedo, más luz. Y cuanto más luz, más se veía lo oscuro de alrededor.\n\nLuego vino una luz azul que no tenía miedo. Se acercó despacio. Olía a fuera, a hierba y a lluvia.\n\nMe callé. La lana se me calmó sola.\n\nHoy he vuelto a la grieta. La he alumbrado a propósito. Es pequeña. Nunca fue tan grande.'),
-		hccandela2: cuento('Cuento de Candela II · El corral', '**EL CORRAL**\n*Contado como lo vio Candela*\n\nEl árbol está. La valla está. El abrevadero está, con su musgo de siempre.\n\nEl hombre del sombrero no está.\n\nOlía a tabaco de pipa y a lana mojada. Cantaba mal. Me rascaba detrás de la oreja izquierda, nunca de la derecha, porque decía que la derecha era de Copito.\n\nMe he tumbado donde se sentaba él. La tierra ahí es un poco más blanda, como si hubiera aprendido su forma.\n\nNo he brillado. No hacía falta. A veces la luz es quedarse quieta en un sitio para que alguien sepa que lo recuerdas.'),
+		hccandela2: cuento('Cuento de Candela II · El corral', '**EL CORRAL**\n*Contado como lo vio Candela*\n\nEl árbol está. La valla está. El abrevadero está, con su musgo de siempre.\n\nEl viejo del silbato no está.\n\nOlía a tabaco de pipa y a lana mojada. Cantaba mal. Me rascaba detrás de la oreja izquierda, nunca de la derecha, porque decía que la derecha era de Copito.\n\nMe he tumbado donde se sentaba él. La tierra ahí es un poco más blanda, como si hubiera aprendido su forma.\n\nNo he brillado. No hacía falta. A veces la luz es quedarse quieta en un sitio para que alguien sepa que lo recuerdas.'),
 		hccandela3: cuento('Cuento de Candela III · La luz que no tiene miedo', '**LA LUZ QUE NO TIENE MIEDO**\n*Contado como lo vio Candela*\n\nArriba del todo hay otra como yo, pero vieja. Se llama Amphy. Cuida un faro entero ella sola, aunque le cuesta.\n\nYo antes brillaba porque tenía miedo. Ella brilla porque hay barcos.\n\nHoy hemos encendido la lente juntas. Yo un poco más fuerte, para que ella pudiera descansar un rato sin que nadie lo notara.\n\nAhora entiendo para qué sirve la luz: no es para que no te dé miedo a ti. Es para que no le dé miedo a otro.'),
 		hclucario1: cuento('Cuento del compañero I · El color', '**EL COLOR**\n*Contado como lo sintió tu compañero*\n\nAquella noche todo tenía el mismo color: el del miedo. Rojo sucio. Gente corriendo, un Pokémon que no era de aquí gritando, la grieta violeta en el aire.\n\nY en medio, alguien que no corría.\n\nTenía un color que no conocía. No era valiente, no era tranquilo. Era otra cosa: era *quedarse*. Me puse delante. No sé por qué. El cuerpo lo hizo antes que yo.\n\nDesde entonces sé cómo se llama ese color. Se llama como tú.'),
 		hclucario2: cuento('Cuento del compañero II · La piedra que habla', '**LA PIEDRA QUE HABLA**\n*Contado como lo sintió tu compañero*\n\nEn la torre de la marea hay un Lucario viejo, de piedra. No se mueve. Pero tiene aura, como si alguien la hubiera dejado ahí guardada.\n\nCuando la piedra de la Mega me habló por primera vez, no dijo nada con palabras. Dijo: *más*. Más fuerza, más rápido, más todo.\n\nAprendí que *más* no es lo importante. Lo importante es hacia dónde.\n\nHacia dónde siempre es hacia ti.'),
@@ -23,7 +23,7 @@ export default {
 
 	patches: {
 		gruta_tierraunida: { route: { tramos: {
-			3: [{ talk: [{ script: 'hc_candela_1' }], label: 'Candela se para ante una grieta', sub: 'La lana le chisporrotea', icon: '🐑', cond: '!flag.hc_candela_1 && ' + C(150), new: 'true' }],
+			3: [{ talk: [{ script: 'hc_candela_1' }], label: 'Candela se para ante una grieta', sub: 'La cola le chisporrotea', icon: '🐑', cond: '!flag.hc_candela_1 && ' + C(150), new: 'true' }],
 		} } },
 		rancho_aurelio: { spots: [
 			{ label: 'Candela, junto al árbol del corral', sub: 'No quiere moverse de ahí', icon: '🐑', cond: 'flag.hc_candela_1 && !flag.hc_candela_2 && flag.b03_fin && ' + C(190), new: 'true', talk: [{ script: 'hc_candela_2' }] },
@@ -38,20 +38,20 @@ export default {
 			{ label: 'Lucario, ante la estatua de piedra', sub: 'Con los ojos cerrados', icon: '🗿', cond: 'flag.hc_lucario_1 && !flag.hc_lucario_2 && flag.b01_torre_hecha && inParty("lucario") && ' + R(200), new: 'true', talk: [{ script: 'hc_lucario_2' }] },
 		] },
 		puerto_olivo: { spots: [
-			{ label: 'Lucario no puede dormir', sub: 'Mira el mar desde el muelle', icon: '🌊', cond: 'flag.hc_lucario_2 && !flag.hc_lucario_3 && hitos >= 10 && ' + R(230), new: 'true', talk: [{ script: 'hc_lucario_3' }] },
+			{ label: 'Lucario no puede dormir', sub: 'Mira el mar desde el muelle', icon: '🌊', cond: 'night && flag.hc_lucario_2 && !flag.hc_lucario_3 && hitos >= 10 && ' + R(230), new: 'true', talk: [{ script: 'hc_lucario_3' }] },
 		] },
 	},
 
 	scripts: {
 		// ===================== CANDELA =====================
 		hc_candela_1: [
-			{ text: 'En el tercer recodo de la gruta, Candela se para en seco. Delante hay una grieta estrecha, a la altura de una oveja. La lana se le eriza y suelta chispas pequeñitas.' },
+			{ text: 'En el tercer recodo de la gruta, Candela se para en seco. Delante hay una grieta estrecha, a la altura de una oveja. La punta de la cola se le enciende y suelta chispas pequeñitas.' },
 			{ cutscene: { time: 'noche', bg: { type: 'cave', dark: true, crystals: '#f2d36b' }, start: 'dark', tint: '#4a3a6a', frames: [
 				{ actors: [{ mon: '{candela}', key: 'can', at: 'center', size: 's', enter: 'fade' }], fx: 'glow', cam: 'still', text: '*Antes, la oscuridad era una cosa que se te metía en la lana.*' },
 				{ actors: [{ key: 'can', do: 'shake', emote: 'sweat' }], fx: 'heartbeat', color: '#f2d36b', text: '*Me escondí en la grieta porque las grietas tienen paredes. Brillaba sin querer. Cuanto más miedo, más luz. Y cuanto más luz, más se veía lo oscuro.*' },
 				{ actors: [{ mon: '{riolu}', key: 'rio', at: 'left', enter: 'left', dim: true }], fx: 'aura', on: 'rio', cam: 'push', text: '*Luego vino una luz azul que no tenía miedo. Se acercó despacio. Olía a fuera, a hierba y a lluvia.*' },
 				{ actors: [{ key: 'can', do: 'nod' }], fx: 'light', on: 'can', tint: 'none', cam: 'pull', text: 'Candela da un paso hacia la grieta. Esta vez brilla a propósito: un brillo amarillo, quieto, que llena el recodo entero. La grieta es pequeñísima. Nunca fue tan grande.' },
-				{ actors: [{ key: 'can', do: 'hop', emote: 'note' }], fx: 'sparkle', on: 'can', text: 'Al fondo, entre el polvo, algo tintinea: un cencerro viejo y abollado, sin nombre. Candela lo empuja hacia ti con el hocico.' },
+				{ actors: [{ key: 'can', do: 'hop', emote: 'note' }], fx: 'sparkle', on: 'can', text: 'Candela sale de la grieta, se sacude el polvo y se queda a tu lado, muy tiesa, como quien acaba de ganar algo.' },
 			] } },
 			{ say: 'rotom', text: '¡Bzzt! Lo he apuntado tal cual lo he visto. Bueno, tal cual lo he *sentido*. Es raro: Candela cuenta las cosas muy bajito, pero se entienden.', cond: 'flag.b01_diario' },
 			{ give: 'hccandela1' },
@@ -62,9 +62,9 @@ export default {
 		hc_candela_2: [
 			{ text: 'Candela cruza el rancho sin mirar a nadie y se tumba bajo el árbol del corral, junto al tocón donde Don Aurelio se sentaba a contar ovejas.' },
 			{ cutscene: { time: 'tarde', weather: 'leaves', bg: { type: 'ranch' }, start: 'fade', frames: [
-				{ actors: [{ mon: '{candela}', key: 'can', at: 'center', size: 's', enter: 'none' }], cam: 'still', text: '*El árbol está. La valla está. El abrevadero está, con su musgo de siempre. El hombre del sombrero no está.*' },
+				{ actors: [{ mon: '{candela}', key: 'can', at: 'center', size: 's', enter: 'none' }], cam: 'still', text: '*El árbol está. La valla está. El abrevadero está, con su musgo de siempre. El viejo del silbato no está.*' },
 				{ fx: 'letter', cam: 'still', text: '*Olía a tabaco de pipa y a lana mojada. Cantaba mal. Me rascaba detrás de la oreja izquierda, nunca de la derecha: decía que la derecha era de Copito.*' },
-				{ actors: [{ mon: 'mareep', key: 'cop', at: 0.72, size: 's', enter: 'right' }], cam: 'push', text: 'Una Mareep se acerca trotando desde el rebaño. Se para al lado de Candela. No balan. Se apoyan la una en la otra, lana con lana.' },
+				{ actors: [{ mon: 'mareep', key: 'cop', at: 0.72, size: 's', enter: 'right' }], cam: 'push', text: 'Una Mareep se acerca trotando desde el rebaño. Se para al lado de Candela. No balan. Se apoyan la una en la otra, costado con costado.' },
 				{ actors: [{ key: 'can', do: 'idle' }, { key: 'cop', do: 'nod' }], cam: 'pull', text: '*No he brillado. No hacía falta. A veces la luz es quedarse quieta en un sitio para que alguien sepa que lo recuerdas.*' },
 				{ fx: 'iris-out', on: 'can', text: 'Se quedan así hasta que el sol baja. Luego Candela se levanta, se sacude el polvo y vuelve contigo.' },
 			] } },
@@ -121,7 +121,7 @@ export default {
 			{ set: { 'flag.hc_lucario_2': true } },
 		],
 		hc_lucario_3: [
-			{ text: 'Es tarde. En el muelle de Olivo solo se oyen las cuerdas de los barcos. Lucario está sentado en el borde, de espaldas, mirando el mar hacia el norte.' },
+			{ text: 'Es tarde. En el muelle de Olivo solo se oyen las cuerdas de los barcos. Lucario está sentado en el borde, de espaldas, mirando el mar.' },
 			{ cutscene: { time: 'noche', bg: { type: 'coast' }, start: 'fade', tint: '#2a3a6a', frames: [
 				{ actors: [{ mon: '{riolu}', key: 'rio', at: 'center', enter: 'none' }], cam: 'still', text: '*A veces sueño con un sitio que no he visto nunca. Huele a metal frío y a mar.*' },
 				{ fx: ['glow', 'ripple'], on: 'rio', color: '#7fb6ff', text: '*Hay una luz azul que no es la mía, muy lejos, que me llama sin prisa.*' },

@@ -1,6 +1,6 @@
 # Registro automático (no editar a mano)
 
-Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
+Generado: 2026-10-30T13:53:25.402Z · contenido 2026-10-30.10
 
 ## Apariciones de NPCs (escenas por bloque)
 
@@ -19,10 +19,11 @@ Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
 | Bill (`bill`) | 0 | 0 | 0 | 6 | 1 | 0 | 7 ⚠ 2 bloque(s) |
 | Blanca (`blanca`) | 4 | 3 | 0 | 0 | 0 | 0 | 7 ⚠ 2 bloque(s) |
 | Brock (`brock`) | 6 | 3 | 0 | 0 | 0 | 11 | 20 |
+| Bruna (`bruna`) | 0 | 0 | 0 | 0 | 0 | 3 | 3 ⚠ 1 bloque(s) |
 | Calder Wynn (`calder`) | 0 | 0 | 0 | 0 | 15 | 4 | 19 ⚠ 2 bloque(s) |
-| Camila (`camila`) | 0 | 0 | 0 | 0 | 0 | 4 | 4 ⚠ 1 bloque(s) |
+| Camila (`camila`) | 0 | 0 | 0 | 0 | 0 | 5 | 5 ⚠ 1 bloque(s) |
 | Camille (`camille`) | 0 | 0 | 0 | 0 | 2 | 2 | 4 ⚠ 2 bloque(s) |
-| Celia (`celia`) | 0 | 0 | 0 | 0 | 0 | 9 | 9 ⚠ 1 bloque(s) |
+| Celia (`celia`) | 0 | 0 | 0 | 0 | 0 | 10 | 10 ⚠ 1 bloque(s) |
 | Nico (`cg_aviso_nico`) | 0 | 0 | 0 | 3 | 0 | 0 | 3 ⚠ 1 bloque(s) |
 | Olga (`cg_aviso_olga`) | 0 | 0 | 0 | 6 | 0 | 0 | 6 ⚠ 1 bloque(s) |
 | Damián (`cg_indice_damian`) | 0 | 0 | 0 | 5 | 0 | 0 | 5 ⚠ 1 bloque(s) |
@@ -34,7 +35,7 @@ Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
 | Dr. Lazare (`cientifico_fosiles`) | 4 | 0 | 9 | 8 | 10 | 0 | 31 |
 | Prof. Ciprés (`cipres`) | 7 | 2 | 0 | 0 | 1 | 0 | 10 |
 | Conde Vladimiro (`conde`) | 8 | 1 | 0 | 6 | 6 | 0 | 21 |
-| Corelia (`corelia`) | 8 | 3 | 5 | 1 | 0 | 0 | 17 |
+| Corelia (`corelia`) | 8 | 3 | 5 | 1 | 0 | 2 | 19 |
 | Cornelio (`cornelio`) | 5 | 0 | 0 | 2 | 0 | 0 | 7 ⚠ 2 bloque(s) |
 | Dámaso Ferrán (`damaso`) | 0 | 2 | 5 | 0 | 0 | 1 | 8 |
 | Profesor Elm (`elm`) | 0 | 3 | 2 | 0 | 1 | 0 | 6 |
@@ -46,28 +47,28 @@ Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
 | Gaspar (`gaspar`) | 8 | 6 | 4 | 0 | 10 | 2 | 30 |
 | Gladio (`gladio`) | 0 | 0 | 0 | 0 | 10 | 0 | 10 ⚠ 1 bloque(s) |
 | Handsome (`handsome`) | 12 | 11 | 1 | 9 | 3 | 11 | 47 |
-| Héctor (`hector`) | 5 | 1 | 0 | 2 | 1 | 1 | 10 |
+| Héctor (`hector`) | 5 | 1 | 0 | 2 | 1 | 2 | 11 |
 | Hela (`hela`) | 0 | 0 | 0 | 0 | 10 | 0 | 10 ⚠ 1 bloque(s) |
-| Inés Garza (`ines`) | 0 | 0 | 0 | 0 | 0 | 6 | 6 ⚠ 1 bloque(s) |
+| Inés Garza (`ines`) | 0 | 0 | 0 | 0 | 0 | 7 | 7 ⚠ 1 bloque(s) |
 | Dra. Irene Solberg (`irene`) | 3 | 1 | 9 | 0 | 7 | 0 | 20 |
-| Campeona retirada (`jinete_boceto`) | 4 | 0 | 0 | 0 | 5 | 0 | 9 ⚠ 2 bloque(s) |
+| Campeona retirada (`jinete_boceto`) | 4 | 0 | 0 | 0 | 5 | 2 | 11 |
 | Kalena (`kalena`) | 0 | 0 | 0 | 0 | 6 | 1 | 7 ⚠ 2 bloque(s) |
 | Kaori (`kaori`) | 0 | 8 | 3 | 5 | 3 | 10 | 29 |
 | Kaudan (`kaudan`) | 0 | 0 | 0 | 0 | 11 | 0 | 11 ⚠ 1 bloque(s) |
 | Don Kekoa (`kekoa`) | 0 | 0 | 0 | 0 | 4 | 0 | 4 ⚠ 1 bloque(s) |
-| Kiawe (`kiawe`) | 0 | 0 | 0 | 0 | 14 | 1 | 15 ⚠ 2 bloque(s) |
+| Kiawe (`kiawe`) | 0 | 0 | 0 | 0 | 14 | 2 | 16 ⚠ 2 bloque(s) |
 | Kiyo (`kiyo`) | 0 | 0 | 3 | 3 | 4 | 0 | 10 |
 | Prof. Kukui (`kukui`) | 0 | 0 | 0 | 0 | 6 | 0 | 6 ⚠ 1 bloque(s) |
 | Kurt (`kurt`) | 0 | 7 | 0 | 0 | 0 | 1 | 8 ⚠ 2 bloque(s) |
 | Lance (`lance`) | 0 | 0 | 9 | 0 | 0 | 0 | 9 ⚠ 1 bloque(s) |
 | Inspector Lebrun (`lebrun`) | 3 | 2 | 0 | 5 | 0 | 2 | 12 |
-| Leilani (`leilani`) | 0 | 0 | 0 | 0 | 26 | 1 | 27 ⚠ 2 bloque(s) |
+| Leilani (`leilani`) | 0 | 0 | 0 | 0 | 26 | 3 | 29 ⚠ 2 bloque(s) |
 | Sabio Li (`li`) | 0 | 0 | 3 | 0 | 0 | 2 | 5 ⚠ 2 bloque(s) |
 | Liam (`liam`) | 0 | 0 | 0 | 0 | 9 | 2 | 11 ⚠ 2 bloque(s) |
 | Lila (`lila`) | 8 | 3 | 3 | 1 | 0 | 1 | 16 |
 | Lola Arriaga (`lola`) | 0 | 3 | 1 | 2 | 2 | 0 | 8 |
 | Lucien (`lucien`) | 5 | 3 | 0 | 0 | 8 | 0 | 16 |
-| Lulú (`lulu`) | 0 | 0 | 0 | 0 | 5 | 2 | 7 ⚠ 2 bloque(s) |
+| Lulú (`lulu`) | 0 | 0 | 0 | 0 | 5 | 3 | 8 ⚠ 2 bloque(s) |
 | Magda Ivers (`magda`) | 0 | 0 | 0 | 8 | 0 | 0 | 8 ⚠ 1 bloque(s) |
 | Matière (`matiere`) | 5 | 6 | 0 | 0 | 1 | 1 | 13 |
 | Mayla (`mayla`) | 0 | 0 | 0 | 0 | 8 | 2 | 10 ⚠ 2 bloque(s) |
@@ -95,19 +96,19 @@ Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
 | Protón (`proton`) | 0 | 2 | 0 | 0 | 0 | 0 | 2 ⚠ 1 bloque(s) |
 | Abuela Remedios (`remedios`) | 4 | 1 | 0 | 0 | 0 | 0 | 5 ⚠ 2 bloque(s) |
 | Renata (`renata`) | 3 | 3 | 9 | 1 | 1 | 32 | 49 |
-| Rhi (`rhi`) | 13 | 5 | 6 | 9 | 5 | 0 | 38 |
+| Rhi (`rhi`) | 13 | 5 | 6 | 9 | 5 | 1 | 39 |
 | Fabien Rouxel (`rouxel`) | 3 | 1 | 0 | 0 | 2 | 0 | 6 |
 | Sabrina (`sabrina`) | 0 | 0 | 0 | 2 | 6 | 0 | 8 ⚠ 2 bloque(s) |
 | Serafina Lemnis (`sera`) | 4 | 8 | 0 | 3 | 1 | 5 | 21 |
 | Simón (`simon`) | 3 | 0 | 0 | 2 | 4 | 4 | 13 |
 | Adela (`sobrina`) | 0 | 0 | 5 | 14 | 11 | 0 | 30 |
 | Tadeo Lis (`tadeo`) | 0 | 0 | 0 | 0 | 0 | 2 | 2 ⚠ 1 bloque(s) |
-| Don Teodoro (`teodoro`) | 0 | 0 | 0 | 0 | 0 | 5 | 5 ⚠ 1 bloque(s) |
+| Don Teodoro (`teodoro`) | 0 | 0 | 0 | 0 | 0 | 7 | 7 ⚠ 1 bloque(s) |
 | Tía Rosa (`tia_rosa`) | 0 | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Tobías (`tobias`) | 8 | 0 | 5 | 8 | 2 | 0 | 23 |
 | Ulises (`viajero`) | 3 | 2 | 1 | 1 | 1 | 13 | 21 |
 | Xero (`xero`) | 3 | 0 | 0 | 2 | 2 | 3 | 10 |
-| Yasmina (`yasmina`) | 0 | 0 | 17 | 0 | 0 | 0 | 17 ⚠ 1 bloque(s) |
+| Yasmina (`yasmina`) | 0 | 0 | 17 | 0 | 0 | 1 | 18 ⚠ 2 bloque(s) |
 | Ysolde (`ysolde`) | 5 | 2 | 2 | 15 | 0 | 10 | 34 |
 | Zyra (`zyra`) | 0 | 0 | 0 | 0 | 5 | 2 | 7 ⚠ 2 bloque(s) |
 
@@ -816,6 +817,9 @@ Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
 - `b06_ysolde_plan` — b06:b06_ysolde_tejados
 - `b06_zorua` — b06:b06_final_zorua
 - `b06_zorua_vive` — b06:b06_final_zorua
+- `carr_alola_vista` — b06:carr_alola_intro
+- `carr_kalos_vista` — b06:carr_kalos_intro
+- `carr_teselia_vista` — b06:carr_teselia_intro
 - `cg_aviso_entrego` — b04:cg_aviso_regreso
 - `cg_aviso_final` — b04:cg_aviso_regreso
 - `cg_aviso_hablo` — b04:cg_aviso_regreso
@@ -854,6 +858,12 @@ Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
 - `enc_lila_abajo` — b06:enc_lila_torre
 - `enc_misty_psyduck` — b06:enc_misty_bici
 - `ev_hwr_sinistea` — b05:ev_hwr_vigilia
+- `hc_candela_1` — b06:hc_candela_1
+- `hc_candela_2` — b06:hc_candela_2
+- `hc_candela_3` — b06:hc_candela_3
+- `hc_lucario_1` — b06:hc_lucario_1
+- `hc_lucario_2` — b06:hc_lucario_2
+- `hc_lucario_3` — b06:hc_lucario_3
 - `lola_1` — b02:lola_trigal_2
 - `lola_2` — b03:lola_caoba
 - `lola_3` — b04:lola_lavanda
@@ -995,6 +1005,7 @@ Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
 - `p9_terror_premio` — b05:p9_terror
 - `p9_vela_1` — b05:p9_vela_dolores
 - `p9_vela_fin` — b05:p9_vela_fin
+- `rx_conocida` — b06:rx_primera
 - `sera_aviso_diario` — b06:sera_aviso_diario
 - `sera_canal_abierto` — b06:sera_reconciliacion
 - `sera_nota_enviada` — b06:sera_nota
@@ -1282,6 +1293,7 @@ Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
 - `plasma_dr_2` (b06) Recluta: Garbodor 65, Krookodile 66
 - `plasma_dr_3` (b06) Isidoro: Cofagrigus 65, Weavile 66, Golurk 66, Mandibuzz 67
 - `enc_misty_amistoso` (b06) Misty: Golduck 55, Lapras 55, Gyarados 55, Starmie 57
+- `rx_bruna` (b06) Bruna: Alakazam 30
 
 ## Nombres de entrenadores usados (para no repetir)
 

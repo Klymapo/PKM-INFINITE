@@ -69,7 +69,7 @@ function hasPending(id) {
 	const l = L(id); if (!l) return false;
 	if (!G.visited[id]) return true;
 	// mismo criterio que al llegar al sitio: hasta 4 veces seguidas y, después, una vez cada 40 pasos (hasta 25), como quien vuelve a por la revancha
-	return spotsOf(l).some(s => { const r = spotRuns[spotKey(l, s)] || { n: 0, last: 0 }; return s.new !== undefined && evalCond(s.new) && (r.n < 4 || (r.n < 25 && step - (r.last || 0) > 40)) && !(s.action?.go && G.visited[s.action.go]); });
+	return spotsOf(l).some(s => { const r = spotRuns[spotKey(l, s)] || { n: 0, last: 0 }; return !s.rival && s.new !== undefined && evalCond(s.new) && (r.n < 4 || (r.n < 25 && step - (r.last || 0) > 40)) && !(s.action?.go && G.visited[s.action.go]); });
 }
 function stepTo(goal) {
 	const start = G.loc, prev = { [start]: null }, q = [start];

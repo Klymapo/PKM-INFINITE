@@ -28,7 +28,7 @@ export default {
 	scripts: {
 		rx_primera: [
 			{ text: 'Una chica con el pelo muy corto y unas gafas cuadradas te mira por encima de una libreta. Apunta algo. Te vuelve a mirar. Apunta otra cosa.' },
-			{ say: 'bruna', text: '{jugador}, ¿verdad? De la Gira. Bruna Ledesma. Corrí la clasificación del Circuito el año pasado y me eliminaron en la segunda ronda. Desde entonces, en vez de entrenar más, apunto.' },
+			{ say: 'bruna', text: '{jugador}, ¿verdad? De la Gira. Bruna Ledesma. Corrí la Liga regional el año pasado, antes de que existiera el Circuito, y me eliminaron en la segunda ronda. Desde entonces, en vez de entrenar más, apunto.' },
 			{ say: 'bruna', text: 'Veo todos los combates de la temporada. Todos. Los de la tele y los que me cuentan. Y tus números son los más raros de los novatos. No en el mal sentido. En el sentido de que no me cuadran.' },
 			{ rival: 'saludo' },
 			{ set: { 'flag.rx_conocida': true } },

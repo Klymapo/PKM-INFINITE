@@ -18,10 +18,10 @@ const P = (label, terrain, len, extra = {}) => ({ label, terrain, len, ...extra 
 
 export default {
 	items: {
-		carrtrofeokalos: { name: 'Herradura dorada de Boceto', pocket: 'key', desc: 'Una herradura de Rhyhorn bañada en oro, con una muesca de cuando la campeona retirada la usó en su última temporada. Pesa más de lo que parece.',
+		carrtrofeokalos: { name: 'Herradura dorada de Boceto', pocket: 'key', desc: 'Una herradura de Rhyhorn bañada en oro, con una muesca de la primera carrera que ganó la campeona retirada. Pesa más de lo que parece.',
 			read: '**GRAN PREMIO DE BOCETO**\n*Grabado en el canto, con letra de herrero:*\n\n«A quien gane en mi pista sin agarrarse al cuerno.\nLa curva se gana frenando antes.\nEl charco no se rodea.»\n\n*Y debajo, más pequeño, rayado con una navaja:* «Me ganaste. No te acostumbres.»' },
 		carrtrofeoalola: { name: 'Banderín del Rancho Ohana', pocket: 'key', desc: 'Un banderín de tela con un Tauros bordado, una mancha de grasa en forma de huella y la firma de Leilani en rotulador. Soldi añadió un punto de soldadura «para que dure».',
-			read: '**LA VUELTA DEL RANCHO · OHANA**\n*Bordado a mano en el reverso:*\n\nPrimera vuelta ganada por alguien de fuera.\n\n*Rotulador, letra de Leilani:* «Calibración del Ride Gear: perfecta. La tuya, no tanto. ¿Sí o qué?»\n\n*Grabado con punta de soldador:* «Resultado satisfactorio. Para ser humano. — S.»' },
+			read: '**LA VUELTA DEL RANCHO · OHANA**\n*Bordado a mano en el reverso:*\n\nPrimera vuelta ganada por alguien de fuera.\n\n*Rotulador, letra de Leilani:* «Calibración del Ride Gear: perfecta. La tuya, no tanto. ¿Sí o qué?»\n\n*Grabado con punta de soldador:* «Resultado satisfactorio. Para ser human{o|a|e}. — S.»' },
 		carrtrofeoteselia: { name: 'Crónica enmarcada de Chamota', pocket: 'key', desc: 'Una hoja del archivo de don Teodoro, con su letra apretada y una foto pegada con cinta. El marco lo puso Celia; el cristal, Inés, «que el correo llega mojado».',
 			read: '**CRÓNICA DE LA VUELTA DE CHAMOTA**\n*Archivo de don Teodoro, hoja suelta*\n\nHoy se ha corrido la vuelta al pueblo por primera vez en muchos años. Salida en la plaza, huertos, muralla norte, la boca helada y bajada.\n\nHa ganado alguien de fuera. Que conste. Camila ha dicho que el brillo no se cronometra; Inés ha dicho que sí, y que ella llevaba el reloj. Celia se ha reído tan fuerte que se ha asustado su Bouffalant.\n\nPara el archivo. Las cosas que no se escriben se las lleva el viento.' },
 	},
@@ -33,7 +33,7 @@ export default {
 			rent: ['gogoat'],
 			rivals: [
 				{ npc: 'rhi', mount: 'gogoat', pace: 1.01,
-					start: 'Me he entrenado. Diez sprints al día. Bueno, los ha hecho la cabra. Pero yo miraba.', ahead: '¡No te veo! ¡Bueno, sí te veo, por detrás!', behind: '¡¿Cómo vas por delante?! ¡Eso es trampa! ¡No sé cuál, pero es trampa!',
+					start: 'Me he entrenado. Diez sprints al día. Bueno, los ha hecho la cabra. Pero yo miraba.', ahead: '¡No te veo! ¡Bueno, sí te veo, por detrás!', behind: '¡¿Cómo vas por delante?! ¡Eso es fuera de juego! ¡No sé por qué, pero es fuera de juego!',
 					win: '¡GANÉ! ¡Nate, que lo estás grabando! ¿Lo estás grabando? …Claro que no.', lose: 'Ok. Ok. La próxima. La próxima te como en la ladera.' },
 				{ npc: 'corelia', mount: 'gogoat', pace: 0.99,
 					start: '¡A TOPE! ¡Que no he corrido nunca en cabra, pero en patines sí, y es casi lo mismo!', ahead: '¡A topísimo! ¡Esto es como patinar, pero con pelo!', behind: '¡No vale, que la cabra se para a comer!',
@@ -54,7 +54,7 @@ export default {
 				{ name: 'La recta final', text: 'Se ve la meta. El abrevadero está en medio del camino, como siempre.', paths: [
 					P('Rodear el abrevadero', 'llano', 10), P('Saltar el abrevadero', 'llano', 8.6, { jump: true })] },
 			],
-			prize: { first: [{ id: 'carrtrofeokalos', n: 1 }, { id: 'quickclaw', n: 1 }], win: [{ id: 'carbos', n: 1 }, { id: 'moomoomilk', n: 3 }, { id: 'ppup', n: 1 }], podium: { id: 'moomoomilk', n: 1 }, record: { id: 'carbos', n: 1 } },
+			prize: { first: [{ id: 'carrtrofeokalos', n: 1 }, { id: 'quickclaw', n: 1 }], win: [{ id: 'carbos', n: 1 }, { id: 'moomoomilk', n: 3 }, { id: 'ether', n: 1 }], podium: { id: 'moomoomilk', n: 1 }, record: { id: 'carbos', n: 1 } },
 		},
 		alola: {
 			name: 'La Vuelta del Rancho', region: 'alola', loc: 'ohana', host: 'leilani', icon: '🐂', cond: A,
@@ -83,7 +83,7 @@ export default {
 				{ name: 'La bajada a la meta', text: 'Se ve el rancho. Alguien ha puesto la meta encima de un comedero.', paths: [
 					P('Bajar por el camino', 'llano', 10), P('Saltar el comedero', 'llano', 8.6, { jump: true })] },
 			],
-			prize: { first: [{ id: 'carrtrofeoalola', n: 1 }, { id: 'shellbell', n: 1 }], win: [{ id: 'moomoomilk', n: 3 }, { id: 'hpup', n: 1 }, { id: 'carbos', n: 1 }], podium: { id: 'moomoomilk', n: 1 }, record: { id: 'carbos', n: 1 } },
+			prize: { first: [{ id: 'carrtrofeoalola', n: 1 }, { id: 'shellbell', n: 1 }], win: [{ id: 'moomoomilk', n: 3 }, { id: 'healthwing', n: 3 }, { id: 'carbos', n: 1 }], podium: { id: 'moomoomilk', n: 1 }, record: { id: 'carbos', n: 1 } },
 		},
 		teselia: {
 			name: 'La Vuelta de Chamota', region: 'teselia', loc: 'chamota', host: 'teodoro', icon: '⚡', cond: T,
@@ -95,7 +95,7 @@ export default {
 					win: 'Primera. Y despeinada. Las dos cosas a la vez, por primera vez en mi vida.', lose: 'Has brillado más. Lo admito una vez. No lo grabes.' },
 				{ npc: 'ines', mount: 'sawsbuck', pace: 0.99,
 					start: 'Hago este recorrido todos los días. Con cartas. Hoy sin cartas. Voy a ir más ligera.', ahead: 'El correo no espera.', behind: 'Vas bien. Vas a llegar a tiempo. A tiempo no es antes.',
-					win: 'Llegué. Como el tren de la mañana: cuando toca.', lose: 'Me has ganado en mi ruta. —Se recoloca la gorra—. Lo apunto. No lo cuento.' },
+					win: 'Llegué. Como el tren de la mañana: cuando toca.', lose: 'Me has ganado en mi ruta. —Se recoloca la gorra—. Esto no sale en el correo de mañana.' },
 				{ npc: 'celia', mount: 'bouffalant', pace: 1.04,
 					start: '¡Si gano, invito al pan! ¡Si pierdo, también! ¡Es que he hecho mucho!', ahead: '¡Ay, que vamos primeros! ¡Que alguien sujete las barras!', behind: '¡Que se me enfría el pan, que se me enfría!',
 					win: '¡GANAMOS! ¡Pan para todo el pueblo! ¡Bueno, para la plaza!', lose: '¡Qué bien corres! Toma, una barra. Te la has ganado. Y aunque no.' },
@@ -112,7 +112,7 @@ export default {
 				{ name: 'La bajada al pueblo', text: 'Una cuesta larga hasta el campanario. Desde arriba, el pueblo entero.', paths: [
 					P('La cuesta', 'monte', 10), P('El camino largo', 'llano', 12), P('Planear hasta la plaza', 'cielo', 9.5, { need: 'cielo' })] },
 			],
-			prize: { first: [{ id: 'carrtrofeoteselia', n: 1 }, { id: 'expertbelt', n: 1 }], win: [{ id: 'carbos', n: 1 }, { id: 'freshwater', n: 4 }, { id: 'ppup', n: 1 }], podium: { id: 'freshwater', n: 2 }, record: { id: 'carbos', n: 1 } },
+			prize: { first: [{ id: 'carrtrofeoteselia', n: 1 }, { id: 'expertbelt', n: 1 }], win: [{ id: 'carbos', n: 1 }, { id: 'freshwater', n: 4 }, { id: 'ether', n: 1 }], podium: { id: 'freshwater', n: 2 }, record: { id: 'carbos', n: 1 } },
 		},
 	},
 
@@ -141,7 +141,7 @@ export default {
 		// ---------------- Kalos ----------------
 		carr_kalos_intro: [
 			{ text: 'Delante de la pista hay tres monturas atadas a la cerca: dos Gogoat que mastican la cuerda y un Rhyhorn con un casco de juguete encajado entre los cuernos.' },
-			{ say: 'jinete_boceto', text: 'Te estaba esperando. Una carrera tú y yo está bien. Pero las carreras de verdad son con más gente. Con gente que grita. Así que he invitado a gente que grita.' },
+			{ say: 'jinete_boceto', text: 'Te estaba esperando. Una carrera entre dos está bien. Pero las carreras de verdad son con más gente. Con gente que grita. Así que he invitado a gente que grita.' },
 			{ say: 'rhi', text: '¡Hola! ¡Soy la que grita! ¡Me han dicho que hay carrera y yo no digo que no a una carrera! ¡Ni a dos!' },
 			{ say: 'corelia', text: '¡Y yo! ¡A tope! ¡El abuelo dice que una líder no debería correr en cabra! ¡El abuelo no está aquí!' },
 			{ say: 'hector', text: 'Y yo… he venido a mirar. Me han dado un casco. Y un Rhyhorn. Creo que ya estoy dentro.' },
@@ -171,8 +171,8 @@ export default {
 			{ say: 'soldabot', text: 'Probando. Probando. Excelente acústica. Para ser un rancho.' },
 			{ say: 'leilani', text: '¡Llegas justo! Estoy calibrando el Ride Gear con monturas de verdad y necesito gente que corra. Gente que corra mucho. ¿Sí o qué?' },
 			{ say: 'kiawe', text: 'Me ha llamado ella. —Mira los Tauros—. He venido por los Tauros. Y porque correr es bailar sin música.' },
-			{ say: 'lulu', text: '¡Y yo por la merienda! ¡Bien-bien! Mi Stoutland huele los atajos. Y las tartas.' },
-			{ say: 'leilani', text: 'Cinco tramos: rancho, pastos, costa, colina y vuelta. Si tienes montura que nade, el mar es tuyo. Si no, aquí hay Tauros, Mudsdale y Stoutland de alquiler. Gratis. Pagan los de la granja, que quieren ver el espectáculo.' },
+			{ say: 'lulu', text: '¡Y yo por la merienda! ¡Bien-bien! Me han prometido merienda en la meta.' },
+			{ say: 'leilani', text: 'Cinco tramos: rancho, pastos, costa, colina y vuelta. Si tienes montura que nade, el mar es tuyo. Si no, aquí hay Tauros, Mudsdale y Stoutland de alquiler. Gratis. Pagan los del rancho, que quieren ver el espectáculo.' },
 			{ say: 'soldabot', text: 'Recordatorio: en los saltos, pulsar a tiempo. Pulsar tarde es caer. Caer es divertido. Para el público.' },
 			{ set: { 'flag.carr_alola_vista': true } },
 			{ call: 'carr_alola_correr' },
