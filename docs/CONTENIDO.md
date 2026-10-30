@@ -592,7 +592,7 @@ cardPlayers: {
     prize: [{ id: 'bottlecap', n: 1 }],    // solo la primera victoria
     win: '…', lose: '…', draw: '…' },      // lo que dice al acabar (win = gana el rival)
 }
-// guion: { cards: 'lum_philippe', onWin: [...], onLose: [...], onDraw: [...] }   (sin interfaz juega sola)
+// guion: { cards: 'lum_philippe', onWin: [...], onLose: [...], onDraw: [...], onQuit: [...] }   (onQuit: si te levantas a mitad; sin interfaz juega sola)
 // guion: { cardStarter: true }   sobre de inicio, una vez: las especies de tu equipo (hasta 5) + comunes hasta 8
 ```
 

@@ -26,8 +26,10 @@ const SOBRE = (who, lines) => ({ if: '!flag.cq_sobre', then: [
 ] });
 
 /** Partida y respuesta corta según el resultado. */
-const PARTIDA = (id, who, win, lose, draw) => ({ cards: id,
-	onWin: [{ say: who, text: win }], onLose: [{ say: who, text: lose }], onDraw: [{ say: who, text: draw }] });
+// `quit` (2026-10-30): lo que dice el rival si te levantas a mitad de partida (antes la escena se cortaba sin nada).
+const PARTIDA = (id, who, win, lose, draw, quit) => ({ cards: id,
+	onWin: [{ say: who, text: win }], onLose: [{ say: who, text: lose }], onDraw: [{ say: who, text: draw }],
+	...(quit ? { onQuit: [{ say: who, text: quit }] } : {}) });
 
 export default {
 	npcs: {
@@ -129,11 +131,13 @@ export default {
 				{ text: 'Contra Philippe.', then: [PARTIDA('lum_philippe', 'philippe',
 					'Vuelve cuando quieras. Te dejo ganar la próxima. …Es broma. Te gano otra vez.',
 					'Te mereces la carta. Y una ovación. Una pequeña: la terraza está llena.',
-					'Ni para ti ni para mí. Pido otro café para pensarlo.')] },
+					'Ni para ti ni para mí. Pido otro café para pensarlo.',
+					'¿Te vas a mitad del truco? Phil-osofía número trece: la carta que no se juega no se pierde. Guardo la mesa.')] },
 				{ text: 'Contra la aficionada del café.', then: [PARTIDA('lum_aficionada', 'cq_aficionada',
 					'¡Revancha cuando quieras! Bueno, cuando yo quiera. Que ahora estoy feliz.',
 					'Juegas bien. Philippe va a sufrir. Me encanta.',
-					'Empate. Me sirve.')] },
+					'Empate. Me sirve.',
+					'¡Ah! Vale, vale. Yo tampoco iba muy bien. Te guardo el sitio.')] },
 				{ text: 'Otro rato.', then: [{ say: 'philippe', text: 'Las cartas no se van. Bueno, a veces sí, pero vuelven. Como yo.' }] },
 			] },
 		],
@@ -157,11 +161,13 @@ export default {
 				{ text: 'Contra Lola.', then: [PARTIDA('tri_lola', 'lola',
 					'La próxima mírate las esquinas. Ahí se pierde todo.',
 					'Llévate la carta. Te la ganaste. Y no le digas a nadie que perdí, que me espantas a la clientela.',
-					'Ni tú ni yo. Así me gusta.')] },
+					'Ni tú ni yo. Así me gusta.',
+					'¿Te levantas? Sin problema. La partida no se cobra a medias. Aquí sigo.')] },
 				{ text: 'Contra el aficionado del andén.', then: [PARTIDA('tri_aficionado', 'cq_aficionado',
 					'Llega el tren. Me voy contento.',
 					'Bien jugado. Me ha dado tiempo de perder y todo.',
-					'Empate. El tren ni se ha enterado.')] },
+					'Empate. El tren ni se ha enterado.',
+					'Te vas antes que el tren. Raro, pero respetable. El de las doce y cuarto te espero.')] },
 				{ text: 'Otro rato.', then: [{ say: 'lola', text: 'Aquí estoy. Siempre estoy.' }] },
 			] },
 		],
@@ -185,7 +191,8 @@ export default {
 				{ text: 'Una partida.', then: [PARTIDA('aza_sabrina', 'sabrina',
 					'Vuelve. Cada vez juegas distinto. Eso me gusta.',
 					'Bien. Me quedo con la sensación. Es nueva.',
-					'Así está bien.')] },
+					'Así está bien.',
+					'Lo sabía antes de que te levantaras. No pasa nada.')] },
 				{ text: 'Otro rato.', then: [{ say: 'sabrina', text: 'Lo sé.' }] },
 			] },
 		],
@@ -208,7 +215,8 @@ export default {
 				{ text: 'Una partida.', then: [PARTIDA('kan_soldi', 'soldabot',
 					'Recomendación: menos corazón, más cálculo. O al revés. Datos insuficientes.',
 					'Recalibrando. Vuelve. Mi orgullo también se suelda.',
-					'Empate. Lo guardo en la memoria. En la buena, no en la de errores.')] },
+					'Empate. Lo guardo en la memoria. En la buena, no en la de errores.',
+					'Partida interrumpida. Guardando estado: ninguno. Excelente estrategia de huida. Para ser human{o|a|e}.')] },
 				{ text: 'Otro rato.', then: [{ say: 'soldabot', text: 'Entendido. Mesa en espera. Brazo en espera. Yo también.' }] },
 			] },
 		],
@@ -230,7 +238,8 @@ export default {
 				{ text: 'Una partida.', then: [PARTIDA('may_camila', 'camila',
 					'La próxima vez juega con más luz. Se nota cuando alguien duda.',
 					'Ganaste. Lo pongo en mis historias. Sin filtro, que es verdad.',
-					'Empate. Foto de las dos manos y a otra cosa.')] },
+					'Empate. Foto de las dos manos y a otra cosa.',
+					'¿Ya? —Se baja las gafas—. Bueno. Una salida a tiempo también es estilo.')] },
 				{ text: 'Otro rato.', then: [{ say: 'camila', text: 'Te guardo la silla. Con purpurina.' }] },
 			] },
 		],
