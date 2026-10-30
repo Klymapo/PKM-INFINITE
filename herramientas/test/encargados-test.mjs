@@ -47,7 +47,7 @@ const exp = Object.keys(G.neg).reduce((a, id) => a + N.pending(id).money, 0);
 const m0 = G.player.money;
 const all = N.collectAll();
 ok(all.n === Object.keys(G.neg).length && G.player.money === m0 + all.money && Math.abs(all.money - exp) <= 1, `«Recoger todo» recoge los ${all.n} negocios (${all.money})`);
-ok(Object.keys(G.neg).every(id => N.pending(id).money === 0), 'todas las cajas quedan vacías');
+ok(Object.keys(G.neg).every(id => N.pending(id).money <= 1), 'todas las cajas quedan vacías (salvo lo de los últimos milisegundos)');
 const id0 = Object.keys(G.neg)[0];
 G.neg[id0].fill = N.storeDays(id0) - 0.25; G.neg[id0].last = Date.now();
 ok(N.almostFull(id0) && Math.round(N.fullIn(id0)) === 6, `${id0}: avisa de que se llena en ~6 h`);
