@@ -27,7 +27,7 @@ export default {
 	items: {
 		b06_bot_recetario: { name: 'Recetario de la botica', pocket: 'key',
 			desc: 'Un cuaderno de hule verde con las esquinas quemadas. Huele a menta, a alcanfor y, por debajo, a algo que es mejor no oler dos veces.',
-			read: '**BOTICA DE IRIS**\n*Fórmulas de la casa. Letra pequeña, sin tachones.*\n\n**Antídoto.** Baya Meloc machacada, agua hervida, una pizca de carbón. Funciona. Es aburrido. Funciona.\n\n**Antiparalizador.** Corteza de la Ruta 37 y paciencia. Si el Pokémon da saltitos, está curado. Si da saltitos y echa chispas, no.\n\n**Despertar.** Baya Atania y una campanilla. La campanilla no hace nada. A los clientes les gusta.\n\n**Cura Total.** No apuntado. Lo sé de memoria. Si te lo has leído buscando esto, mal.\n\n**Venenos.** No se venden. No se regalan. No se preguntan. Se estudian. (En mí.)\n\n*(En la última página, con otra tinta:)* Socio{|a|e}: {jugador}. Pregunta poco y paga a tiempo. Bien.\n\n*(Debajo, más pequeño:)* Raro.' },
+			read: '**BOTICA DE IRIS**\n*Fórmulas de la casa. Letra pequeña, sin tachones.*\n\n**Antídoto.** Baya Meloc machacada, agua hervida, una pizca de carbón. Funciona. Es aburrido. Funciona.\n\n**Antiparalizador.** Corteza de la Ruta 37 y paciencia. Si el Pokémon da saltitos, está curado. Si da saltitos y echa chispas, no.\n\n**Despertar.** Baya Atania y una campanilla. La campanilla no hace nada. A los clientes les gusta.\n\n**Cura Total.** No apuntado. Lo sé de memoria. Si te lo has leído buscando esto, mal.\n\n**Venenos.** No se venden. No se regalan. No se preguntan. Se estudian. (En mí.)\n\n*(En la última página, con otra tinta:)* Soci{o|a|e}: {jugador}. Pregunta poco y paga a tiempo. Bien.\n\n*(Debajo, más pequeño:)* Raro.' },
 	},
 
 	// =====================================================================
@@ -219,8 +219,11 @@ export default {
 			{ say: 'kaori', text: 'Abierto. —Pausa—. Qué raro decirlo.' },
 			{ say: 'kaori', text: 'Si tienes Pokémon que sepan de plantas, de venenos o de cosas que brillan sin motivo, tráelos. Aquí hay trabajo. Y una maceta libre al lado del Gloom.' },
 			{ say: 'rotom', text: '¡Bzzt! Te guardo la botica en **Negocios**. He escaneado la balda de la izquierda. No te voy a decir lo que hay. ¡Bzzt!' },
-			{ diary: 'Hoy hemos abierto una botica en Ciudad Iris con Kaori, pegada al Teatro de Danza. El contrato fue una balanza. Kaori dice que las balanzas no mienten.\n\nSolo vende remedios. Los venenos se quedan en una balda a la que no me deja acercar el objetivo. Yo no tengo ganas de acercarlo. ¡Bzzt!', cond: 'flag.b01_diario' },
-			{ intel: { npc: 'kaori', text: 'Sois socios de la Botica de Iris, el herbolario viejo junto al Teatro de Danza. El «contrato» fue una balanza equilibrada. Te dio una copia de su recetario.' } },
+			// El Diario cambia según la rama del Eco (B6): purgado, Rotom solo y más simple; reformado, con su última línea.
+			{ diary: 'Hoy hemos abierto una botica en Ciudad Iris con Kaori, pegada al Teatro de Danza. El contrato fue una balanza. Kaori dice que las balanzas no mienten.\n\nSolo vende remedios. Los venenos se quedan en una balda a la que no me deja acercar el objetivo. Yo no tengo ganas de acercarlo. ¡Bzzt!', cond: 'flag.b01_diario && !flag.b06_eco_purgado && !flag.b06_eco_reformado' },
+			{ diary: 'Hoy hemos abierto una botica en Ciudad Iris con Kaori, pegada al Teatro de Danza. El contrato fue una balanza. Kaori dice que las balanzas no mienten.\n\nSolo vende remedios. Los venenos se quedan en una balda a la que no me deja acercar el objetivo. Yo no tengo ganas de acercarlo. ¡Bzzt!\n\n*(Omitido: nada.)*', cond: 'flag.b01_diario && flag.b06_eco_reformado' },
+			{ diary: 'Hoy hemos abierto una botica. En Iris. Con Kaori. Yo solo, escribiendo.\n\nEl contrato fue una balanza. Huele a menta. Hay una balda que no me deja mirar. No la miro.', cond: 'flag.b01_diario && flag.b06_eco_purgado' },
+			{ intel: { npc: 'kaori', text: 'Son socios de la Botica de Iris, el herbolario viejo junto al Teatro de Danza. El «contrato» fue una balanza equilibrada. Te dio una copia de su recetario.' } },
 		],
 
 		// ---------- Charla de siempre (cambia con lo que se ha comprado) ----------

@@ -37,7 +37,7 @@ export default {
 		zubat_cueva: { sp: 'zubat', loc: 'cueva_celeste', title: 'Zubat colgado al revés del revés', caption: 'En la Cueva Celeste, un Zubat dormido boca arriba sobre una roca, con las alas abiertas como una manta. Los demás, colgados del techo, lo miran con algo parecido a la envidia.', pay: 1300 },
 		mareep_estatica: { sp: 'mareep', loc: 'ruta32', title: 'Mareep cargado de estática', caption: 'Una Mareep de la Ruta 32 con la lana tan cargada que se le han pegado tres hojas, una pluma de Pidgey y un caramelo envuelto. Brilla un poco en la oscuridad.', pay: 1200, gift: [{ id: 'cheriberry', n: 2 }] },
 		sandile_gafas: { sp: 'sandile', loc: 'tes_ruta4', title: 'Sandile tomando el sol', caption: 'Un Sandile de la Ruta 4 de Teselia tumbado panza arriba al sol de mediodía, con las gafas de alguien puestas. No son suyas. Le quedan bien.', pay: 1400 },
-		froakie_charco: { sp: 'froakie', loc: 'ruta3', title: 'Froakie y su reflejo', caption: 'Un Froakie en un charco de la Ruta 3 haciéndole muecas a su reflejo. El reflejo, por supuesto, se las devuelve. Llevan un buen rato.', pay: 1600, gift: [{ id: 'pechaberry', n: 2 }] },
+		froakie_charco: { sp: 'azurill', loc: 'ruta3', title: 'Azurill y su reflejo', caption: 'Un Azurill en un charco de la Ruta 3 haciéndole muecas a su reflejo. El reflejo, por supuesto, se las devuelve. Llevan un buen rato.', pay: 1600, gift: [{ id: 'pechaberry', n: 2 }] },
 	},
 
 	patches: {
@@ -54,7 +54,7 @@ export default {
 		cueva_celeste: { route: { tramos: { 3: [momento('zubat_cueva', 'Un Zubat que no está colgado', 'Duerme sobre una roca', 'weekday == 0 || weekday == 6')] } } },
 		ruta32: { route: { tramos: { 3: [momento('mareep_estatica', 'Una Mareep que brilla un poco', 'Lleva cosas pegadas a la lana', 'night')] } } },
 		tes_ruta4: { route: { tramos: { 4: [momento('sandile_gafas', 'Un Sandile panza arriba', 'Con gafas de sol', 'day && !morning && !evening')] } } },
-		ruta3: { route: { tramos: { 2: [momento('froakie_charco', 'Un Froakie en un charco', 'Haciendo muecas', 'morning || evening')] } } },
+		ruta3: { route: { tramos: { 2: [momento('froakie_charco', 'Un Azurill en un charco', 'Haciendo muecas', 'morning || evening')] } } },
 	},
 
 	scripts: {
@@ -87,6 +87,6 @@ export default {
 		foto_zubat_cueva: guion('zubat_cueva', 'En una roca plana, un Zubat duerme boca arriba con las alas abiertas como una manta. Del techo, los demás lo miran colgados.', 'Clic. Ni se inmuta. Los del techo sí: uno se suelta de la sorpresa y tiene que volver a subir.'),
 		foto_mareep_estatica: guion('mareep_estatica', 'Una Mareep pasta tan tranquila con la lana llena de estática: tres hojas, una pluma de Pidgey y un caramelo envuelto pegados. Brilla un poco en la oscuridad.', 'Clic. Con el flash, la lana chisporrotea y suelta el caramelo. La Mareep se lo come con envoltorio y todo.'),
 		foto_sandile_gafas: guion('sandile_gafas', 'Un Sandile tumbado panza arriba en la arena, al sol de mediodía, con unas gafas de sol de persona puestas. No son suyas. Le quedan bien.', 'Clic. El Sandile se baja las gafas con una pata, te mira por encima y se las vuelve a subir.', 3),
-		foto_froakie_charco: guion('froakie_charco', 'Un Froakie en un charco le hace muecas a su reflejo. El reflejo se las devuelve, claro. El Froakie se lo toma como algo personal.', 'Clic. El Froakie se gira hacia ti y te hace una mueca a ti también. Sale en la foto.'),
+		foto_froakie_charco: guion('froakie_charco', 'Un Azurill en un charco le hace muecas a su reflejo. El reflejo se las devuelve, claro. El Azurill se lo toma como algo personal.', 'Clic. El Azurill se gira hacia ti y te hace una mueca a ti también. Sale en la foto.'),
 	},
 };

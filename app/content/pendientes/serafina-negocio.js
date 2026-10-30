@@ -55,7 +55,7 @@ export default {
 		],
 		sera_neg_compra: [
 			{ if: SERA_TU, then: [
-				{ say: 'sera', text: 'Firmado. —Revisa tu firma con una lupa de joyero, por costumbre—. Buena letra. Bienvenid{o|a|e} al despacho, socio. No se lo cuentes a nadie. Bueno: cuéntaselo a quien te convenga.' },
+				{ say: 'sera', text: 'Firmado. —Revisa tu firma con una lupa de joyero, por costumbre—. Buena letra. Bienvenid{o|a|e} al despacho, soci{o|a|e}. No se lo cuentes a nadie. Bueno: cuéntaselo a quien te convenga.' },
 			], else: [
 				{ say: 'sera', text: 'Firmado. —Revisa su firma con una lupa de joyero, por costumbre—. Buena letra. Bienvenid{o|a|e} al despacho. No se lo cuente a nadie. Bueno: cuénteselo a quien le convenga.' },
 			] },

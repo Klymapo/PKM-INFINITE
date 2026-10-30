@@ -52,6 +52,20 @@
 **Último bloque terminado por Mario:** B4 (2026-10-10, 22:46). **Último publicado:** B5 (2026-10-11).
 **Bloques publicados:** B1, B2, B3 (B2 y B3 publicados el 2026-10-05/06 en sesión de día, a petición de Mario) y **B4 (Kanto)**, publicado la madrugada del 2026-10-06. ~~Vamos 3 bloques por delante~~ (obsoleto): Mario terminó el B4, vamos **0 por delante** y toca el B5.
 
+## Diseño del 2026-10-29 (9 puntos) · sesión del 2026-10-30
+
+Todos publicados en `main` salvo el negocio de Serafina (preparado, sin publicar porque Paldea aún no existe):
+1. ✔ Encargado exclusivo (+ aviso para partidas con un encargado repetido). Prueba `encargados-test.mjs`.
+2. ✔ «Recoger todo» y aviso de almacén casi lleno (lista, Más y al abrir la partida).
+3. ✔ Decisiones con eco: Buzón (Más › Buzón) + 20 piezas (b01–b06).
+4. ✔ 7 encargos de conocidos por el Buzón.
+5. ✔ Plantilla de trabajadores, «Sugerir», guía de tipos, ⭐ favoritos, «Dónde rendiría». Prueba `plantilla-test.mjs`.
+6. ✔ Fotografía: cámara de Alexia, 9 momentos raros, venta en la Gaceta y Diario › Rotom › 🎞️ Fotos. Prueba `foto-test.mjs`.
+7. ✔ Expediciones (Más › Expediciones). Prueba `expediciones-test.mjs`.
+8. ✔ Botica de Iris con Kaori (`b06_botica`).
+9. ◐ Serafina: **reconciliación publicada**; **negocio pendiente** en `app/content/pendientes/serafina-negocio.js` hasta que exista Paldea (conectarlo en ese bloque).
+Pendientes del lector independiente: ver `secreto/registro.md`, «Publicación del 2026-10-30».
+
 ## Pedidos de Mario pendientes
 
 ### Regiones por completar (pedido de Mario, 2026-10-28)

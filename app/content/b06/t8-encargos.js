@@ -204,7 +204,7 @@ export default {
 			],
 			items: [{ id: 'superpotion', n: 1 }],
 			intro: '¡Amistoso! Eso quiere decir que no me enfado si pierdo. Mucho. ¡Starmie, tú al final, que te conozco!',
-			win: '¡Vale, vale! Amistoso. Lo he dicho yo. …¡La próxima no es amistoso!',
+			win: '¡Ya, ya! Amistoso. Lo he dicho yo. …¡La próxima no es amistoso!',
 			lose: '¡Ja! Amistoso, ¿eh? Ven cuando quieras la revancha. La bici te la presto para venir.' },
 	},
 
@@ -330,7 +330,7 @@ export default {
 				] },
 				{ text: 'Ofrecerle una baya.', then: [
 					{ text: 'Le enseñas una baya. El Psyduck la mira. Mira la bici. Mira la baya otra vez. Se le nota el esfuerzo.' },
-					{ text: 'Al final baja, coge la baya con las dos manos y se la come muy despacio, de pie junto a la rueda, sin dejar de mirarte. No se va. Pero ya no está encima.' },
+					{ text: 'Al final baja, toma la baya con las dos manos y se la come muy despacio, de pie junto a la rueda, sin dejar de mirarte. No se va. Pero ya no está encima.' },
 				] },
 				{ text: 'Levantarlo con cuidado.', then: [
 					{ text: 'Lo levantas por debajo de los brazos. Pesa más de lo que parece. Se deja hacer, con la cabeza ladeada, y cuando lo dejas en las tablas del puente se queda exactamente en la misma postura.' },
@@ -343,7 +343,7 @@ export default {
 		],
 		enc_misty_fin: [
 			{ text: 'En cuanto entras con la bici por la puerta del gimnasio, Misty sale del agua de un salto y llega hasta ti chorreando.' },
-			{ say: 'misty', text: '¡Mi bici! ¡Entera! ¡Con las dos ruedas! —La mira por todos los lados—. ¿Sabes cuántas bicis me han durado una semana con las dos ruedas puestas? ¡Ninguna! ¡Esta es la primera!' },
+			{ say: 'misty', text: '¡Mi bici! ¡Entera! ¡Con las dos ruedas! —La mira por todos los lados—. ¿Sabes cuántas bicis me han durado una semana con las dos ruedas puestas? ¡Casi ninguna! ¡Y esta, entera!' },
 			{ say: 'misty', text: '¿Y el Psyduck? ¿Le has hecho algo? No, ¿verdad? Ya sé que no. Tienes cara de no hacerle nada a nadie. Bueno, a nadie que no te rete.' },
 			{ say: 'misty', text: 'Toma, lo prometido. —Te pone en la mano un frasquito y un puñado de billetes un poco mojados—. El agua es de la piscina grande. Mística, dicen. Yo digo que es de Celeste, que es mejor.' },
 			{ give: 'mysticwater' },
@@ -363,13 +363,13 @@ export default {
 					{ call: 'enc_misty_combate' },
 				] },
 				{ text: '«Otro día.»', then: [
-					{ say: 'misty', text: '¡Vale! Pero no tardes años, ¿eh? Que me aburro.' },
+					{ say: 'misty', text: '¡Bueno! Pero no tardes años, ¿eh? Que me aburro.' },
 				] },
 			] },
 		],
 		enc_misty_combate: [
 			{ battle: 'enc_misty_amistoso', lose: 'continue', onWin: [
-				{ say: 'misty', text: '¡Hala! —Se sienta en el borde de la piscina con los pies en el agua—. Amistoso, amistoso… ¡y me has ganado en serio! Me gusta. Así se entrena.' },
+				{ say: 'misty', text: '¡Uf! —Se sienta en el borde de la piscina con los pies en el agua—. Amistoso, amistoso… ¡y me has ganado en serio! Me gusta. Así se entrena.' },
 				{ say: 'misty', text: 'La próxima vez que pierda la bici, te escribo a ti. No a Brock. Brock me la devuelve con un lazo.' },
 			], onLose: [
 				{ say: 'misty', text: '¡Gané! ¡Amistosamente! —Te tiende la mano para levantarte—. Cura a los tuyos, que han peleado bien. La revancha, cuando quieras.' },
@@ -429,7 +429,8 @@ export default {
 				{ text: 'Sentarte cerca, mirando el pebetero y no a ella.', then: [
 					{ set: { 'flag.enc_lila_abajo': true } },
 					{ text: 'Te sientas en el suelo, a unos pasos, y miras el pebetero. No a ella. No dices nada. Lila hace lo mismo a tu lado.' },
-					{ say: 'lila', text: '—Muy bajito, sin dejar de mirar el bronce—. Eso. Eso es lo que hiciste. No hiciste nada. Fue lo mejor que hizo nadie por mí.' },
+					{ say: 'lila', text: '—Muy bajito, sin dejar de mirar el bronce—. Eso. Eso es lo que hiciste. No hiciste nada. Fue lo mejor que hizo nadie por mí.', cond: 'flag.b01_lila_llama' },
+					{ say: 'lila', text: '—Muy bajito, sin dejar de mirar el bronce—. Eso. Eso es lo que me faltaba aquella noche. Ahora lo sé.', cond: '!flag.b01_lila_llama' },
 				] },
 				{ text: 'Contarle una vez que tuviste miedo.', then: [
 					{ text: 'Te agachas a su altura y le cuentas una vez que tuviste miedo. No una de las grandes. Una pequeña, de las que nadie ve. Ella escucha con la boca un poco abierta.' },
@@ -466,11 +467,13 @@ export default {
 			{ if: KALENA_CONOCIDA, then: [
 				{ say: 'kalena', text: 'Tú. —Kalena se acerca desde el abrevadero secándose las manos—. Kiawe dijo que vendría alguien. No dijo que fueras tú. Mejor. Tú no tiras las cosas.' },
 			], else: [
-				{ say: 'kalena', as: 'Capataza', text: 'Tú. —La capataza se acerca desde el abrevadero secándose las manos—. Kiawe dijo que vendría alguien. No dijo quién. Vale cualquiera que no tire las cosas.' },
+				{ say: 'kalena', as: 'Capataza', text: 'Tú. —La capataza se acerca desde el abrevadero secándose las manos—. Kiawe dijo que vendría alguien. No dijo quién. Sirve cualquiera que no tire las cosas.' },
 			] },
-			{ say: 'kalena', text: 'Una para la capitana del agua. Otra para la kahuna. Fría. Si la paja se seca, se calienta. Si se calienta, se quejan. Y luego Kiawe viene a quejarse aquí. Y aquí no se quejan conmigo.' },
+			{ say: 'kalena', text: 'Una para la capitana del agua. Otra para la kahuna. Fría. Si la paja se seca, se calienta. Si se calienta, se quejan. Y luego Kiawe viene a quejarse aquí. Y aquí no se quejan conmigo.', cond: KALENA_CONOCIDA },
+			{ say: 'kalena', as: 'Capataza', text: 'Una para la capitana del agua. Otra para la kahuna. Fría. Si la paja se seca, se calienta. Si se calienta, se quejan. Y luego Kiawe viene a quejarse aquí. Y aquí no se quejan conmigo.', cond: '!(' + KALENA_CONOCIDA + ')' },
 			{ give: 'lechekiawe', n: 2 },
-			{ say: 'kalena', text: 'Hala. Ritmo.' },
+			{ say: 'kalena', text: 'Andando. Ritmo.', cond: KALENA_CONOCIDA },
+			{ say: 'kalena', as: 'Capataza', text: 'Andando. Ritmo.', cond: '!(' + KALENA_CONOCIDA + ')' },
 			{ quest: 'enc_kiawe', stage: 'reparto' },
 		],
 		enc_kiawe_comprobar: [

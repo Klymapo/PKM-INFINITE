@@ -86,9 +86,9 @@ export default {
 					{ set: { 'flag.sera_nota_enviada': true, 'flag.sera_nota_verdad': true } },
 					{ af: { sera: 1 } },
 					{ if: SERA_ROTO, then: [
-						{ text: 'Escribes cuatro líneas. Que en Iris teníais un trato y no lo cumpliste. Que no fue un despiste: lo decidiste tú. Que no le pides que lo entienda; solo que lo sepa por ti y no por un informe.' },
+						{ text: 'Escribes cuatro líneas. Que en Iris no cumpliste el trato de Crómlech. Que no fue un despiste: lo decidiste tú. Que no le pides que lo entienda; solo que lo sepa por ti y no por un informe.' },
 					], else: [
-						{ text: 'Escribes cuatro líneas. Que en Crómlech contaste lo que viste porque creías que había que contarlo. Que no te arrepientes de eso. Que sí te arrepientes de que se enterara por el periódico y no por ti, a la cara.' },
+						{ text: 'Escribes cuatro líneas. Que en Crómlech contaste lo que viste porque creías que había que contarlo. Que no te arrepientes de eso. Que sí te arrepientes del cómo: que tuviera que leerse en el periódico, delante de todo Kalos, sin haberlo hablado antes con ella en privado.' },
 					] },
 					{ text: 'Doblas la tarjeta por la mitad. El guardia la mete en un sobre sin leerla, lo cierra y lo deja en una bandeja de plata que pone «Dirección».' },
 					{ text: '«Correo de la tarde», dice. Y vuelve a mirar la pared.' },
@@ -130,29 +130,29 @@ export default {
 				{ say: 'sera', text: 'En Iris teníamos un trato. Usted lo aceptó en Crómlech, sin que nadie le obligara. Y le dio la pieza a la Policía Internacional. —No levanta la voz. No le hace falta—. ¿Por qué?' },
 			] },
 			{ if: 'flag.b01_trato_sera && flag.b02_frag_melia', then: [
-				{ say: 'sera', text: 'En Iris teníamos un trato. Usted lo aceptó en Crómlech, sin que nadie le obligara. Y dejó que destruyeran la pieza delante de usted, con un lanzallamas, que es la forma menos elegante de destruir algo. —No levanta la voz. No le hace falta—. ¿Por qué?' },
+				{ say: 'sera', text: 'En Iris teníamos un trato. Usted lo aceptó en Crómlech, sin que nadie le obligara. Y se la dio a Melia para que la destruyera delante de usted, con un lanzallamas, que es la forma menos elegante de destruir algo. —No levanta la voz. No le hace falta—. ¿Por qué?' },
 			] },
 			{ if: SERA_ROTO + ' && !flag.b02_frag_handsome && !flag.b02_frag_melia', then: [
 				{ say: 'sera', text: 'En Iris teníamos un trato. No se cumplió. —No levanta la voz. No le hace falta—. ¿Por qué?' },
 			] },
 			{ if: 'flag.b01_delatar', then: [
 				{ if: 'flag.b02_frag_sera', then: [{ say: 'sera', text: 'En Iris me devolvió la pieza. Eso consta, y consta bien. Lo de Crómlech también consta.' }] },
-				{ say: 'sera', text: 'En Crómlech le ofrecí hablar. Usted prefirió que habláramos a través de tres páginas de periódico. Me enteré de su opinión con el desayuno, como todo Kalos. —Se ajusta un guante—. ¿Por qué?' },
+				{ say: 'sera', text: 'En Crómlech le ofrecí hablar. Usted me contestó que al día siguiente lo sabría todo Kalos. Y lo supo. Me leí en tres páginas de periódico con el desayuno, como todo Kalos. —Se ajusta un guante—. ¿Por qué?' },
 			] },
 			{ prompt: 'Serafina espera. No mira el reloj.', choice: [
 				{ text: '«Porque creí que era lo correcto. Y lo volvería a hacer.»', then: [{ call: 'sera_recon_correcto' }] },
 				{ text: '«Porque no me fiaba de Lemnis. De ti, sí.»', cond: SERA_ROTO, then: [{ call: 'sera_recon_lemnis' }] },
 				{ text: '«Porque no me fiaba de Lemnis. De usted no lo sabía.»', cond: '!(' + SERA_ROTO + ')', then: [{ call: 'sera_recon_lemnis' }] },
 				{ text: '«Me equivoqué en cómo lo hice. Tenía que habértelo dicho antes, a la cara.»', cond: SERA_ROTO, then: [{ call: 'sera_recon_cara' }] },
-				{ text: '«Me equivoqué en cómo lo hice. Tenía que habérselo dicho antes, a la cara.»', cond: '!(' + SERA_ROTO + ')', then: [{ call: 'sera_recon_cara' }] },
+				{ text: '«Me equivoqué en cómo lo hice. Tenía que haberlo hablado con usted antes, en privado.»', cond: '!(' + SERA_ROTO + ')', then: [{ call: 'sera_recon_cara' }] },
 				{ text: '«No tuve opción. Me obligaron.»', then: [
 					{ af: { sera: -1 } },
 					{ say: 'sera', text: 'No. —Sin levantar la voz, sin moverse del coche—. Nadie le obligó. Yo estaba al otro lado. Recuerdo su voz. Era la de alguien que había decidido.' },
-					{ say: 'sera', text: 'Le daré otra oportunidad, porque ha venido usted con buena letra y yo con el motor apagado. La verdad, por favor. Me la puede decir. No muerdo. —Pausa—. Solo en los consejos de administración.' },
+					{ say: 'sera', text: 'Le daré otra oportunidad, porque me ha escrito usted con buena letra y yo he venido con el motor apagado. La verdad, por favor. Me la puede decir. No muerdo. —Pausa—. Solo en los consejos de administración.' },
 					{ prompt: 'Esta vez, la verdad.', choice: [
 						{ text: '«Porque creí que era lo correcto. Y lo volvería a hacer.»', then: [{ call: 'sera_recon_correcto' }] },
 						{ text: '«Porque no me fiaba de Lemnis.»', then: [{ call: 'sera_recon_lemnis' }] },
-						{ text: '«Me equivoqué en cómo lo hice. Debí decirlo antes, a la cara.»', then: [{ call: 'sera_recon_cara' }] },
+						{ text: '«Me equivoqué en cómo lo hice. Debí hablarlo antes, a la cara.»', then: [{ call: 'sera_recon_cara' }] },
 					] },
 				] },
 			] },
@@ -190,7 +190,7 @@ export default {
 			{ say: 'sera', text: 'Tengo un avión dentro de cuarenta minutos y un consejo de administración que aún no sabe que voy a llegar tarde. Me hace ilusión decírselo. —Abre la puerta del coche—. Cuídate, {jugador}.', cond: 'flag.sera_tu' },
 			{ text: 'El coche negro arranca sin ruido y se pierde al final de la calle. En la acera, donde estaba apoyada, no ha quedado ni una arruga.' },
 			{ set: { 'flag.sera_reconciliada': true } },
-			{ intel: { npc: 'sera', text: 'Vino a verte en persona por tu nota. Le dijiste la verdad. Habéis quedado en una «norma de etiqueta»: si alguno no va a cumplir algo, se lo dice antes al otro, a la cara.' } },
+			{ intel: { npc: 'sera', text: 'Vino a verte en persona por tu nota. Le dijiste la verdad. Quedaron en una «norma de etiqueta»: si alguno no va a cumplir algo, se lo dice antes al otro, a la cara.' } },
 			{ if: DIARIO, then: [
 				{ diary: 'Hoy ha venido a vernos la señorita Serafina. Yo solo, escribiendo. Coche negro. Guantes.\n\nHablaron poco. Se dieron la mano. Con guante, pero se la dieron.\n\nEl aparato plateado ya no está gris. Lo he dejado arriba. Por si llama.', cond: 'flag.b06_eco_purgado && flag.sera_canal_abierto' },
 				{ diary: 'Hoy ha venido a vernos la señorita Serafina. Yo solo, escribiendo. Coche negro. Guantes.\n\nHablaron poco. Se dieron la mano. Con guante, pero se la dieron. Le dio una tarjeta a {jugador}. Azul. Huele a caro.', cond: 'flag.b06_eco_purgado && !flag.sera_canal_abierto' },
@@ -213,7 +213,8 @@ export default {
 		],
 		sera_recon_cara: [
 			{ af: { sera: 2 } },
-			{ say: 'sera', text: 'A la cara. —Asiente una vez, exacta—. No me ofende que me lleven la contraria, {jugador}. Me ofende enterarme la última. Es una cuestión de modales, no de opiniones.' },
+			{ say: 'sera', text: 'A la cara. —Asiente una vez, exacta—. No me ofende que me lleven la contraria, {jugador}. Me ofende enterarme la última. Es una cuestión de modales, no de opiniones.', cond: SERA_ROTO },
+			{ say: 'sera', text: 'En privado. —Asiente una vez, exacta—. No me ofende que me lleven la contraria, {jugador}. Me ofende que me la lleven delante de todo el mundo. Es una cuestión de modales, no de opiniones.', cond: '!(' + SERA_ROTO + ')' },
 		],
 	},
 };

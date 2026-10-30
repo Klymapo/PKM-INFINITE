@@ -1,13 +1,13 @@
 # Registro automático (no editar a mano)
 
-Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
+Generado: 2026-10-30T07:10:47.462Z · contenido 2026-10-30.5
 
 ## Apariciones de NPCs (escenas por bloque)
 
 | NPC | b01 | b02 | b03 | b04 | b05 | b06 | Total |
 |---|---|---|---|---|---|---|---|
 | Acromo (`acromo`) | 0 | 0 | 0 | 0 | 0 | 9 | 9 ⚠ 1 bloque(s) |
-| Alexia (`alexia`) | 7 | 2 | 0 | 3 | 10 | 1 | 23 |
+| Alexia (`alexia`) | 7 | 2 | 0 | 3 | 10 | 3 | 25 |
 | Dr. Ansel Moreau (`ansel`) | 3 | 0 | 0 | 1 | 1 | 0 | 5 |
 | Antón (`anton`) | 0 | 6 | 0 | 0 | 0 | 0 | 6 ⚠ 1 bloque(s) |
 | Atenea (`atenea`) | 0 | 3 | 0 | 5 | 0 | 0 | 8 ⚠ 2 bloque(s) |
@@ -18,11 +18,11 @@ Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 | Ramiro Alcalde (`becario_elm`) | 0 | 7 | 8 | 0 | 1 | 0 | 16 |
 | Bill (`bill`) | 0 | 0 | 0 | 6 | 1 | 0 | 7 ⚠ 2 bloque(s) |
 | Blanca (`blanca`) | 4 | 3 | 0 | 0 | 0 | 0 | 7 ⚠ 2 bloque(s) |
-| Brock (`brock`) | 6 | 3 | 0 | 0 | 0 | 10 | 19 |
+| Brock (`brock`) | 6 | 3 | 0 | 0 | 0 | 11 | 20 |
 | Calder Wynn (`calder`) | 0 | 0 | 0 | 0 | 15 | 4 | 19 ⚠ 2 bloque(s) |
 | Camila (`camila`) | 0 | 0 | 0 | 0 | 0 | 4 | 4 ⚠ 1 bloque(s) |
 | Camille (`camille`) | 0 | 0 | 0 | 0 | 2 | 2 | 4 ⚠ 2 bloque(s) |
-| Celia (`celia`) | 0 | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
+| Celia (`celia`) | 0 | 0 | 0 | 0 | 0 | 9 | 9 ⚠ 1 bloque(s) |
 | Nico (`cg_aviso_nico`) | 0 | 0 | 0 | 3 | 0 | 0 | 3 ⚠ 1 bloque(s) |
 | Olga (`cg_aviso_olga`) | 0 | 0 | 0 | 6 | 0 | 0 | 6 ⚠ 1 bloque(s) |
 | Damián (`cg_indice_damian`) | 0 | 0 | 0 | 5 | 0 | 0 | 5 ⚠ 1 bloque(s) |
@@ -45,43 +45,45 @@ Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 | Prof. Gadd (`gadd`) | 3 | 0 | 0 | 2 | 1 | 0 | 6 |
 | Gaspar (`gaspar`) | 8 | 6 | 4 | 0 | 10 | 2 | 30 |
 | Gladio (`gladio`) | 0 | 0 | 0 | 0 | 10 | 0 | 10 ⚠ 1 bloque(s) |
-| Handsome (`handsome`) | 12 | 11 | 1 | 9 | 3 | 10 | 46 |
+| Handsome (`handsome`) | 12 | 11 | 1 | 9 | 3 | 11 | 47 |
 | Héctor (`hector`) | 5 | 1 | 0 | 2 | 1 | 1 | 10 |
 | Hela (`hela`) | 0 | 0 | 0 | 0 | 10 | 0 | 10 ⚠ 1 bloque(s) |
 | Inés Garza (`ines`) | 0 | 0 | 0 | 0 | 0 | 6 | 6 ⚠ 1 bloque(s) |
 | Dra. Irene Solberg (`irene`) | 3 | 1 | 9 | 0 | 7 | 0 | 20 |
 | Campeona retirada (`jinete_boceto`) | 4 | 0 | 0 | 0 | 5 | 0 | 9 ⚠ 2 bloque(s) |
-| Kalena (`kalena`) | 0 | 0 | 0 | 0 | 6 | 0 | 6 ⚠ 1 bloque(s) |
-| Kaori (`kaori`) | 0 | 8 | 3 | 5 | 3 | 2 | 21 |
+| Kalena (`kalena`) | 0 | 0 | 0 | 0 | 6 | 1 | 7 ⚠ 2 bloque(s) |
+| Kaori (`kaori`) | 0 | 8 | 3 | 5 | 3 | 10 | 29 |
 | Kaudan (`kaudan`) | 0 | 0 | 0 | 0 | 11 | 0 | 11 ⚠ 1 bloque(s) |
 | Don Kekoa (`kekoa`) | 0 | 0 | 0 | 0 | 4 | 0 | 4 ⚠ 1 bloque(s) |
-| Kiawe (`kiawe`) | 0 | 0 | 0 | 0 | 14 | 0 | 14 ⚠ 1 bloque(s) |
+| Kiawe (`kiawe`) | 0 | 0 | 0 | 0 | 14 | 1 | 15 ⚠ 2 bloque(s) |
 | Kiyo (`kiyo`) | 0 | 0 | 3 | 3 | 4 | 0 | 10 |
 | Prof. Kukui (`kukui`) | 0 | 0 | 0 | 0 | 6 | 0 | 6 ⚠ 1 bloque(s) |
-| Kurt (`kurt`) | 0 | 7 | 0 | 0 | 0 | 0 | 7 ⚠ 1 bloque(s) |
+| Kurt (`kurt`) | 0 | 7 | 0 | 0 | 0 | 1 | 8 ⚠ 2 bloque(s) |
 | Lance (`lance`) | 0 | 0 | 9 | 0 | 0 | 0 | 9 ⚠ 1 bloque(s) |
 | Inspector Lebrun (`lebrun`) | 3 | 2 | 0 | 5 | 0 | 2 | 12 |
 | Leilani (`leilani`) | 0 | 0 | 0 | 0 | 26 | 1 | 27 ⚠ 2 bloque(s) |
-| Sabio Li (`li`) | 0 | 0 | 3 | 0 | 0 | 0 | 3 ⚠ 1 bloque(s) |
+| Sabio Li (`li`) | 0 | 0 | 3 | 0 | 0 | 2 | 5 ⚠ 2 bloque(s) |
 | Liam (`liam`) | 0 | 0 | 0 | 0 | 9 | 2 | 11 ⚠ 2 bloque(s) |
-| Lila (`lila`) | 8 | 3 | 3 | 1 | 0 | 0 | 15 |
+| Lila (`lila`) | 8 | 3 | 3 | 1 | 0 | 1 | 16 |
 | Lola Arriaga (`lola`) | 0 | 3 | 1 | 2 | 2 | 0 | 8 |
 | Lucien (`lucien`) | 5 | 3 | 0 | 0 | 8 | 0 | 16 |
 | Lulú (`lulu`) | 0 | 0 | 0 | 0 | 5 | 2 | 7 ⚠ 2 bloque(s) |
 | Magda Ivers (`magda`) | 0 | 0 | 0 | 8 | 0 | 0 | 8 ⚠ 1 bloque(s) |
 | Matière (`matiere`) | 5 | 6 | 0 | 0 | 1 | 1 | 13 |
-| Mayla (`mayla`) | 0 | 0 | 0 | 0 | 8 | 1 | 9 ⚠ 2 bloque(s) |
+| Mayla (`mayla`) | 0 | 0 | 0 | 0 | 8 | 2 | 10 ⚠ 2 bloque(s) |
 | Melia (`melia`) | 3 | 7 | 1 | 1 | 0 | 0 | 12 |
-| Misty (`misty`) | 0 | 0 | 0 | 14 | 7 | 0 | 21 ⚠ 2 bloque(s) |
-| Morti (`morti`) | 0 | 4 | 0 | 0 | 0 | 0 | 4 ⚠ 1 bloque(s) |
+| Mireille (`mireille`) | 0 | 0 | 0 | 0 | 1 | 0 | 1 ⚠ 1 bloque(s) |
+| Misty (`misty`) | 0 | 0 | 0 | 14 | 7 | 4 | 25 |
+| Morti (`morti`) | 0 | 4 | 0 | 0 | 0 | 1 | 5 ⚠ 2 bloque(s) |
 | Nate (`nate`) | 6 | 2 | 0 | 0 | 0 | 0 | 8 ⚠ 2 bloque(s) |
-| Nereida (`nereida`) | 0 | 0 | 0 | 0 | 8 | 0 | 8 ⚠ 1 bloque(s) |
+| Nereida (`nereida`) | 0 | 0 | 0 | 0 | 8 | 1 | 9 ⚠ 2 bloque(s) |
 | Nico Ferrer (`nico_ferrer`) | 0 | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Noa Lambert (`noa`) | 4 | 2 | 2 | 1 | 0 | 1 | 10 |
+| Odile (`odile`) | 0 | 0 | 0 | 0 | 2 | 0 | 2 ⚠ 1 bloque(s) |
 | Matías Olmedo (`olmedo`) | 0 | 0 | 0 | 0 | 0 | 3 | 3 ⚠ 1 bloque(s) |
 | Casilda Peña (`p7_casilda`) | 0 | 0 | 0 | 7 | 0 | 0 | 7 ⚠ 1 bloque(s) |
 | Ciro (`p7_ciro`) | 0 | 0 | 0 | 4 | 0 | 0 | 4 ⚠ 1 bloque(s) |
-| Dolores (`p7_dolores`) | 0 | 0 | 0 | 3 | 6 | 0 | 9 ⚠ 2 bloque(s) |
+| Dolores (`p7_dolores`) | 0 | 0 | 0 | 3 | 6 | 1 | 10 |
 | Evaristo (`p7_evaristo`) | 0 | 0 | 0 | 5 | 0 | 0 | 5 ⚠ 1 bloque(s) |
 | Jade Peña (`p7_jade`) | 0 | 0 | 0 | 3 | 0 | 0 | 3 ⚠ 1 bloque(s) |
 | La Mayor (`p7_mayor`) | 0 | 0 | 0 | 2 | 0 | 0 | 2 ⚠ 1 bloque(s) |
@@ -96,11 +98,11 @@ Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 | Rhi (`rhi`) | 13 | 5 | 6 | 9 | 5 | 0 | 38 |
 | Fabien Rouxel (`rouxel`) | 3 | 1 | 0 | 0 | 2 | 0 | 6 |
 | Sabrina (`sabrina`) | 0 | 0 | 0 | 2 | 6 | 0 | 8 ⚠ 2 bloque(s) |
-| Serafina Lemnis (`sera`) | 4 | 8 | 0 | 3 | 1 | 1 | 17 |
+| Serafina Lemnis (`sera`) | 4 | 8 | 0 | 3 | 1 | 5 | 21 |
 | Simón (`simon`) | 3 | 0 | 0 | 2 | 4 | 4 | 13 |
 | Adela (`sobrina`) | 0 | 0 | 5 | 14 | 11 | 0 | 30 |
 | Tadeo Lis (`tadeo`) | 0 | 0 | 0 | 0 | 0 | 2 | 2 ⚠ 1 bloque(s) |
-| Don Teodoro (`teodoro`) | 0 | 0 | 0 | 0 | 0 | 4 | 4 ⚠ 1 bloque(s) |
+| Don Teodoro (`teodoro`) | 0 | 0 | 0 | 0 | 0 | 5 | 5 ⚠ 1 bloque(s) |
 | Tía Rosa (`tia_rosa`) | 0 | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Tobías (`tobias`) | 8 | 0 | 5 | 8 | 2 | 0 | 23 |
 | Ulises (`viajero`) | 3 | 2 | 1 | 1 | 1 | 13 | 21 |
@@ -675,6 +677,11 @@ Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 - `b06_bastien_sale` — b06:b06_bastien_sujeto
 - `b06_bastien_sujeto` — b06:b06_bastien_sujeto
 - `b06_bastien_visto` — b06:b06_bastien_cabina
+- `b06_bot_abierta` — b06:b06_bot_entrada
+- `b06_bot_charla_1` — b06:b06_bot_charla
+- `b06_bot_li` — b06:b06_bot_li_llega
+- `b06_bot_propuesta` — b06:b06_bot_propuesta
+- `b06_bot_te_visto` — b06:b06_bot_up_te
 - `b06_brock_cocina` — b06:b06_brock_cocina
 - `b06_brock_comida` — b06:b06_brock_carpa
 - `b06_brock_fiambrera` — b06:b06_brock_despues
@@ -837,6 +844,15 @@ Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 - `cg_puente_prueba` — b04:cg_puente_desafio
 - `cg_puente_victoria` — b04:cg_puente_desafio
 - `cg_red_encendido` — b04:cg_red_colina
+- `eco_b06_brock_bayas` — b06:eco_b06_brock_visita
+- `enc_celia_panal_visto` — b06:enc_celia_panal
+- `enc_kiawe_mayla` — b06:enc_kiawe_mayla
+- `enc_kiawe_nereida` — b06:enc_kiawe_nereida
+- `enc_li_1` — b06:enc_li_juncos
+- `enc_li_2` — b06:enc_li_rama
+- `enc_li_3` — b06:enc_li_piedras
+- `enc_lila_abajo` — b06:enc_lila_torre
+- `enc_misty_psyduck` — b06:enc_misty_bici
 - `ev_hwr_sinistea` — b05:ev_hwr_vigilia
 - `lola_1` — b02:lola_trigal_2
 - `lola_2` — b03:lola_caoba
@@ -939,6 +955,7 @@ Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 - `p9_copa_blastoisinite` — b05:p9_copa_mostrador
 - `p9_copa_charizarditex` — b05:p9_copa_mostrador
 - `p9_copa_charizarditey` — b05:p9_copa_mostrador
+- `p9_copa_explicada` — b05:p9_copa_explica
 - `p9_copa_garchompite` — b05:p9_copa_mostrador
 - `p9_copa_houndoominite` — b05:p9_copa_mostrador
 - `p9_copa_manectite` — b05:p9_copa_mostrador
@@ -971,12 +988,21 @@ Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 - `p9_mareep_nube` — b05:p9_nube_bizcocho
 - `p9_mareep_rosada_contigo` — b05:p9_mareep_final
 - `p9_mareep_rosada_vive` — b05:p9_mareep_final
+- `p9_pesas_explicada` — b05:p9_pesas_explica
 - `p9_pesas_vista` — b05:p9_pesas_llega
 - `p9_snorlium` — b05:p9_fest_concurso
 - `p9_terror_1` — b05:p9_terror
 - `p9_terror_premio` — b05:p9_terror
 - `p9_vela_1` — b05:p9_vela_dolores
 - `p9_vela_fin` — b05:p9_vela_fin
+- `sera_aviso_diario` — b06:sera_aviso_diario
+- `sera_canal_abierto` — b06:sera_reconciliacion
+- `sera_nota_enviada` — b06:sera_nota
+- `sera_nota_formal` — b06:sera_nota
+- `sera_nota_verdad` — b06:sera_nota
+- `sera_promesa` — b06:sera_reconciliacion
+- `sera_reconciliada` — b06:sera_reconciliacion
+- `sera_tu` — b06:sera_reconciliacion
 
 ## Misiones
 
@@ -1122,6 +1148,13 @@ Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 - `b06_s_iniciales` (side) Los tres de Teselia: buscar → hecha
 - `b06_s_chamota` (side) La Noche Blanca: testigos → decreto → campanario → hipotesis → verdad → hecha
 - `b06_s_larvesta` (side) Arena caliente: huevo → hecha
+- `enc_kurt` (side) Un paquete para Iris: iris → azalea → hecha
+- `enc_li` (side) Lo que se llevó el viento: buscar → volver → hecha
+- `enc_misty` (side) ¡Urgente! (más o menos): puente → celeste → hecha
+- `enc_dolores` (side) Un brazo: torre → lavanda → hecha
+- `enc_lila` (side) E-esto… un favor pequeño: yantra → hecha
+- `enc_kiawe` (side) Reparto: rancho → reparto → wela → hecha
+- `enc_celia` (side) Miel para un horno: miel → horno → teodoro → hecha
 
 ## Entrenadores con nombre de NPC
 
@@ -1248,6 +1281,7 @@ Generado: 2026-10-29T04:02:51.892Z · contenido 2026-10-28.3
 - `plasma_dr_1` (b06) Recluta: Seviper 65, Scrafty 65
 - `plasma_dr_2` (b06) Recluta: Garbodor 65, Krookodile 66
 - `plasma_dr_3` (b06) Isidoro: Cofagrigus 65, Weavile 66, Golurk 66, Mandibuzz 67
+- `enc_misty_amistoso` (b06) Misty: Golduck 55, Lapras 55, Gyarados 55, Starmie 57
 
 ## Nombres de entrenadores usados (para no repetir)
 
