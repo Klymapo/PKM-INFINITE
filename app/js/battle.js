@@ -521,6 +521,9 @@ export class BattleCtl {
 	canOfferShift() {
 		const b = this.battle;
 		if (!this.cfg.shift || this.wild || b.p1.requestState) return false;
+		// Solo si el rival cambia porque su Pokémon se debilitó; no por Ida y Vuelta, Voltiocambio, Rugido, etc. (bug de Mario, 2026-10-30)
+		const foe = b.p2.active[0];
+		if (!foe || !(foe.fainted || foe.hp <= 0)) return false;
 		const me = b.p1.active[0];
 		if (!me || me.fainted || me.hp <= 0) return false;
 		return b.p1.pokemon.some(p => !p.isActive && !p.fainted && p.hp > 0);

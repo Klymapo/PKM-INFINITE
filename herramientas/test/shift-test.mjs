@@ -51,5 +51,16 @@ for (const mode of ['rechaza', 'acepta']) {
 	const r = ctl.turn(atk(ctl));
 	check(!r.shiftOffer && ctl.active('p2') && !ctl.active('p2').fainted, 'con estilo Fijo no pregunta');
 }
+// Si el rival se retira con Ida y Vuelta (sin caer), no se pregunta (bug de Mario, 2026-10-30)
+{
+	newGame({ name: 'Mario' });
+	G.party.push(createPokemon('snorlax', { level: 60, moves: ['splash'] }));
+	G.party.push(createPokemon('lucario', { level: 60, moves: ['aurasphere'] }));
+	const t = { id: 'uturn', name: 'Prueba', cls: 'Entrenador', ai: 1, team: [{ sp: 'scizor', lv: 60, moves: ['uturn'] }, { sp: 'magikarp', lv: 5, moves: ['splash'] }] };
+	const ctl = new BattleCtl({ kind: 'trainer', foes: buildTrainerTeam(t, createPokemon), trainer: t, terrain: 'gym', shift: true, seed: 'sodium,00000000000000000000000000000001' });
+	ctl.start();
+	const r = ctl.turn({ type: 'move', i: 0 });
+	check(!r.error && !r.shiftOffer && !ctl.options().shift, 'tras Ida y Vuelta del rival no ofrece cambiar');
+}
 console.log(fails ? `FALLAN ${fails}` : 'Todo bien');
 process.exit(fails ? 1 : 0);
