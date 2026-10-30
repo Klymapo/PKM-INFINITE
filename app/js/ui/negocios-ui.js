@@ -10,7 +10,7 @@ import { fmtMoney, fmtText } from '../util.js';
 import {
 	synergiesOf,
 	ventureDef, ventureState, ventureList, owned, linesOf, joinVenture, upgradesOf, managersOf, slotsOf, storeDays, sharePct,
-	workerBonus, rates, pending, collect, shiftEffort, buyUpgrade, setManager, assignWorker, recallWorker, rollEvent, eventOptions, resolveEvent, tick,
+	workerBonus, rates, pending, collect, shiftEffort, buyUpgrade, setManager, managerBusyAt, managerConflicts, resolveManagerConflict, assignWorker, recallWorker, rollEvent, eventOptions, resolveEvent, tick, collectAll, fullIn, almostFull,
 } from '../negocios.js';
 
 let hooks = {}; // { travel(locId), summary(p, onChange) } — los pone screens.js
@@ -19,6 +19,7 @@ export function setVentureHooks(hk) { hooks = hk; }
 const npcOf = id => (id && C.npcs[id] ? { id, ...C.npcs[id] } : null);
 const perDay = n => n >= 1 ? (Math.round(n * 10) / 10).toLocaleString('es-MX') + ' al día' : n > 0 ? `1 cada ${Math.max(2, Math.round(1 / n))} días` : '—';
 const pctTxt = m => (m >= 1 ? '+' : '−') + Math.abs(Math.round((m - 1) * 100)) + ' %';
+const hoursTxt = hrs => hrs < 1 ? 'menos de una hora' : `${Math.round(hrs)} ${Math.round(hrs) === 1 ? 'hora' : 'horas'}`;
 const section = t => h('div', { class: 'section-title' }, t);
 
 /** Lista de negocios: los tuyos y las oportunidades. */
@@ -36,7 +37,7 @@ export function openVentures() {
 				const p = pending(v.id), r = rates(v.id);
 				total += r.money;
 				const nItems = Object.values(p.items).reduce((a, b) => a + b, 0);
-				const alert = v.st.pending ? '❗ Hay un imprevisto que decidir' : p.full ? '📦 Almacén lleno: pasa a recoger' : null;
+				const alert = v.st.pending ? '❗ Hay un imprevisto que decidir' : p.full ? '📦 Almacén lleno: pasa a recoger' : almostFull(v.id) ? `⏳ Se llena en ${hoursTxt(fullIn(v.id))}: recoge antes de perder producción` : null;
 				return h('button', { class: 'row neg-row' + (alert ? ' hl' : ''), onclick: () => openVenture(v.id, draw) },
 					h('div', { class: 'ico' }, v.def.icon || '🏠'),
 					h('div', { class: 'lbl' },
@@ -46,6 +47,15 @@ export function openVentures() {
 						alert ? h('div', { class: 's neg-alert' }, alert) : null),
 					h('span', { class: 'chev' }, '›'));
 			});
+			const tot = mine.reduce((a, v) => { const p = pending(v.id); return a + p.money + Object.values(p.items).reduce((x, y) => x + y, 0); }, 0);
+			body.push(h('div', { class: 'pad' }, h('button', { class: tot ? 'btn gold' : 'btn', style: { width: '100%' }, disabled: !tot, onclick: async () => {
+				const got = collectAll();
+				if (!got.n) return;
+				const its = Object.entries(got.items);
+				toast(`💰 ${fmtMoney(got.money)} de ${got.n} ${got.n === 1 ? 'negocio' : 'negocios'}${its.length ? ' y ' + its.map(([k, n]) => `${itemName(k)} ×${n}`).join(', ') : ''}`, 'quest');
+				await saveGame();
+				draw();
+			} }, tot ? 'Recoger todo' : 'Nada que recoger por ahora')));
 			body.push(section('Tus negocios'), h('div', { class: 'list' }, ...rows));
 			body.push(h('div', { class: 'note' }, `Entre todos te dan unos ${fmtMoney(total)} al día, más lo que produzcan en objetos. Se acumula aunque no juegues, hasta que se llena el almacén de cada uno.`));
 		}
@@ -58,7 +68,20 @@ export function openVentures() {
 		sheet.set(body);
 	};
 	draw();
+	askManagerConflicts(draw);
 	return sheet;
+}
+/** Partidas viejas con un encargado al frente de varios negocios: que Mario elija dónde se queda. */
+async function askManagerConflicts(redraw) {
+	const list = managerConflicts();
+	for (const c of list) {
+		const names = c.ventures.map(v => ventureDef(v).name);
+		const k = await choose(`**${c.name}** estaba al frente de ${names.slice(0, -1).join(', ')} y ${names.at(-1)} a la vez, y no le alcanza el día. ¿Dónde se queda? Los demás vuelven con su encargad@ de siempre.`, [...names, 'Decidir luego'], { cancel: names.length });
+		if (k >= names.length || k < 0) continue;
+		resolveManagerConflict(c.mid, c.ventures[k]);
+		toast(`${c.name} se queda en ${names[k]}`);
+	}
+	if (list.length) { await saveGame(); redraw?.(); }
 }
 const placeName = id => { const t = topLoc(id); const l = C.locations[id]; return l ? (t && t.id !== id ? `${t.name} › ${l.name}` : l.name) : ''; };
 
@@ -162,7 +185,7 @@ export function openVenture(id, onChange) {
 				h('div', { class: 'neg-bank-top' }, h('span', {}, 'Por recoger'), h('b', {}, fmtMoney(p.money))),
 				its.length ? h('div', { class: 'neg-items' }, ...its.map(([k, n]) => h('span', { class: 'neg-item' }, itemImg(k), `${itemName(k)} ×${n}`))) : null,
 				h('div', { class: 'neg-store' }, h('i', { style: { width: fillPct + '%' } })),
-				h('div', { class: 'neg-store-t' }, p.full ? '📦 Almacén lleno: lo que se produzca ahora se pierde' : `Almacén: ${(Math.round(p.fill * 10) / 10).toLocaleString('es-MX')} de ${p.cap} días`),
+				h('div', { class: 'neg-store-t' }, p.full ? '📦 Almacén lleno: lo que se produzca ahora se pierde' : almostFull(id) ? `⏳ Se llena en ${hoursTxt(fullIn(id))}: recoge pronto` : `Almacén: ${(Math.round(p.fill * 10) / 10).toLocaleString('es-MX')} de ${p.cap} días`),
 				h('button', { class: 'btn gold', disabled: !p.money && !its.length, onclick: () => act(async () => {
 					const got = collect(id);
 					if (got) toast(`💰 ${fmtMoney(got.money)}${Object.keys(got.items).length ? ' y ' + Object.entries(got.items).map(([k, n]) => `${itemName(k)} ×${n}`).join(', ') : ''}`, 'quest');
@@ -225,14 +248,31 @@ export function openVenture(id, onChange) {
 				body.push(grid);
 			}
 
-			// Encargado
+			// Encargado (cada encargado lleva un solo negocio: 2026-10-30)
 			const mgrs = managersOf(id);
-			if (mgrs.length > 1) {
+			if (mgrs.length > 1 || !st.manager) {
 				body.push(section('Quién lo lleva'));
-				body.push(h('div', { class: 'list' }, ...mgrs.map(m => h('button', { class: 'row neg-mgr' + (st.manager === m.id ? ' on' : ''), 'aria-pressed': String(st.manager === m.id), onclick: () => { if (st.manager !== m.id) { setManager(id, m.id); toast(`${m.name} queda al frente`); draw(); } } },
-					h('div', { class: 'neg-mpic' }, portraitFor(npcOf(m.npc) || { name: m.name })),
-					h('div', { class: 'lbl' }, h('div', { class: 't' }, m.name, st.manager === m.id ? h('span', { class: 'neg-tag' }, 'Al frente') : null), h('div', { class: 's' }, tx(m.desc || '')),
-						h('div', { class: 's neg-eff' }, [...Object.entries(m.mult || {}).map(([k, x]) => `${k === 'all' ? 'Todo' : (def.lines[k]?.name || k)} ${pctTxt(x)}`), m.wage ? `Sueldo ${fmtMoney(m.wage)}/día` : null].filter(Boolean).join(' · ')))))));
+				if (!st.manager) body.push(h('div', { class: 'note warn' }, 'Ahora mismo nadie está al frente. Elige a alguien de la lista.'));
+				body.push(h('div', { class: 'list' }, ...mgrs.map(m => {
+					const on = st.manager === m.id, busy = on ? null : managerBusyAt(m.id, id);
+					const busyName = busy ? ventureDef(busy)?.name : null;
+					const pick = () => act(async () => {
+						if (on) return;
+						if (busy) {
+							const k = await choose(`${m.name} está al frente de ${busyName}. Si lo traes aquí, ${busyName} vuelve a su encargad@ de siempre.`, ['Traerlo aquí', 'Mejor no'], { cancel: 1 });
+							if (k !== 0) return;
+						}
+						const r = setManager(id, m.id);
+						if (!r) return;
+						toast(`${m.name} queda al frente` + (r.from ? ` · ${ventureDef(r.from).name} vuelve con ${managersOf(r.from).find(x => x.id === r.back)?.name || 'nadie por ahora'}` : ''));
+						await saveGame();
+					});
+					return h('div', { class: 'row neg-mgr' + (on ? ' on' : '') + (busy ? ' busy' : '') },
+						h('div', { class: 'neg-mpic' }, portraitFor(npcOf(m.npc) || { name: m.name })),
+						h('div', { class: 'lbl' }, h('div', { class: 't' }, m.name, on ? h('span', { class: 'neg-tag' }, 'Al frente') : null), h('div', { class: 's' }, busy ? `Ocupad@ en ${busyName}` : tx(m.desc || '')),
+							h('div', { class: 's neg-eff' }, [...Object.entries(m.mult || {}).map(([k, x]) => `${k === 'all' ? 'Todo' : (def.lines[k]?.name || k)} ${pctTxt(x)}`), m.wage ? `Sueldo ${fmtMoney(m.wage)}/día` : null].filter(Boolean).join(' · '))),
+						on ? null : h('button', { class: 'btn' + (busy ? '' : ' primary'), 'aria-label': busy ? `Traer a ${m.name} aquí` : `Poner a ${m.name} al frente`, onclick: pick }, busy ? 'Traerlo aquí' : 'Elegir'));
+				})));
 			}
 
 			// Mejoras

@@ -62,8 +62,7 @@ export function joinVenture(id) {
 	G.player.money -= cost;
 	(G.neg ||= {})[id] = { owned: true, since: Date.now(), last: Date.now(), fill: 0, bank: { money: 0, items: {} }, frac: {}, effort: {}, ups: {}, workers: [], manager: null, boosts: [], lastEvent: Date.now(), pending: null, earned: 0, spent: cost, log: [] };
 	normEffort(id);
-	const m = managersOf(id)[0];
-	if (m) G.neg[id].manager = m.id;
+	G.neg[id].manager = homeManager(id);
 	for (const k in def.buy?.set || {}) setPath(k, def.buy.set[k]);
 	return { ok: true };
 }
@@ -193,6 +192,26 @@ export function collect(id) {
 	logVenture(id, `Recogiste ₽${p.money.toLocaleString('es-MX')}` + (Object.keys(p.items).length ? ' y ' + Object.entries(p.items).map(([k, n]) => `${D.items[k]?.name || k} ×${n}`).join(', ') : ''));
 	return p;
 }
+/** Horas reales que faltan para que se llene el almacén (0 si ya está lleno). */
+export function fullIn(id) {
+	const p = pending(id);
+	return Math.max(0, (p.cap - p.fill) * 24);
+}
+/** Aviso antes de perder producción: el almacén se llena en menos de `h` horas. */
+export const ALMOST_H = 12;
+export const almostFull = id => { const hrs = fullIn(id); return hrs > 0 && hrs <= ALMOST_H; };
+/** Recoge todos tus negocios de un toque. Devuelve { money, items, n } (n = negocios recogidos). */
+export function collectAll() {
+	const out = { money: 0, items: {}, n: 0 };
+	for (const v of ventureList()) {
+		if (v.status !== 'owned') continue;
+		const got = collect(v.id);
+		if (!got) continue;
+		out.n++; out.money += got.money;
+		for (const k in got.items) out.items[k] = (out.items[k] || 0) + got.items[k];
+	}
+	return out;
+}
 export function logVenture(id, text) {
 	const st = ventureState(id);
 	(st.log ||= []).unshift({ t: Date.now(), text });
@@ -237,13 +256,62 @@ export function buyUpgrade(id, upId) {
 	return { ok: true, upgrade: u };
 }
 
+// ---------- Encargados: cada uno lleva un solo negocio (bug de Mario, 2026-10-29) ----------
+/** Negocio tuyo (distinto de `except`) donde `mid` está al frente, o null. */
+export function managerBusyAt(mid, except = null) {
+	if (!mid) return null;
+	for (const vid in G.neg || {}) if (vid !== except && G.neg[vid]?.owned && G.neg[vid].manager === mid) return vid;
+	return null;
+}
+/** El encargado «de siempre» que puede llevar este negocio: el primero de la lista que no esté ocupado en otro. */
+export function homeManager(id, exclude = null) {
+	const m = managersOf(id).find(m => m.id !== exclude && !managerBusyAt(m.id, id));
+	return m ? m.id : null;
+}
+/** Encargados repetidos en partidas viejas: [{ mid, name, ventures: [id…] }]. */
+export function managerConflicts() {
+	const by = {};
+	for (const vid in G.neg || {}) { const st = G.neg[vid]; if (st?.owned && st.manager && C.ventures?.[vid]) (by[st.manager] ||= []).push(vid); }
+	return Object.entries(by).filter(([, l]) => l.length > 1).map(([mid, ventures]) => {
+		const m = managersOf(ventures[0]).find(x => x.id === mid);
+		return { mid, name: m?.name || C.npcs[mid]?.name || mid, ventures };
+	});
+}
+/** Resuelve un conflicto: `mid` se queda en `keep` y los demás negocios vuelven a su encargado de siempre. */
+export function resolveManagerConflict(mid, keep) {
+	for (const vid in G.neg || {}) {
+		const st = G.neg[vid];
+		if (vid === keep || !st?.owned || st.manager !== mid) continue;
+		tick(vid);
+		st.manager = null;
+		st.manager = homeManager(vid, mid);
+		const nm = managersOf(vid).find(m => m.id === st.manager)?.name;
+		logVenture(vid, nm ? `Encargad@: ${nm} (vuelve a llevarlo)` : 'Sin encargad@ por ahora');
+	}
+}
+/**
+ * Pone a `mid` al frente. Si estaba al frente de otro negocio, se lo trae: el otro vuelve a su encargado de siempre.
+ * Devuelve { ok, from?, back? } (from = negocio que dejó; back = quién vuelve a llevarlo, o null).
+ */
 export function setManager(id, mid) {
 	tick(id);
 	const st = ventureState(id);
 	if (!managersOf(id).some(m => m.id === mid)) return false;
+	const from = managerBusyAt(mid, id);
+	let back = null;
+	if (from) {
+		tick(from);
+		const ost = G.neg[from];
+		ost.manager = null;
+		// el que deja este negocio (si había uno) puede irse a llevar el otro si allí también vale
+		ost.manager = homeManager(from, mid);
+		back = ost.manager;
+		const nm = managersOf(from).find(m => m.id === back)?.name;
+		logVenture(from, `${managersOf(id).find(m => m.id === mid).name} se va a ${ventureDef(id).name}` + (nm ? `; vuelve ${nm}` : '; sin encargad@ por ahora'));
+	}
 	st.manager = mid;
 	logVenture(id, `Encargad@: ${managersOf(id).find(m => m.id === mid).name}`);
-	return true;
+	return { ok: true, from, back };
 }
 
 /** Manda a trabajar a un Pokémon del equipo o de una caja. src: { where: 'party'|'box', box, idx } */
@@ -319,7 +387,7 @@ export function resolveEvent(id, ev, opt) {
 export function venturesSummary() {
 	const list = ventureList();
 	const mine = list.filter(v => v.status === 'owned');
-	let ready = 0, money = 0;
-	for (const v of mine) { const p = pending(v.id); money += p.money; if (p.full || v.st.pending) ready++; }
-	return { mine: mine.length, offers: list.length - mine.length, ready, money };
+	let ready = 0, money = 0, almost = 0;
+	for (const v of mine) { const p = pending(v.id); money += p.money; if (p.full || v.st.pending) ready++; else if (almostFull(v.id)) almost++; }
+	return { mine: mine.length, offers: list.length - mine.length, ready, money, almost };
 }
