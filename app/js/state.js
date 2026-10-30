@@ -274,6 +274,7 @@ function scope() {
 		visited: id => !!G.visited[id],
 		cleared: id => !!G.cleared[id],
 		beat: id => !!G.beaten[id],
+		hitos: hitos(),
 		dex: Object.keys(G.dex.caught || {}).length, // especies capturadas (Pokédex)
 		maxLv: Math.max(0, ...G.party.map(p => p.lv)),
 		partySize: G.party.length,
@@ -281,6 +282,12 @@ function scope() {
 		zero,
 		// Estrellas de la foto de un momento raro (0 si no la tienes): foto('snorlax_hojas')
 		foto: id => G.fotos?.[id]?.q || 0,
+		// Amistad (0–255) de un Pokémon del jugador con nombre propio que va en el equipo, o 0: bond('riolu'), bond('candela')
+		bond: who => {
+			const p = who === 'riolu' ? G.party.find(x => x.uid === G.vars.riolu_uid)
+				: who === 'candela' && G.flags.b01_candela_unida ? G.party.find(x => x.nick === 'Candela' && ['mareep', 'flaaffy', 'ampharos'].includes(x.sp)) : null;
+			return p ? (p.happy ?? 0) : 0;
+		},
 		...extraScope(),
 	};
 }

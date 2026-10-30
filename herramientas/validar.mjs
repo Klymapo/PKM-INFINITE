@@ -22,8 +22,8 @@ const W = (w, m) => warns.push(`${w}: ${m}`);
 const KNOWN_CMDS = new Set(['daycare', 'torneo', 'say', 'text', 'choice', 'if', 'set', 'rep', 'af', 'give', 'take', 'money', 'pokemon', 'battle', 'wild', 'heal', 'go', 'quest', 'diary', 'intel', 'badge', 'cap', 'call', 'end', 'notice', 'toast', 'scene', 'wait', 'happy', 'learn', 'unlock', 'shop', 'save', 'evolveCheck', 'nickname', 'center', 'pc', 'mapUnlock', 'clearRoute', 'cutscene', 'input', 'forceEvolve', 'puzzle', 'read', 'venture', 'minigame', 'photo', 'photoSell', 'race', 'rival']);
 const AUX_KEYS = new Set(['cond', 'as', 'n', 'silent', 'stage', 'done', 'then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'lose', 'canRun', 'prompt', 'nickname', 'who', 'jingle', 'dim', 'mood', 'onSolve', 'onQuit', 'join', 'open', 'level', 'onSale', 'onNone']);
 const COND_NS = /\b(flag|flags|vars|rep|af|quest|done)\.([A-Za-z0-9_]+)/g;
-const COND_FUNCS = ['foto', 'has', 'count', 'badge', 'inParty', 'owns', 'seen', 'caught', 'visited', 'cleared', 'beat', 'date', 'zero', 'works', 'partner'];
-const COND_VARS = ['badges', 'dex', 'money', 'maxLv', 'partySize', 'pron', 'time', 'night', 'day', 'morning', 'evening', 'season', 'year', 'weekday', 'true', 'false', 'null', 'undefined'];
+const COND_FUNCS = ['foto', 'has', 'count', 'badge', 'inParty', 'owns', 'seen', 'caught', 'visited', 'cleared', 'beat', 'date', 'zero', 'works', 'partner', 'bond'];
+const COND_VARS = ['hitos', 'badges', 'dex', 'money', 'maxLv', 'partySize', 'pron', 'time', 'night', 'day', 'morning', 'evening', 'season', 'year', 'weekday', 'true', 'false', 'null', 'undefined'];
 
 const flagsSet = new Set(), flagsRead = new Map(), varsSet = new Set();
 for (const gid in C.gather || {}) flagsSet.add('rec_' + gid); // el motor activa flag.rec_<id> la primera vez que se recoge en un punto

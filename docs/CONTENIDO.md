@@ -374,6 +374,8 @@ Son expresiones JavaScript sobre este ámbito:
 | `season` | 'primavera', 'verano', 'otono', 'invierno' |
 | `date('10-31','11-02')` | rango de fechas |
 | `pron` | 'el', 'ella' o 'elle' |
+| `hitos` | medallas y grandes combates que subieron el tope (`app/js/state.js`) |
+| `bond('riolu')`, `bond('candela')` | amistad (0–255) de ese Pokémon con nombre propio si va en el equipo; 0 si no |
 
 ---
 

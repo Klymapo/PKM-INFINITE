@@ -34,6 +34,8 @@ export const CINE_EMOTES = ['!', '?', '...', 'heart', 'sweat', 'anger', 'note', 
 
 /** Valor especial de `mon`: el compañero del jugador (su Riolu o Lucario, tal como esté). */
 export const CINE_PARTNER = '{riolu}';
+/** Pokémon del jugador con nombre propio que pueden salir en una cinemática tal como estén ahora (especie y variocolor). */
+export const CINE_MINE = ['{riolu}', '{candela}'];
 
 export const CINE_SIZES = ['s', 'm', 'l'];
 export const CINE_AT = ['left', 'center', 'right'];
@@ -63,7 +65,7 @@ export function checkCutscene(spec, has = {}) {
 	const out = [], bad = (m) => out.push(m);
 	const one = (v, list, what) => { if (v !== undefined && !list.includes(v)) bad(`${what} desconocido: ${JSON.stringify(v)}`); };
 	const keys = (o, list, what) => { for (const k in o) if (!list.includes(k)) bad(`clave desconocida en ${what}: "${k}"`); };
-	const exists = (kind, id, what) => { if (id === undefined || id === null) return; if (typeof id !== 'string') { bad(`${what}: debe ser un id`); return; } if (kind === 'npc' && id === 'jugador') return; if (kind === 'species' && id === CINE_PARTNER) return; if (has[kind] && !has[kind](id)) bad(`${what} inexistente: ${id}`); };
+	const exists = (kind, id, what) => { if (id === undefined || id === null) return; if (typeof id !== 'string') { bad(`${what}: debe ser un id`); return; } if (kind === 'npc' && id === 'jugador') return; if (kind === 'species' && CINE_MINE.includes(id)) return; if (has[kind] && !has[kind](id)) bad(`${what} inexistente: ${id}`); };
 	const checkBg = (b, where) => { if (b !== undefined && (!b || typeof b !== 'object')) bad(`${where}: bg debe ser un objeto { type, … }`); };
 	if (!spec || typeof spec !== 'object') return ['la cinemática no es un objeto'];
 	keys(spec, CINE_SCENE_KEYS, 'la escena');

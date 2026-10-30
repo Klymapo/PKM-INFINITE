@@ -177,3 +177,5 @@ node herramientas/test/cine-test.mjs     # todas las cinemáticas publicadas con
 ```
 
 Para verla: sirve `app/` y, en la consola del navegador, `(await import('./js/ui/cine.js')).previewCutscene({ … })` (no apunta nada en el historial). Mírala también con Animaciones: No.
+
+**Pokémon del jugador con nombre propio (2026-10-30):** además de `mon: '{riolu}'`, `mon: '{candela}'` es Candela (la Mareep de Don Aurelio) tal como esté ahora: Mareep, Flaaffy o Ampharos. Úsalo solo en escenas cuyo `cond` exija que vaya en el equipo (`bond('candela') > 0`).

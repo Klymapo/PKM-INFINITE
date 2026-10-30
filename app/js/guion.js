@@ -55,9 +55,16 @@ export function findRiolu() {
 	return G.party.find(p => p.uid === uid) || G.boxes.flat().find(p => p.uid === uid) || null;
 }
 
+/** Candela, la Mareep de Don Aurelio (o lo que sea ahora), si va en el equipo. */
+export function findCandela() {
+	if (!G?.flags?.b01_candela_unida) return null;
+	return G.party.find(p => p.nick === 'Candela' && ['mareep', 'flaaffy', 'ampharos'].includes(D.species[p.sp]?.base ? toID(D.species[p.sp].base) : p.sp)) || null;
+}
+
 function findMon(who) {
 	if (!who) return G.party[0];
 	if (who === 'riolu') return findRiolu();
+	if (who === 'candela') return findCandela();
 	if (/^party\d$/.test(who)) return G.party[+who.slice(5)];
 	const id = toID(who);
 	return G.party.find(p => p.sp === id || D.species[p.sp]?.base === id) || G.party.find(p => p.uid === who);

@@ -92,6 +92,19 @@ with sync_playwright() as p:
             if tb: tb.evaluate('e => e.click()')
         time.sleep(0.5); shot(pg, 'rival-eleccion')
 
+    if not solo or 'historias' in solo:
+        pg.evaluate("""async () => {
+            const S = await import('./js/state.js'); const P = await import('./js/pokemon.js');
+            const c = P.createPokemon('flaaffy', { level: 30, nick: 'Candela', happy: 200 }); S.G.party.push(c); S.G.flags.b01_candela_unida = true;
+            const Gu = await import('./js/guion.js');
+            window.__hc = Gu.runScript('hc_candela_1');
+        }""")
+        for i in range(9):
+            time.sleep(1.4)
+            if i in (2, 4, 6): shot(pg, f'historia-{i}')
+            el = pg.query_selector('.cs, .cine, .overlay')
+            if el: el.evaluate('e => e.click()')
+
     b.close()
 srv.shutdown()
 print(f'Capturas en {args.salida}')

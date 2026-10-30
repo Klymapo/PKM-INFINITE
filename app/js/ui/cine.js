@@ -3,13 +3,13 @@
 import { C } from '../content.js';
 import { G, evalCond } from '../state.js';
 import { D, toID, TYPE_COLORS } from '../data.js';
-import { tx, findRiolu } from '../guion.js';
+import { tx, findRiolu, findCandela } from '../guion.js';
 import { monUrls, itemImg, sceneCanvas, pxItem, trainerImg } from '../art.js';
 import { retratoGrid } from '../retrato.js';
 import { phase } from '../time.js';
 import { h, portraitFor, logLine, logButton } from './core.js';
 import { fmtText } from '../util.js';
-import { asList, CINE_PARTNER } from '../cine-spec.js';
+import { asList, CINE_MINE } from '../cine-spec.js';
 export * from '../cine-spec.js';
 
 // ---------- Constantes de composición ----------
@@ -578,8 +578,8 @@ function runScene(spec, opts, resolve) {
 		return h('div', { class: 'cs-emote ico' }, cv);
 	};
 	// mon: '{riolu}' es el compañero del jugador tal como está ahora (Riolu o Lucario, variocolor si lo es)
-	const partner = () => { const p = findRiolu(); return p ? { sp: p.sp, shiny: !!p.shiny } : { sp: 'riolu', shiny: false }; };
-	const srcOf = a => a.item ? ['item', a.item] : a.mon ? ['mon', a.mon === CINE_PARTNER ? partner().sp : a.mon] : (a.id || a.npc) ? ['npc', a.id || a.npc] : null;
+	const partner = (k = '{riolu}') => { const p = k === '{candela}' ? findCandela() : findRiolu(); return p ? { sp: p.sp, shiny: !!p.shiny } : { sp: k === '{candela}' ? 'ampharos' : 'riolu', shiny: false }; };
+	const srcOf = a => a.item ? ['item', a.item] : a.mon ? ['mon', CINE_MINE.includes(a.mon) ? partner(a.mon).sp : a.mon] : (a.id || a.npc) ? ['npc', a.id || a.npc] : null;
 	const atOf = v => typeof v === 'number' ? clamp(v, 0, 1) : AT[v] ?? 0.5;
 	const anim = (el, cls, ms, done) => { el.classList.remove(...[...el.classList].filter(c => c.startsWith(cls.split('-')[0] + '-'))); void el.offsetWidth; el.classList.add(cls); if (ms) later(() => { el.classList.remove(cls); done?.(); }, ms); };
 	const removeActor = (a, how) => {
@@ -607,7 +607,7 @@ function runScene(spec, opts, resolve) {
 		if (spec0.remove) { removeActor(a, spec0.exit); return null; }
 		if (!a) {
 			if (!s) return null;
-			a = { key, kind: s[0], src: s[1], shiny: spec0.mon === CINE_PARTNER ? partner().shiny : spec0.shiny, flip: false, idle: s[0] === 'item' ? 'float' : 'idle' };
+			a = { key, kind: s[0], src: s[1], shiny: CINE_MINE.includes(spec0.mon) ? partner(spec0.mon).shiny : spec0.shiny, flip: false, idle: s[0] === 'item' ? 'float' : 'idle' };
 			a.body = h('div', { class: 'cs-a-body' });
 			a.doEl = h('div', { class: 'cs-a-do do-' + a.idle }, h('div', { class: 'cs-a-rays' }), h('div', { class: 'cs-a-halo' }), a.body);
 			a.inEl = h('div', { class: 'cs-a-in' }, a.doEl);
@@ -621,7 +621,7 @@ function runScene(spec, opts, resolve) {
 		} else {
 			if (s && (s[0] !== a.kind || s[1] !== a.src)) { // mismo actor, otra imagen (evolución o cambio)
 				const evo = fxs.includes('evolve') && !lite;
-				const swap = () => { if (a.gone) return; a.el.classList.replace('k-' + a.kind, 'k-' + s[0]); a.kind = s[0]; a.src = s[1]; a.shiny = spec0.mon === CINE_PARTNER ? partner().shiny : spec0.shiny; a.vis.remove(); a.body.querySelector('.cs-medal, .cs-bust, .cs-monw, img')?.remove(); a.body.append(a.vis = visual(a)); };
+				const swap = () => { if (a.gone) return; a.el.classList.replace('k-' + a.kind, 'k-' + s[0]); a.kind = s[0]; a.src = s[1]; a.shiny = CINE_MINE.includes(spec0.mon) ? partner(spec0.mon).shiny : spec0.shiny; a.vis.remove(); a.body.querySelector('.cs-medal, .cs-bust, .cs-monw, img')?.remove(); a.body.append(a.vis = visual(a)); };
 				if (evo) { a.el.classList.add('evolving'); later(swap, 1500); later(() => { a.el.classList.remove('evolving'); flash('#fff'); }, 1650); } else swap();
 			}
 			if (spec0.at !== undefined) { const n = atOf(spec0.at); if (Math.abs(n - a.at) > 0.01) { a.at = n; a.el.style.setProperty('--x', (n * 100) + '%'); if (!lite && a.kind !== 'item') anim(a.inEl, 'in-walk', 800); } }
