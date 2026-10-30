@@ -1129,3 +1129,4 @@ img.illus.priv { image-rendering: auto; width: 100%; aspect-ratio: 16 / 10; obje
 .cs-sus { display: grid; grid-template-columns: 44px 1fr; gap: 8px; align-items: center; margin-top: 6px; }
 .cs-sus .s { font-size: 13px; opacity: .85; }
 .cs-done { opacity: .6; }
+.cs-tabs { display: grid; grid-template-columns: 1fr 1fr .7fr 1fr; overflow: visible; } .cs-tabs button { padding: 8px 4px; font-size: 13px; }

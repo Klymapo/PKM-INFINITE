@@ -148,6 +148,18 @@ with sync_playwright() as p:
         pg.evaluate("() => document.querySelectorAll('.sheet .tabs button')[1].click()"); time.sleep(0.5); shot(pg, 'cartas-7-coleccion')
         pg.evaluate("() => document.querySelectorAll('.sheet .tabs button')[2].click()"); time.sleep(0.5); shot(pg, 'cartas-8-rivales')
 
+    if not solo or 'casos' in solo:
+        pg.evaluate("""async () => {
+            const U = await import('./js/ui/casos-ui.js');
+            window.__cs = U.playCase('det_c1');
+        }""")
+        time.sleep(0.8); shot(pg, 'caso-1-registrar')
+        pg.evaluate("() => document.querySelectorAll('.cs-box .list button.row')[1].click()"); time.sleep(0.6); shot(pg, 'caso-2-sitio')
+        pg.evaluate("() => document.querySelectorAll('.cs-tabs button')[1].click()"); time.sleep(0.5)
+        pg.evaluate("() => document.querySelectorAll('.cs-box .list button.row')[0].click()"); time.sleep(0.6); shot(pg, 'caso-3-pregunta')
+        pg.evaluate("() => document.querySelectorAll('.cs-tabs button')[2].click()"); time.sleep(0.5); shot(pg, 'caso-4-libreta')
+        pg.evaluate("() => document.querySelectorAll('.cs-tabs button')[3].click()"); time.sleep(0.5); shot(pg, 'caso-5-acusar')
+
     b.close()
 srv.shutdown()
 print(f'Capturas en {args.salida}')

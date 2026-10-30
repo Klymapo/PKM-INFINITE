@@ -333,6 +333,14 @@ async function runCmd(c, ctx) {
 		if (next) await runList(next, ctx);
 		return;
 	}
+	if (c.chapter) {
+		// Historias por capítulos (app/js/capitulos.js)
+		const CP = await import('./capitulos.js');
+		if (!CP.serialDef(c.chapter.id)) return;
+		if (c.chapter.done) CP.finishChapter(c.chapter.id, c.chapter.done);
+		if (c.chapter.wait || c.chapter.done) await runList([{ text: CP.waitText(c.chapter.id) }], ctx);
+		return;
+	}
 	if (c.cardStarter) {
 		const K = await import('./cartas.js');
 		const got = K.giveStarter();

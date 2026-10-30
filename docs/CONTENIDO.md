@@ -599,3 +599,23 @@ cardPlayers: {
 - Un **campeón por ciudad grande** ya visitada, con nombre y voz que el jugador ya conoce; los aficionados pueden ser genéricos. El que te enseña primero da el sobre (`flag.cq_sobre`).
 - El motor pone `flag.cartas_<id>_ganada` la primera vez que le ganas. Colección y mazo en `G.cards`.
 - El validador comprueba mazos de 5 especies reales, niveles 1–4, NPC, lugar y premios.
+
+## 21. Casos de detective
+
+> Pedido de Mario, 2026-10-30. Motor en `app/js/casos.js`, pantalla en `app/js/ui/casos-ui.js` (caso y Más › Casos), casos en `app/content/b06/t17-casos.js` (soluciones en `secreto/bloques/p15-casos.md`). Prueba: `herramientas/test/casos-test.mjs`.
+
+Un compañero fijo (Mauro Quintana, `quintana`) comenta cada pista y **reclama** si acusas mal. Pantalla del caso con cuatro pestañas: **Registrar** (sitios), **Preguntar** (preguntas y «Enseñarle una pista»), **Libreta** y **Acusar** (a quién y **qué pista lo prueba**). Primer error: Quintana reclama y sigues; segundo: el culpable **se escapa** (queda en Más › Casos; no bloquea nada). Se puede dejar a medias y volver.
+
+```js
+cases: { det_c1: { name, loc, partner: 'quintana', rep: 10, brief,
+  clues: { k: { name, icon, text, partner } },
+  places: [ { id, label, sub, icon, text: [...], gives: ['k'], needs: ['k0'] } ],
+  suspects: { s1: { npc, role, questions: [ { id, q, a: [...], gives, needs } ], present: { k: { a: [...], gives } }, presentDefault: [...] } },
+  culprit: 's2', proof: ['k5'], objection: { culpable: [...], prueba: [...] }, hurry, again,
+  solution: [ { who, t } ], escape: [ { who, t } ], prize: [ { id, n } ] } }
+// guion: { case: 'det_c1', onSolve: [...], onFail: [...] }   (sin interfaz lo resuelve solo)
+```
+
+- **Justos:** la prueba comprueba que todas las pistas (y las de `proof`) se alcanzan desde cero, que la prueba no está a la vista en el primer registro y que enseñar una pista a alguien destapa algo. Nada sobrenatural como solución; nada de la trama principal.
+- El motor pone `flag.<id>_resuelto` o `flag.<id>_fallido`, guarda la reputación de detective en `G.casos.rep` y da `prize` al resolver.
+- Llegan escalonados por el Buzón (`mail` con `cond` sobre la carta anterior y `days ≥ 2`).

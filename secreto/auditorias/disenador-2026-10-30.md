@@ -2,7 +2,7 @@
 
 > Diseño del juego con ojos de diseñador. **✖ grave** · **⚠ detalle** · **· curiosidad** (opinable).
 
-**Total:** 0 graves · 0 detalles · 4 curiosidades. 149 misiones, 6 bloques y 201 lugares revisados.
+**Total:** 0 graves · 0 detalles · 4 curiosidades. 153 misiones, 6 bloques y 207 lugares revisados.
 
 ## Hub de misiones: fichas que no te guían (0)
 
@@ -20,7 +20,7 @@ Bien resuelto. ✅
 
 - · **Bloque 04** — Sus misiones suman ~18.2 h estimadas; la meta son unas 12 h (o falta poner `est`).
 - · **Bloque 05** — Sus misiones suman ~22.0 h estimadas; la meta son unas 12 h (o falta poner `est`).
-- · **Bloque 06** — Sus misiones suman ~19.3 h estimadas; la meta son unas 12 h (o falta poner `est`).
+- · **Bloque 06** — Sus misiones suman ~22.0 h estimadas; la meta son unas 12 h (o falta poner `est`).
 
 ## Lugares (0)
 

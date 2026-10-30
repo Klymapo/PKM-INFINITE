@@ -22,7 +22,7 @@ const W = (w, m) => warns.push(`${w}: ${m}`);
 const KNOWN_CMDS = new Set(['daycare', 'torneo', 'say', 'text', 'choice', 'if', 'set', 'rep', 'af', 'give', 'take', 'money', 'pokemon', 'battle', 'wild', 'heal', 'go', 'quest', 'diary', 'intel', 'badge', 'cap', 'call', 'end', 'notice', 'toast', 'scene', 'wait', 'happy', 'learn', 'unlock', 'shop', 'save', 'evolveCheck', 'nickname', 'center', 'pc', 'mapUnlock', 'clearRoute', 'cutscene', 'input', 'forceEvolve', 'puzzle', 'read', 'venture', 'minigame', 'photo', 'photoSell', 'race', 'rival', 'cards', 'cardStarter', 'case', 'chapter']);
 const AUX_KEYS = new Set(['cond', 'as', 'n', 'silent', 'stage', 'done', 'then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'lose', 'canRun', 'prompt', 'nickname', 'who', 'jingle', 'dim', 'mood', 'onSolve', 'onQuit', 'join', 'open', 'level', 'onSale', 'onNone', 'onDraw', 'onFail']);
 const COND_NS = /\b(flag|flags|vars|rep|af|quest|done)\.([A-Za-z0-9_]+)/g;
-const COND_FUNCS = ['foto', 'has', 'count', 'badge', 'inParty', 'owns', 'seen', 'caught', 'visited', 'cleared', 'beat', 'date', 'zero', 'works', 'partner', 'bond'];
+const COND_FUNCS = ['foto', 'has', 'count', 'badge', 'inParty', 'owns', 'seen', 'caught', 'visited', 'cleared', 'beat', 'date', 'zero', 'works', 'partner', 'bond', 'capitulo', 'capituloHecho'];
 const COND_VARS = ['hitos', 'badges', 'dex', 'money', 'maxLv', 'partySize', 'pron', 'time', 'night', 'day', 'morning', 'evening', 'season', 'year', 'weekday', 'true', 'false', 'null', 'undefined'];
 
 const flagsSet = new Set(), flagsRead = new Map(), varsSet = new Set();
@@ -352,6 +352,17 @@ for (const ev of C.sharedEvents || []) {
 	for (const [v, m] of Object.entries(ev.managers || {})) if (!(C.ventures[v]?.managers || []).some(x => (x.id || x.npc) === m)) E(w, `${m} no es encargad@ de ${v}`);
 	if (!(ev.options || []).some(o => !o.cost && !o.cond)) E(w, 'necesita una opción gratis y sin condición');
 	if (ev.npc && !C.npcs[ev.npc]) E(w, 'npc inexistente: ' + ev.npc);
+}
+
+// ---------- Historias por capítulos ----------
+for (const [id, d] of Object.entries(C.serials || {})) {
+	const w = 'serial ' + id;
+	if (!C.locations[d.loc]) E(w, 'lugar inexistente: ' + d.loc);
+	if (!(d.written >= 1)) E(w, 'written ≥ 1');
+	if ((d.chapters || []).length < d.written) E(w, 'faltan capítulos en la lista');
+	const txt = JSON.stringify(C.scripts) + JSON.stringify(C.locations);
+	for (let n = 1; n <= d.written; n++) if (!txt.includes(`"done":${n}`) || !txt.includes(`"id":"${id}"`)) E(w, `nadie termina el capítulo ${n} ({ chapter: { id, done: ${n} } })`);
+	checkCond(w, d.cond);
 }
 
 // ---------- Cuadrante (cartas) ----------

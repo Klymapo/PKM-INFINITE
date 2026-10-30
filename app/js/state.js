@@ -244,6 +244,17 @@ export function markCaught(spId) {
 // Las condiciones son expresiones JS sobre un ámbito controlado, p. ej.:
 //   "flag.vio_puerta && !flag.x"   "vars.medallas >= 2"   "af.lila >= 20"   "rep.lemnis < 0"
 //   "quest.mareep == 'hecha'"      "has('pokeflute')"     "night"   "badges >= 1"   "inParty('riolu')"
+/**
+ * Historias por capítulos (app/js/capitulos.js): ¿está abierto el capítulo n de un serial?
+ * El 1 siempre (si está escrito); el n, `gap` días reales (7 por defecto) después de terminar el n−1.
+ */
+export function serialOpen(id, n, now = Date.now()) {
+	const d = C.serials?.[id];
+	if (!d || n > (d.written || 0)) return false;
+	if (n <= 1) return true;
+	const t = G.serial?.[id]?.done?.[n - 1];
+	return !!t && now - t >= (d.gap ?? 7) * 864e5;
+}
 const cache = new Map();
 let extraScope = () => ({});
 /** fn: () => objeto con valores extra (hora, fecha, etc.) evaluados en cada condición */
@@ -282,6 +293,9 @@ function scope() {
 		zero,
 		// Estrellas de la foto de un momento raro (0 si no la tienes): foto('snorlax_hojas')
 		foto: id => G.fotos?.[id]?.q || 0,
+		// Capítulos de un serial: capitulo('cirio', 2) = abierto; capituloHecho('cirio', 1) = terminado
+		capitulo: (id, n) => serialOpen(id, n),
+		capituloHecho: (id, n) => !!G.serial?.[id]?.done?.[n],
 		// Amistad (0–255) de un Pokémon del jugador con nombre propio que va en el equipo, o 0: bond('riolu'), bond('candela')
 		bond: who => {
 			const p = who === 'riolu' ? G.party.find(x => x.uid === G.vars.riolu_uid)

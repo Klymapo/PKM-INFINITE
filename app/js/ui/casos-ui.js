@@ -32,7 +32,7 @@ export function playCase(id) {
 		const gotLines = got => got.flatMap(k => { const c = def.clues[k]; return [{ who: null, t: `📒 **Pista nueva:** ${c.name}` }].concat(c.partner ? [{ who: partner, t: c.partner }] : []); });
 		const draw = () => {
 			const st = K.caseState(id);
-			const tabs = h('div', { class: 'tabs cs-tabs' }, ...[['sitios', '🔎 Registrar'], ['gente', '🗣️ Preguntar'], ['libreta', `📒 Libreta ${Object.keys(st.clues).length}`], ['acusar', '⚖️ Acusar']].map(([k, n]) => h('button', { class: tab === k ? 'on' : '', onclick: () => { tab = k; log = []; draw(); } }, n)));
+			const tabs = h('div', { class: 'tabs cs-tabs' }, ...[['sitios', '🔎 Sitios'], ['gente', '🗣️ Gente'], ['libreta', `📒 ${Object.keys(st.clues).length}`], ['acusar', '⚖️ Acusar']].map(([k, n]) => h('button', { class: tab === k ? 'on' : '', onclick: () => { tab = k; log = []; draw(); } }, n)));
 			const out = [h('div', { class: 'ft-title' }, '🕵️ ' + tx(def.name)), tabs];
 			if (log.length) out.push(h('div', { class: 'cs-log' }, ...log.map(x => lineEl(x.l, x.who))));
 			if (tab === 'sitios') {

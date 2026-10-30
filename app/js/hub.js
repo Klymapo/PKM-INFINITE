@@ -309,6 +309,7 @@ function probe_(script) {
 				branches(st, depth, ['onWin', 'onLose'].filter(k => c[k]).map(k => [c[k], null]));
 				continue;
 			}
+			if (c.chapter) { if (c.chapter.done) eff(st, 'capitulo', true); continue; }
 			if (c.case) { eff(st, 'caso', true); branches(st, depth, ['onSolve', 'onFail'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.cards) { eff(st, 'cartas', true); branches(st, depth, ['onWin', 'onLose', 'onDraw'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.race) { eff(st, 'carrera', true); branches(st, depth, ['onWin', 'onLose'].filter(k => c[k]).map(k => [c[k], null])); continue; }
