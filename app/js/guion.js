@@ -316,7 +316,7 @@ async function runCmd(c, ctx) {
 			res = K.finishMatch(c.cards, r.res, def.deck.find(sp => !K.cardState().owned[sp]) || def.deck[0]);
 		}
 		ctx.lastCards = res;
-		const next = res && !res.quit ? (res.res === 'win' ? c.onWin : res.res === 'lose' ? c.onLose : (c.onDraw || c.onLose)) : null;
+		const next = res?.quit ? c.onQuit : res ? (res.res === 'win' ? c.onWin : res.res === 'lose' ? c.onLose : (c.onDraw || c.onLose)) : null;
 		if (next) await runList(next, ctx);
 		return;
 	}

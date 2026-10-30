@@ -4,21 +4,24 @@ import { G, saveGame } from '../state.js';
 import { D, typeStyle, typeName, itemName } from '../data.js';
 import { tx } from '../guion.js';
 import { monImg } from '../art.js';
-import { h, fmtText, openSheet, portraitFor, toast, confirm } from './core.js';
+import { h, fmtText, openSheet, portraitFor, toast } from './core.js';
 import * as K from '../cartas.js';
 
 const npcName = id => C.npcs[id]?.name || id;
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 
-/** Carta dibujada: sprite, 4 valores y franja del tipo. owner: 'me' | 'foe' | null. */
-export function cardEl(c, { owner = null, small = false, onclick = null, sel = false, count = 0, dim = false } = {}) {
-	const ts = typeStyle(c.types[0]);
+/** Etiqueta de tipo: la izquierda (principal) es la que ataca; la derecha (secundario) solo cuenta al defender. */
+const typeTag = (t, k) => { const ts = typeStyle(t); return h('span', { class: 'cq-type ' + k, style: `background:${ts.background};color:${ts.color}` }, typeName(t).slice(0, 3)); };
+
+/** Carta dibujada: sprite, 4 valores y sus tipos (los dos, también en la mano: 2026-10-30). owner: 'me' | 'foe' | null. */
+export function cardEl(c, { owner = null, small = false, onclick = null, sel = false, count = 0, dim = false, bonus = false } = {}) {
 	const el = h(onclick ? 'button' : 'div', {
-		class: 'cq-card' + (small ? ' sm' : '') + (owner ? ' ' + owner : '') + (sel ? ' sel' : '') + (dim ? ' dim' : ''),
-		'aria-label': `${c.name}: arriba ${c.up}, derecha ${c.right}, abajo ${c.down}, izquierda ${c.left}, tipo ${typeName(c.types[0])}`,
+		class: 'cq-card' + (small ? ' sm' : '') + (owner ? ' ' + owner : '') + (sel ? ' sel' : '') + (dim ? ' dim' : '') + (bonus ? ' weak' : ''),
+		'aria-label': `${c.name}: arriba ${c.up}, derecha ${c.right}, abajo ${c.down}, izquierda ${c.left}, tipo ${c.types.map(typeName).join(' y ')}` + (bonus ? '. Tu carta elegida le gana por tipo: +1' : ''),
 		onclick,
 	},
-	h('span', { class: 'cq-type', style: `background:${ts.background};color:${ts.color}` }, typeName(c.types[0]).slice(0, 3)),
+	typeTag(c.types[0], 't1'), c.types[1] ? typeTag(c.types[1], 't2') : null,
+	bonus ? h('span', { class: 'cq-bonus' }, '+1') : null,
 	h('div', { class: 'cq-pic' }, monImg(c.sp, { anim: false })),
 	h('span', { class: 'cq-v up' }, K.fmtV(c.up)), h('span', { class: 'cq-v right' }, K.fmtV(c.right)),
 	h('span', { class: 'cq-v down' }, K.fmtV(c.down)), h('span', { class: 'cq-v left' }, K.fmtV(c.left)),
@@ -30,8 +33,10 @@ export function cardEl(c, { owner = null, small = false, onclick = null, sel = f
 export const RULES = '**Cómo se juega al Cuadrante**\n\n' +
 	'• Cada quien lleva **5 cartas**. Por turnos se pone una en una casilla libre del tablero de 3×3.\n' +
 	'• Cada carta tiene 4 números (de 1 a 10; la **A** vale 10): arriba **PS**, derecha **ataque**, abajo **defensa** e izquierda **velocidad** del Pokémon.\n' +
-	'• Al poner una carta, mira a sus vecinas del rival: si tu número de ese lado es **mayor** que el suyo del lado que se toca, esa carta **pasa a ser tuya**.\n' +
-	'• Si el tipo de tu carta es **eficaz** contra la otra, tu número cuenta **+1**.\n' +
+	'• **Mandan los números.** Al poner una carta, mira a sus vecinas del rival: si tu número de ese lado es **mayor** que el suyo del lado que se toca, esa carta **pasa a ser tuya**. Si empatan, no pasa nada.\n' +
+	'• **El tipo solo suma +1, y solo al atacar.** Cuenta el tipo **principal** de tu carta (la etiqueta de la izquierda) contra **los dos** tipos de la rival, como en combate. Defender no da bonus.\n' +
+	'• *Ejemplo:* tu carta de Fuego tiene 6 a la derecha y la rival de Planta tiene 6 a la izquierda. Empate… pero Fuego le gana a Planta, así que cuenta 7 y la giras.\n' +
+	'• Al elegir una carta de tu mano, las casillas dicen cuántas cartas girarías ahí, y las rivales a las que les ganas por tipo llevan un **+1**.\n' +
 	'• Al llenarse el tablero gana quien tenga más cartas (en el tablero y la que le quede en la mano).\n' +
 	'• Si ganas, te llevas **una carta** del mazo del rival (la eliges tú). Perder no cuesta nada.';
 
@@ -45,11 +50,20 @@ export function playCards(id) {
 		const level = K.aiLevelFor(id);
 		const first = (st.games % 2 === 0) ? 'me' : 'foe';
 		const m = K.newMatch(mine, def.deck, first);
-		let selH = null, busy = false;
+		let selH = null, busy = false, gone = false; // gone: te levantaste (corta el turno del rival en curso)
 		const box = h('div', { class: 'cq-body' });
 		const ov = h('div', { class: 'overlay ft-ov', role: 'dialog', 'aria-label': 'Cuadrante' }, h('div', { class: 'ft-box cq-box' }, box));
 		document.body.append(ov);
 		const close = r => { ov.remove(); resolve(r); };
+		// Confirmación propia, por encima de la mesa (la general quedaba tapada detrás del tablero: queja del 2026-10-30).
+		const askQuit = () => {
+			const ask = h('div', { class: 'overlay dim cq-ask', role: 'dialog', 'aria-label': 'Salir de la partida' },
+				h('div', { class: 'ft-box' }, h('div', { class: 'cr-text' }, '¿Te levantas de la mesa? La partida no cuenta: ni ganas ni pierdes nada.'),
+					h('div', { class: 'ft-btns' },
+						h('button', { class: 'btn', onclick: () => ask.remove() }, 'Seguir jugando'),
+						h('button', { class: 'btn primary', onclick: () => { ask.remove(); gone = true; close({ quit: true }); } }, 'Levantarme'))));
+			document.body.append(ask);
+		};
 		const foeN = C.npcs[def.npc];
 		const msg = h('div', { class: 'cq-msg' });
 		const say = t => { msg.innerHTML = fmtText(t); };
@@ -60,13 +74,16 @@ export function playCards(id) {
 				h('div', { class: 'cq-who' }, h('b', {}, def.name || npcName(def.npc)), h('span', {}, def.champion ? `Campeón de Cuadrante · nivel ${level}` : `Nivel ${level}`)),
 				h('div', { class: 'cq-score' }, h('span', { class: 'me' }, String(s.me)), '–', h('span', { class: 'foe' }, String(s.foe))));
 			const foeHand = h('div', { class: 'cq-hand foe' }, ...m.hand.foe.map(c => c ? cardEl(c, { owner: 'foe', small: true }) : h('div', { class: 'cq-slot sm' })));
+			const selC = selH !== null && m.turn === 'me' ? m.hand.me[selH] : null;
 			const board = h('div', { class: 'cq-board', 'data-noswipe': '' }, ...m.board.map((b, i) => {
-				if (b) { const e = cardEl(b.c, { owner: b.owner }); if (flash.includes(i)) e.classList.add('flip'); return e; }
-				return h('button', { class: 'cq-cell' + (selH !== null ? ' can' : ''), 'aria-label': 'Casilla ' + (i + 1), disabled: busy || selH === null || m.turn !== 'me', onclick: () => mine_(i) });
+				if (b) { const e = cardEl(b.c, { owner: b.owner, bonus: !!(selC && b.owner === 'foe' && K.typeBonus(selC, b.c)) }); if (flash.includes(i)) e.classList.add('flip'); return e; }
+				const n = selC ? K.wouldFlip(m, selC, i, 'me').length : 0;
+				return h('button', { class: 'cq-cell' + (selC ? ' can' : '') + (n ? ' gain' : ''), 'aria-label': 'Casilla ' + (i + 1) + (n ? `: giras ${n}` : ''), disabled: busy || !selC, onclick: () => mine_(i) },
+					n ? h('span', { class: 'cq-gain' }, n === 1 ? 'Gira 1' : `Gira ${n}`) : null);
 			}));
 			const myHand = h('div', { class: 'cq-hand me' }, ...m.hand.me.map((c, k) => c ? cardEl(c, { owner: 'me', small: true, sel: selH === k, onclick: busy || m.turn !== 'me' ? null : () => { selH = selH === k ? null : k; draw(); } }) : h('div', { class: 'cq-slot sm' })));
 			box.replaceChildren(head, foeHand, board, myHand, msg,
-				h('div', { class: 'ft-btns' }, h('button', { class: 'btn', onclick: async () => { if (busy) return; if (await confirm('¿Te levantas de la mesa? La partida no cuenta.', 'Levantarme', 'Seguir')) close({ quit: true }); } }, 'Salir'),
+				h('div', { class: 'ft-btns' }, h('button', { class: 'btn', onclick: () => { if (gone) return; askQuit(); } }, 'Salir'),
 					h('button', { class: 'btn', onclick: () => { const p = h('div', { class: 'overlay ft-ov dim', onclick: () => p.remove() }, h('div', { class: 'ft-box cq-rules', html: fmtText(RULES + '\n\n*Toca para cerrar.*') })); document.body.append(p); } }, '¿Cómo se juega?')));
 		};
 		const mine_ = async i => {
@@ -82,6 +99,7 @@ export function playCards(id) {
 			if (m.turn === 'foe') {
 				busy = true; draw();
 				await sleep(650);
+				if (gone) return;
 				const mv = K.aiMove(m, level);
 				const c = m.hand.foe[mv.h];
 				const flips = K.play(m, mv);
@@ -95,6 +113,7 @@ export function playCards(id) {
 		};
 		const end = async () => {
 			await sleep(500);
+			if (gone) return;
 			const res = K.result(m), s = K.score(m);
 			const line = res === 'win' ? def.lose : res === 'lose' ? def.win : def.draw;
 			const title = res === 'win' ? '🃏 ¡Ganaste!' : res === 'lose' ? '🃏 Perdiste' : '🃏 Empate';
