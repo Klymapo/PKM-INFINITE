@@ -20,17 +20,21 @@ export function playFocus({ def, level = 2 }) {
 		const finder = h('div', { class: 'ft-finder', style: { width: (P.zone * 100) + '%' } });
 		const shotsEl = h('div', { class: 'ft-shots' }, stars(0));
 		const msg = h('div', { class: 'ft-msg' }, tx(def.hint || 'Dispara cuando el recuadro se ponga verde.'));
-		let shots = 0, hits = 0, t0 = performance.now(), raf = 0, pos = 0, done = false;
-		const btn = h('button', { class: 'btn primary ft-shoot', onclick: () => {
+		let shots = 0, hits = 0, t0 = performance.now(), raf = 0, pos = 0, done = false, inAt = -1e9; // inAt: última vez que el recuadro estuvo verde
+		// El disparo cuenta al TOCAR (pointerdown), no al soltar: en el móvil el click llega al levantar el dedo y el recuadro
+		// ya se había ido (queja de Mario, 2026-10-30: «le doy en verde y no aprueba la foto»). Si estuvo verde hace < 180 ms, vale.
+		const shoot = e => {
+			e?.preventDefault?.();
 			if (done) return;
 			shots++;
-			const ok = focusHit(pos, center, P.zone, P.grace);
+			const ok = focusHit(pos, center, P.zone, P.grace) || performance.now() - inAt < 180;
 			if (ok) hits++;
 			flash.classList.remove('on'); void flash.offsetWidth; flash.classList.add('on');
 			msg.textContent = ok ? '¡Clic! Esa sale nítida.' : 'Clic… movida. Otra vez.';
 			shotsEl.textContent = stars(hits) + `  ·  ${P.shots - shots} ${P.shots - shots === 1 ? 'disparo' : 'disparos'}`;
 			if (shots >= P.shots) finish();
-		} }, '📸 Disparar');
+		};
+		const btn = h('button', { class: 'btn primary ft-shoot', onpointerdown: shoot, onkeydown: e => { if (e.key === 'Enter' || e.key === ' ') shoot(e); } }, '📸 Disparar');
 		const flash = h('div', { class: 'ft-flash' });
 		const quit = h('button', { class: 'btn ft-quit', onclick: () => { done = true; cancelAnimationFrame(raf); ov.remove(); resolve({ ok: false, q: 0, quit: true }); } }, 'Salir');
 		const ov = h('div', { class: 'overlay ft-ov', role: 'dialog', 'aria-label': 'Foto' },
@@ -45,7 +49,9 @@ export function playFocus({ def, level = 2 }) {
 			const x = ((now - t0) / 1000 * P.speed) % 2;
 			pos = x < 1 ? x : 2 - x; // de lado a lado
 			finder.style.left = `calc(${pos * 100}% - ${P.zone * 50}%)`;
-			finder.classList.toggle('in', focusHit(pos, center, P.zone));
+			const isIn = focusHit(pos, center, P.zone);
+			if (isIn) inAt = now;
+			finder.classList.toggle('in', isIn);
 			raf = requestAnimationFrame(loop);
 		};
 		raf = requestAnimationFrame(loop);
