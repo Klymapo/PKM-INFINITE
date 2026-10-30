@@ -5,12 +5,13 @@ import { G, saveGame } from '../state.js';
 import { displayName } from '../pokemon.js';
 import { runScript, tx } from '../guion.js';
 import { monImg, itemImg } from '../art.js';
-import { h, say, choose, toast, openSheet, portraitFor } from './core.js';
+import { h, say, choose, confirm, toast, openSheet, portraitFor } from './core.js';
 import { fmtMoney, fmtText } from '../util.js';
 import {
 	synergiesOf,
 	ventureDef, ventureState, ventureList, owned, linesOf, joinVenture, upgradesOf, managersOf, slotsOf, storeDays, sharePct,
 	workerBonus, rates, pending, collect, shiftEffort, buyUpgrade, setManager, managerBusyAt, managerConflicts, resolveManagerConflict, assignWorker, recallWorker, rollEvent, eventOptions, resolveEvent, tick, collectAll, fullIn, almostFull,
+	typeGuide, freeSlots, moveWorker, suggestWorkers, applySuggestion, partyMovable, favsOf,
 } from '../negocios.js';
 
 let hooks = {}; // { travel(locId), summary(p, onChange) } — los pone screens.js
@@ -21,6 +22,82 @@ const perDay = n => n >= 1 ? (Math.round(n * 10) / 10).toLocaleString('es-MX') +
 const pctTxt = m => (m >= 1 ? '+' : '−') + Math.abs(Math.round((m - 1) * 100)) + ' %';
 const hoursTxt = hrs => hrs < 1 ? 'menos de una hora' : `${Math.round(hrs)} ${Math.round(hrs) === 1 ? 'hora' : 'horas'}`;
 const section = t => h('div', { class: 'section-title' }, t);
+
+const spName = id => D.species[id]?.name || id;
+const happyTxt = p => { const v = p.happy || 0; return v >= 220 ? '❤️ Te adora' : v >= 150 ? '💛 Muy a gusto' : v >= 70 ? '🙂 A gusto' : '· Recién llegad@'; };
+const chips = types => h('span', { class: 'typechip-row' }, ...types.map(t => h('span', { class: 'type', style: typeStyle(t) }, typeName(t))));
+/** Guía de tipos de un negocio: tipos ideales, favoritos (⭐) y qué produce. */
+export function guideBox(id) {
+	const g = typeGuide(id);
+	return h('div', { class: 'neg-guide' },
+		g.types.length ? h('div', {}, h('span', { class: 'neg-gk' }, 'Tipos ideales '), chips(g.types)) : null,
+		g.favs.length ? h('div', {}, h('span', { class: 'neg-gk' }, '⭐ Favoritos '), g.favs.map(spName).join(', '), h('span', { class: 'neg-gs' }, ' (y su línea evolutiva)')) : null,
+		g.lines.length ? h('div', {}, h('span', { class: 'neg-gk' }, 'Produce '), g.lines.join(', ')) : null);
+}
+
+/** Plantilla: todos los Pokémon trabajando, encargados, puestos libres, mover y «Sugerir». */
+export function openStaff(onChange) {
+	const sheet = openSheet('Plantilla', null, { onClose: () => { saveGame(); onChange?.(); } });
+	sheet.el.dataset.menu = 'negocios';
+	let busy = false;
+	const act = async fn => { if (busy) return; busy = true; try { await fn(); } finally { busy = false; if (sheet.el.isConnected) draw(); } };
+	const workerRow = (vid, p) => {
+		const b = workerBonus(vid, p);
+		return h('button', { class: 'row neg-staff', onclick: () => act(async () => {
+			const others = ventureList().filter(v => v.status === 'owned' && v.id !== vid && freeSlots(v.id) > 0);
+			const opts = [...others.map(v => `Mover a ${v.def.name} (+${Math.round(workerBonus(v.id, p).v * 100)} %)`), 'Traerlo de vuelta', 'Ver sus datos', 'Cancelar'];
+			const k = await choose(`${displayName(p)} · Nv. ${p.lv} · en ${ventureDef(vid).name}`, opts, { cancel: opts.length - 1 });
+			const st = ventureState(vid), idx = st.workers.indexOf(p);
+			if (k < others.length) { const r = moveWorker(vid, idx, others[k].id); toast(r.ok ? `${displayName(p)} se va a ${others[k].def.name}` : r.msg); }
+			else if (k === others.length) { const back = recallWorker(vid, idx); if (back) toast(back.where === 'party' ? `${displayName(p)} vuelve a tu equipo` : `${displayName(p)} vuelve al PC (Caja ${back.box + 1})`); }
+			else if (k === others.length + 1) hooks.summary?.(p, draw);
+			await saveGame();
+		}) },
+			h('div', { class: 'ico tut-mon' }, monImg(p.sp, { anim: false, shiny: p.shiny })),
+			h('div', { class: 'lbl' }, h('div', { class: 't' }, `${displayName(p)} · Nv. ${p.lv}`),
+				h('div', { class: 's' }, `Aporta +${Math.round(b.v * 100)} %${b.fav ? ' · ⭐ favorito' : b.typed ? ' · ✔ tipo ideal' : ''} · ${happyTxt(p)}`)),
+			h('span', { class: 'chev' }, '›'));
+	};
+	const draw = () => {
+		const mine = ventureList().filter(v => v.status === 'owned');
+		const body = [];
+		if (!mine.length) { sheet.set(h('div', { class: 'empty' }, 'Todavía no eres socio de ningún negocio.')); return; }
+		const totalFree = mine.reduce((a, v) => a + freeSlots(v.id), 0);
+		const working = mine.reduce((a, v) => a + (v.st.workers || []).length, 0);
+		body.push(h('div', { class: 'note' }, `${working} ${working === 1 ? 'Pokémon trabaja' : 'Pokémon trabajan'} en tus negocios · ${totalFree} ${totalFree === 1 ? 'puesto libre' : 'puestos libres'}. Los que trabajan ganan amistad y suben la producción. Toca uno para moverlo de negocio o traerlo de vuelta.`));
+		body.push(h('div', { class: 'pad' }, h('button', { class: 'btn' + (totalFree ? ' primary' : ''), style: { width: '100%' }, disabled: !totalFree, onclick: () => act(suggestFlow) }, totalFree ? '✨ Sugerir quién cubre los puestos libres' : 'No hay puestos libres')));
+		for (const v of mine) {
+			const st = v.st, slots = slotsOf(v.id), ws = st.workers || [];
+			const mgr = managersOf(v.id).find(m => m.id === st.manager);
+			body.push(section(`${v.def.icon || '🏠'} ${v.def.name} · ${ws.length}/${slots}`));
+			body.push(h('div', { class: 'note neg-staff-mgr' }, mgr ? `Al frente: ${mgr.name}` : 'Sin encargad@ ahora mismo'));
+			body.push(guideBox(v.id));
+			if (ws.length) body.push(h('div', { class: 'list' }, ...ws.map(p => workerRow(v.id, p))));
+			const f = slots - ws.length;
+			if (f > 0) body.push(h('button', { class: 'linkbtn', onclick: () => { sheet.close(); openVenture(v.id, onChange); } }, `${f} ${f === 1 ? 'puesto libre' : 'puestos libres'} · elegir a mano ›`));
+			if (!slots) body.push(h('div', { class: 'note' }, 'Aquí no hay puestos para Pokémon todavía (alguna mejora los abre).'));
+		}
+		const y = sheet.body.scrollTop;
+		sheet.set(body);
+		sheet.body.scrollTop = y;
+	};
+	const suggestFlow = async () => {
+		const list = suggestWorkers();
+		if (!list.length) { toast('No hay candidatos disponibles en el PC ni en el equipo'); return; }
+		const txt = list.map(s => `• **${displayName(s.p)}** (Nv. ${s.p.lv}, ${s.from === 'party' ? 'de tu equipo' : `Caja ${s.box + 1}`}) → ${ventureDef(s.id).name}: +${Math.round(s.v * 100)} %${s.fav ? ' ⭐' : s.typed ? ' ✔' : ''}`).join('\n');
+		const fromParty = list.filter(s => s.from === 'party');
+		const k = await choose(`Propuesta:\n${txt}` + (fromParty.length ? `\n\nOjo: ${fromParty.length === 1 ? 'uno sale' : fromParty.length + ' salen'} de tu equipo.` : ''), fromParty.length ? ['Aplicar todo', 'Solo los del PC', 'Cancelar'] : ['Aplicar', 'Cancelar'], { cancel: fromParty.length ? 2 : 1 });
+		const onlyBox = fromParty.length && k === 1;
+		if ((fromParty.length && k === 2) || (!fromParty.length && k === 1) || k < 0) return;
+		if (!onlyBox && fromParty.length && !(await confirm(`¿Seguro? ${fromParty.map(s => displayName(s.p)).join(', ')} ${fromParty.length === 1 ? 'dejará' : 'dejarán'} tu equipo para trabajar. Puedes traerlos de vuelta cuando quieras.`, 'Sí, que trabajen', 'Mejor no'))) return;
+		let n = 0;
+		for (const s of list) { if (onlyBox && s.from === 'party') continue; if (applySuggestion(s).ok) n++; }
+		toast(`👥 ${n} ${n === 1 ? 'Pokémon se pone' : 'Pokémon se ponen'} a trabajar`);
+		await saveGame();
+	};
+	draw();
+	return sheet;
+}
 
 /** Lista de negocios: los tuyos y las oportunidades. */
 export function openVentures() {
@@ -56,6 +133,7 @@ export function openVentures() {
 				await saveGame();
 				draw();
 			} }, tot ? 'Recoger todo' : 'Nada que recoger por ahora')));
+			body.push(h('div', { class: 'pad' }, h('button', { class: 'btn', style: { width: '100%' }, onclick: () => openStaff(draw) }, '👥 Plantilla: quién trabaja dónde')));
 			body.push(section('Tus negocios'), h('div', { class: 'list' }, ...rows));
 			body.push(h('div', { class: 'note' }, `Entre todos te dan unos ${fmtMoney(total)} al día, más lo que produzcan en objetos. Se acumula aunque no juegues, hasta que se llena el almacén de cada uno.`));
 		}
@@ -149,10 +227,11 @@ export function openVenture(id, onChange) {
 			cands.sort((a, b) => b.b.v - a.b.v);
 			const jobs = def.jobs || {};
 			ps.set([
-				h('div', { class: 'note' }, tx(jobs.text || 'Los Pokémon que trabajan aquí suben la producción y te toman cariño. Puedes traerlos de vuelta cuando quieras.') + (jobs.types?.length ? ` Rinden más los de tipo ${jobs.types.map(typeName).join(', ')}.` : '')),
+				h('div', { class: 'note' }, tx(jobs.text || 'Los Pokémon que trabajan aquí suben la producción y te toman cariño. Puedes traerlos de vuelta cuando quieras.')),
+				guideBox(id),
 				h('div', { class: 'list' }, ...cands.map(c => {
 					const s = D.species[c.p.sp];
-					const no = c.p.uid === G.vars.riolu_uid ? 'Tu compañero no se separa de ti' : c.src.where === 'party' && G.party.length <= 1 ? 'No puedes quedarte sin equipo' : null;
+					const no = c.p.uid === G.vars.riolu_uid ? 'Tu compañero no se separa de ti' : c.src.where === 'party' && G.party.length <= 1 ? 'No puedes quedarte sin equipo' : c.src.where === 'party' && c.src.idx === 0 ? 'Va en cabeza: cámbialo de sitio antes' : null;
 					return h('button', { class: 'row' + (no ? ' done' : ''), disabled: !!no, onclick: () => {
 						// los índices pueden haber cambiado: se vuelve a buscar por uid
 						const list = c.src.where === 'party' ? G.party : G.boxes[c.src.box];
@@ -231,6 +310,7 @@ export function openVenture(id, onChange) {
 			const slots = slotsOf(id), ws = st.workers || [];
 			if (slots > 0) {
 				body.push(section(`Pokémon echando una mano · ${ws.length}/${slots}`));
+				body.push(guideBox(id));
 				const grid = h('div', { class: 'neg-workers' });
 				for (let i = 0; i < slots; i++) {
 					const w = ws[i];

@@ -391,3 +391,74 @@ export function venturesSummary() {
 	for (const v of mine) { const p = pending(v.id); money += p.money; if (p.full || v.st.pending) ready++; else if (almostFull(v.id)) almost++; }
 	return { mine: mine.length, offers: list.length - mine.length, ready, money, almost };
 }
+
+// ---------- Plantilla de trabajadores (pedido de Mario, 2026-10-29) ----------
+/** Especies favoritas de un negocio (las claves de jobs.favs), para enseñarlas con ⭐. */
+export function favsOf(id) { return Object.keys(ventureDef(id)?.jobs?.favs || {}); }
+/** Guía de un negocio: tipos ideales, favoritos y qué produce. */
+export function typeGuide(id) {
+	const def = ventureDef(id);
+	return { types: def.jobs?.types || [], favs: favsOf(id), lines: Object.values(linesOf(id)).map(l => l.name), text: def.jobs?.text || '' };
+}
+/** Puestos libres de un negocio tuyo. */
+export function freeSlots(id) { const st = ventureState(id); return st?.owned ? Math.max(0, slotsOf(id) - (st.workers || []).length) : 0; }
+/** Los 3 negocios tuyos (con puestos) donde más rendiría un Pokémon, con su aporte estimado. */
+export function bestVenturesFor(p, n = 3) {
+	return ventureList().filter(v => v.status === 'owned' && slotsOf(v.id) > 0)
+		.map(v => ({ id: v.id, name: v.def.name, ...workerBonus(v.id, p) }))
+		.sort((a, b) => b.v - a.v).slice(0, n);
+}
+/** Mueve a un trabajador de un negocio a otro sin pasar por el PC. */
+export function moveWorker(fromId, idx, toId) {
+	if (fromId === toId) return { ok: false, msg: 'Ya trabaja ahí.' };
+	tick(fromId); tick(toId);
+	const a = ventureState(fromId), b = ventureState(toId);
+	if (!a?.owned || !b?.owned) return { ok: false, msg: 'No disponible.' };
+	if (!freeSlots(toId)) return { ok: false, msg: 'No hay puestos libres allí.' };
+	const [p] = (a.workers || []).splice(idx, 1);
+	if (!p) return { ok: false, msg: 'No encontrado.' };
+	(b.workers ||= []).push(p);
+	logVenture(toId, `${p.nick || D.species[p.sp]?.name || p.sp} llega desde ${ventureDef(fromId).name}`);
+	return { ok: true, mon: p };
+}
+/** ¿Se puede sacar a este Pokémon del equipo para trabajar? (ni el de cabeza, ni el compañero, ni el último) */
+export function partyMovable(p) {
+	const i = G.party.indexOf(p);
+	return i > 0 && p.uid !== G.vars.riolu_uid && G.party.length > 1;
+}
+/**
+ * Sugerencias para los puestos libres: el mejor candidato por puesto (tipo ideal, favorito, nivel),
+ * del PC y del equipo. Nunca el que va en cabeza ni el compañero, y siempre deja al menos uno en el equipo.
+ * Devuelve [{ id, p, from: 'box'|'party', box?, v, typed, fav }].
+ */
+export function suggestWorkers() {
+	const free = {};
+	for (const v of ventureList()) if (v.status === 'owned') { const f = freeSlots(v.id); if (f) free[v.id] = f; }
+	const cands = [];
+	G.boxes.forEach((b, bi) => b.forEach(p => { if (p && !p.egg && p.uid !== G.vars.riolu_uid) cands.push({ p, from: 'box', box: bi }); }));
+	G.party.forEach(p => { if (!p.egg && partyMovable(p)) cands.push({ p, from: 'party' }); });
+	const pairs = [];
+	for (const id in free) for (const c of cands) { const b = workerBonus(id, c.p); pairs.push({ id, ...c, ...b }); }
+	pairs.sort((a, b) => b.v - a.v || b.p.lv - a.p.lv);
+	const used = new Set(), out = [];
+	let partyLeft = G.party.length;
+	for (const x of pairs) {
+		if (!free[x.id] || used.has(x.p.uid)) continue;
+		if (x.from === 'party') { if (partyLeft <= 1) continue; partyLeft--; }
+		used.add(x.p.uid); free[x.id]--; out.push(x);
+	}
+	return out;
+}
+/** Aplica una sugerencia (busca al Pokémon por uid, por si algo se movió). */
+export function applySuggestion(s) {
+	if (s.from === 'party') {
+		const idx = G.party.findIndex(p => p.uid === s.p.uid);
+		if (idx < 0 || !partyMovable(G.party[idx])) return { ok: false, msg: 'Ya no está disponible.' };
+		return assignWorker(s.id, { where: 'party', idx });
+	}
+	for (let bi = 0; bi < G.boxes.length; bi++) {
+		const idx = G.boxes[bi].findIndex(p => p && p.uid === s.p.uid);
+		if (idx >= 0) return assignWorker(s.id, { where: 'box', box: bi, idx });
+	}
+	return { ok: false, msg: 'Ya no está disponible.' };
+}

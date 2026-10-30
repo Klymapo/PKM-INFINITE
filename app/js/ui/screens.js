@@ -34,7 +34,7 @@ import { playMinigame, showLoot } from './minijuegos.js';
 import { MINI_INFO, gatherGame, gatherCargo, prepare, settle, sumCargo } from '../minijuegos.js';
 import { openVentures, openVenture, setVentureHooks } from './negocios-ui.js';
 import { openMailbox, checkMail, unreadMail } from './correo-ui.js';
-import { ventureList, venturesSummary, pending as venturePending } from '../negocios.js';
+import { ventureList, venturesSummary, pending as venturePending, bestVenturesFor } from '../negocios.js';
 import { phase, PHASE_NAMES, isNight } from '../time.js';
 import {
 	spotMarker, prizeState, newsUpdate, newsByPlace, questPlaces, questNeeds, questStatus, isTodo, questParts, itemSpots, tramoName, travelPlan,
@@ -1711,7 +1711,14 @@ export function openSummary(p, onChange, live = null) {
 				h('dt', {}, 'Origen'), h('dd', { style: { fontWeight: 400 } }, `${L(p.metAt)?.name || 'Lugar desconocido'}, Nv. ${p.metLv}`),
 				h('dt', {}, 'Ball'), h('dd', {}, itemName(p.ball)),
 			);
-			body = h('div', {}, evo, kv);
+			// Dónde rendiría en tus negocios (plantilla de trabajadores, 2026-10-30)
+			let best = null;
+			try {
+				const bv = live?.battle ? [] : bestVenturesFor(p);
+				if (bv.length) best = h('div', {}, h('div', { class: 'section-title' }, '🤝 Dónde rendiría'),
+					h('div', { class: 'list neg-best' }, ...bv.map(b => h('div', { class: 'row' }, h('div', { class: 'lbl' }, h('div', { class: 't' }, b.name), h('div', { class: 's' }, `Aportaría +${Math.round(b.v * 100)} %${b.fav ? ' · ⭐ favorito' : b.typed ? ' · ✔ tipo ideal' : ''}`))))));
+			} catch (e) { console.error(e); }
+			body = h('div', {}, evo, kv, best);
 		} else if (tab === 'stats') {
 			body = h('div', {}, ...STATS.map((k, i) => {
 				const m = k === 'hp' ? 1 : natureMod(p.nat, k);

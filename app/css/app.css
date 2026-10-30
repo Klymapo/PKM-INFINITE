@@ -1016,3 +1016,10 @@ img.illus.priv { image-rendering: auto; width: 100%; aspect-ratio: 16 / 10; obje
 .radio-seg { background: var(--ink-2); border: 1px solid var(--line); border-left: 3px solid #c79a4a; border-radius: 10px; padding: 10px 12px; }
 .radio-k { font-size: 12.5px; font-weight: 800; color: #e8c27a; margin-bottom: 4px; }
 .radio-seg p { margin: 0; line-height: 1.5; }
+/* Plantilla de trabajadores (2026-10-30) */
+.neg-guide { margin: 6px 0 10px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 12px; background: var(--ink-2); font-size: 14px; line-height: 1.5; display: grid; gap: 6px; }
+.neg-guide .typechip-row { display: inline-flex; flex-wrap: wrap; gap: 4px; vertical-align: middle; }
+.neg-gk { font-weight: 800; color: var(--gold); }
+.neg-gs { color: var(--muted); font-size: 13px; }
+.neg-staff-mgr { margin-top: 0; }
+.neg-best { display: grid; gap: 4px; }

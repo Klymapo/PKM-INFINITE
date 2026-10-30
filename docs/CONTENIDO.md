@@ -509,3 +509,5 @@ mail: [
 - **Ecos:** solo comentan lo que el jugador ya vivió; variantes por rama con `cond` excluyentes. Nunca adelantan trama.
 - **Encargos:** el guion de la carta empieza la misión (`{ quest, stage }`) y los spots que la cumplen van en zonas ya visitadas con `new` y `cond` sobre la etapa. La misión lleva `type`, `est` (y `parts` si se reúnen cosas) y se cierra al terminar (`done: true`). Recompensa modesta.
 - El guion de una carta puede abrirse más de una vez: protégelo con su flag (`cond` en las ramas) para que no regale dos veces.
+
+**Plantilla (2026-10-30):** Más › Negocios › Plantilla enseña a todos los Pokémon trabajando (aporte, amistad), el encargado y los puestos libres de cada negocio, con su **guía** (tipos ideales de `jobs.types`, favoritos ⭐ de `jobs.favs` y qué produce). «Sugerir» propone el mejor candidato por puesto libre del PC y del equipo (nunca el de cabeza ni el compañero; siempre deja uno en el equipo). La ficha de cada Pokémon dice «Dónde rendiría». **Cada encargado lleva un solo negocio**: si eliges a uno que está al frente de otro, ese otro vuelve a su encargado de siempre (el primero libre de su lista `managers`).
