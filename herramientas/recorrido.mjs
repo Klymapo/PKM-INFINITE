@@ -242,7 +242,7 @@ async function run(id) {
 	await runScript(id);
 	const gained = !miniLost && // la consolación de un minijuego perdido no cuenta como regalo repetido
 		 Object.values(G.bag).reduce((a, b) => a + b, 0) > bagN || G.player.money > money;
-	if (gained && typeof id === 'string' && !/generico|recordar|despues|tienda|shop/.test(id)) {
+	if (gained && typeof id === 'string' && !/generico|recordar|despues|tienda|shop|rx_encuentro|carr_/.test(id)) {
 		// Repetido = el MISMO premio otra vez (un guion que da una nota la 1.ª vez y el botín de un minijuego la 2.ª no repite nada).
 		const what = Object.keys(G.bag).filter(k => (G.bag[k] || 0) > (bag0[k] || 0));
 		if (G.player.money > money) what.push('₽');
@@ -480,6 +480,8 @@ for (step = 0; step < MAX; step++) {
 		const sg = sigNow();
 		if (a.center || a.pc || a.shop) { if (!rec.n) { rec.n = 1; await doSpot(s); } continue; }
 		if (a.training) { if (a.training.prize?.script && !G.flags['premio:' + a.training.prize.script] && rec.n < 6) { rec.n++; await doSpot(s); did = true; break; } continue; }
+		// rival que aprende: es opcional; el bot lo intenta una vez en cada sitio donde aparece
+		if (s.rival) { if (!rec.n) { rec.n++; await doSpot(s); did = true; break; } continue; }
 		if (a.venture) { if (rec.n < 3) { rec.n++; await doSpot(s); did = true; break; } continue; }
 		if (a.trainer) { if (!G.beaten[a.trainer] && rec.n < 8) { rec.n++; await doSpot(s); did = true; break; } continue; }
 		if (a.go && G.visited[a.go]) { if (isNew && rec.n < 15 && Math.random() < 0.5) { rec.n++; await doSpot(s); did = true; break; } continue; }

@@ -20,6 +20,7 @@ import { D, toID } from './data.js';
 import { G, evalCond, count } from './state.js';
 import { L, activeEvents, isRoute, eventDone } from './world.js';
 import { uniqueSpotsAt } from './unicos.js';
+import { rivalSpotsAt } from './rival.js';
 import { ventureList, pending as venturePending } from './negocios.js';
 import { phase } from './time.js';
 
@@ -89,6 +90,7 @@ function spotsAt(loc) {
 	let spots = (loc.spots || []).slice();
 	for (const e of events()) if (e.spots?.[loc.id]) { const d = eventDone(e); spots = spots.concat(e.spots[loc.id].filter(s => !d || s.keepDone || (s.action && !s.talk && !s.script)).map(s => ({ ...s, event: e.id }))); }
 	try { spots = spots.concat(uniqueSpotsAt(loc.id)); } catch (e) { /* */ }
+	try { spots = spots.concat(rivalSpotsAt(loc.id)); } catch (e) { /* */ }
 	v = spots.filter(s => ok(s.cond));
 	CUR.spots.set(loc.id, v);
 	return v;

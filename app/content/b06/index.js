@@ -18,6 +18,7 @@ import botica from './t9-botica.js';
 import serafina from './t10-serafina.js';
 import fotos from './t11-fotos.js';
 import carreras from './t12-carreras.js';
+import rival from './t13-rival.js';
 
 const block = {
 	id: 'b06', title: 'Acto V · La voz del narrador', hours: 16, ends: 'b06_fin',
@@ -26,7 +27,7 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [], mail: [], radio: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t4, t5, museo, ecos, encargos, botica, serafina, fotos, carreras];
+const parts = [comun, t0, t1, t2, t3, t4, t5, museo, ecos, encargos, botica, serafina, fotos, carreras, rival];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {

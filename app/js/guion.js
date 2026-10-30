@@ -266,6 +266,20 @@ async function runCmd(c, ctx) {
 		if (next) await runList(next, ctx);
 		return;
 	}
+	if (c.rival) {
+		// Rival que aprende (app/js/rival.js): saludo con memoria, preparar el equipo y apuntar el resultado
+		const RX = await import('./rival.js');
+		const who = { id: RX.RX.npc, ...npc(RX.RX.npc) };
+		if (c.rival === 'saludo') { for (const t of RX.greetLines()) await UI.say(who, tx(t)); return; }
+		if (c.rival === 'prep') { RX.prepare(); return; }
+		if (c.rival === 'gana' || c.rival === 'pierde') {
+			const res = c.rival === 'gana' ? 'win' : 'lose';
+			const r = RX.record(res);
+			await UI.say(who, tx(RX.afterLine(res, r.tierUp)));
+			return;
+		}
+		return;
+	}
 	if (c.race) {
 		// Carreras de monturas (app/js/carreras.js): sin interfaz, la corre sola con la mejor montura y saltos normales
 		const CR = await import('./carreras.js');

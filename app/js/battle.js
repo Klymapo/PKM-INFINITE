@@ -10,6 +10,7 @@ import {
 } from './pokemon.js';
 import { isNight } from './time.js';
 import { notaPrimera } from './atico.js';
+import { countUse } from './rival.js';
 import { rint, clone } from './util.js';
 
 // ---------- Movimiento oculto para "pasar turno" (usar objeto, fallar huida, lanzar Ball) ----------
@@ -159,6 +160,7 @@ export class BattleCtl {
 			this.events.push({ t: 'text', s: `¡**${this.trainer?.cls ? this.trainer.cls + ' ' : ''}${this.trainer?.name || 'Rival'}** te desafía!` });
 		}
 		this.participants = new Set([b.p1.active[0]]);
+		this.used = new Set([b.p1.active[0]]);
 		this.pump();
 		return this.flushEvents();
 	}
@@ -231,6 +233,7 @@ export class BattleCtl {
 				this.participants = new Set([this.battle.p1.active[0]]);
 			} else if (sp) {
 				this.participants.add(sp);
+				(this.used ||= new Set()).add(sp);
 			}
 			this.events.push({ t: 'switch', side, info });
 			if (side === 'p2' && this.wild && !this.firstFoeShown) { this.firstFoeShown = true; return; }
@@ -699,6 +702,8 @@ export class BattleCtl {
 		}
 		const summary = { result: this.result, caught: this.caught, levelUps: this.levelUps, money: 0, leveled: [...(this.leveled || [])] };
 		G.stats.battles = (G.stats.battles || 0) + 1;
+		// Uso en combate (rival que aprende, app/js/rival.js): +1 a quien salió a luchar (+2 contra entrenadores); no en torneos
+		if (!this.cfg.noExp) try { countUse([...this.simToParty].filter(([simP]) => this.used?.has(simP)).map(([, p]) => p), !this.wild); } catch (e) { /* */ }
 		if (!this.wild && this.result === 'win' && this.trainer) {
 			const lastLv = Math.max(...this.foes.map(f => f.lv));
 			let money = this.trainer.reward ?? (this.trainer.base || 40) * lastLv;

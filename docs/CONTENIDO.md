@@ -556,3 +556,13 @@ races: {
 - Todo tramo tiene un camino sin `need`. Premios **modestos y en objetos**: el de estreno, uno de victoria como mucho cada 20 h, uno de podio cada 20 h y otro al batir el récord. Nunca dinero.
 - Récord y victorias en `G.races[id]`; el motor pone `flag.carrera_<id>_ganada` al ganar.
 - Equilibrio (lo comprueba la prueba): con la montura de la región y saltos perfectos se gana casi siempre; sin saltar, nunca; de alquiler, a veces.
+
+## 19. Rival que aprende
+
+> Pedido de Mario, 2026-10-30. Motor en `app/js/rival.js`, guiones en `app/content/b06/t13-rival.js`. Prueba: `herramientas/test/rival-test.mjs`.
+
+- **Uso en combate:** al acabar cada combate (salvo torneos), cada Pokémon tuyo que salió a luchar suma +1 en `G.uso[uid]` (+2 contra entrenadores). `topUsed(3)` da los tres más usados que sigues teniendo.
+- **Bruna** aparece como sitio dinámico (como los Pokémon únicos) en una ciudad o pueblo visitado de la región donde estás, cuando `hitos() >= G.rx.next` (2 al principio; +2 tras cada victoria tuya). Si pierdes, se queda con el mismo equipo para la revancha.
+- **Equipo:** `buildRival()` elige especies evolucionadas y no legendarias que llevan los tipos que más daño hacen a tus tres más usados y aguantan los suyos; movimientos legales de su aprendizaje (nivel, MT, tutor). As = tope − 2 + reto (máximo tope + 1); tamaño según hitos (balance §4.2), +1 desde el reto 2.
+- **Reto:** si le ganas 3 veces seguidas con el mismo equipo, sube (`G.rx.tier`, 0–3): mejor IA, más nivel, más IV y más pociones.
+- **Comandos de guion:** `{ rival: 'saludo' }` (frases que recuerdan los combates anteriores), `{ rival: 'prep' }` (pone el equipo en `rx_bruna`), `{ rival: 'gana' | 'pierde' }` (apunta el resultado y comenta). Antes del combate el guion cura siempre (`{ heal: true }`).

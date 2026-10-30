@@ -79,7 +79,18 @@ with sync_playwright() as p:
         pg.click('.cr-box .ft-btns button'); time.sleep(0.4)
 
     if not solo or 'rival' in solo:
-        r = pg.evaluate("""async () => { try { const R = await import('./js/rival.js'); return !!R; } catch (e) { return 'sin módulo'; } }""")
+        pg.evaluate("""async () => {
+            const S = await import('./js/state.js');
+            S.G.player.badges.push('x', 'y'); S.G.vars.hitos = 2;
+            const Gu = await import('./js/guion.js');
+            window.__rx = Gu.runScript('rx_primera');
+        }""")
+        for i in range(6):
+            time.sleep(0.9)
+            if i in (1, 3): shot(pg, f'rival-{i}')
+            tb = pg.query_selector('.overlay .textbox')
+            if tb: tb.evaluate('e => e.click()')
+        time.sleep(0.5); shot(pg, 'rival-eleccion')
 
     b.close()
 srv.shutdown()

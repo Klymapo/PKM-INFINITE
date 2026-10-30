@@ -6,6 +6,7 @@ import { createPokemon, addHappy, healFull } from './pokemon.js';
 import { weightedPick, rint, rng } from './util.js';
 import { inDateRange, phase, now } from './time.js';
 import { uniqueSpotsAt } from './unicos.js';
+import { rivalSpotsAt } from './rival.js';
 
 export const L = id => C.locations[id];
 export const isRoute = loc => !!loc?.route;
@@ -69,6 +70,7 @@ export function spotsOf(loc) {
 		spots = spots.concat(e.spots[loc.id].filter(s => !done || keepAfterDone(s)).map(s => ({ ...s, event: e.id })));
 	}
 	spots = spots.concat(uniqueSpotsAt(loc.id));
+	try { spots = spots.concat(rivalSpotsAt(loc.id)); } catch (e) { /* */ }
 	return spots.filter(s => s.cond === undefined || evalCond(s.cond));
 }
 
