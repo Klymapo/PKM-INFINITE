@@ -33,6 +33,7 @@ import { playCutscene } from './cine.js';
 import { playMinigame, showLoot } from './minijuegos.js';
 import { MINI_INFO, gatherGame, gatherCargo, prepare, settle, sumCargo } from '../minijuegos.js';
 import { openVentures, openVenture, setVentureHooks } from './negocios-ui.js';
+import { openMailbox, checkMail, unreadMail } from './correo-ui.js';
 import { ventureList, venturesSummary, pending as venturePending } from '../negocios.js';
 import { phase, PHASE_NAMES, isNight } from '../time.js';
 import {
@@ -197,6 +198,8 @@ function continueGame(save) {
 	backupReminder();
 	try { const r = DC.tick(); if (r.egg) setTimeout(() => toast('🥚 ¡Ha aparecido un huevo en la Guardería!', 'quest'), 5000); } catch (e) { console.error(e); }
 	setTimeout(() => checkDexRewards(), 6000);
+	// Buzón: lo que ya toca llega al abrir (y cada vez que cambias de lugar)
+	setTimeout(() => { mailCheckedAt = Date.now(); checkMail(); }, 9000);
 	// Negocios: aviso antes de perder producción (2026-10-30)
 	try { const v = venturesSummary(); if (v.mine && (v.ready || v.almost)) setTimeout(() => toast(v.ready ? '📦 Algún negocio tiene el almacén lleno o un imprevisto: Más › Negocios' : '⏳ Algún negocio está por llenar el almacén: Más › Negocios › Recoger todo'), 8000); } catch (e) { console.error(e); }
 	// Historias colgadas de bloques ya terminados: se archivan una vez por versión de contenido
@@ -334,11 +337,13 @@ function ctxOf(loc) {
 }
 
 // =================== Render principal ===================
+let mailCheckedAt = 0;
 export function render() {
 	if (!G) return;
 	const root = app();
 	const loc = L(G.loc);
 	if (!loc) { root.innerHTML = '<div class="empty">Ubicación desconocida.</div>'; return; }
+	if (mailCheckedAt && Date.now() - mailCheckedAt > 60e3) { mailCheckedAt = Date.now(); setTimeout(checkMail, 800); }
 	root.innerHTML = '';
 	const ph = phase();
 	const ctx = ctxOf(loc);
@@ -2614,6 +2619,7 @@ function openMore() {
 		row('📜', 'Conversaciones', 'Relee lo último que te dijeron', () => openDialogLog()),
 		row('📍', 'Guía de zona', 'Qué Pokémon hay por aquí', openZoneGuide),
 		(() => { const v = venturesSummary(); return (v.mine || v.offers) ? row('🤝', 'Negocios', v.mine ? `${v.mine} ${v.mine === 1 ? 'negocio' : 'negocios'} · por recoger ${fmtMoney(v.money)}${v.ready ? ' · ❗ te necesitan' : v.almost ? ' · ⏳ almacén casi lleno' : ''}${v.offers ? ` · ${v.offers} ${v.offers === 1 ? 'oportunidad' : 'oportunidades'}` : ''}` : `${v.offers} ${v.offers === 1 ? 'oportunidad' : 'oportunidades'} para invertir`, () => openVentures()) : null; })(),
+		(() => { const n = unreadMail(); return row('📬', 'Buzón', n ? `✨ ${n} ${n === 1 ? 'cosa sin abrir' : 'cosas sin abrir'}` : 'Cartas, periódicos y encargos', openMailbox); })(),
 		row('🎓', 'Tutor de movimientos', 'Recordar, olvidar y buscar movimientos', () => openTutor()),
 		(() => { const n = Object.keys(G.uniq?.missed || {}).length; return row('🐾', 'Segundas oportunidades', n ? `${n} ${n === 1 ? 'Pokémon único volverá' : 'Pokémon únicos volverán'}` : 'Pokémon únicos que se escaparon', openUniques); })(),
 		row('🏅', 'Retos', 'Líderes y combates importantes', openChallenges),

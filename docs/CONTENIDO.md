@@ -490,3 +490,22 @@ radio: [
 - Las piezas **solo comentan lo que el jugador ya vivió**: nada de spoilers ni de secretos que aún no sabe.
 - Cada bloque nuevo añade 4–8 piezas sobre sus grandes decisiones (con una variante por rama).
 - Mantén siempre al menos 6 piezas sin `cond`, para que el programa nunca salga vacío.
+
+## 15. Buzón: ecos de decisiones y encargos
+
+> Pedido de Mario, 2026-10-29. Motor en `app/js/correo.js`, pantalla en `app/js/ui/correo-ui.js` (Más › Buzón).
+
+Cartas, periódicos, visitas y encargos que **llegan días reales después** de algo que el jugador vivió. Una pieza «se entera» la primera vez que su `cond` se cumple y llega `days` días después. Como mucho llega **una pieza cada 20 h** (las que esperan hacen cola por antigüedad), con un aviso y la marca «sin abrir» en Más › Buzón.
+
+```js
+mail: [
+  { id: 'eco_b03_rancho_jugador', kind: 'carta', from: 'Adela', npc: 'sobrina', title: 'Noticias del rancho',
+    cond: 'flag.b03_fin && flag.b03_rancho_jugador', days: 2, item: 'cartaecorancho' },        // objeto con `read`
+  { id: 'enc_x', kind: 'encargo', from: '…', title: '…', cond: '…', days: 3, item: 'cartaencx', script: 'enc_x_carta' },
+  // kind: 'carta' | 'periodico' | 'visita' | 'encargo'. Al abrirla: se lee el objeto (si hay) y luego se juega el guion (si hay).
+]
+```
+
+- **Ecos:** solo comentan lo que el jugador ya vivió; variantes por rama con `cond` excluyentes. Nunca adelantan trama.
+- **Encargos:** el guion de la carta empieza la misión (`{ quest, stage }`) y los spots que la cumplen van en zonas ya visitadas con `new` y `cond` sobre la etapa. La misión lleva `type`, `est` (y `parts` si se reúnen cosas) y se cierra al terminar (`done: true`). Recompensa modesta.
+- El guion de una carta puede abrirse más de una vez: protégelo con su flag (`cond` en las ramas) para que no regale dos veces.

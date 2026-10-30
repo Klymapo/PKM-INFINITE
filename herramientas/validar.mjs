@@ -235,6 +235,22 @@ for (const [id, s] of Object.entries(C.shops)) for (const e of s.items) checkIte
 	}
 	if ((C.radio || []).length && (C.radio || []).filter(r => !r.cond).length < 6) W('radio', 'menos de 6 piezas sin condición');
 }
+// Buzón (docs/CONTENIDO.md §15)
+{
+	const ids = new Set(), KINDS = ['carta', 'periodico', 'visita', 'encargo'];
+	for (const m of C.mail || []) {
+		const w = 'buzón ' + (m.id || '?');
+		if (!m.id || ids.has(m.id)) E(w, 'pieza sin id o con id repetido'); ids.add(m.id);
+		if (!KINDS.includes(m.kind)) E(w, 'kind desconocido: ' + m.kind);
+		if (!m.cond) E(w, 'sin cond: llegaría a todo el mundo desde el principio');
+		checkCond(w, m.cond);
+		if (!m.item && !m.script) E(w, 'sin objeto (item con read) ni guion');
+		if (m.item) { const it = D.items[m.item]; if (!it) E(w, 'objeto inexistente: ' + m.item); else if (!it.read) E(w, `el objeto ${m.item} no tiene read`); }
+		if (m.script && !C.scripts[m.script]) E(w, 'guion inexistente: ' + m.script);
+		if (!m.from || !m.title) E(w, 'falta from o title');
+		if (m.days !== undefined && (m.days < 1 || m.days > 14)) W(w, 'days fuera de 1–14');
+	}
+}
 for (const ev of C.events) {
 	const w = 'evento ' + ev.id;
 	if (!/^\d\d-\d\d$/.test(ev.from) || !/^\d\d-\d\d$/.test(ev.to)) E(w, 'fechas inválidas');

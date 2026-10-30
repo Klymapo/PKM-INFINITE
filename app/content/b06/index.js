@@ -12,15 +12,19 @@ import t3 from './t3-antano.js';
 import t4 from './t4-fayenza.js';
 import t5 from './t5-dragospiral.js';
 import museo from './t6-museo.js';
+import ecos from './t7-ecos.js';
+import encargos from './t8-encargos.js';
+import botica from './t9-botica.js';
+import serafina from './t10-serafina.js';
 
 const block = {
 	id: 'b06', title: 'Acto V · La voz del narrador', hours: 16, ends: 'b06_fin',
 	regions: { teselia: { name: 'Teselia', h: 100, land: 'M4,30 L14,18 L30,4 L50,2 L62,10 L74,24 L90,30 L96,44 L88,54 L72,60 L64,72 L50,74 L36,84 L24,84 L12,80 L4,68 L2,50 Z M5,87 L19,86 L21,96 L7,97 Z' } },
 	npcs, quests: misiones,
-	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [],
+	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [], mail: [], radio: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t4, t5, museo];
+const parts = [comun, t0, t1, t2, t3, t4, t5, museo, ecos, encargos, botica, serafina];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {
@@ -31,6 +35,8 @@ for (const part of parts) {
 	}
 	block.events.push(...(part.events || []));
 	block.milestones.push(...(part.milestones || []));
+	block.mail.push(...(part.mail || []));
+	block.radio.push(...(part.radio || []));
 	for (const loc in part.extraSpots || {}) (extraSpots[loc] ||= []).push(...part.extraSpots[loc]);
 	// Parches a lugares de bloques anteriores: se acumulan (varios tramos pueden tocar el mismo lugar)
 	for (const loc in part.patches || {}) {
