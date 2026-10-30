@@ -266,6 +266,22 @@ async function runCmd(c, ctx) {
 		if (next) await runList(next, ctx);
 		return;
 	}
+	if (c.race) {
+		// Carreras de monturas (app/js/carreras.js): sin interfaz, la corre sola con la mejor montura y saltos normales
+		const CR = await import('./carreras.js');
+		if (!CR.raceDef(c.race)) return;
+		let res;
+		if (UI.race) res = await UI.race(c.race);
+		else {
+			const m = CR.mountsFor(c.race)[0];
+			const run = CR.autoRun(c.race, m.id, 2, 'auto' + (CR.raceState(c.race).runs || 0));
+			res = CR.finishRace(c.race, m.id, run.mine, run.rivals);
+		}
+		ctx.lastRace = res;
+		const next = res && !res.quit ? (res.pos === 1 ? c.onWin : c.onLose) : null;
+		if (next) await runList(next, ctx);
+		return;
+	}
 	if (c.photoSell) {
 		const FT = await import('./foto.js');
 		const r = FT.sellPhotos();

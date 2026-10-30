@@ -19,7 +19,7 @@ const E = (w, m) => errors.push(`${w}: ${m}`);
 const checkGather = () => { for (const [gid, g] of Object.entries(C.gather || {})) { if (!Array.isArray(g.table) || !g.table.length) E('recolección ' + gid, 'tabla vacía'); for (const e of g.table || []) { if (!D.items[e.id]) E('recolección ' + gid, 'objeto inexistente: ' + e.id); if (e.cond) { try { new Function('s', 'with(s){return (' + e.cond + ')}'); } catch (x) { E('recolección ' + gid, 'condición inválida: ' + e.cond); } } } for (const m of checkGatherGame(gid, g, MG_CTX)) E('recolección ' + gid, 'game: ' + m); if (g.game && !checkGatherGame(gid, g, MG_CTX).length) { const gd = gatherGame(gid, g); if (g.table.some(e => e.rare)) { const rr = rareRate(gd, { n: 60, table: g.table, picks: g.picks }); if (rr.had >= 5 && !rr.got) E('recolección ' + gid, 'game: las entradas rare no se consiguen nunca'); } minigames.push({ w: 'recolección ' + gid, id: gd.id, type: gd.type, level: gd.level, win: winRate({ ...gd, loot: g.table }, { n: 30 }).win }); } else if (!g.game && (g.table || []).some(e => e.rare)) W('recolección ' + gid, 'entradas rare sin game: salen como cualquier otra'); } };
 const W = (w, m) => warns.push(`${w}: ${m}`);
 
-const KNOWN_CMDS = new Set(['daycare', 'torneo', 'say', 'text', 'choice', 'if', 'set', 'rep', 'af', 'give', 'take', 'money', 'pokemon', 'battle', 'wild', 'heal', 'go', 'quest', 'diary', 'intel', 'badge', 'cap', 'call', 'end', 'notice', 'toast', 'scene', 'wait', 'happy', 'learn', 'unlock', 'shop', 'save', 'evolveCheck', 'nickname', 'center', 'pc', 'mapUnlock', 'clearRoute', 'cutscene', 'input', 'forceEvolve', 'puzzle', 'read', 'venture', 'minigame', 'photo', 'photoSell']);
+const KNOWN_CMDS = new Set(['daycare', 'torneo', 'say', 'text', 'choice', 'if', 'set', 'rep', 'af', 'give', 'take', 'money', 'pokemon', 'battle', 'wild', 'heal', 'go', 'quest', 'diary', 'intel', 'badge', 'cap', 'call', 'end', 'notice', 'toast', 'scene', 'wait', 'happy', 'learn', 'unlock', 'shop', 'save', 'evolveCheck', 'nickname', 'center', 'pc', 'mapUnlock', 'clearRoute', 'cutscene', 'input', 'forceEvolve', 'puzzle', 'read', 'venture', 'minigame', 'photo', 'photoSell', 'race']);
 const AUX_KEYS = new Set(['cond', 'as', 'n', 'silent', 'stage', 'done', 'then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'lose', 'canRun', 'prompt', 'nickname', 'who', 'jingle', 'dim', 'mood', 'onSolve', 'onQuit', 'join', 'open', 'level', 'onSale', 'onNone']);
 const COND_NS = /\b(flag|flags|vars|rep|af|quest|done)\.([A-Za-z0-9_]+)/g;
 const COND_FUNCS = ['foto', 'has', 'count', 'badge', 'inParty', 'owns', 'seen', 'caught', 'visited', 'cleared', 'beat', 'date', 'zero', 'works', 'partner'];
@@ -123,6 +123,7 @@ function walk(where, list, depth = 0) {
 		case 'unlock': if (!['mega', 'z', 'dynamax', 'tera'].includes(c.unlock)) E(w, 'unlock inválido'); break;
 		case 'read': if (typeof c.read === 'string') { if (!D.items[toID(c.read)]?.read) E(w, `read: el objeto «${c.read}» no existe o no tiene texto (read)`); } else if (c.read?.gen) { if (!['medallas', 'muro', 'esfuerzo'].includes(c.read.gen)) E(w, 'read.gen desconocido: ' + c.read.gen); } else if (!c.read?.text) E(w, 'read sin texto'); break;
 		case 'venture': if (!C.ventures[c.venture]) E(w, `negocio inexistente: ${c.venture}`); break;
+		case 'race': if (!C.races?.[c.race]) E(w, `carrera inexistente: ${c.race}`); break;
 		case 'photo': { const pd = C.photos?.[c.photo]; if (!pd) E(w, `foto inexistente: ${c.photo}`); else { checkSpecies(w, pd.sp); if (!C.locations[pd.loc]) E(w, `foto: lugar inexistente ${pd.loc}`); for (const g of pd.gift || []) checkItem(w, g.id); } if (c.level && (c.level < 1 || c.level > 3)) E(w, 'foto: level 1–3'); break; }
 		}
 		for (const k of ['onWin', 'onLose', 'onCatch', 'onRun', 'onSolve', 'onQuit', 'onSale', 'onNone']) if (c[k]) walk(w + '.' + k, c[k], depth + 1);
@@ -308,6 +309,25 @@ function checkEvolutions() {
 	}
 }
 checkEvolutions();
+
+// ---------- Carreras de monturas ----------
+{
+	const { MOUNTS, TERRAINS } = await import('../app/js/carreras.js');
+	for (const [id, r] of Object.entries(C.races || {})) {
+		const w = 'carrera ' + id;
+		if (!C.locations[r.loc]) E(w, 'lugar inexistente: ' + r.loc);
+		if (r.host && !C.npcs[r.host]) E(w, 'anfitrión inexistente: ' + r.host);
+		if ((r.rivals || []).length !== 3) W(w, 'debería tener 3 rivales');
+		for (const rv of r.rivals || []) { if (!C.npcs[rv.npc]) E(w, 'rival inexistente: ' + rv.npc); if (!MOUNTS[rv.mount]) E(w, 'montura inexistente: ' + rv.mount); else checkSpecies(w, MOUNTS[rv.mount].sp); }
+		for (const m of r.rent || []) if (!MOUNTS[m]?.rent) E(w, 'montura de alquiler inexistente: ' + m);
+		for (const [i, t] of (r.tramos || []).entries()) {
+			if (!(t.paths || []).some(p => !p.need)) E(w, `tramo ${i}: hace falta un camino sin atajo`);
+			for (const p of t.paths || []) { if (!TERRAINS[p.terrain]) E(w, `tramo ${i}: terreno desconocido ${p.terrain}`); if (p.need && !TERRAINS[p.need]) E(w, `tramo ${i}: atajo desconocido ${p.need}`); }
+		}
+		for (const p of [...(r.prize?.first || []), ...(r.prize?.win || []), r.prize?.podium, r.prize?.record].filter(Boolean)) checkItem(w, p.id);
+		checkCond(w, r.cond);
+	}
+}
 
 // ---------- Negocios ----------
 function checkVentures() {

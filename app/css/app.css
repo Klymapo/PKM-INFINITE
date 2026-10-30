@@ -1042,3 +1042,22 @@ img.illus.priv { image-rendering: auto; width: 100%; aspect-ratio: 16 / 10; obje
 .ft-date { color: inherit; font-size: 12px; font-style: italic; }
 .ftcard .ft-lead { width: 72px; height: 72px; }
 .ft-btns:has(> :only-child) { grid-template-columns: 1fr; }
+/* Carreras de monturas (2026-10-30) */
+.cr-box { max-height: calc(100dvh - 32px); overflow-y: auto; }
+.cr-pic { position: relative; height: 110px; border-radius: 12px; overflow: hidden; background: var(--ink-3); }
+.cr-pic canvas { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.cr-mon { position: absolute; bottom: 8%; width: 64px; height: 64px; transform: translateX(-50%); transition: left .6s ease; left: 12%; }
+.cr-mon img, .cr-mon canvas { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.cr-body { display: grid; gap: 10px; }
+.cr-head { font-weight: 800; color: var(--gold); font-size: 16px; }
+.cr-text { font-size: 15px; line-height: 1.45; white-space: pre-line; }
+.cr-locked { opacity: .55; }
+.cr-bar { position: relative; height: 44px; border-radius: 10px; background: var(--ink-3); border: 1px solid var(--line); overflow: hidden; }
+.cr-bar b { position: absolute; top: 0; bottom: 0; transform: translateX(-50%); left: 50%; }
+.cr-z1 { width: 44%; background: rgba(120,160,220,.22); }
+.cr-z2 { width: 26%; background: rgba(120,200,140,.35); }
+.cr-z3 { width: 10%; background: var(--gold); opacity: .8; }
+.cr-mark { position: absolute; top: 4px; bottom: 4px; width: 6px; margin-left: -3px; border-radius: 3px; background: #fff; box-shadow: 0 0 6px rgba(0,0,0,.6); }
+.cr-table { display: grid; gap: 4px; }
+.cr-rowt { display: grid; grid-template-columns: 44px 1fr auto; gap: 8px; padding: 8px 10px; border-radius: 10px; background: var(--ink-2); font-size: 15px; }
+.cr-rowt.me { outline: 2px solid var(--gold); font-weight: 800; }

@@ -535,3 +535,24 @@ photos: { snorlax_hojas: { sp: 'snorlax', loc: 'ruta7', title: '…', caption: '
 > Pedido de Mario, 2026-10-29. Motor en `app/js/expedicion.js`, pantalla en `app/js/ui/expedicion-ui.js` (Más › Expediciones). No necesita contenido propio.
 
 Se manda un Pokémon **del PC** (no del equipo ni de los negocios) a una **ruta visitada con puntos de recolección**; hasta 3 a la vez, de 4, 8 u 12 h reales. Vuelve con 2 objetos por cada 4 h sacados de los `gather` de esa ruta (lo común; rara vez una entrada `rare`), una bitácora procedural de 2–3 líneas, amistad (+10 por cada 4 h) y algo de experiencia (como mucho un nivel). Nunca dinero. Mientras está fuera no está en su caja (`owns()` lo cuenta). **Cada `gather` nuevo en una ruta amplía lo que traen las expediciones**: revisa que sus tablas no regalen nada que rompa la curva.
+
+## 18. Carreras de monturas
+
+> Pedido de Mario, 2026-10-30. Motor en `app/js/carreras.js`, pantalla en `app/js/ui/carreras-ui.js`, circuitos en `app/content/b06/t12-carreras.js`. Prueba: `herramientas/test/carreras-test.mjs`.
+
+Un circuito por región con monturas, contra **3 rivales con nombre** (personajes que el jugador ya conoce). Se corre por tramos: en cada uno el jugador elige camino. Cada montura va más rápida o más lenta según el terreno (`MOUNTS[x].spd`) y solo algunas abren ciertos **atajos** (`need`: Rhyhorn `roca`, Lapras `agua`, Aerodactyl `cielo`; las de alquiler `monte`, `barro`, `bosque` o ninguno). Los caminos con `jump` se juegan con un toque a tiempo (calidad 0–3).
+
+```js
+races: {
+  kalos: { name, region, loc: 'boceto', host: 'jinete_boceto', icon, cond, blurb,
+    rent: ['gogoat'],                              // monturas de alquiler del circuito (siempre hay alguna)
+    rivals: [ { npc: 'rhi', mount: 'gogoat', pace: 1.01, start, ahead, behind, win, lose } ], // pace < 1 = más rápido
+    tramos: [ { name, text, paths: [ { label, terrain: 'llano', len: 10 }, { label, terrain: 'roca', len: 8, need: 'roca' }, { label, terrain: 'llano', len: 9, jump: true } ] } ],
+    prize: { first: [{ id, n }], win: [{ id, n }…], podium: { id, n }, record: { id, n } } },
+}
+// guion: { race: 'kalos', onWin: [...], onLose: [...] }  (sin interfaz la corre sola)
+```
+
+- Todo tramo tiene un camino sin `need`. Premios **modestos y en objetos**: el de estreno, uno de victoria como mucho cada 20 h, uno de podio cada 20 h y otro al batir el récord. Nunca dinero.
+- Récord y victorias en `G.races[id]`; el motor pone `flag.carrera_<id>_ganada` al ganar.
+- Equilibrio (lo comprueba la prueba): con la montura de la región y saltos perfectos se gana casi siempre; sin saltar, nunca; de alquiler, a veces.

@@ -35,6 +35,7 @@ import { MINI_INFO, gatherGame, gatherCargo, prepare, settle, sumCargo } from '.
 import { openVentures, openVenture, setVentureHooks } from './negocios-ui.js';
 import { openMailbox, checkMail, unreadMail } from './correo-ui.js';
 import { playFocus, photoCard } from './foto-ui.js';
+import { playRace } from './carreras-ui.js';
 import { openExpeditions, readyCount as expReady } from './expedicion-ui.js';
 import { expState, destinations as expDests } from '../expedicion.js';
 import { album as photoAlbum, photoCount } from '../foto.js';
@@ -79,6 +80,7 @@ export function installHooks() {
 		read: (title, text, itemId) => readPaper(title, text, { icon: itemId ? itemImg(itemId) : null }),
 		venture: id => openVenture(id),
 		photo: o => playFocus(o),
+		race: id => playRace(id),
 	});
 	setVentureHooks({ travel: id => guarded(() => travelTo(id)), summary: (p, onChange) => openSummary(p, onChange, { battle: true, hp: p.hp, maxhp: maxHp(p) }) });
 }

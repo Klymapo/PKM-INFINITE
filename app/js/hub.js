@@ -307,6 +307,7 @@ function probe_(script) {
 				branches(st, depth, ['onWin', 'onLose'].filter(k => c[k]).map(k => [c[k], null]));
 				continue;
 			}
+			if (c.race) { eff(st, 'carrera', true); branches(st, depth, ['onWin', 'onLose'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.photoSell) { branches(st, depth, ['onSale', 'onNone'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.input) { eff(st, 'estado', true); continue; }
 			// tiendas, curas, guardado, cinemáticas, lecturas…: no cambian nada que el hub tenga que anunciar
