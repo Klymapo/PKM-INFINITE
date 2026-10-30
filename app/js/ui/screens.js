@@ -34,7 +34,7 @@ import { playMinigame, showLoot } from './minijuegos.js';
 import { MINI_INFO, gatherGame, gatherCargo, prepare, settle, sumCargo } from '../minijuegos.js';
 import { openVentures, openVenture, setVentureHooks } from './negocios-ui.js';
 import { openMailbox, checkMail, unreadMail } from './correo-ui.js';
-import { playFocus, photoCard } from './foto-ui.js';
+import { photoCard } from './foto-ui.js';
 import { playRace } from './carreras-ui.js';
 import { playCards, openCards } from './cartas-ui.js';
 import { hasCards, cardState } from '../cartas.js';
@@ -83,7 +83,7 @@ export function installHooks() {
 		minigame: def => playMinigame(def),
 		read: (title, text, itemId) => readPaper(title, text, { icon: itemId ? itemImg(itemId) : null }),
 		venture: id => openVenture(id),
-		photo: o => playFocus(o),
+		photo: async () => ({ ok: true, q: 3 }), // sin minijuego de enfoque (Mario lo pidió quitar, 2026-10-30): la foto sale sola con 3 estrellas
 		race: id => playRace(id),
 		cards: id => playCards(id),
 		detective: id => playCase(id),
