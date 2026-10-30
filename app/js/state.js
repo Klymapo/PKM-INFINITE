@@ -279,6 +279,8 @@ function scope() {
 		partySize: G.party.length,
 		pron: G.player.pron,
 		zero,
+		// Estrellas de la foto de un momento raro (0 si no la tienes): foto('snorlax_hojas')
+		foto: id => G.fotos?.[id]?.q || 0,
 		...extraScope(),
 	};
 }

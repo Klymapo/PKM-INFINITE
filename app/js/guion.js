@@ -254,6 +254,27 @@ async function runCmd(c, ctx) {
 		} else if (c.onQuit) await runList(c.onQuit, ctx);
 		return;
 	}
+	if (c.photo) {
+		// Fotografía (app/js/foto.js): minijuego de enfoque; sin interfaz cuenta como ganado con 2 estrellas
+		const FT = await import('./foto.js');
+		const def = FT.photoDef(c.photo);
+		if (!def) return;
+		const res = UI.photo ? await UI.photo({ id: c.photo, def, level: c.level || 2 }) : FT.skipFocus();
+		ctx.lastPhoto = res;
+		if (res.ok) FT.takePhoto(c.photo, res.q);
+		const next = res.ok ? c.onWin : c.onLose;
+		if (next) await runList(next, ctx);
+		return;
+	}
+	if (c.photoSell) {
+		const FT = await import('./foto.js');
+		const r = FT.sellPhotos();
+		ctx.lastSale = r;
+		const next = r.n ? c.onSale : c.onNone;
+		if (r.n) await UI.say(null, `La Gaceta compra ${r.n} ${r.n === 1 ? 'foto' : 'fotos'}: **₽${r.money.toLocaleString('es-MX')}**` + (Object.keys(r.items).length ? ' y ' + Object.entries(r.items).map(([k, n]) => `**${D.items[k]?.name || k}**${n > 1 ? ' ×' + n : ''}`).join(', ') : '') + '.');
+		if (next) await runList(next, ctx);
+		return;
+	}
 	if (c.minigame) {
 		// Minijuego para conseguir objetos (ver app/js/minijuegos.js y docs/MINIJUEGOS.md). Sin interfaz que lo juegue, cuenta como ganado.
 		const P = MJ.prepare({ def: { ...c.minigame, title: tx(c.minigame.title), hint: tx(c.minigame.hint) }, G, cond: evalCond });

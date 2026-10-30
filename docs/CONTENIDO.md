@@ -511,3 +511,21 @@ mail: [
 - El guion de una carta puede abrirse más de una vez: protégelo con su flag (`cond` en las ramas) para que no regale dos veces.
 
 **Plantilla (2026-10-30):** Más › Negocios › Plantilla enseña a todos los Pokémon trabajando (aporte, amistad), el encargado y los puestos libres de cada negocio, con su **guía** (tipos ideales de `jobs.types`, favoritos ⭐ de `jobs.favs` y qué produce). «Sugerir» propone el mejor candidato por puesto libre del PC y del equipo (nunca el de cabeza ni el compañero; siempre deja uno en el equipo). La ficha de cada Pokémon dice «Dónde rendiría». **Cada encargado lleva un solo negocio**: si eliges a uno que está al frente de otro, ese otro vuelve a su encargado de siempre (el primero libre de su lista `managers`).
+
+## 16. Fotografía
+
+> Pedido de Mario, 2026-10-29. Motor en `app/js/foto.js`, enfoque y Álbum en `app/js/ui/foto-ui.js`, contenido en `app/content/b06/t11-fotos.js`.
+
+La **Cámara de la Gaceta** (`camara`, se la da Alexia en Luminalia desde `flag.b04_fin`) permite fotografiar **momentos raros**: un Pokémon salvaje haciendo algo inusual en una ruta ya visitada, a cierta hora, día o estación.
+
+```js
+photos: { snorlax_hojas: { sp: 'snorlax', loc: 'ruta7', title: '…', caption: '…', pay: 1400, gift: [{ id: 'mysticwater', n: 1 }] } },
+// spot (en un tramo de ruta): cond: 'has("camara") && foto("snorlax_hojas") < 3 && (night)', new: '… && !foto("snorlax_hojas") && …'
+// guion: [{ text: '…' }, { photo: 'snorlax_hojas', level: 1-3, onWin: [ … ], onLose: [ … ] }]
+// venta:  { photoSell: true, onSale: [ … ], onNone: [ … ] }
+```
+
+- Enfoque: el recuadro barre de lado a lado; 3 disparos, cada acierto una estrella. Sin estrellas no hay foto (se puede repetir). Una foto con más estrellas sustituye a la anterior.
+- La Gaceta paga 60 / 80 / 100 % de `pay` según las estrellas (y la diferencia si mejoras una ya vendida). `gift` solo la primera vez. Pagos modestos: 1 000–1 600.
+- `foto("id")` en condiciones = estrellas de esa foto (0 si no la tienes). Quedan en Diario › Rotom › 🎞️ Fotos.
+- Sin sprites en el repo: la foto se compone con el sprite que el móvil ya descarga.

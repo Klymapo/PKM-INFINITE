@@ -1023,3 +1023,22 @@ img.illus.priv { image-rendering: auto; width: 100%; aspect-ratio: 16 / 10; obje
 .neg-gs { color: var(--muted); font-size: 13px; }
 .neg-staff-mgr { margin-top: 0; }
 .neg-best { display: grid; gap: 4px; }
+/* Fotografía (2026-10-30) */
+.ft-ov { display: flex; align-items: center; justify-content: center; padding: 16px; z-index: 60; }
+.ft-box { width: min(380px, 100%); background: var(--ink); border: 1px solid var(--line); border-radius: 16px; padding: 14px; display: grid; gap: 10px; }
+.ft-title { font-family: 'Pixelify Sans', sans-serif; font-size: 18px; color: var(--gold); }
+.ft-pic { position: relative; height: 210px; border-radius: 12px; overflow: hidden; background: var(--ink-3); }
+.ft-pic canvas { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.ft-mon { position: absolute; bottom: 18%; width: 96px; height: 96px; transform: translateX(-50%); }
+.ft-mon img, .ft-mon canvas { width: 100%; height: 100%; object-fit: contain; image-rendering: pixelated; }
+.ft-finder { position: absolute; top: 6%; bottom: 6%; border: 3px solid #fff; border-radius: 8px; box-shadow: 0 0 0 999px rgba(0,0,0,.28); pointer-events: none; }
+.ft-flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+.ft-flash.on { animation: ftflash .35s ease-out; }
+@keyframes ftflash { from { opacity: .9; } to { opacity: 0; } }
+.ft-shots { font-size: 18px; color: var(--gold); text-align: center; letter-spacing: 2px; }
+.ft-msg { text-align: center; min-height: 40px; font-size: 15px; }
+.ft-btns { display: grid; grid-template-columns: 1fr 2fr; gap: 8px; }
+.ft-btns .btn { min-height: 48px; }
+.ft-date { color: inherit; font-size: 12px; font-style: italic; }
+.ftcard .ft-lead { width: 72px; height: 72px; }
+.ft-btns:has(> :only-child) { grid-template-columns: 1fr; }

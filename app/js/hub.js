@@ -42,7 +42,7 @@ const ok = c => {
 	if (v === undefined) { v = okRaw(c); CUR.conds.set(c, v); }
 	return v;
 };
-const BRANCH_KEYS = ['then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'onSolve', 'onQuit'];
+const BRANCH_KEYS = ['then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'onSolve', 'onQuit', 'onSale', 'onNone'];
 const ACTIVE_TYPES = { main: '⭐', thread: '🧵', side: '📜', event: '🎉' };
 
 // =================== Versión de estado y caché ===================
@@ -301,6 +301,13 @@ function probe_(script) {
 				branches(st, depth, ['onSolve', 'onQuit', 'onWin', 'onLose'].filter(k => c[k]).map(k => [c[k], null]));
 				continue;
 			}
+			if (c.photo) {
+				// una foto nueva (o con más estrellas) cambia el Álbum
+				if ((G.fotos?.[c.photo]?.q || 0) < 3) eff(st, 'foto', true);
+				branches(st, depth, ['onWin', 'onLose'].filter(k => c[k]).map(k => [c[k], null]));
+				continue;
+			}
+			if (c.photoSell) { branches(st, depth, ['onSale', 'onNone'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.input) { eff(st, 'estado', true); continue; }
 			// tiendas, curas, guardado, cinemáticas, lecturas…: no cambian nada que el hub tenga que anunciar
 		}

@@ -16,6 +16,7 @@ import ecos from './t7-ecos.js';
 import encargos from './t8-encargos.js';
 import botica from './t9-botica.js';
 import serafina from './t10-serafina.js';
+import fotos from './t11-fotos.js';
 
 const block = {
 	id: 'b06', title: 'Acto V · La voz del narrador', hours: 16, ends: 'b06_fin',
@@ -24,7 +25,7 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [], mail: [], radio: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t4, t5, museo, ecos, encargos, botica, serafina];
+const parts = [comun, t0, t1, t2, t3, t4, t5, museo, ecos, encargos, botica, serafina, fotos];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {
@@ -37,6 +38,7 @@ for (const part of parts) {
 	block.milestones.push(...(part.milestones || []));
 	block.mail.push(...(part.mail || []));
 	block.radio.push(...(part.radio || []));
+	Object.assign((block.photos ||= {}), part.photos || {});
 	for (const loc in part.extraSpots || {}) (extraSpots[loc] ||= []).push(...part.extraSpots[loc]);
 	// Parches a lugares de bloques anteriores: se acumulan (varios tramos pueden tocar el mismo lugar)
 	for (const loc in part.patches || {}) {

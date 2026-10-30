@@ -35,7 +35,7 @@ const tName = id => { const t = C.trainers[id]; return t ? `${t.cls ? t.cls + ' 
 const isBig = id => { const t = C.trainers[id]; return !!t && ((t.ai || 0) >= 4 || /rival|líder|jefe|admin|campe/i.test(t.cls || '') || !!(t.npc && C.npcs[t.npc] && !C.npcs[t.npc].generic)); }; // jefes y personajes con nombre
 
 // ---------------- Utilidades de recorrido ----------------
-const KIDS = ['then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'onSolve', 'onQuit'];
+const KIDS = ['then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'onSolve', 'onQuit', 'onSale', 'onNone'];
 /** ¿Algún comando de esta lista (o de sus ramas y llamadas) cumple pred? */
 function contains(list, pred, depth = 0, stack = new Set()) {
 	if (!Array.isArray(list) || depth > 8) return false;

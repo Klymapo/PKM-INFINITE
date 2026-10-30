@@ -3,7 +3,7 @@ import { D, toID } from './data.js';
 
 export const C = {
 	blocks: [], regions: {}, locations: {}, npcs: {}, trainers: {}, quests: {}, scripts: {}, shops: {},
-	challenges: {}, events: [], milestones: [], radio: [], mail: [], badges: {}, gather: {}, ventures: {}, version: '',
+	challenges: {}, events: [], milestones: [], radio: [], mail: [], photos: {}, badges: {}, gather: {}, ventures: {}, version: '',
 };
 
 function mergeLocation(base, patch) {
@@ -54,6 +54,7 @@ export function registerBlock(b) {
 	C.events.push(...(b.events || []));
 	C.radio.push(...(b.radio || []));
 	C.mail.push(...(b.mail || []));
+	Object.assign(C.photos, b.photos || {});
 	C.milestones.push(...(b.milestones || []).map(m => ({ ...m, block: b.id })));
 	// Objetos propios del juego (clave, etc.)
 	for (const id in b.items || {}) D.items[toID(id)] = { pocket: 'key', cost: 0, ...b.items[id], custom: true };

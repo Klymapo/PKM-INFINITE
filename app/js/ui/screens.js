@@ -34,6 +34,8 @@ import { playMinigame, showLoot } from './minijuegos.js';
 import { MINI_INFO, gatherGame, gatherCargo, prepare, settle, sumCargo } from '../minijuegos.js';
 import { openVentures, openVenture, setVentureHooks } from './negocios-ui.js';
 import { openMailbox, checkMail, unreadMail } from './correo-ui.js';
+import { playFocus, photoCard } from './foto-ui.js';
+import { album as photoAlbum, photoCount } from '../foto.js';
 import { ventureList, venturesSummary, pending as venturePending, bestVenturesFor } from '../negocios.js';
 import { phase, PHASE_NAMES, isNight } from '../time.js';
 import {
@@ -74,6 +76,7 @@ export function installHooks() {
 		minigame: def => playMinigame(def),
 		read: (title, text, itemId) => readPaper(title, text, { icon: itemId ? itemImg(itemId) : null }),
 		venture: id => openVenture(id),
+		photo: o => playFocus(o),
 	});
 	setVentureHooks({ travel: id => guarded(() => travelTo(id)), summary: (p, onChange) => openSummary(p, onChange, { battle: true, hp: p.hp, maxhp: maxHp(p) }) });
 }
@@ -2409,8 +2412,14 @@ function openDiary(startTab = null) {
 		} else if (tab === 'diary') {
 			if (!G.diary.length) body.append(h('div', { class: 'empty' }, 'Rotom todavía no ha escrito nada.'));
 			// Álbum de fotos del Diario (pedido de Mario, 2026-10-28)
-			if (G.diary.length) body.append(h('div', { class: 'tabs dlg-mode' }, ...[['text', '📔 Texto'], ['album', '📷 Álbum']].map(([k, n]) => h('button', { class: (diaryMode === k ? 'on' : ''), onclick: () => { diaryMode = k; draw(); } }, n))));
-			if (diaryMode === 'album' && G.diary.length) {
+			const phs = photoAlbum();
+			if (G.diary.length || phs.length) body.append(h('div', { class: 'tabs dlg-mode' }, ...[['text', '📔 Texto'], ['album', '📷 Álbum'], phs.length ? ['fotos', `🎞️ Fotos ${phs.length}/${photoCount().total}`] : null].filter(Boolean).map(([k, n]) => h('button', { class: (diaryMode === k ? 'on' : ''), onclick: () => { diaryMode = k; draw(); } }, n))));
+			if (diaryMode === 'fotos' && phs.length) {
+				body.append(h('div', { class: 'note' }, 'Tus fotos de momentos raros. Alexia, en la Gaceta Viajera de Luminalia, compra las nuevas (y paga la diferencia si repites una con más estrellas).'));
+				const grid = h('div', { class: 'dalbum' });
+				for (const f of phs) grid.append(photoCard(f, () => say(null, `**${tx(f.title)}** · ${'★'.repeat(f.q)}${'☆'.repeat(3 - f.q)}\n${tx(f.caption || '')}`)));
+				body.append(grid);
+			} else if (diaryMode === 'album' && G.diary.length) {
 				const grid = h('div', { class: 'dalbum' });
 				for (const e of G.diary.slice().reverse()) grid.append(diaryPhoto(e, () => { diaryMode = 'text'; draw(); setTimeout(() => document.getElementById('de-' + e.t)?.scrollIntoView({ block: 'center' }), 50); }));
 				body.append(grid);

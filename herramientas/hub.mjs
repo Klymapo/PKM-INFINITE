@@ -583,7 +583,7 @@ async function child() {
 				if (c.if) conds(c.if);
 				if (c.take) out.add(c.take);
 				if (c.call && d < 5) walk(Cn.C.scripts[c.call], d + 1);
-				for (const k of ['then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'onSolve', 'onQuit']) if (Array.isArray(c[k])) walk(c[k], d);
+				for (const k of ['then', 'else', 'onWin', 'onLose', 'onCatch', 'onRun', 'onSolve', 'onQuit', 'onSale', 'onNone']) if (Array.isArray(c[k])) walk(c[k], d);
 				if (Array.isArray(c.choice)) for (const o of c.choice) { if (o?.cond) conds(o.cond); walk(o?.then, d); }
 			}
 		};
