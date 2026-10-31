@@ -1173,6 +1173,170 @@ export function paintAlbaAbrevadero() {
 	return { canvas: cv, done: Promise.resolve(true) };
 }
 
+/** Base común de las fotos del B7: papel, marco y recorte. Devuelve el contexto ya recortado al área de la imagen. */
+function fotoBase(seed) {
+	const W = 480, H = 360;
+	const cv = document.createElement('canvas');
+	cv.width = W; cv.height = H;
+	cv.className = 'acuarela foto';
+	const ctx = cv.getContext('2d');
+	const R = mulberry(seed);
+	const B = 14, IW = W - 2 * B, IH = H - 2 * B - 18;
+	ctx.fillStyle = '#f8f6f0'; ctx.fillRect(0, 0, W, H);
+	ctx.save(); ctx.beginPath(); ctx.rect(B, B, IW, IH); ctx.clip();
+	return { cv, ctx, R, W, H, B, IW, IH };
+}
+function fotoPie(ctx, W, H, B, text, color, rot = -0.04) {
+	ctx.save(); ctx.translate(W - B - 8, H - 11); ctx.rotate(rot); ctx.fillStyle = color; ctx.globalAlpha = 0.82; ctx.font = 'italic 600 14px Nunito, serif'; ctx.textAlign = 'right';
+	ctx.fillText(text, 0, 0); ctx.restore();
+}
+
+/** Cuadro (B7): foto de móvil desde la grada más alta del Estadio de Hoyuelo, de noche. Campo vacío, dos figuras pequeñas en el centro, luna enorme sobre el techo de hierba. */
+export function paintEstadioNoche() {
+	const { cv, ctx, R, W, H, B, IW, IH } = fotoBase('estadio-hoyuelo');
+	// cielo de medianoche, con algo de ruido de móvil
+	const sky = ctx.createLinearGradient(0, B, 0, B + IH * 0.5);
+	sky.addColorStop(0, '#070b18'); sky.addColorStop(1, '#1a2848');
+	ctx.fillStyle = sky; ctx.fillRect(B, B, IW, IH);
+	for (let i = 0; i < 40; i++) { ctx.fillStyle = `rgba(230,236,255,${0.2 + R() * 0.5})`; ctx.fillRect(B + R() * IW, B + R() * IH * 0.35, 1.3, 1.3); }
+	// luna enorme, un poco quemada (el móvil no sabe hacer lunas)
+	const mx = B + IW * 0.68, my = B + 62, mr = 46;
+	const halo = ctx.createRadialGradient(mx, my, mr * 0.8, mx, my, mr * 3.2); halo.addColorStop(0, 'rgba(255,250,225,.42)'); halo.addColorStop(1, 'rgba(200,210,255,0)');
+	ctx.fillStyle = halo; ctx.fillRect(mx - mr * 4, my - mr * 4, mr * 8, mr * 8);
+	ctx.fillStyle = '#fffbea'; ctx.beginPath(); ctx.arc(mx, my, mr, 0, 7); ctx.fill();
+	ctx.fillStyle = 'rgba(220,214,190,.45)'; for (const [dx, dy, r] of [[-14, -10, 10], [12, 8, 8], [-4, 18, 6], [18, -16, 5]]) { ctx.beginPath(); ctx.arc(mx + dx, my + dy, r, 0, 7); ctx.fill(); }
+	// el techo de hierba del estadio: un arco oscuro que corta la parte de abajo de la luna
+	const ty = B + 112;
+	ctx.fillStyle = '#16261a'; ctx.beginPath(); ctx.moveTo(B, ty + 18); ctx.quadraticCurveTo(W / 2, ty - 26, W - B, ty + 18); ctx.lineTo(W - B, ty + 40); ctx.lineTo(B, ty + 40); ctx.fill();
+	ctx.strokeStyle = 'rgba(120,170,110,.5)'; ctx.lineWidth = 1.2;
+	for (let x = B; x < W - B; x += 3) { const yy = ty + 18 - 44 * (1 - Math.pow((x - W / 2) / (IW / 2), 2)) * 0.5 + 2; ctx.beginPath(); ctx.moveTo(x, yy); ctx.lineTo(x + R() * 2 - 1, yy - 3 - R() * 4); ctx.stroke(); }
+	// gradas en sombra, a los dos lados
+	ctx.fillStyle = '#20202e';
+	ctx.beginPath(); ctx.moveTo(B, ty + 38); ctx.lineTo(B + 110, ty + 60); ctx.lineTo(B + 40, B + IH); ctx.lineTo(B, B + IH); ctx.fill();
+	ctx.beginPath(); ctx.moveTo(W - B, ty + 38); ctx.lineTo(W - B - 110, ty + 60); ctx.lineTo(W - B - 40, B + IH); ctx.lineTo(W - B, B + IH); ctx.fill();
+	ctx.strokeStyle = 'rgba(80,80,110,.6)'; ctx.lineWidth = 1;
+	for (let k = 1; k < 9; k++) { ctx.beginPath(); ctx.moveTo(B, ty + 38 + k * 16); ctx.lineTo(B + 110 - k * 8, ty + 60 + k * 14); ctx.stroke(); ctx.beginPath(); ctx.moveTo(W - B, ty + 38 + k * 16); ctx.lineTo(W - B - 110 + k * 8, ty + 60 + k * 14); ctx.stroke(); }
+	// el campo, en perspectiva, bajo la luz de la luna
+	const fy = ty + 56;
+	const field = ctx.createLinearGradient(0, fy, 0, B + IH);
+	field.addColorStop(0, '#2a4a32'); field.addColorStop(1, '#1a3022');
+	ctx.fillStyle = field; ctx.beginPath(); ctx.moveTo(B + 110, fy); ctx.lineTo(W - B - 110, fy); ctx.lineTo(W - B - 40, B + IH); ctx.lineTo(B + 40, B + IH); ctx.fill();
+	// franjas del césped cortado (lo cuidó alguien veinte años)
+	ctx.save(); ctx.clip();
+	for (let k = 0; k < 9; k++) { if (k % 2) continue; const t0 = k / 9, t1 = (k + 1) / 9; ctx.fillStyle = 'rgba(140,190,140,.10)'; ctx.beginPath(); ctx.moveTo(B + 110 + (IW - 220) * t0, fy); ctx.lineTo(B + 110 + (IW - 220) * t1, fy); ctx.lineTo(B + 40 + (IW - 80) * t1, B + IH); ctx.lineTo(B + 40 + (IW - 80) * t0, B + IH); ctx.fill(); }
+	ctx.restore();
+	// líneas de cal
+	ctx.strokeStyle = 'rgba(235,240,230,.55)'; ctx.lineWidth = 1.4;
+	ctx.beginPath(); ctx.moveTo(W / 2, fy); ctx.lineTo(W / 2, B + IH); ctx.stroke();
+	ctx.beginPath(); ctx.ellipse(W / 2, fy + 78, 46, 16, 0, 0, 7); ctx.stroke();
+	// dos figuras pequeñitas en el centro, frente a frente, con su sombra de luna
+	for (const [x, c] of [[W / 2 - 18, '#e8783a'], [W / 2 + 16, '#3a4a6a']]) {
+		ctx.fillStyle = 'rgba(0,0,0,.35)'; ctx.beginPath(); ctx.ellipse(x - 4, fy + 84, 7, 2, 0, 0, 7); ctx.fill();
+		ctx.fillStyle = c; ctx.fillRect(x - 2.5, fy + 70, 5, 12);
+		ctx.fillStyle = '#d8b090'; ctx.beginPath(); ctx.arc(x, fy + 67, 3, 0, 7); ctx.fill();
+	}
+	// un destello de móvil en el borde (el dedo de Nate)
+	ctx.fillStyle = 'rgba(240,170,140,.35)'; ctx.beginPath(); ctx.ellipse(B + 6, B + IH - 30, 30, 50, 0.3, 0, 7); ctx.fill();
+	ctx.restore();
+	photoFinish(ctx, B, B, IW, IH, 77, { grain: 30, warm: -3, vig: 0.55 });
+	fotoPie(ctx, W, H, B, '00:14 · Hoyuelo', '#3a4a6a');
+	return { canvas: cv, done: Promise.resolve(true) };
+}
+
+/** Cuadro (B7): foto con flash en la Sala Primera de la Casa de las Siete Puertas. Siete capuchas grises de frente; al fondo, junto al banco, una octava capucha de lana, de espaldas. */
+export function paintCasaOcho() {
+	const { cv, ctx, R, W, H, B, IW, IH } = fotoBase('casa-ocho');
+	// paredes rojas, iluminadas por el flash en el centro y oscuras en los bordes
+	ctx.fillStyle = '#7a1e22'; ctx.fillRect(B, B, IW, IH);
+	const fl = ctx.createRadialGradient(W / 2, B + IH * 0.45, 20, W / 2, B + IH * 0.45, IW * 0.6);
+	fl.addColorStop(0, 'rgba(255,190,170,.32)'); fl.addColorStop(1, 'rgba(20,0,0,.45)');
+	ctx.fillStyle = fl; ctx.fillRect(B, B, IW, IH);
+	// zócalo de madera y un cuadro torcido en la pared
+	ctx.fillStyle = '#3a2216'; ctx.fillRect(B, B + IH * 0.72, IW, IH * 0.28);
+	ctx.save(); ctx.translate(B + 70, B + 50); ctx.rotate(-0.06); ctx.fillStyle = '#c49a3a'; ctx.fillRect(-26, -20, 52, 40); ctx.fillStyle = '#2a3a2a'; ctx.fillRect(-21, -15, 42, 30); ctx.restore();
+	// el banco, al fondo a la derecha, y la octava capucha de espaldas, sola, de lana gris cálida
+	const bx = W - B - 120, by = B + IH * 0.6;
+	ctx.fillStyle = '#4a2a1a'; ctx.fillRect(bx, by, 96, 10); ctx.fillRect(bx + 6, by + 10, 6, 22); ctx.fillRect(bx + 84, by + 10, 6, 22);
+	const ox = bx + 64, oy = by - 6;
+	ctx.fillStyle = '#9a8a72'; ctx.beginPath(); ctx.moveTo(ox - 20, oy + 6); ctx.quadraticCurveTo(ox - 22, oy - 56, ox, oy - 64); ctx.quadraticCurveTo(ox + 22, oy - 56, ox + 20, oy + 6); ctx.fill();
+	ctx.strokeStyle = 'rgba(60,50,40,.35)'; ctx.lineWidth = 1; for (let k = 0; k < 14; k++) { const yy = oy - 52 + k * 4; ctx.beginPath(); ctx.moveTo(ox - 16, yy); ctx.lineTo(ox + 16, yy + (R() - 0.5) * 2); ctx.stroke(); } // punto de lana
+	ctx.fillStyle = 'rgba(0,0,0,.25)'; ctx.beginPath(); ctx.ellipse(ox, oy + 8, 22, 4, 0, 0, 7); ctx.fill();
+	// siete capuchas grises de frente, en dos filas, con caras de susto y de risa (solo una sombra de cara bajo la capucha)
+	const pos = [[B + 52, 0.66], [B + 104, 0.62], [B + 156, 0.68], [B + 206, 0.63], [B + 80, 0.84], [B + 140, 0.86], [B + 196, 0.83]];
+	pos.forEach(([x, f], i) => {
+		const y = B + IH * f, s = f > 0.8 ? 1.15 : 1;
+		ctx.fillStyle = i % 2 ? '#a8a8b4' : '#b8b8c4';
+		ctx.beginPath(); ctx.moveTo(x - 24 * s, y + 40); ctx.quadraticCurveTo(x - 24 * s, y - 52 * s, x, y - 58 * s); ctx.quadraticCurveTo(x + 24 * s, y - 52 * s, x + 24 * s, y + 40); ctx.fill();
+		ctx.fillStyle = '#5a5a68'; ctx.beginPath(); ctx.ellipse(x, y - 26 * s, 12 * s, 15 * s, 0, 0, 7); ctx.fill();
+		ctx.fillStyle = ['#f2c8a0', '#e0ac85', '#c68863', '#f5cba7'][i % 4]; ctx.beginPath(); ctx.ellipse(x, y - 22 * s, 9 * s, 11 * s, 0, 0, 7); ctx.fill();
+		ctx.fillStyle = '#2a2a2a';
+		if (i % 3 === 0) { ctx.beginPath(); ctx.arc(x - 3.5 * s, y - 24 * s, 1.6, 0, 7); ctx.arc(x + 3.5 * s, y - 24 * s, 1.6, 0, 7); ctx.fill(); ctx.beginPath(); ctx.arc(x, y - 16 * s, 2.4, 0, 7); ctx.fill(); } // susto
+		else { ctx.fillRect(x - 5 * s, y - 25 * s, 3, 1.4); ctx.fillRect(x + 2 * s, y - 25 * s, 3, 1.4); ctx.beginPath(); ctx.arc(x, y - 18 * s, 4 * s, 0.1, Math.PI - 0.1); ctx.lineWidth = 1.4; ctx.strokeStyle = '#2a2a2a'; ctx.stroke(); } // risa
+		// ojos rojos del flash, en dos
+		if (i === 1 || i === 5) { ctx.fillStyle = '#ff3a3a'; ctx.fillRect(x - 4 * s, y - 25 * s, 2, 2); ctx.fillRect(x + 3 * s, y - 25 * s, 2, 2); }
+	});
+	// el niño delante, con un peluche blanco y redondo en brazos
+	const nx = B + 250, ny = B + IH * 0.9;
+	ctx.fillStyle = '#b8b8c4'; ctx.beginPath(); ctx.moveTo(nx - 16, ny + 30); ctx.quadraticCurveTo(nx - 16, ny - 34, nx, ny - 38); ctx.quadraticCurveTo(nx + 16, ny - 34, nx + 16, ny + 30); ctx.fill();
+	ctx.fillStyle = '#f5cba7'; ctx.beginPath(); ctx.ellipse(nx, ny - 18, 7, 8, 0, 0, 7); ctx.fill();
+	ctx.fillStyle = '#f4f2ec'; for (const [dx, dy, r] of [[-4, 4, 9], [5, 2, 9], [0, -3, 8], [2, 8, 8]]) { ctx.beginPath(); ctx.arc(nx + dx, ny + dy, r, 0, 7); ctx.fill(); }
+	ctx.fillStyle = '#2a2a2a'; ctx.fillRect(nx - 3, ny + 1, 2, 2); ctx.fillRect(nx + 4, ny + 3, 2, 2); // la cara rara del peluche
+	// brillo duro del flash
+	{ const g2 = ctx.createRadialGradient(W / 2 - 30, B + IH * 0.45, 10, W / 2 - 30, B + IH * 0.45, 170); g2.addColorStop(0, 'rgba(255,255,255,.14)'); g2.addColorStop(1, 'rgba(255,255,255,0)'); ctx.fillStyle = g2; ctx.fillRect(B, B, IW, IH); }
+	ctx.restore();
+	photoFinish(ctx, B, B, IW, IH, 53, { grain: 22, warm: 6, vig: 0.6 });
+	fotoPie(ctx, W, H, B, 'Sala Primera · 21:07', '#6a2a2a');
+	return { canvas: cv, done: Promise.resolve(true) };
+}
+
+/** Cuadro (B7): foto movida del abrevadero del Rancho Ohana de día. El estribo de koa colgado del clavo, en foco; el Pokémon grande y su jinete, borrosos. */
+export function paintMudsdaleAbrevadero() {
+	const { cv, ctx, R, W, H, B, IW, IH } = fotoBase('mudsdale-abrevadero');
+	// mañana clara de Alola
+	const hz = B + IH * 0.56;
+	const sky = ctx.createLinearGradient(0, B, 0, hz); sky.addColorStop(0, '#7ab4e0'); sky.addColorStop(1, '#d8ecf4');
+	ctx.fillStyle = sky; ctx.fillRect(B, B, IW, hz - B);
+	ctx.fillStyle = 'rgba(255,255,255,.75)'; for (const [x, y, w] of [[B + 60, B + 40, 70], [B + 300, B + 30, 90]]) { ctx.beginPath(); ctx.ellipse(x, y, w, 12, 0, 0, 7); ctx.ellipse(x + w * 0.3, y - 8, w * 0.5, 12, 0, 0, 7); ctx.fill(); }
+	ctx.fillStyle = '#6aa05a'; ctx.beginPath(); ctx.moveTo(B, hz); for (let x = B; x <= W - B; x += 20) ctx.lineTo(x, hz - 14 - Math.sin(x / 60) * 8); ctx.lineTo(W - B, hz); ctx.fill();
+	const ground = ctx.createLinearGradient(0, hz, 0, B + IH); ground.addColorStop(0, '#b89a6a'); ground.addColorStop(1, '#8a6a42');
+	ctx.fillStyle = ground; ctx.fillRect(B, hz, IW, IH);
+	// valla del corral
+	ctx.fillStyle = '#e8dcc0'; for (let x = B + 10; x < W - B; x += 44) ctx.fillRect(x, hz - 30, 5, 34); ctx.fillRect(B, hz - 22, IW, 4); ctx.fillRect(B, hz - 8, IW, 4);
+	// el Pokémon grande y su jinete: una mancha marrón movida (la foto se hizo mientras echaban a andar)
+	const mx = B + 150, my = hz + 30;
+	for (let k = 0; k < 6; k++) {
+		ctx.globalAlpha = 0.22; ctx.fillStyle = '#5a3a26';
+		ctx.beginPath(); ctx.ellipse(mx + k * 7, my - 46, 88, 42, 0, 0, 7); ctx.fill();
+		for (const dx of [-60, -36, 34, 58]) ctx.fillRect(mx + dx + k * 7, my - 16, 16, 40); // patas
+		ctx.beginPath(); ctx.moveTo(mx - 84 + k * 7, my - 60); ctx.lineTo(mx - 104 + k * 7, my - 20); ctx.lineTo(mx - 90 + k * 7, my - 30); ctx.fill(); // cola
+		ctx.fillStyle = '#3a2416'; ctx.beginPath(); ctx.ellipse(mx + 86 + k * 7, my - 92, 26, 22, -0.4, 0, 7); ctx.fill(); ctx.fillRect(mx + 60 + k * 7, my - 84, 24, 30); // cuello y cabeza
+		ctx.fillStyle = '#2a2a3a'; ctx.fillRect(mx - 18 + k * 7, my - 122, 22, 38); // jinete
+		ctx.beginPath(); ctx.arc(mx - 7 + k * 7, my - 128, 8, 0, 7); ctx.fill();
+		ctx.beginPath(); ctx.ellipse(mx - 7 + k * 7, my - 134, 22, 5, 0, 0, 7); ctx.fill(); ctx.fillRect(mx - 16 + k * 7, my - 148, 18, 14); // sombrero
+	}
+	ctx.globalAlpha = 1;
+	ctx.fillStyle = 'rgba(90,60,40,.35)'; ctx.beginPath(); ctx.ellipse(mx + 20, my + 22, 120, 10, 0, 0, 7); ctx.fill();
+	// el abrevadero de piedra, en primer plano y en foco
+	const ax = B + 250, ay = hz + 66;
+	ctx.fillStyle = '#7a7a86'; ctx.fillRect(ax, ay, 170, 40);
+	ctx.fillStyle = '#9fc8e0'; ctx.fillRect(ax + 6, ay + 4, 158, 10);
+	ctx.fillStyle = 'rgba(255,255,255,.6)'; ctx.fillRect(ax + 30, ay + 6, 40, 2);
+	ctx.fillStyle = '#4a4a56'; ctx.fillRect(ax, ay + 36, 170, 5);
+	ctx.fillStyle = '#5a5a66'; for (let k = 0; k < 6; k++) ctx.fillRect(ax + 10 + R() * 150, ay + 18 + R() * 14, 6, 2);
+	// poste con el clavo y el estribo de koa colgando
+	ctx.fillStyle = '#6a4a2a'; ctx.fillRect(ax + 176, ay - 70, 10, 112);
+	ctx.fillStyle = '#2a2a38'; ctx.fillRect(ax + 172, ay - 56, 8, 3);
+	ctx.strokeStyle = '#3a2416'; ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(ax + 174, ay - 55); ctx.lineTo(ax + 168, ay - 30); ctx.stroke();
+	ctx.fillStyle = '#c8903a'; ctx.strokeStyle = '#7a5020'; ctx.lineWidth = 2;
+	ctx.beginPath(); ctx.moveTo(ax + 156, ay - 30); ctx.lineTo(ax + 180, ay - 30); ctx.quadraticCurveTo(ax + 186, ay - 4, ax + 168, ay); ctx.quadraticCurveTo(ax + 150, ay - 4, ax + 156, ay - 30); ctx.fill(); ctx.stroke();
+	ctx.fillStyle = '#e8b86a'; ctx.fillRect(ax + 160, ay - 27, 3, 18); // veta de la madera
+	ctx.fillStyle = '#b89a6a'; ctx.beginPath(); ctx.ellipse(ax + 168, ay - 12, 7, 7, 0, 0, 7); ctx.fill();
+	ctx.restore();
+	photoFinish(ctx, B, B, IW, IH, 19, { grain: 20, warm: 8, vig: 0.35 });
+	fotoPie(ctx, W, H, B, '¡no te muevas, papá!', '#5a4a2a', -0.05);
+	return { canvas: cv, done: Promise.resolve(true) };
+}
+
 /** Visor a pantalla completa para un objeto clave con cuadro. */
 export async function viewArt(itemId) {
 	const it = D.items[toID(itemId)] || {};
@@ -1189,6 +1353,9 @@ export async function viewArt(itemId) {
 		: it.art === 'valle_antano' ? paintValleAntano()
 		: it.art === 'cima_torre' ? paintCimaTorre()
 		: it.art === 'alba_abrevadero' ? paintAlbaAbrevadero()
+		: it.art === 'estadio_noche' ? paintEstadioNoche()
+		: it.art === 'casa_ocho' ? paintCasaOcho()
+		: it.art === 'mudsdale_abrevadero' ? paintMudsdaleAbrevadero()
 		: null;
 	if (!painting) return;
 	const note = h('div', { class: 'art-note' }, it.desc || '');

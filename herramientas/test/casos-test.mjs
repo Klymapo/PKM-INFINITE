@@ -58,6 +58,7 @@ for (const id of ids) {
 }
 // El Buzón los trae escalonados
 const mails = (C.mail || []).filter(m => /^det_c/.test(m.id));
-ok(mails.length === ids.length && mails.slice(1).every(m => (m.days || 1) >= 2 && /det_c\d_carta/.test(m.cond)), 'llegan por el Buzón, uno tras otro, con días de por medio');
+const serie = ids.filter(i => /^det_c/.test(i)); // solo la serie de detective del Buzón (b07_casa llega por su propia carta)
+ok(mails.length === serie.length && mails.slice(1).every(m => (m.days || 1) >= 2 && /det_c\d_carta/.test(m.cond)), 'llegan por el Buzón, uno tras otro, con días de por medio');
 console.log(fails ? `\n✖ ${fails} fallos` : '\n✔ Casos: todo bien');
 process.exit(fails ? 1 : 0);
