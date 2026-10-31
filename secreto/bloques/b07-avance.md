@@ -5,8 +5,8 @@ Rama: `trabajo/b07` (se fusiona en `main` solo en el paso 6). Cada sesión hace 
 | Paso | Qué | Estado |
 |---|---|---|
 | 1 | Plan, encargo y estructura (`b07-plan.md`, `b07-encargo.md`, comunes de `app/content/b07/`, stubs t0–t5) | **hecho** (2026-10-30, sesión de día) |
-| 2 | Tramos T0 y T1 | **en curso** (2026-10-30 18:00, sesión de día) |
-| 3 | Tramos T2 y T3 | pendiente |
+| 2 | Tramos T0 y T1 | **hecho** (2026-10-30, sesión de día) |
+| 3 | Tramos T2 y T3 | **en curso** (2026-10-30 19:00, sesión de día) |
 | 4 | Tramos T4 y T5 | pendiente |
 | 5 | Integración, arte, museo, balance y 24 recorridos hasta `b07_fin` | pendiente |
 | 6 | Revisión ligera, auditoría y publicación | pendiente |
@@ -26,3 +26,13 @@ Tokens: subagente de plan ≈ 499 k (134 herramientas, 2 h 17 min).
 - **Cada `diary` va tres veces** (rama del Eco): constantes en el encargo.
 - Ids de objetos que vayan al Buzón, sin guiones bajos (`mail.item` se busca tal cual).
 - Pendiente para el paso 5 (motor): Dinamax solo en Galar o en Fisura, comando para dar el factor Gigamax (Sopa Maxi), comprobar que los rivales usan `gmax`. Decisiones tomadas sin Mario: plan §14.
+
+### Paso 2 · 2026-10-30 · hecho
+
+Tokens: T0 ≈ 394 k, T1 ≈ 489 k (total ≈ 883 k).
+
+- T0 (~2 h) y T1 (~2 h 15 + Oficios ~1 h 30) escritos; bot llega a `b07_t1_hecho` sin errores.
+- Errores de validador restantes: vuelos de `comun.js` y trenes de T1 hacia lugares de T2–T5 (se van solos).
+- Ids: la zona de entrenamiento de T1 es `nido_galar_1…3` (los `nido_1…3` ya existían en el B6); encargo corregido.
+- Misión nueva de T0: `b07_m_maxi`. T1 no creó `pabellon_piston` (Camille es spot de `piston`).
+- Para el paso 5 (arte): `paraguassobble`, `hieloaxew`, `cintaep3`. Gigamax: `b07_sopa_pedir` (enganche con el fogón de Naboru). Dinamax del jugador aún funciona fuera de Galar.
