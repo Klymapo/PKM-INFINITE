@@ -1,4 +1,4 @@
-# Guía rápida: pokemon-infinito
+# Guía rápida: PKM-INFINITE (Klymapo/PKM-INFINITE)
 
 ## ¿Qué es?
 

@@ -43,8 +43,8 @@ Escribir un bloque cuesta unas 6 horas y unos 4 M de tokens (el B7 fue la refere
 ## Pasos 2 a 4 · Tramos (dos agentes `escritor-tramo` en paralelo)
 - Prompt mínimo: «Bloque NN, tramo T2» (el agente ya sabe qué leer y qué no tocar). Trabajan en el mismo clon, sin worktree, cada uno solo en su archivo.
 - Cuando termine cada agente:
-  - haz commit de **solo su archivo** (`git add app/content/bNN/tN-*.js`): el otro sigue escribiendo;
-  - si el aviso de cambios sin subir te obliga a guardar el archivo del otro, haz commit como «guardado parcial».
+  - guarda **solo su archivo** con `herramientas/guardar.sh --firma "…" "Bloque NN: tramo N" app/content/bNN/tN-*.js` (commit, push y fetch en un paso): el otro sigue escribiendo;
+  - si el aviso de cambios sin subir te obliga a guardar el archivo del otro, `herramientas/guardar.sh --firma "…"` sin rutas lo guarda todo como «guardado parcial».
 - Corrige en el encargo lo que digan los informes, por ejemplo choques de ids, y pasa sus pendientes a las notas del avance bajo «Para el paso 5».
 
 ## Paso 5 · Integración (un agente `integrador`)
