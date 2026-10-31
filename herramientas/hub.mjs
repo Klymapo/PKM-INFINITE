@@ -14,7 +14,7 @@
 //   6. Viajes: «Ir» no lleva a sub-lugares sin entrada ni deja en un sitio sin salida.
 //   7. Regalos repetibles: tocar dos veces un sitio con señal no da dos veces lo mismo.
 //
-// Uso: node herramientas/hub.mjs [--semillas 3,5] [--cada 150] [--sin-bot] [--antiguo reach,needs,markers] [--salida archivo.md]
+// Uso: node herramientas/hub.mjs [--semillas 3,5] [--cada 150] [--sin-bot] [--antiguo reach,needs,markers] [--salida archivo.md] [--hilos N]
 //   --antiguo: reproduce los criterios de antes (para comprobar que la auditoría caza los fallos que vio Mario).
 // Escribe secreto/auditorias/hub-AAAA-MM-DD.md y sale con código 1 si hay hallazgos graves.
 import { spawn } from 'child_process';
@@ -57,7 +57,7 @@ async function parent() {
 	const partidas = fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort() : [];
 	for (const p of partidas) jobs.push(['--partida', path.join(dir, p), ...pass]);
 	if (!argv.includes('--sin-bot')) seeds.forEach((s, i) => jobs.push(['--semilla', String(s), '--hora', i % 2 ? '3' : '13', '--cada', cada, ...pass]));
-	const PAR = Math.max(2, Math.min(6, os.cpus().length));
+	const PAR = Math.max(1, +arg('--hilos', 0) || Math.max(2, Math.min(6, os.cpus().length))); // --hilos: lo pasa auditar.mjs para no pasarse de procesos
 	const results = new Array(jobs.length);
 	let next = 0;
 	await Promise.all(Array.from({ length: PAR }, async () => {
