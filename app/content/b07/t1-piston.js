@@ -17,6 +17,7 @@
 // ---------- Condiciones reutilizadas ----------
 const LUC = '(inParty("riolu") || inParty("lucario"))';
 const PURG = 'flag.b06_eco_purgado';
+const FOGON = 'flag.b07_sopa_maxi && (flag.b07_oficio_calderas || flag.b07_percy_vencido)'; // fogón de Naboru para la Sopa Maxi
 const DIARIO = 'flag.b01_diario';
 const D_PURGADO = DIARIO + ' && flag.b06_eco_purgado';
 const D_REFORMADO = DIARIO + ' && flag.b06_eco_reformado';
@@ -1414,10 +1415,40 @@ export default {
 			{ intel: { npc: 'gaspar', text: 'En Pistón, en la cocina de Priya, aprendió la Sopa Maxi, una receta antigua con Maxisetas: «a algunos Pokémon les despierta algo que solo se ve en Galar».' } },
 		],
 		b07_sopa_pedir: [
-			// MOTOR: gmax — aquí irá el comando que da el factor Gigamax a un Pokémon elegido del equipo cuya especie lo tenga
-			// (paso 5 del B7). Hasta entonces, la escena no da nada ni gasta Maxisetas.
-			{ say: 'gaspar', text: '¿Una Sopa Maxi? —Mira la olla pequeña con pena—. Todavía no. El fogón de Priya no aguanta el fuego que pide: se apaga a la mitad y la sopa se queda en sopa. Naboru dice que me hará uno en las calderas, cuando termine con la presión.' },
-			{ say: 'gaspar', text: 'Cuando lo tenga, guárdame Maxisetas. Y elige con calma a quién se la das. No a todos les despierta lo mismo. A algunos, nada. A otros… ya lo verás.' },
+			// Factor Gigamax (motor del paso 5: comando `gmax`). El fogón de Naboru está listo cuando la caldera ya va bien
+			// (su oficio) o cuando ha pasado tiempo (Medalla Planta). Gasta 1 Maxiseta, como dice la receta.
+			{ if: '!(' + FOGON + ')', then: [
+				{ say: 'gaspar', text: '¿Una Sopa Maxi? —Mira la olla pequeña con pena—. Todavía no. El fogón de Priya no aguanta el fuego que pide: se apaga a la mitad y la sopa se queda en sopa. Naboru dice que me hará uno en las calderas, cuando termine con la presión.' },
+				{ say: 'gaspar', text: 'Cuando lo tenga, guárdame Maxisetas. Y elige con calma a quién se la das. No a todos les despierta lo mismo. A algunos, nada. A otros… ya lo verás.' },
+				{ end: true },
+			] },
+			{ if: '!flag.b07_fogon_visto', then: [
+				{ set: { 'flag.b07_fogon_visto': true } },
+				{ text: 'Al fondo de la cocina de Priya hay un fogón nuevo, de hierro negro, con remaches de caldera y una placa pequeña: «N.». Gaspar le da una palmada como quien saluda a un caballo.' },
+				{ say: 'gaspar', text: 'Me lo trajo Naboru ayer, en una carretilla, él solo. No dijo nada. Lo encendió, miró la llama un minuto, asintió y se fue. —Se ríe—. Es la reseña más bonita que me han hecho nunca.' },
+			] },
+			{ say: 'gaspar', text: 'Una Maxiseta por olla, que es lo que pide la receta. Y un Pokémon que lo lleve dentro. Si no lo lleva, la sopa solo le quita el hambre, que tampoco está mal.' },
+			{ gmax: 'maxmushrooms', n: 1, prompt: '¿A quién le das la Sopa Maxi?',
+				onNone: [
+					{ if: '!has("maxmushrooms")', then: [
+						{ say: 'gaspar', text: 'Sin Maxiseta no hay sopa. Salen en la **Pradera Radiante**, entre la hierba alta, cuando ha llovido. Tráeme una y encendemos el fogón.' },
+					], else: [
+						{ say: 'gaspar', text: 'Huele la olla, mira a tu equipo… y nada. —Niega con la cabeza—. Ninguno de los que llevas encima lo tiene dentro. Tráeme a otro. Priya dice que los que lo tienen se notan: se les ponen los ojos grandes cuando huelen la seta.' },
+					] },
+				],
+				onQuit: [{ say: 'gaspar', text: 'Bien hecho. Se elige con calma. La olla no se va a ningún sitio.' }],
+				onWin: [
+					{ cutscene: { bg: { type: 'indoor', wall: '#6a3a2a', floor: '#8a5a3a' }, frames: [
+						{ actors: [{ id: 'gaspar', at: 'left', enter: 'left' }], item: 'maxmushrooms', on: '_c', cam: 'push', fx: 'light', text: 'Gaspar remueve la olla en el fogón de Naboru. La Maxiseta se deshace en el caldo y el vapor se vuelve rojo, espeso, con chispas que suben despacio.' },
+						{ actors: [{ key: 'gaspar', do: 'nod' }, { key: '_c', dim: true }], on: false, fx: ['flash', 'sparkle'], color: '#e63946', text: '{vars.gmax_ultimo} se toma el cuenco entero sin respirar. Durante un segundo, a su alrededor, el aire se llena de nubes rojas pequeñitas, como las de los nidos. Luego se van.' },
+						{ on: false, cam: 'pull', fx: 'glow', text: '{vars.gmax_ultimo} tiene ahora el **factor Gigamax**. Cuando se dinamaxice en Galar, cambiará de forma.' },
+					] } },
+					{ set: { 'flag.b07_gmax_dado': true } },
+					{ say: 'gaspar', text: '¡Eso es! ¡Eso es lo que decía Priya! —Te agarra del hombro—. Lo he visto. Lo he visto con estos ojos. Lo apunto en el recetario: «funciona». Subrayado dos veces.' },
+					{ say: 'priya', text: '—Desde la barra, sin girarse—. Te lo dije. Mi abuela decía muchas cosas. Algunas, verdad.', cond: '!flag.b07_gmax_priya' },
+					{ set: { 'flag.b07_gmax_priya': true } },
+				],
+			},
 		],
 		b07_oficios_sello: [
 			{ set: { 'flag.b07_oficios_hecho': true } },
@@ -1460,7 +1491,8 @@ export default {
 			{ ...ABRE_LIGA },
 			{ if: 'flag.b07_oficio_calderas', then: [
 				{ say: 'naboru', text: 'La presión, estable. El fuego, contento. —No te mira: mira las agujas—. Mi gimnasio volverá a abrir cuando vuelvas a Galar en otra temporada. Para entonces quiero ver si tu fuego ha crecido. Disciplina.' },
-				{ say: 'naboru', text: 'Gaspar me ha pedido un fogón para su sopa. Lo estoy haciendo. Despacio. Las cosas de fuego se hacen despacio.', cond: 'flag.b07_sopa_maxi' },
+				{ say: 'naboru', text: 'Gaspar me ha pedido un fogón para su sopa. Lo estoy haciendo. Despacio. Las cosas de fuego se hacen despacio.', cond: 'flag.b07_sopa_maxi && !(' + FOGON + ')' },
+				{ say: 'naboru', text: 'El fogón de Gaspar ya está en la cocina de Priya. Aguanta. —Una pausa—. La sopa, no la he probado. No como cosas que brillan.', cond: FOGON },
 				{ end: true },
 			] },
 			{ if: '!flag.b07_naboru_visto', then: [

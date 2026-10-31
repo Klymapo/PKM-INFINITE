@@ -177,6 +177,14 @@ function battle(cfg) {
 				if (!d) { action = { type: 'move', i: 0 }; }
 				else if (d.choice.startsWith('switch')) action = { type: 'switch', idx: +d.choice.split(' ')[1] - 1 };
 				else { const parts = d.choice.split(' '); action = { type: 'move', i: +parts[1] - 1, gimmick: parts[2] === 'mega' ? 'mega' : parts[2] === 'zmove' ? 'z' : parts[2] === 'dynamax' ? 'dynamax' : parts[2] === 'terastallize' ? 'tera' : null }; }
+				// Dinamax como una persona (B7): contra el as de un jefe que dinamaxiza, cuando el rival ya se ha hecho
+				// gigante, o con el último Pokémon en pie en un combate contra un entrenador con nombre.
+				if (action?.type === 'move' && !action.gimmick && o.gimmicks.dynamax && kind === 'trainer') {
+					const foeId = toID(foe.species.baseSpecies);
+					const jefe = trainer?.gimmick === 'dynamax' && (foeId === trainer.ace || foe.volatiles?.dynamax);
+					const apurado = trainer?.npc && ctl.battle.p1.pokemonLeft <= 1 && foe.volatiles?.dynamax;
+					if (jefe || apurado || foe.volatiles?.dynamax) action.gimmick = 'dynamax';
+				}
 			}
 		}
 		r = ctl.turn(action);
