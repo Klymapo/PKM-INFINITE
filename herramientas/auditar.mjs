@@ -54,7 +54,7 @@ function tarea(fn, { slots = 1, peso = 1 } = {}) {
 function bombea() {
 	for (let i = 0; i < cola.length;) {
 		const t = cola[i];
-		if (t.slots > libres) { i++; continue; }
+		if (t.slots > libres) { if (t.peso >= 1000) break; i++; continue; } // el hub (el más largo) no se deja adelantar: si no, en máquinas grandes arrancaría el último
 		cola.splice(i, 1); libres -= t.slots;
 		Promise.resolve().then(t.fn).then(t.res, t.rej).finally(() => { libres += t.slots; bombea(); });
 	}
