@@ -66,6 +66,20 @@ Trabaja en este orden. Usa la lista de tareas para que Mario vea el progreso si 
 
 ### 2.2 Leer el mundo (siempre, antes de escribir)
 
+**Empieza por `secreto/resumen.md`.** Condensa en pocas páginas la biblia, el registro, los personajes, los hilos, las candidatas, las referencias, el progreso y el balance, e indica en qué sección de cada original está cada cosa. Abre los archivos de la tabla solo cuando necesites un detalle concreto. Al publicar cada bloque, actualiza el resumen siguiendo las instrucciones de su pie.
+
+**Agentes y skills del repo** (`.claude/`), para no reescribir encargos largos:
+
+| Tipo | Nombre | Para qué |
+|---|---|---|
+| Agente | `escritor-tramo` | Un tramo de un bloque. Prompt: «Bloque NN, tramo TN» |
+| Agente | `integrador` | Paso de integración de un bloque (coherencia, motor, arte, museo, balance, bot) |
+| Agente | `lector-independiente` | Revisión de §3.2, ligera y sin subagentes |
+| Agente | `reparador` | Un bug o una queja de Mario, de principio a fin |
+| Skill | `bloque-por-paquetes` | Escribir un bloque en seis pasos con hoja de avance y respaldos |
+| Skill | `bug-reportado` | Entender, reproducir, arreglar y probar lo que reporta Mario |
+| Skill | `publicar` | Fusionar en `main`, `build-sw`, push y anotación en el reporte maestro |
+
 | Archivo | Para qué |
 |---|---|
 | `docs/CONTENIDO.md` | Formato |
@@ -244,7 +258,12 @@ node herramientas/recorrido.mjs --hasta b02_m3 --verbose
 node herramientas/registro.mjs                         # registro automático
 python3 herramientas/humo.py --salida /tmp/humo        # humo en móvil
 python3 herramientas/ux.py --salida /tmp/ux             # Designer de Canvas: UX/UI de todas las pantallas
-node herramientas/auditar.mjs                          # todo lo anterior + informe
+node herramientas/auditar.mjs                          # todo lo anterior + informe (en paralelo; --hilos N para limitar; ~30 min con 2 núcleos)
+node herramientas/auditar.mjs --rapida [--bloque b07]  # mientras trabajas: validar, tester, cine, minijuegos y 4 bots hasta bNN_fin (informe en /tmp; ~2,5 min con b07)
+node herramientas/ids.mjs existe b07_fin terraza_1     # ¿existe el id? como qué, bloque y archivo
+node herramientas/ids.mjs buscar /^nido/               # ids que coinciden, por tipo
+node herramientas/ids.mjs bloque b07                   # lugares, entrenadores, misiones y flags del bloque
+node herramientas/ids.mjs libre terraza_               # ¿prefijo ocupado? sugiere uno libre
 node herramientas/build-sw.mjs                         # antes de cada commit
 ```
 
