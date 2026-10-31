@@ -145,6 +145,11 @@ export default {
 				{ if: 'flag.b06_chamota_cronica', then: [
 					{ text: 'Grapado al horario, un recorte del *Correo de Porcelana*: la crónica nueva de don Teodoro ya está en la biblioteca del pueblo, «con una tilde corregida a mano».' },
 				] },
+				// Celia y don Teodoro: su aparición del B7 (regla de las 3 apariciones repartidas), por escrito en el mismo sobre
+				{ text: 'En el dorso del horario, otra letra, grande y redonda, con una mancha de harina en la esquina.' },
+				{ say: 'celia', as: 'Celia (en el dorso)', text: '«¡Hola! Soy Celia, la del pan. Inés dice que no escriba en sus cartas. Escribo igual. En Galar dicen que el pan viene en bolsa y en rebanadas. Si es verdad, no vuelvas sin probar el mío otra vez. ¡Besos de harina!»' },
+				{ text: 'Debajo, con pluma estilográfica, una línea recta como una regla.' },
+				{ say: 'teodoro', as: 'Don Teodoro (al pie)', text: '«Conste en el archivo de Chamota que el correo a Galar tarda nueve días. Lo apunto. Lo demás se lo lleva el viento. —T.»' },
 			] },
 		],
 	},

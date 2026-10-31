@@ -558,7 +558,7 @@ else {
 	console.log(`Lugares sin visitar (${unvisited.length}): ${unvisited.join(', ')}`);
 	console.log(`Guiones nunca ejecutados (${unusedScripts.length}): ${unusedScripts.slice(0, 80).join(', ')}`);
 	if (report.losses.length) console.log(`Derrotas:\n  ${report.losses.slice(0, 20).join('\n  ')}`);
-	{ const by = {}; for (const l of report.losses) { const k = l.split(' ')[0]; by[k] = (by[k] || 0) + 1; } const top = Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, 8); if (top.length) console.log(`Derrotas por rival: ${top.map(([k, v]) => k + ' ×' + v).join(', ')} · última: ${report.losses[report.losses.length - 1]}`); }
+	{ const by = {}; for (const l of report.losses) { const k = l.split(' ')[0]; by[k] = (by[k] || 0) + 1; } const top = Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, process.env.DERROTAS_TODAS ? 999 : 8); if (top.length) console.log(`Derrotas por rival: ${top.map(([k, v]) => k + ' ×' + v).join(', ')} · última: ${report.losses[report.losses.length - 1]}`); }
 	if (report.stuck.length) console.log(`ATASCOS:\n  ${[...new Set(report.stuck)].slice(0, 15).join('\n  ')}`);
 	if (report.repeatGifts.length) console.log(`REGALOS REPETIDOS:\n  ${report.repeatGifts.slice(0, 20).join('\n  ')}`);
 	if (report.errors.length) console.log(`ERRORES (${report.errors.length}):\n  ${[...new Set(report.errors)].slice(0, 40).join('\n  ')}`);

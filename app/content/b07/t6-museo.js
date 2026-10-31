@@ -80,7 +80,7 @@ export default {
 		],
 		museo_llave_casa: [
 			{ set: { 'flag.museo_v_llave_casa': true } },
-			{ text: 'Una llave de latón grande como una mano, con la cabeza en forma de puerta. Está colgada de un clavo, a la altura de la cintura, como si alguien la fuera a coger para abrir algo. Es una réplica: pesa menos de lo que parece.' },
+			{ text: 'Una llave de latón grande como una mano, con la cabeza en forma de puerta. Está colgada de un clavo, a la altura de la cintura, como si alguien la fuera a tomar para abrir algo. Es una réplica: pesa menos de lo que parece.' },
 			{ if: 'flag.b07_casa_devuelve', then: [
 				{ read: { title: 'Cartela · La Séptima', text: '**RÉPLICA DE LA LLAVE DE LA SÉPTIMA PUERTA**\nEnviada por Ottilie Brack, desde la Casa de las Siete Puertas (Pueblo Plié).\n\nEn una casa-cuento con siete puertas entraron ocho personas y se contaron siete. La llave del final desapareció a oscuras. Volvió a su sitio de las manos de quien se la llevó, que se quedó con lo que era suyo.\n\nNota de Ottilie: «La Casa ha vuelto a abrir. Le he puesto un cartel a la Puerta Sexta: "Esta también se usa". Gracias por contar bien. —O. B.»' } },
 			] },
