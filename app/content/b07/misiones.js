@@ -65,7 +65,7 @@ export default {
 		hecha: 'Alguien abrió las jaulas desde dentro.',
 	} },
 	b07_t_lucien: { name: 'El novato perdido', type: 'thread', est: 20, stages: {
-		buscar: '**Lucien** no está en la portería del ático de **Philippe**. Alguien ha visto a un niño con un Chespin en **Ciudad Artejo**.',
+		buscar: '**Lucien** no está en la portería del ático de **Philippe**. Alguien ha visto a un niño con una libreta, solo, en **Ciudad Artejo**.',
 		hecha: 'Lucien vuelve a casa. Con una historia que no va a contar en el colegio.',
 	} },
 	// Hilo NUEVO del B7

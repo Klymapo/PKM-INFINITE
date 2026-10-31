@@ -626,7 +626,7 @@ export default {
 					{ quest: 'b07_t_bastien', stage: 'planta' },
 				] },
 				{ text: 'Otro mensaje, de un número que empieza por el prefijo de Lemnis. Sin foto. Sin firma de persona: solo un cargo.' },
-				{ say: 'octavia', as: 'Presidencia de Lemnis (mensaje)', text: '«La presidenta Octavia Lemnis solicita reunirse con usted esta noche en la Planta Eléctrica de Artejo. Sin cámaras. Sin su equipo. Sin el nuestro». ', cond: LIBRO_OCT },
+				{ say: 'octavia', as: 'Presidencia de Lemnis (mensaje)', text: '«La presidenta Octavia Lemnis solicita reunirse con usted esta noche en la Planta Eléctrica de Artejo. Sin cámaras. Sin su equipo. Sin el nuestro».', cond: LIBRO_OCT },
 				{ say: 'octavia', as: 'Presidencia de Lemnis (mensaje)', text: '«La presidenta Octavia Lemnis ha leído la *Gaceta* de esta mañana. Solicita reunirse con usted esta noche en la Planta Eléctrica de Artejo. Sin cámaras. Sin periodistas».', cond: LIBRO_PRE },
 				{ say: 'octavia', as: 'Presidencia de Lemnis (mensaje)', text: '«La presidenta Octavia Lemnis visitará esta noche la Planta Eléctrica de Artejo, a petición de la Policía Internacional. Solicita que usted esté presente. Sin cámaras».', cond: LIBRO_POL },
 				{ say: 'octavia', as: 'Presidencia de Lemnis (mensaje)', text: '«La presidenta Octavia Lemnis solicita reunirse con usted esta noche en la Planta Eléctrica de Artejo. Sin cámaras».', cond: SIN_LIBRO },
@@ -844,7 +844,7 @@ export default {
 					{ say: 'noa', text: 'No. Ahora tiene dueño.' },
 				], else: [
 					{ text: 'Noa saca del bolsillo una insignia pequeña de hojalata, un Froakie sonriente sin logo de nada, y la pasa por la ventanilla de los papeles. Bastien la recoge. Noa le cierra la mano encima con la suya, a través del hueco.' },
-					{ say: 'noa', text: 'La guardaba para ti. Por si acaso. Ahora tiene dueño.' },
+					{ say: 'noa', text: 'Las compré de dos en dos, en un mercadillo de Luminalia, hace mucho. Esta la guardaba para ti. Por si acaso. Ahora tiene dueño.' },
 				] },
 				{ say: 'noa', text: 'Lo de tu libreta. Lo que me debías. —Le sonríe—. Ya sé lo que era. Era venir.' },
 			] },
@@ -852,12 +852,14 @@ export default {
 			{ if: B_AQUI + ' && !' + LEAL, then: [
 				{ say: 'noa', text: 'Me han encontrado porque alguien preguntó por mí, hace un rato. «¿Dónde trabaja una tal Lambert?». Lo he oído por la radio de los guardias. —Se encoge de hombros—. Seguro que fue sin querer. Casi todo se hace sin querer.' },
 				{ say: 'noa', text: 'Si ves a Bastien… dile que no fue culpa suya. —Pausa—. Aunque lo fuera un poco. Que no lo fue.' },
-				{ text: 'Mete por la ventanilla de los papeles una insignia pequeña de hojalata. Un Froakie sonriente, sin logo de nada.', cond: '!' + INSIGNIA },
+				{ say: 'noa', text: 'Dale esto. —Mete por la ventanilla de los papeles una insignia pequeña de hojalata: un Froakie sonriente, sin logo de nada—. Las compré de dos en dos, en un mercadillo de Luminalia. Esta era la suya.', cond: '!' + INSIGNIA },
 				{ text: 'Mete por la ventanilla de los papeles un papel doblado con una sola palabra escrita: «Pagado».', cond: INSIGNIA },
 			] },
 			// ----- Bastien no está en esta partida -----
 			{ if: '!' + B_AQUI, then: [
 				{ say: 'noa', text: 'Una cosa. —Mete por la ventanilla de los papeles una insignia pequeña de hojalata: un Froakie sonriente, sin logo de nada—. Es para Bastien. No sé dónde está. Tú lo encontrarás, tú encuentras a todo el mundo. Para que se la des. Dile que ahora tiene dueño.' },
+				{ say: 'noa', text: 'Es la pareja de la que le di en Trigal. Las compré juntas, en un mercadillo de Luminalia. Una para él y otra para… bueno. Para cuando hiciera falta. Ya hace falta.', cond: INSIGNIA },
+				{ say: 'noa', text: 'Las compré de dos en dos, en un mercadillo de Luminalia, hace mucho. Esta era la suya.', cond: '!' + INSIGNIA },
 				{ give: 'insignianoa' },
 			] },
 			// ----- Los cerrojos de fuera: lo que Mario puede hacer con las manos -----
@@ -1432,7 +1434,7 @@ export default {
 			read: '*(Hoja de personal mecanografiada, amarillenta. Grapada en una esquina, una foto pequeña en blanco y negro.)*\n\n**PROYECTO LEMNISCATA · PERSONAL · BAJAS**\n\n**Nombre:** E. Dufresne\n**Puesto:** Investigadora, Mediciones Vitales (grupo inicial)\n**Alta:** año 1 del proyecto\n**Baja:** voluntaria, hace veintiún años\n**Motivo declarado:** «Las mediciones vitales no cuadran».\n**Observaciones (a mano, otra letra):** «Se ha llevado sus cuadernos. Recuperarlos. No insistir con ella».\n\n---\n\n*(La foto: una mujer joven, con el pelo claro muy corto, de pie delante de una ventana. Lleva un bebé en brazos, envuelto en una tela con un bordado: una lemniscata. La mujer no sonríe a la cámara. Mira al bebé.)*\n\n*(Detrás de la foto, a lápiz, casi borrado:)* «Para que conste que existió».' },
 		informeoctavia: { name: 'Informe trimestral del Nodo 06', pocket: 'key', desc: 'Un informe encuadernado en canutillo, con el sello de Dirección y una casilla de distribución en la portada. Octavia Lemnis no lo había visto nunca. Te lo dio en el archivo de la Planta de Artejo.',
 			read: '*(Informe encuadernado en canutillo. Portada con el sello: una Ω dentro de un círculo.)*\n\n**NODO 06 · ARTEJO · INFORME TRIMESTRAL (12.º)**\n**Distribución:** Dirección (Ω). **Presidencia:** no.\n\n**1. Fuente principal.** Sujeto dormido bajo la torre. Rendimiento del 82 %. Estable. Sin cambios en su estado. Se recomienda no despertarlo.\n\n**2. Aporte complementario (emplazamiento 06).** Desplazados de las Puertas, 112 unidades. Aporte vital del 18 %. Las unidades se reponen con los envíos de logística. En el registro contable figura como «logística».\n\n**3. Incidencias.** Una unidad no prevista llegó por la Fisura de Luminalia (2:18). Edad aproximada: 12 años. No figura en el inventario. La responsable de inventario dice no haberla visto. *(A mano, en el margen:)* «Comprobar».\n\n**4. Personal.** La responsable de inventario hace preguntas. *(A mano:)* «Mantener. Es muy simpática».\n\n**5. Proyección.** Con la fase nueva, el aporte complementario sube al 31 %. Fecha de conexión: mañana, 6:00.\n\n**Firmado:** Dirección (Ω).\n**Visto bueno de Presidencia:** —' },
-		insignianoa: { name: 'Insignia de hojalata', pocket: 'key', desc: 'Una insignia pequeña de mercadillo: un Froakie sonriente, sin lemniscata ni logo de nada. Noa te la dio por la ventanilla de los papeles: «Para Bastien. Para que se la des. Dile que ahora tiene dueño».' },
+		insignianoa: { name: 'Insignia de hojalata', pocket: 'key', desc: 'Una insignia pequeña de mercadillo: un Froakie sonriente, sin lemniscata ni logo de nada. Noa las compró de dos en dos; esta es la pareja de otra igual. Te la dio por la ventanilla de los papeles: «Para Bastien. Para que se la des. Dile que ahora tiene dueño».' },
 		mensajeanselartejo: { name: 'Mensaje de A. M. (Artejo)', pocket: 'key', desc: 'Un mensaje que llegó a la Pokédex sin número, con un solo remite: «A. M.». Rotom lo guardó en la carpeta del candado, con los otros dos.',
 			read: '*(Mensaje de texto. Remite: A. M.)*\n\nQuerid{o|a|e} {jugador}:\n\nMe cuentan que ha tenido usted una noche muy larga en Artejo. Las noches largas, a su edad, se recuperan con un buen desayuno. A la mía, no tanto.\n\nQué pena lo de la señora Lambert. Era muy buena contando.\n\nLa conocí poco. Le gustaban los inventarios, las listas y las cosas en fila. Siempre pensé que habría sido una científica estupenda, si hubiera querido. Hay personas que nacen para medir y prefieren cuidar. Es una lástima, desde el punto de vista de los datos. Desde los otros puntos de vista, supongo que no.\n\nCuídese mucho. Y cuide a su Lucario. Los que cuentan bien se nos van siempre antes.\n\nCon cariño,\n\nA. M.' },
 	},

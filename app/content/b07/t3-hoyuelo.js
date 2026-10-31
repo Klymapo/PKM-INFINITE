@@ -27,6 +27,9 @@ const SCORB_OK = '(flag.b07_scorbunny || flag.b07_scorbunny_vive)';
 const TIENE_SCORB = '(owns("scorbunny") || owns("raboot") || owns("cinderace"))';
 const TRES = '(flag.b07_sobble || flag.b07_sobble_vive) && (flag.b07_grookey || flag.b07_grookey_vive) && (flag.b07_scorbunny || flag.b07_scorbunny_vive)';
 const DOLIDA = 'flag.b07_rhi_dolida && !flag.b07_rhi_reparada';
+// Revancha en el Campo: una vez por día real (mismo mecanismo que la carrera y el terror del B5: día de la semana + 1)
+const RHI_HOY = 'vars.b07_rhi_revancha_wd == weekday + 1';
+const RHI_MARCA = { set: { 'vars.b07_rhi_revancha_wd': '=weekday + 1' } };
 
 // ----- Fósiles: mitades de arriba (pájaro / pez) y de abajo (dragón / plesio) -----
 const AVE = 'has("fossilizedbird")', PEZ = 'has("fossilizedfish")', DRA = 'has("fossilizeddrake")', DIN = 'has("fossilizeddino")';
@@ -339,7 +342,7 @@ export default {
 				{ label: 'El Campo (negocio)', sub: 'Socio: Gareth Hargreave', icon: '⚽', cond: 'flag.b07_campo', action: { venture: 'b07_campo' } },
 				{ label: 'Gareth, pintando la banda', sub: 'Con un carrito de cal y mucha calma', icon: '🧑‍🌾', talk: [{ script: 'b07_gareth_campo' }] },
 				{ label: 'Hablarlo con Rhi', sub: 'Te esquiva desde lo del estadio', icon: '💬', cond: DOLIDA + ' && ' + COMBATE, new: 'true', talk: [{ script: 'b07_rhi_reparar' }] },
-				{ label: 'Revancha con Rhi', sub: 'De noche, con focos de obra y con todo', icon: '🔥', cond: COMBATE + ' && !(' + DOLIDA + ')', talk: [{ script: 'b07_rhi_revancha' }] },
+				{ label: 'Revancha con Rhi', sub: 'Una al día, con focos de obra y con todo', icon: '🔥', cond: COMBATE + ' && !(' + DOLIDA + ')', talk: [{ script: 'b07_rhi_revancha' }] },
 			],
 		},
 
@@ -1058,6 +1061,7 @@ export default {
 					{ say: 'rhi', text: '…—Se gira despacio—. ¿Con todo? ¿Sin dejarme nada?' },
 					{ say: 'rhi', text: 'Va. Revancha. Aquí. En el campo de mi padre, el de verdad. Si me dejas ganar otra vez, no me vuelves a ver en la vida. Y si me ganas, también, porque me voy a encerrar a llorar. —Casi sonríe—. Cúrate. Que no quiero excusas.' },
 					{ heal: 'Rhi te tira la bolsa de deporte de su padre. Más Pociones Máximas con la etiqueta de «PAPÁ: NO TOCAR». Tu equipo se recupera del todo.' },
+					RHI_MARCA,
 					{ battle: 'rhi_7', lose: 'continue',
 						onWin: [{ say: 'rhi', text: 'Con todo. Me has ganado con todo. —Se tumba en la hierba de verdad, con los brazos abiertos—. Esto sí. Esto sí cuenta.' }, { set: { 'flag.b07_rhi_revancha': true } }],
 						onLose: [{ say: 'rhi', text: '¡GOL! ¡Y esta vez me lo has puesto difícil de verdad! —Se le escapa una carcajada—. Esto sí. Esto sí cuenta.' }, { heal: 'Rhi vacía lo que queda de la bolsa en tu equipo. Se recupera del todo.' }] },
@@ -1076,11 +1080,17 @@ export default {
 			] },
 		],
 		b07_rhi_revancha: [
+			{ if: RHI_HOY, then: [
+				{ text: 'Rhi está tumbada en el área, con un balón de almohada y Cinderace dormido a su lado. Te saluda con la mano sin levantarse.' },
+				{ say: 'rhi', text: 'Hoy ya jugamos. Cinderace está frito y yo también. —Bosteza—. Mañana, otra. A la misma hora. No me falles.' },
+				{ end: true },
+			] },
 			{ text: 'Rhi entrena sola en el Campo bajo la lámpara de obra de la caseta. Te ve llegar y sonríe con toda la cara.' },
 			{ say: 'rhi', text: '¿Revancha? ¡Siempre! En el campo de mi padre, con hierba de verdad. Aquí Cinderace se hace grande igual: debajo del prado también hay un punto de esos. Mi padre dice que por eso crece tan bien la hierba.' },
 			{ prompt: '¿Revancha con Rhi?', choice: [
 				{ text: 'Curar al equipo y jugar', then: [
 					{ heal: 'Rhi te tira la bolsa de deporte de su padre. Tu equipo se recupera del todo.' },
+					RHI_MARCA,
 					{ battle: 'rhi_7', lose: 'continue',
 						onWin: [{ say: 'rhi', text: '¡Otra vez! ¡Me has ganado otra vez! —Lo grita feliz, que es como grita Rhi—. Mañana, otra. Y pasado. Hasta que me salga.' }, { set: { 'flag.b07_rhi_revancha': true } }],
 						onLose: [{ say: 'rhi', text: '¡GOOOL! ¡En el Campo! ¡Mi padre lo ha visto desde la caseta! ¿Lo has visto, papá? —Desde la caseta, Gareth levanta un pulgar—.' }, { heal: 'Gareth sale de la caseta con dos Pociones Máximas y un termo de té. Tu equipo se recupera del todo.' }] },
