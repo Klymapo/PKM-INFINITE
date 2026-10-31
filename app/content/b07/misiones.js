@@ -27,7 +27,7 @@ export default {
 	// Las tres vías del torneo: dos bastan (T4 cierra la etapa `torneo` con dos de las tres).
 	parts: { title: 'Quién paga el torneo (bastan dos)', items: [
 		{ label: 'Combatir en el torneo', where: 'cripta_crampon', done: 'flag.b07_pista_combate', hint: '**Nerio** puede conseguirte plaza en **la Cripta**. Si pierdes una ronda, alguien te saca por detrás.' },
-		{ label: 'Escuchar desde dentro', where: 'trastienda_cripta', done: 'flag.b07_pista_personal', hint: '**Handsome** tiene dos uniformes de camarero. Le quedan fatal. Al anfitrión le gusta hablar por teléfono.' },
+		{ label: 'Escuchar desde dentro', where: 'trastienda_cripta', done: 'flag.b07_pista_personal', got: 'flag.b07_personal_media', gotHint: 'Te pillaron a medias. Lo que oíste cuenta, pero falta la otra mitad: vuelve a intentarlo con **Handsome**.', hint: '**Handsome** tiene dos uniformes de camarero. Le quedan fatal. Al anfitrión le gusta hablar por teléfono.' },
 		{ label: 'Seguir el dinero', where: 'trastienda_cripta', done: 'flag.b07_pista_dinero', hint: 'En la trastienda de **la Cripta** hay una caja de caudales. Los torneos de verdad llevan las cuentas al día.' },
 	] } },
 	b07_m5: { name: 'Ego', type: 'main', est: 160, stages: {
@@ -57,7 +57,7 @@ export default {
 	} },
 	b07_t_bastien: { name: 'Letra pequeña (VII)', type: 'thread', est: 20, stages: {
 		torneo: '**Bastien** se gana la vida combatiendo en **Pueblo Crampón**. Dice que pagan bien. Lo dice mirando al suelo.',
-		planta: '**Bastien** trabaja en **Ciudad Artejo** por contrato. Te ha escrito una sola palabra: «Ven».',
+		planta: '**Bastien** está en **Ciudad Artejo**. Te ha escrito una sola palabra: «Ven».',
 		hecha: 'Bastien llegó a donde tenía que llegar. Lo que encontró allí, lo lleva puesto.',
 	} },
 	b07_t_noa: { name: 'Las jaulas (VII)', type: 'thread', est: 30, stages: {
@@ -110,7 +110,7 @@ export default {
 		{ label: 'El recién casado', where: 'plie', done: 'flag.b07_viajero_novio', hint: 'Pasea por la plaza de **Plié** contando farolas. Está nervioso desde aquella noche.' },
 		{ label: 'El niño del Ditto', where: 'plie', done: 'flag.b07_viajero_nino', hint: 'Juega en la plaza de **Plié** con un Ditto que se convierte en lo que tiene delante. Medio pueblo lo mira mal.' },
 		{ label: 'La abuela', where: 'plie', done: 'flag.b07_viajero_abuela', hint: 'Vigila al niño desde un banco de **Plié**, haciendo punto. No se le escapa nada. Ni un punto.' },
-		{ label: 'La excursionista', where: 'bosque_lumirinto', done: 'flag.b07_viajero_excursionista', hint: 'Acampa en el **Bosque Lumirinto**. No ha querido volver al pueblo desde entonces.' },
+		{ label: 'La excursionista', where: 'bosque_lumirinto', tramo: 2, done: 'flag.b07_viajero_excursionista', hint: 'Acampa en el **Bosque Lumirinto**. No ha querido volver al pueblo desde entonces.' },
 		{ label: 'El fotógrafo', where: 'plie', done: 'flag.b07_viajero_fotografo', hint: 'Revela fotos en el sótano de la posada de **Plié**. Tiene la del grupo. Dice que no la enseña gratis.' },
 		{ label: 'La hincha', where: 'plie', done: 'flag.b07_viajero_hincha', hint: 'Una chica del Team Yell que llegó a **Plié** por equivocación y se quedó. Tiene muy buena memoria para las caras.' },
 	] } },

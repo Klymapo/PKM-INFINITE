@@ -116,8 +116,8 @@ export default {
 		lab_sonia: {
 			name: 'Laboratorio de Sonia', short: 'Laboratorio', parent: 'par', kind: 'building',
 			bg: { type: 'lab', wall: '#5a6a7a', floor: '#8a7a6a' },
-			desc: 'Una torre de piedra por fuera y, por dentro, un laboratorio en espiral: estanterías hasta el techo, una escalera de caracol, mesas con ordenadores y montones de libros viejos con marcapáginas de colores. En la pared del fondo, la reproducción de un **tapiz** antiguo: dos figuras con una espada y un escudo, frente a una mancha negra que ocupa medio cielo.\n\nUn Yamper duerme en una cesta junto al radiador, con una pata encima de un libro.',
-			descNight: 'De noche solo hay luz en la mesa de Sonia y en la pantalla del ordenador. La radio, muy bajita, habla de reyes y de espadas. El Yamper sueña y mueve la cola contra la cesta: *tum, tum, tum*.',
+			desc: 'Una torre de piedra por fuera y, por dentro, un laboratorio en espiral: estanterías hasta el techo, una escalera de caracol, mesas con computadoras y montones de libros viejos con marcapáginas de colores. En la pared del fondo, la reproducción de un **tapiz** antiguo: dos figuras con una espada y un escudo, frente a una mancha negra que ocupa medio cielo.\n\nUn Yamper duerme en una cesta junto al radiador, con una pata encima de un libro.',
+			descNight: 'De noche solo hay luz en la mesa de Sonia y en la pantalla de la computadora. La radio, muy bajita, habla de reyes y de espadas. El Yamper sueña y mueve la cola contra la cesta: *tum, tum, tum*.',
 			mapNote: 'Sonia · los apuntes de la leyenda de Galar',
 			spots: [
 				{ label: 'Sonia', sub: 'Escribe en un cuaderno con tres bolígrafos a la vez', icon: '🔬', talk: [
@@ -157,7 +157,7 @@ export default {
 					2: [
 						{ text: 'Un frutal viejo, torcido por el viento, se apoya en el muro como un abuelo en un bastón. Tiene bayas en las ramas de arriba y una escalera de mano apoyada en el tronco, con un cartel: «Coja. Devuelva la escalera».' },
 						{ spot: { action: { gather: 'b07_r2_frutal' } }, label: 'El frutal del muro', icon: '🍎', sub: 'Bayas en las ramas de arriba' },
-						{ trainer: 'galr2_ernie', optional: true, label: 'Un chaval con una bufanda de equipo calienta en el prado' },
+						{ trainer: 'galr2_ernie', optional: true, label: 'Un chavo con una bufanda de equipo calienta en el prado' },
 					],
 					3: [
 						{ text: 'El camino se asoma a un lago grande, de agua oscura y quieta, rodeado de juncos. Un puentecito de madera cruza un arroyo que baja hacia la orilla. Desde aquí se oye, muy bajito, algo que llora.' },
