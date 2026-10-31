@@ -119,3 +119,12 @@ Aplícalo a las tres ideas:
 - **Ideas de ChatGPT usadas:** «El Pokémon que no quiere evolucionar» (→ `b05_s_terron`) y «El museo de tu propia partida» (→ `b05_s_museo`, en el ático de Philippe). Quedan sin usar: «la misión que fracasa bien» y los arcos de posjuego.
 - Patrón favorito de Mario aplicado: Kekoa y Terrón → **Caracola de Kekoa** (pixel art) → **Hondonada de los Mudbray**.
 - Referencias: ninguna evidente. Philippe sigue con *Modern Family* (Phil-osofía, trucos fallidos: los once pañuelos). Kalena «le debo dos sillas y una disculpa» (ya era de T1).
+
+## B7 (integrado, 2026-10-30)
+
+- **Rhi:** «Un delantero sin ego es un defensa con suerte» (*Blue Lock*, título del acto). **Evidente**, una vez. Cartel torcido «CREE» en el vestuario de Hoyuelo (*Ted Lasso*), sutil.
+- **La Casa de las Siete Puertas:** «Cuando quitas lo imposible, lo que queda es una bota con clavos» (Quintana, eco de Holmes). **Evidente**, una vez. Casa-cuento con salas-prueba (sutil, Mario de narrador de rol).
+- **Liga de los Siete Oficios:** duelo de curri Priya–Gaspar (*Food Wars*, ya establecida).
+- **Torneo de Crampón:** Xero con careta y «¡Bwahaha!» (su propia gracia); Nerio canta para tapar la huida (sutil).
+- **Ideas de ChatGPT usadas:** la Casa de las Siete Puertas (+ «la misión que fracasa bien»: `b07_casa_fallido` tiene final propio), el Torneo de los Villanos y la Liga de los Siete Oficios.
+- Noa, Octavia, A.Z.: ninguna (escenas serias). Siguen prohibidos *Portal* y *Dr. Stone*.

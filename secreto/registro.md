@@ -655,3 +655,59 @@ Todo en `app/content/b06/` (t12–t15) y motor nuevo en `app/js/` (`carreras.js`
 - **Cuadrante** (`b06/t16-cartas.js`): apariciones nuevas de **Philippe** (Luminalia, café), **Lola** (Trigal, andén), **Sabrina** (Azafrán, sala de espera del gimnasio), **Soldi** y **Leilani** (Taller Kahale) y **Camila** (camerino de Mayólica). Flags `cq_<ciudad>_vista`, `cq_sobre`, `cartas_<rival>_ganada`. Guiño sutil: el mazo de Lola (Persian, Weezing, Houndoom) roza su pasado Rocket sin decir nada.
 - **Casos de detective** (`b06/t17-casos.js`): NPC nuevo **Mauro Quintana** (`quintana`, perito de la aseguradora de Relieve, compañero de Héctor). Héctor aparece en la P. D. de la primera carta. Flags `det_cN_carta`, `det_cN_visto`, `det_cN_ok` / `det_cN_escapo` (+ del motor `det_cN_resuelto` / `det_cN_fallido`). Reputación de detective en `G.casos.rep`; `rep.policia +1` por caso resuelto. Sospechosos genéricos de un solo caso. Soluciones: `secreto/bloques/p15-casos.md`.
 - **Pueblo Cirio** (`b06/t18-cirio.js`), serial semanal: lugares `senda_cirio`, `pueblo_cirio` (+ posada, muelle, faro, cerería). NPCs nuevos **Consuelo**, **Don Hilario**, **Abril**, **Benigna** (fichas en `personajes.md`); **Morti** escribe la carta de entrada. Decisión del capítulo 1: `cirio_c1_costumbre` / `cirio_c1_prueba` / `cirio_c1_guardia`. Verdad, pistas plantadas y capítulos 2–5: `secreto/bloques/p16-cirio-plan.md`. Nada de la trama principal.
+
+## Bloque 7 «Acto VI · Ego» (Galar) · integrado en `trabajo/b07` (paso 5, 2026-10-30)
+
+**Estado:** escrito e integrado en la rama `trabajo/b07`. **No está en `BLOCKS`** ni sube `CONTENT_VERSION`: se carga con `INFINITO_EXTRA=b07`. El paso 6 (`b07-avance.md`) hace la revisión ligera, el lector independiente, la auditoría completa y la publicación. Partes: `comun.js`, `t0-par.js` … `t5-artejo.js` y `t6-museo.js` (museo).
+
+### Estado del mundo al terminar el B7 (`flag.b07_fin`)
+
+- Región nueva **`galar`** (mapa 100×140). **Puerta Lemnis de Galar** en el andén de la estación de Pueblo Par (`puerta_galar`, `b07_puerta_galar`) ⇄ Porcelana, Hauoli, Azafrán, Luminalia y Trigal. Trenes desde la estación de Pistón a Plié (`b07_t1_hecho`) y a Crampón (`b07_t3_hecho`); vuelos con Aerodactyl (`comun.js`).
+- Lugares: Par, Ruta 2 (`gal_ruta2`, lago), Casa de la Prof. Magnolia, Área Silvestre (sur: Pradera Radiante, Lago Axew, Nido de la Pradera), Ciudad Pistón (estadio, estación, talleres, taberna de curri, calderas), Pueblo Plié y Bosque Lumirinto (Casa de las Siete Puertas, opcional), Ruta 3, Mina de Galar, Ruta 4, Pueblo Hoyuelo (casa de los Hargreave, estadio, El Campo, terrazas), Pueblo Crampón (callejón, la Cripta, trastienda), Área Silvestre (norte, Lago del Enfado), Ciudad Artejo (estadio, cornisa, muralla, Planta Eléctrica: jaulas, archivo, cima).
+- **Mecánica:** Maximuñequera (`dynamaxband`, `mec_dynamax`) en T0. **Motor (paso 5):** el Dinamax del jugador solo se ofrece en Galar, en lugares con `fisura: true` y contra salvajes de Fisura (`dynamaxAllowed`, `battle.js`). **Factor Gigamax:** comando `{ gmax }` (Sopa Maxi de Gaspar en la cocina de Priya; 1 Maxiseta; fogón de Naboru listo con `b07_oficio_calderas` o `b07_percy_vencido`; flag `b07_gmax_dado`).
+- Medallas del Circuito: **Planta** (Percy, Hoyuelo; Eldegoss con Dinamax) y **Dragón** (Roy, Artejo; Duraludon Gigamax). Tope **68 → 70 (Percy) → 72 (final del torneo) → 73 (Roy) → 74 (final)**.
+- **Nodo 06 = Planta Eléctrica de Artejo**, drenaba a **Eternatus** (capturable y único, `b07_eternatus_tuyo`). Olivia vencida (`b07_olivia_vencida`). Octavia Lemnis, aliada.
+- **Pérdida del Acto VI: Noa** (`b07_noa_jaulas`, `b07_noa_adios`, objeto `notanoa`). Lucien encontrado y de vuelta en Luminalia (`vars.lucien_viaje = 0`).
+- **Negocio nuevo:** El Campo de los Hargreave (`b07_campo`, socio Gareth; encargados Rhi, Nate, Mireille). Amplía el Estudio *Casos Fríos* con dos imprevistos de Galar.
+- Secundarias: Liga de los Siete Oficios (Pistón, `sellooficios`, tienda `taller_oficios`), La Casa de las Siete Puertas (caso `b07_casa`, Quintana), Fósiles que no encajan (Petra), Los tres de Galar (iniciales).
+- La Gira anuncia **Sinnoh** (Acto VII). Lionel anuncia la Copa de la Temporada «al cierre de Galar» (no se juega en el B7).
+
+### Decisiones del B7 que el B8 DEBE leer
+
+| Decisión | Flags | Qué cambia |
+|---|---|---|
+| **Octavia** (gran decisión, muralla al amanecer) | `b07_octavia_dentro` (sigue de presidenta e informa en secreto; rep.lemnis +5) / `b07_octavia_publica` (dimite en rueda de prensa; Ansel presidente en funciones; rep.lemnis −10, rep.galar +5, af.renata +3) / `b07_octavia_testigo` (testigo protegida con Handsome y Olmedo; Sera hereda en funciones; rep.policia +5). Rama `doble`: `b07_doble_delata_octavia` | Acto VIII («La heredera»); pieza del museo (broche) |
+| El libro de cuentas | `b07_libro_policia` / `b07_libro_prensa` / `b07_libro_octavia` | Ya leído en T5 (llegada de Octavia); puede volver en el VIII |
+| Lola | `b07_lola_testigo` / `b07_lola_crampon` / `b07_lola_vuelve` (+ `lolarecetaverdad`); `b02_t_lola` cerrada | Testigo contra la fundación; su carrito |
+| Noa / Bastien | `b07_bastien_llega` (leal) / `b07_bastien_tarde` (resentido); `insignianoa` | Bastien lleva la pérdida; museo (etiqueta) |
+| Merengue | `b07_merengue_campo` / `b07_merengue_lucien` | Imprevisto en El Campo o con Lucien en Luminalia |
+| Lila | `b07_lila_expediente_enviado` / `b07_lila_expediente_guardado` (`expedientedufresne`) | **B8: Lila en persona, la revelación de su madre** |
+| Casa de las Siete Puertas | `b07_casa_devuelve` / `b07_casa_lectura` / `b07_casa_quintana` / `b07_casa_fallido` | Vuelta a Plié (gimnasio de Sally); museo (llave) |
+| Apuntador | `b07_apuntador_vencido_2` / `b07_apuntador_gana_2`; `b07_coartada_rota` | **B8: tercer acto «en casa» (teatro de Mayólica)** |
+| Rhi | `b07_rhi_vencida_7`, `b07_rhi_momento`, `b07_rhi_peticion`, `b07_rhi_dolida` / `_reparada` | Su petición: portero el día que vuelva al Desafío |
+| Kaori | `b07_kaori_torneo`, `b07_kaori_momento`, `b07_kaori_peticion` (`cuadernokaori`) | Antídoto, siguiente paso |
+| Diario (rama `doble`) | `b07_doble_cuenta_t0` / `_calla_t0`, `b07_doble_cuenta_t5` / `_calla_t5` | Lo que sabe Ansel |
+| Otros | `b07_oficios_hecho` / `_siete`, `b07_sopa_maxi`, `b07_gmax_dado`, `b07_eternatus_tuyo`, `b07_torneo_ganado`, `b07_xero_detenido` / `_escapa`, `b07_terron_mudsdale`, `b07_sera_llamada`, `b07_az_artejo` | — |
+
+### Pistas plantadas
+
+- **El Apuntador:** mensajes del marcador programados días antes (escaleta pública, recibo de la ventanilla 3); la coartada de horario de Tadeo no sirve (nadie lo dice). Carta 4: «el tercero, en casa».
+- **Lucario:** aullido desde el Bosque Oniria durante Eternatus; el aura de {riolu} contesta (semilla de los guardianes, sin nombrarlos).
+- **Lila:** expediente de E. Dufresne (Proyecto Lemniscata, baja hace 21 años, foto con un bebé y una tela con lemniscata). Octavia reconoce el nombre y calla.
+- **Tronco:** Fundación Horizonte, «Dirección (Ω)» y «Presidencia: no». Octavia sin acceso al Módulo Diario ni al Emplazamiento 06.
+- **A.Z.:** aparición del Acto VI en la muralla de Artejo.
+
+### Personajes
+
+- **Nuevos canon:** Sonia, Magnolia, Percy, Roy, Nerio, Naboru, Sally, Lionel, Olivia (todos con ≥ 2 escenas aquí; Naboru, Sally y Nerio deben volver con sus gimnasios en la siguiente visita a Galar).
+- **Nuevos OC:** Octavia Lemnis (en persona), Gareth Hargreave, Priya Lal, Agnes Tull, Ottilie Brack, Maren.
+- **Terceras apariciones cubiertas:** Kalena y Kekoa (Buzón), Inés, Celia y don Teodoro (Buzón: Celia y Teodoro escriben en el dorso del horario, paso 5), Tadeo, Olmedo, Magda, Nate, Lucien, Camille, Odile, Mireille.
+- **Última aparición:** Noa.
+
+### Integración (paso 5, 2026-10-30)
+
+- **Motor:** Dinamax regional (`dynamaxAllowed`), comando `{ gmax }` (guion, hub, validador y `docs/CONTENIDO.md`), `canTakeGmax` en `pokemon.js`. Prueba nueva en `herramientas/test/battle-test.mjs`: Rhi, Percy, Roy, Olivia, `torneo_r3` y el Drednaw de prueba dinamaxizan (y gigamaxizan los que llevan `gmax: true`); el jugador solo ofrece Dinamax en Galar o contra Fisura; la Sopa Maxi da el factor y gasta la Maxiseta.
+- **Rendimiento:** el ámbito de las condiciones (`scope()` en `state.js`) se construye una vez por partida y lee en vivo (antes, una vez por condición); el hub copia las cajas en ligero.
+- **Arte:** 20 objetos clave en pixel art (`PX_ITEMS`) y tres fotos (`estadio_noche`, `casa_ocho`, `mudsdale_abrevadero`) en `acuarela.js`. Sin Pokémon dibujados (el de la foto del abrevadero es una mancha movida, como el del B5).
+- **Museo:** `b07/t6-museo.js` (mismo patrón que el B6, no en `b05/t7-museo.js`): sala de Galar con etiqueta (Noa), broche (Octavia) y llave (Casa); estribo en miniatura en la sala de Alola.
+- **Textos:** formas de España en comunes y T0 (Vale, tío, chaval, ordenador, Cogió); `tramo: 2` en «La excursionista»; `got` en «Escuchar desde dentro»; etapa `planta` de Bastien sin «por contrato».

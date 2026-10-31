@@ -221,7 +221,11 @@ async function child() {
 		checks++;
 		const live = S.G;
 		// copia sin lo que el hub no mira (registro de diálogos, textos del diario y expedientes): las copias salen baratas
-		const base = util.clone({ ...live, dlog: [], diary: live.diary.map(() => 0), intel: Object.fromEntries(Object.entries(live.intel || {}).map(([k, v]) => [k, { notes: (v.notes || []).map(() => 0), teams: {} }])) });
+		// las cajas solo hacen falta para owns()/works() y para contar Pokémon; el historial de etapas no lo mira el hub
+		// (con el B7 cargado, las copias completas eran lo más caro de cada comprobación)
+		const lite = m => ({ sp: m.sp, uid: m.uid, lv: m.lv, nick: m.nick, shiny: m.shiny, gmax: m.gmax, hp: 1 });
+		const base = util.clone({ ...live, dlog: [], diary: live.diary.map(() => 0), intel: Object.fromEntries(Object.entries(live.intel || {}).map(([k, v]) => [k, { notes: (v.notes || []).map(() => 0), teams: {} }])),
+			boxes: (live.boxes || []).map(b => b.map(lite)), quests: Object.fromEntries(Object.entries(live.quests || {}).map(([k, q]) => [k, { ...q, hist: undefined }])) });
 		const savedUI = { ...GU.UI };
 		const savedRandom = Math.random;
 		const savedErr = console.error, savedWarn = console.warn;
