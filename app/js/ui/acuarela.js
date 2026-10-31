@@ -1333,7 +1333,7 @@ export function paintMudsdaleAbrevadero() {
 	ctx.fillStyle = '#b89a6a'; ctx.beginPath(); ctx.ellipse(ax + 168, ay - 12, 7, 7, 0, 0, 7); ctx.fill();
 	ctx.restore();
 	photoFinish(ctx, B, B, IW, IH, 19, { grain: 20, warm: 8, vig: 0.35 });
-	fotoPie(ctx, W, H, B, '¡no te muevas, papá!', '#5a4a2a', -0.05);
+	fotoPie(ctx, W, H, B, 'Ohana · 6:40 · ¡quietos!', '#5a4a2a', -0.05);
 	return { canvas: cv, done: Promise.resolve(true) };
 }
 
