@@ -8,7 +8,7 @@ Rama: `trabajo/b07` (se fusiona en `main` solo en el paso 6). Cada sesión hace 
 | 2 | Tramos T0 y T1 | **hecho** (2026-10-30, sesión de día) |
 | 3 | Tramos T2 y T3 | **hecho** (2026-10-30, sesión de día) |
 | 4 | Tramos T4 y T5 | **hecho** (2026-10-30, sesión de día) |
-| 5 | Integración, arte, museo, balance y 24 recorridos hasta `b07_fin` | **en curso** (2026-10-30 21:00, sesión de día) |
+| 5 | Integración, arte, museo, balance y 24 recorridos hasta `b07_fin` | **hecho** (2026-10-30, sesión de noche) |
 | 6 | Revisión ligera, auditoría y publicación | pendiente |
 
 ## Notas por paso
@@ -64,3 +64,27 @@ Tokens: T4 ≈ 466 k, T5 ≈ 589 k (total ≈ 1 055 k).
   - Superfan: Sandaconda en gimnasio Dragón (a propósito, equipo canon de Roy).
   - Arte T4: `librotorneo`, `contratohorizonte`, `sobrenoa`, `cuadernokaori`, `frascokaori`/`muestralazo`, `lolarecetaverdad`. Arte T5: `insignianoa`, `expedientedufresne`, `notanoa`, `informeoctavia`.
   - Museo T4: libro (`b07_libro_policia`/`_prensa`/`_octavia`), Lola (`b07_lola_testigo`/`_crampon`/`_vuelve`), `b07_torneo_ganado`, `b07_xero_detenido`/`_escapa`. Museo T5: Noa (`b07_noa_adios`, `b07_bastien_llega`/`_tarde`), Octavia (`b07_octavia_dentro`/`_publica`/`_testigo`, `b07_doble_delata_octavia`).
+
+### Paso 5 · 2026-10-30 · hecho
+
+Tokens: no medidos en esta sesión (una sola sesión, sin subagentes).
+
+**Resumen sin spoilers (lo puede leer Mario):** el Bloque 7 ya está integrado: los seis tramos encajan entre sí, el Dinamax funciona solo donde debe, hay una receta nueva para el factor Gigamax, arte para los objetos clave nuevos y tres fotos, una sala nueva en el museo del ático y la curva de dificultad ajustada. El bot llega al final del bloque en 22 de 24 partidas sin errores (las dos que no llegan se atascan antes, en el bloque anterior). Todavía no se puede jugar en el móvil: falta la revisión final y la publicación.
+
+**Hecho:**
+- Coherencia: flags y etapas entre tramos (sin flags leídos que nadie active), trenes y vuelos, `tramo: 2` en «La excursionista», `got` en «Escuchar desde dentro», etapa `planta` de Bastien neutra; formas de España en comunes, T0 y museo (Vale, tío, chaval, ordenador, Cogió, coger).
+- Motor: `dynamaxAllowed` (Galar, `fisura: true` o salvaje de Fisura), comando `{ gmax }` con `canTakeGmax`, enganchado en `b07_sopa_pedir` (fogón de Naboru: `b07_oficio_calderas` o `b07_percy_vencido`; 1 Maxiseta). Prueba en `battle-test.mjs`: Rhi, Percy, Roy, Olivia, `torneo_r3` y el Drednaw de T0 dinamaxizan; los `gmax: true` gigamaxizan. Documentado en `docs/CONTENIDO.md`.
+- Herramientas: `casos-test.mjs` (Buzón solo para `det_c*`); hub: el «cuelgue» era lentitud (cada condición reconstruía su ámbito entero y las copias del hub llevaban las cajas completas). `scope()` de `state.js` ahora se construye una vez por partida y lee en vivo; el hub copia las cajas en ligero. `hub.mjs` con el B7: **10 min, 0 graves, 0 avisos, 707 puntos** (las dos semillas llegan a Galar). Bot: usa el Dinamax contra el as de los jefes (con cabeza); `DERROTAS_TODAS=1` y `LOG_TRAINER=id` para depurar.
+- Arte: 20 objetos clave en `PX_ITEMS` (+ alias `muestralazo`) y fotos `estadio_noche`, `casa_ocho`, `mudsdale_abrevadero` en `acuarela.js` (revisadas en Chromium; los dos módulos se importan sin error).
+- Museo: `app/content/b07/t6-museo.js` (patrón del B6, no `b05/t7-museo.js`, para que el B7 vaya entero en su carpeta): sala de Galar (etiqueta, broche, llave) y el estribo en la sala de Alola.
+- Apariciones: Celia y don Teodoro escriben en la carta de Inés (su aparición del B7). El validador no lista NPCs con menos de 3 escenas.
+- Balance (24 recorridos, `balance.md`): 22/24 a `b07_fin`, 0 errores. Roy 0,92 · Olivia 1,38 · final del torneo 0,92 · Rhi 2,83 (revancha opcional que el bot repite).
+- Pruebas con el B7 cargado: validar (0 errores), superfan (0 graves), tester (0), cine, minijuegos, carreras, casos, negocios, battle, hub, ático, historias, correo, cartas: todo bien. Informes de `secreto/auditorias/` restaurados.
+- Documentos: `registro.md` (sección del B7), `hilos.md` (estado tras el B7), `referencias.md`, `balance.md`.
+
+**Para el paso 6 (revisión ligera y publicación):**
+- Añadir `b07` a `BLOCKS` (quitar `INFINITO_EXTRA` de los comandos), subir `CONTENT_VERSION`, `build-sw.mjs`, auditoría completa (`auditar.mjs`), prueba de humo y `ux.py` con el B7 en `BLOCKS` (mirar las capturas de las fotos y los iconos nuevos).
+- Lector independiente (CLAUDE.md §3.2) sobre todo el B7. Revisar en especial: la insignia de hojalata (en la rama `b05_bastien_sigue` Bastien ya mandó una al museo en el B5: ¿es otra?, que se diga); las voces de Octavia y Olivia; las tres ramas del Diario.
+- Rhi 2,83 de media (revancha infinita): decidir si la revancha queda en una por día o se deja.
+- Las semillas 5 (día) y 7 (noche) se atascan en el B6 (Dragospiral/Esmalte y Fayenza): conocidas, no son del B7.
+- `progreso.md`: tachar Meganiumita y el Gigamax (Sopa Maxi) en «Mecánica especial asegurada»; añadir «Regiones por completar · Galar» (plan §14.2).
