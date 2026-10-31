@@ -259,7 +259,11 @@ node herramientas/registro.mjs                         # registro automático
 python3 herramientas/humo.py --salida /tmp/humo        # humo en móvil
 python3 herramientas/ux.py --salida /tmp/ux             # Designer de Canvas: UX/UI de todas las pantallas
 node herramientas/auditar.mjs                          # todo lo anterior + informe (en paralelo; --hilos N para limitar; ~30 min con 2 núcleos)
-node herramientas/auditar.mjs --rapida [--bloque b07]  # mientras trabajas: validar, tester, cine, minijuegos y 4 bots hasta bNN_fin (informe en /tmp; ~2,5 min con b07)
+node herramientas/auditar.mjs --rapida [--bloque b07]  # mientras trabajas: validar, tester, cine, minijuegos y 4 bots hasta bNN_fin (informe en /tmp). Arranca cada bot desde su checkpoint del bloque anterior si sigue valiendo (~40 s); si no, juega desde B1 y lo guarda (~2,5 min)
+node herramientas/auditar.mjs --rapida --bloque b07 --desde-cero   # obliga a jugar desde B1 (los avisos de balance de la rápida con checkpoint solo cuentan el bloque nuevo)
+node herramientas/recorrido.mjs --semilla 3 --guardar-checkpoints  # guarda el estado en cada bNN_fin (herramientas/test/checkpoints/, no se sube)
+node herramientas/recorrido.mjs --semilla 3 --hasta b07_fin --desde b06_fin   # arranca desde el checkpoint
+node herramientas/hub.mjs --hallazgos-de a.json,b.json [--sin-bot]   # junta hallazgos de partidas del bot ya jugadas (la completa lo hace sola)
 node herramientas/ids.mjs existe b07_fin terraza_1     # ¿existe el id? como qué, bloque y archivo
 node herramientas/ids.mjs buscar /^nido/               # ids que coinciden, por tipo
 node herramientas/ids.mjs bloque b07                   # lugares, entrenadores, misiones y flags del bloque
