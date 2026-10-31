@@ -11,6 +11,7 @@ import {
 import { isNight } from './time.js';
 import { notaPrimera } from './atico.js';
 import { countUse } from './rival.js';
+import { C, topLoc } from './content.js';
 import { rint, clone } from './util.js';
 
 // ---------- Movimiento oculto para "pasar turno" (usar objeto, fallar huida, lanzar Ball) ----------
@@ -68,6 +69,22 @@ export const isBattleUsable = id => !!HEAL_ITEMS[id] || isBall(id);
 export const healInfo = id => HEAL_ITEMS[id];
 
 const KEY_FOR = { mega: 'megaring', z: 'zring', dynamax: 'dynamaxband', tera: 'teraorb' };
+
+/**
+ * Biblia §3.3.1: el Dinamax del jugador solo funciona en Galar o en una zona de Fisura.
+ * Zona de Fisura: un lugar (o su padre) con `fisura: true`, o un encuentro salvaje de Fisura
+ * (salvaje con mecánica propia: teracristalizado o dinamaxizado, como los nidos y las guaridas).
+ * Lugares sin región conocida (pruebas sin contenido cargado) no restringen.
+ */
+export function dynamaxAllowed(locId, wildGimmick) {
+	if (wildGimmick === 'dynamax' || wildGimmick === 'tera') return true;
+	if (!locId || !Object.keys(C.locations).length) return true;
+	const L = C.locations[locId], T = topLoc(locId);
+	if (!L && !T) return true;
+	if (L?.fisura || T?.fisura) return true;
+	const reg = L?.region || T?.region;
+	return reg === 'galar';
+}
 
 export class BattleCtl {
 	/**
@@ -405,7 +422,7 @@ export class BattleCtl {
 		const may = k => !this.gimmickUsed && count(KEY_FOR[k]) > 0 && G.flags['mec_' + k];
 		if (a.canMegaEvo && may('mega')) out.gimmicks.mega = true;
 		if (a.canZMove && a.canZMove.some(z => z) && may('z')) out.gimmicks.z = true;
-		if (a.canDynamax && may('dynamax')) out.gimmicks.dynamax = true;
+		if (a.canDynamax && may('dynamax') && dynamaxAllowed(this.cfg.loc, this.cfg.wildGimmick)) out.gimmicks.dynamax = true;
 		if (a.canTerastallize && may('tera') && !simP.terastallized) out.gimmicks.tera = a.canTerastallize;
 		return out;
 	}
@@ -435,9 +452,9 @@ export class BattleCtl {
 			p1choice = 'move ' + (action.i + 1);
 			if (action.gimmick === 'mega') p1choice += ' mega';
 			else if (action.gimmick === 'z') p1choice += ' zmove';
-			else if (action.gimmick === 'dynamax') p1choice += ' dynamax';
+			else if (action.gimmick === 'dynamax' && dynamaxAllowed(this.cfg.loc, this.cfg.wildGimmick)) p1choice += ' dynamax';
 			else if (action.gimmick === 'tera') p1choice += ' terastallize';
-			if (action.gimmick) this.gimmickUsed = true;
+			if (/ (mega|zmove|dynamax|terastallize)$/.test(p1choice)) this.gimmickUsed = true;
 		} else if (action.type === 'switch') {
 			p1choice = 'switch ' + (action.idx + 1);
 		} else if (action.type === 'run') {

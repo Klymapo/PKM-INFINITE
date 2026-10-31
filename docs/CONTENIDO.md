@@ -267,7 +267,8 @@ Un guion es una lista de comandos. Una cadena suelta equivale a `{ text }`. Cual
 | `{ toast: '…' }` | aviso breve |
 | `{ happy: { who: 'riolu', n: 20 } }` | amistad |
 | `{ learn: { who: 'riolu', move: 'forcepalm' } }` | `who`: 'riolu', especie, 'party0' |
-| `{ unlock: 'mega' }` | habilita la mecánica (además hace falta el objeto clave: `megaring`, `zring`, `dynamaxband`, `teraorb`) |
+| `{ unlock: 'mega' }` | habilita la mecánica (además hace falta el objeto clave: `megaring`, `zring`, `dynamaxband`, `teraorb`). El **Dinamax** del jugador, además, solo se ofrece en lugares de `region: 'galar'` (o con un padre de Galar), en lugares con `fisura: true` y contra salvajes de Fisura (con `gimmick`), por la biblia §3.3.1 (`dynamaxAllowed` en `app/js/battle.js`) |
+| `{ gmax: 'maxmushrooms', n: 1, prompt, onWin, onNone, onQuit }` | factor Gigamax (Sopa Maxi, B7): el jugador elige un Pokémon del equipo cuya especie o evolución tenga forma Gigamax y que aún no lo tenga; gasta `n` del objeto y le pone `gmax`. `onNone`: no hay candidatos u objetos; `onQuit`: lo deja para otro día. En `onWin`, `{vars.gmax_ultimo}` es el nombre del elegido. `{ gmax: true }` no gasta nada |
 | `{ shop: 'id' }`, `{ center: true }`, `{ pc: true }`, `{ save: true }`, `{ evolveCheck: true }` | |
 | `{ nickname: 'last' }`, `{ clearRoute: 'ruta4' }`, `{ wait: 500 }` | |
 | `{ cutscene: { bg: { type: 'cave' }, start: 'dark', frames: [ { text, item, npc, mon, actors, fx, cam, … } ] } }` | cinemática a pantalla completa: fondo vivo con paralaje, cámara, actores que entran y reaccionan, clima, efectos y texto que se escribe. Se avanza tocando (mantener pulsado ofrece saltarla). **Formato completo, recetas y reglas en `docs/CINE.md`**; léelo antes de escribir una. Úsala en momentos clave (objeto clave, llegada, giro, pérdida, legendario, clímax): de 2 a 4 por bloque |

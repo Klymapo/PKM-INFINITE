@@ -177,9 +177,23 @@ function battle(cfg) {
 				if (!d) { action = { type: 'move', i: 0 }; }
 				else if (d.choice.startsWith('switch')) action = { type: 'switch', idx: +d.choice.split(' ')[1] - 1 };
 				else { const parts = d.choice.split(' '); action = { type: 'move', i: +parts[1] - 1, gimmick: parts[2] === 'mega' ? 'mega' : parts[2] === 'zmove' ? 'z' : parts[2] === 'dynamax' ? 'dynamax' : parts[2] === 'terastallize' ? 'tera' : null }; }
+				// Dinamax como una persona (B7): contra el as de un jefe que dinamaxiza, cuando el rival ya se ha hecho
+				// gigante, o con el último Pokémon en pie en un combate contra un entrenador con nombre.
+				if (action?.type === 'move' && !action.gimmick && o.gimmicks.dynamax && kind === 'trainer') {
+					// …pero no con cualquiera: con {riolu}, con quien tenga un golpe supereficaz o cuando ya quedan pocos
+					// (antes dinamaxizaba lo primero que hubiera en el campo, aunque fuera un Sableye contra un Duraludon).
+					const foeId = toID(foe.species.baseSpecies);
+					const amenaza = (trainer?.gimmick === 'dynamax' && foeId === trainer.ace) || foe.volatiles?.dynamax;
+					const best = AI.scoreMoves(ctl.battle, me, foe, 4).filter(x => x.move.category !== 'Status').sort((a, b) => b.score - a.score)[0];
+					const bueno = !!best && AI.typeMult(ctl.battle, best.move.type, foe) >= 2;
+					const luc = ['riolu', 'lucario'].includes(toID(me.species.baseSpecies));
+					const pocos = ctl.battle.p1.pokemonLeft <= 2;
+					if (amenaza && (bueno || luc || pocos)) action.gimmick = 'dynamax';
+				}
 			}
 		}
 		r = ctl.turn(action);
+		if (process.env.LOG_TRAINER && cfg.trainer === process.env.LOG_TRAINER) console.log('    > ' + JSON.stringify(action) + ' | ' + (r.events || []).filter(e => e.t === 'text' || e.t === 'dyn').map(e => e.t === 'dyn' ? `[dyn ${e.side}${e.gmax ? ' gmax' : ''}]` : e.s).join(' / ').slice(0, 400));
 		if (r.error) {
 			const errs = [r.error];
 			const tries = [0, 1, 2, 3].map(i => ({ type: 'move', i })).concat(ctl.options().switches.filter(x => !x.fainted && !x.active).map(x => ({ type: 'switch', idx: x.idx })));
@@ -550,7 +564,7 @@ else {
 	console.log(`Lugares sin visitar (${unvisited.length}): ${unvisited.join(', ')}`);
 	console.log(`Guiones nunca ejecutados (${unusedScripts.length}): ${unusedScripts.slice(0, 80).join(', ')}`);
 	if (report.losses.length) console.log(`Derrotas:\n  ${report.losses.slice(0, 20).join('\n  ')}`);
-	{ const by = {}; for (const l of report.losses) { const k = l.split(' ')[0]; by[k] = (by[k] || 0) + 1; } const top = Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, 8); if (top.length) console.log(`Derrotas por rival: ${top.map(([k, v]) => k + ' ×' + v).join(', ')} · última: ${report.losses[report.losses.length - 1]}`); }
+	{ const by = {}; for (const l of report.losses) { const k = l.split(' ')[0]; by[k] = (by[k] || 0) + 1; } const top = Object.entries(by).sort((a, b) => b[1] - a[1]).slice(0, process.env.DERROTAS_TODAS ? 999 : 8); if (top.length) console.log(`Derrotas por rival: ${top.map(([k, v]) => k + ' ×' + v).join(', ')} · última: ${report.losses[report.losses.length - 1]}`); }
 	if (report.stuck.length) console.log(`ATASCOS:\n  ${[...new Set(report.stuck)].slice(0, 15).join('\n  ')}`);
 	if (report.repeatGifts.length) console.log(`REGALOS REPETIDOS:\n  ${report.repeatGifts.slice(0, 20).join('\n  ')}`);
 	if (report.errors.length) console.log(`ERRORES (${report.errors.length}):\n  ${[...new Set(report.errors)].slice(0, 40).join('\n  ')}`);

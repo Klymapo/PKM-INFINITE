@@ -23,6 +23,7 @@ import { uniqueSpotsAt } from './unicos.js';
 import { rivalSpotsAt } from './rival.js';
 import { ventureList, pending as venturePending, peekPedido } from './negocios.js';
 import { phase } from './time.js';
+import { canTakeGmax } from './pokemon.js';
 
 /**
  * Solo para pruebas de regresión (herramientas/test/hub-test.mjs y herramientas/hub.mjs --antiguo):
@@ -313,6 +314,14 @@ function probe_(script) {
 			if (c.case) { eff(st, 'caso', true); branches(st, depth, ['onSolve', 'onFail'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.cards) { eff(st, 'cartas', true); branches(st, depth, ['onWin', 'onLose', 'onDraw'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.race) { eff(st, 'carrera', true); branches(st, depth, ['onWin', 'onLose'].filter(k => c[k]).map(k => [c[k], null])); continue; }
+			if (c.gmax) {
+				// Sopa Maxi: cambia un Pokémon si hay a quién dársela (y setas); si no, onNone
+				const cost = typeof c.gmax === 'string' ? toID(c.gmax) : null;
+				const can = G.party.some(canTakeGmax) && (!cost || (G.bag?.[cost] || 0) >= (c.n || 1));
+				if (can) { eff(st, 'pokemon', true); branches(st, depth, ['onWin', 'onQuit'].filter(k => c[k]).map(k => [c[k], null])); }
+				else if (c.onNone) { walk(c.onNone, st, depth + 1); if (st.stop) return; }
+				continue;
+			}
 			if (c.photoSell) { branches(st, depth, ['onSale', 'onNone'].filter(k => c[k]).map(k => [c[k], null])); continue; }
 			if (c.input) { eff(st, 'estado', true); continue; }
 			// tiendas, curas, guardado, cinemáticas, lecturas…: no cambian nada que el hub tenga que anunciar

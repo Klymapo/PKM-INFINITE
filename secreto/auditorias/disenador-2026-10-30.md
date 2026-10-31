@@ -2,7 +2,7 @@
 
 > Diseño del juego con ojos de diseñador. **✖ grave** · **⚠ detalle** · **· curiosidad** (opinable).
 
-**Total:** 0 graves · 0 detalles · 4 curiosidades. 153 misiones, 6 bloques y 207 lugares revisados.
+**Total:** 0 graves · 0 detalles · 5 curiosidades. 171 misiones, 7 bloques y 257 lugares revisados.
 
 ## Hub de misiones: fichas que no te guían (0)
 
@@ -14,13 +14,14 @@ Bien resuelto. ✅
 
 ## Misiones sin final o sin premio (1)
 
-- · **Fiado no [b02_t_lola]** — Hilo sin final todavía (normal si sigue en bloques futuros; que no se olvide).
+- · **La Casa de las Siete Puertas [b07_s_casa]** — Secundaria que termina sin ningún premio visible (objeto, dinero, afinidad, reputación…). Un detalle pequeño ya cuenta.
 
-## Reglas de diseño por bloque (3)
+## Reglas de diseño por bloque (4)
 
 - · **Bloque 04** — Sus misiones suman ~18.2 h estimadas; la meta son unas 12 h (o falta poner `est`).
 - · **Bloque 05** — Sus misiones suman ~22.0 h estimadas; la meta son unas 12 h (o falta poner `est`).
 - · **Bloque 06** — Sus misiones suman ~22.0 h estimadas; la meta son unas 12 h (o falta poner `est`).
+- · **Bloque 07** — Sus misiones suman ~20.2 h estimadas; la meta son unas 12 h (o falta poner `est`).
 
 ## Lugares (0)
 
@@ -32,13 +33,13 @@ Cuenta como conseguible si se captura, se regala o sale en un evento la especie 
 
 | Grupo | Conseguibles | Faltan |
 |---|---|---|
-| Iniciales | 13/29 | Bulbasaur, Charmander, Squirtle, Treecko, Torchic, Mudkip, Turtwig, Chimchar, Piplup, Chespin, Froakie, Grookey, Scorbunny, Sobble, Sprigatito, Quaxly |
-| Pseudolegendarios | 2/10 | Dratini, Beldum, Gible, Deino, Goomy, Jangmo-o, Dreepy, Frigibax |
-| Fósiles | 11/15 | Dracozolt, Arctozolt, Dracovish, Arctovish |
+| Iniciales | 16/29 | Bulbasaur, Charmander, Squirtle, Treecko, Torchic, Mudkip, Turtwig, Chimchar, Piplup, Chespin, Froakie, Sprigatito, Quaxly |
+| Pseudolegendarios | 3/10 | Dratini, Beldum, Gible, Deino, Goomy, Jangmo-o, Frigibax |
+| Fósiles | 15/15 | — |
 | Evoluciones de Eevee | 8/8 | — |
 | Especiales | 12/16 | Porygon, Rotom, Spiritomb, Chansey |
 | Legendarios menores | 2/44 | Articuno, Zapdos, Moltres, Raikou, Entei, Suicune, Regirock, Regice, Registeel, Latias, Latios, Uxie, Mesprit, Azelf, Heatran, Regigigas, Cresselia, Cobalion, Terrakion, Virizion, Tornadus, Thundurus, Landorus, Tapu Koko, Tapu Lele, Tapu Bulu, Tapu Fini, Kubfu, Urshifu, Regieleki, Regidrago, Glastrier, Spectrier, Enamorus, Wo-Chien, Chien-Pao, Ting-Lu, Chi-Yu, Okidogi, Munkidori, Fezandipiti, Ogerpon |
-| Legendarios | 1/27 | Mewtwo, Lugia, Ho-Oh, Kyogre, Groudon, Rayquaza, Dialga, Palkia, Giratina, Zekrom, Kyurem, Xerneas, Yveltal, Zygarde, Cosmog, Cosmoem, Solgaleo, Lunala, Necrozma, Zacian, Zamazenta, Eternatus, Calyrex, Koraidon, Miraidon, Terapagos |
+| Legendarios | 2/27 | Mewtwo, Lugia, Ho-Oh, Kyogre, Groudon, Rayquaza, Dialga, Palkia, Giratina, Zekrom, Kyurem, Xerneas, Yveltal, Zygarde, Cosmog, Cosmoem, Solgaleo, Lunala, Necrozma, Zacian, Zamazenta, Calyrex, Koraidon, Miraidon, Terapagos |
 | Singulares | 0/23 | Mew, Celebi, Jirachi, Deoxys, Phione, Manaphy, Darkrai, Shaymin, Arceus, Victini, Keldeo, Meloetta, Genesect, Diancie, Hoopa, Volcanion, Magearna, Marshadow, Zeraora, Meltan, Melmetal, Zarude, Pecharunt |
 | Ultraentes | 0/11 | Nihilego, Buzzwole, Pheromosa, Xurkitree, Celesteela, Kartana, Guzzlord, Poipole, Naganadel, Stakataka, Blacephalon |
 | Paradoja | 0/16 | Colmilargo, Colagrito, Furioseta, Melenaleteo, Reptalada, Pelarena, Ferrodada, Ferrosaco, Ferropalmas, Ferrocuello, Ferropolilla, Ferropúas, Bramaluna, Ferropaladín, Ondulagua, Ferroverdor |

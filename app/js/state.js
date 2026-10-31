@@ -260,20 +260,25 @@ let extraScope = () => ({});
 /** fn: () => objeto con valores extra (hora, fecha, etc.) evaluados en cada condición */
 export function setExtraScope(fn) { extraScope = fn; }
 
+// El ámbito de las condiciones se construye una vez por partida (objeto G) y por proveedor de ámbito extra, y lee
+// el estado en vivo (getters y Proxies sobre G): antes se reconstruía entero en cada condición y era lo más caro
+// del hub y de las herramientas (2026-10-30, paso 5 del B7).
+let scopeObj = null, scopeG = null, scopeExtra = null;
 function scope() {
+	if (scopeObj && scopeG === G && scopeExtra === extraScope) return scopeObj;
 	const zero = () => new Proxy({}, { get: (t, k) => typeof k === 'string' ? 0 : undefined });
-	const wrap = (obj, def) => new Proxy(obj, { get: (t, k) => (k in t ? t[k] : def), has: () => true });
-	return {
-		flag: wrap(G.flags, false), flags: wrap(G.flags, false),
-		vars: wrap(G.vars, 0), rep: wrap(G.rep, 0), af: wrap(G.af, 0),
+	const wrap = (key, def) => new Proxy({}, { get: (t, k) => { const o = G[key] || {}; return k in o ? o[k] : def; }, has: () => true });
+	const s = {
+		flag: wrap('flags', false), flags: wrap('flags', false),
+		vars: wrap('vars', 0), rep: wrap('rep', 0), af: wrap('af', 0),
 		// Una misión terminada siempre se lee como 'hecha' (así ningún diálogo de una etapa vieja se repite)
 		quest: new Proxy({}, { get: (t, k) => G.quests[k] ? (G.quests[k].done ? 'hecha' : G.quests[k].stage || '') : '' }),
 		done: new Proxy({}, { get: (t, k) => !!G.quests[k]?.done }),
 		has: id => (G.bag[toID(id)] || 0) > 0,
 		count: id => G.bag[toID(id)] || 0,
-		badges: G.player.badges.length,
+		get badges() { return G.player.badges.length; },
 		badge: id => G.player.badges.includes(id),
-		money: G.player.money,
+		get money() { return G.player.money; },
 		inParty: spId => G.party.some(p => p.sp === toID(spId) || D.species[p.sp]?.base === toID(spId)),
 		owns: spId => G.party.some(p => p.sp === toID(spId)) || G.boxes.some(b => b.some(p => p.sp === toID(spId))) || Object.values(G.neg || {}).some(v => (v.workers || []).some(p => p.sp === toID(spId))) || (G.exp?.active || []).some(e => e.mon?.sp === toID(spId)),
 		// ¿Hay un Pokémon de esa especie o de una evolución suya (works('mareep') ve a un Ampharos) trabajando en algún negocio? works('ampharos')
@@ -285,11 +290,11 @@ function scope() {
 		visited: id => !!G.visited[id],
 		cleared: id => !!G.cleared[id],
 		beat: id => !!G.beaten[id],
-		hitos: hitos(),
-		dex: Object.keys(G.dex.caught || {}).length, // especies capturadas (Pokédex)
-		maxLv: Math.max(0, ...G.party.map(p => p.lv)),
-		partySize: G.party.length,
-		pron: G.player.pron,
+		get hitos() { return hitos(); },
+		get dex() { return Object.keys(G.dex.caught || {}).length; }, // especies capturadas (Pokédex)
+		get maxLv() { return Math.max(0, ...G.party.map(p => p.lv)); },
+		get partySize() { return G.party.length; },
+		get pron() { return G.player.pron; },
 		zero,
 		// Estrellas de la foto de un momento raro (0 si no la tienes): foto('snorlax_hojas')
 		foto: id => G.fotos?.[id]?.q || 0,
@@ -302,8 +307,11 @@ function scope() {
 				: who === 'candela' && G.flags.b01_candela_unida ? G.party.find(x => x.nick === 'Candela' && ['mareep', 'flaaffy', 'ampharos'].includes(x.sp)) : null;
 			return p ? (p.happy ?? 0) : 0;
 		},
-		...extraScope(),
-	};
+		};
+	const ex = extraScope;
+	for (const k of Object.keys(ex() || {})) Object.defineProperty(s, k, { get: () => ex()[k], enumerable: true, configurable: true });
+	scopeObj = s; scopeG = G; scopeExtra = ex;
+	return s;
 }
 
 export function evalCond(expr) {

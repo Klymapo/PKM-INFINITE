@@ -197,3 +197,25 @@ Cerrados hoy al terminar su parte (antes esperaban al bloque siguiente o no se c
 - **Serafina:** abierta la vía de reconciliación (`sera_reconciliada`). `sera_canal_abierto` queda para que un bloque futuro reactive las llamadas del Holomisor. Su negocio espera a Paldea (`app/content/pendientes/serafina-negocio.js`).
 - **Dolores:** el encargo `enc_dolores` devuelve el muñeco de trapo (objeto para leer). Falta el `art` del muñeco (sesión de arte); cuando exista, el hilo se puede dar por cerrado.
 - **Kaori:** la botica sube afinidad y prepara el «té sin veneno» (escena `b06_bot_up_te`), sin consumar el momento de corazón.
+
+## Estado tras el B7 (integrado en `trabajo/b07`, 2026-10-30; se publica en el paso 6)
+
+| Hilo | Estado | Siguiente paso (B8) |
+|---|---|---|
+| Tronco | **Nodo 06 (Planta Eléctrica de Artejo)** apagado; Eternatus libre (capturable). Fundación Horizonte y «Dirección (Ω)» a la vista. Octavia sabe que Dirección le escondió el drenaje | Acto VII (Sinnoh) según la rama de Octavia (`dentro` / `publica` → Ansel en funciones / `testigo` → Sera en funciones) |
+| **NUEVO (B7): La presidenta** (`b07_t_octavia`) | Cerrado en el B7 (cada parte, su misión). Octavia aliada | **B8:** la información de Octavia (dentro), la crisis (pública) o el programa de testigos (testigo). Acto VIII: Sera, «La heredera» |
+| El Apuntador | Segundo acto (marcador del Estadio de Pistón). Carta 4. `b07_t_apuntador` cerrada | **B8:** tercer acto «en casa» (teatro de Mayólica), identidad (Tadeo), la cinta del episodio 3 |
+| Las jaulas (Noa) | **Cerrado: su pérdida** (biblia §9). `notanoa`; insignia para Bastien | Duelo que dura: mesa vacía, Lucien la nombra en el ático, evento anual futuro (proponer fecha en el plan del B8) |
+| El novato perdido (Lucien) | Cerrado: encontrado en las jaulas; vuelve a Luminalia | B8: una línea en el ático (la nombra a ella); vuelve a la garita |
+| Letra pequeña (Bastien) | Rompe: torneo de Crampón (`bastien_8`). Sigue: la Planta. Leal: llegó a tiempo; resentido: tarde | Lleva la insignia; su arco sigue en el VII |
+| La arrepentida (Lola) | **Cerrado** (`b02_t_lola` y `b07_t_lola`): confesión sin absolución | Testigo / Crampón / carrito según rama: aparición corta en el B8+ |
+| Dulce veneno (Kaori) | Antídoto: un paso más con las muestras del torneo. Momentos a 45 y 70 (cuaderno) | Siguiente paso del antídoto; su té sigue sin usarse |
+| La delantera (Rhi) | Cinderace Gigamax en el estadio vacío; su padre y El Campo | Su petición (portero) cuando vuelva al Desafío; corazón: final de la Copa |
+| Lucario | Aullido del Bosque Oniria, el aura contesta | Acto VII: Lucarita Z (sin nombrarla antes); semilla de los guardianes de Galar |
+| Lila | Expediente de E. Dufresne (enviado o guardado) | **B8: Lila en persona, la revelación de su madre** |
+| El recetario (Gaspar) | Priya y la Sopa Maxi (factor Gigamax) | Fonda de Priya en el B8 (imprevistos) |
+| A.Z. | Aparición del Acto VI (muralla de Artejo) | Una por acto |
+| Casa de las Siete Puertas | Cerrada (cuatro finales) | Vuelta a Plié con el gimnasio de Sally |
+| Lo que no crece (Terrón) | **Cerrado**: Terrón es Mudsdale (carta de Kalena); estribo en el museo | — |
+
+**Personajes del B7 que necesitan volver** (regla de las 3 apariciones repartidas): Naboru, Sally y Nerio (sus gimnasios en la siguiente visita a Galar), Percy y Roy (revanchas), Sonia y Magnolia (mensaje o vuelta), Lionel (Copa), Gareth y Priya (imprevistos), Agnes, Ottilie y Maren (vuelta a Plié/Pistón), Octavia (B8).

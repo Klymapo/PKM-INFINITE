@@ -3,7 +3,7 @@
 import { D, toID } from './data.js';
 import { C, npc } from './content.js';
 import { G, evalCond, setPath, addItem, removeItem, count, markCaught, saveGame, beginScene, endScene, commitScene, addHito } from './state.js';
-import { createPokemon, displayName, healFull, addHappy, maxHp } from './pokemon.js';
+import { createPokemon, displayName, healFull, addHappy, maxHp, canTakeGmax } from './pokemon.js';
 import { uniqueKeyOf, uniqueResult } from './unicos.js';
 import * as MJ from './minijuegos.js';
 import { questHangs } from './hub.js';
@@ -230,6 +230,25 @@ async function runCmd(c, ctx) {
 	if (c.shop) { await UI.shop(c.shop); return; }
 	if (c.save) { commitScene(); await saveGame(); return; }
 	if (c.evolveCheck) { await UI.evolveCheck?.(); return; }
+	// Factor Gigamax (Sopa Maxi): { gmax: 'maxmushrooms', n: 3, onWin, onNone, onQuit }. Elige un Pokémon del equipo
+	// que pueda gigamaxizar (o cuya evolución pueda), gasta n del objeto y le pone el factor. onNone: no hay candidatos
+	// u objetos suficientes; onQuit: el jugador lo deja para otro día. { gmax: true } no gasta nada.
+	if (c.gmax) {
+		const cost = typeof c.gmax === 'string' ? toID(c.gmax) : null, n = c.n || 1;
+		const cands = G.party.filter(canTakeGmax);
+		ctx.lastGmax = null;
+		if (!cands.length || (cost && count(cost) < n)) { if (c.onNone) await runList(c.onNone, ctx); return; }
+		const labels = cands.map(p => displayName(p) + (p.nick ? ` (${D.species[p.sp]?.name})` : '') + ` · Nv. ${p.lv}`).concat(['Mejor otro día']);
+		const i = await UI.choose(c.prompt ? tx(c.prompt) : '¿A quién le das la sopa?', labels, c);
+		const p = cands[i];
+		if (!p) { if (c.onQuit) await runList(c.onQuit, ctx); return; }
+		if (cost) removeItem(cost, n);
+		p.gmax = true;
+		ctx.lastGmax = p;
+		G.vars.gmax_ultimo = displayName(p);
+		if (c.onWin) await runList(c.onWin, ctx);
+		return;
+	}
 	if (c.nickname) { const p = c.nickname === 'last' ? G.party[G.party.length - 1] : findMon(c.nickname); if (p) await UI.nickname(p); return; }
 	if (c.center) { await UI.center?.(); return; }
 	if (c.pc) { await UI.pc?.(); return; }

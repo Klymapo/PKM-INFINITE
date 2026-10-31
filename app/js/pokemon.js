@@ -134,6 +134,18 @@ export function calcStats(p) {
 	return out;
 }
 
+/** Factor Gigamax (Sopa Maxi, B7): la especie o alguna evolución suya tiene forma Gigamax, y aún no lo tiene. */
+export function canTakeGmax(p) {
+	if (!p || p.gmax || p.egg) return false;
+	const seen = new Set(), stack = [p.sp];
+	while (stack.length) {
+		const id = stack.pop(); if (seen.has(id)) continue; seen.add(id);
+		const s = D.species[id]; if (!s) continue;
+		if (s.canGmax) return true;
+		for (const e of s.evos || []) stack.push(e);
+	}
+	return false;
+}
 export const maxHp = p => calcStats(p).hp;
 export const displayName = p => p.nick || D.species[p.sp]?.name || p.sp;
 export const isFainted = p => p.hp <= 0;
