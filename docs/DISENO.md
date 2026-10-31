@@ -189,7 +189,7 @@ En las misiones va a haber guiños a tus gustos (anime, libros, series, pelis, j
 ## 12. Producción (cómo trabajo detrás)
 
 ```
-pokemon-infinito/
+PKM-INFINITE/
 ├── app/        ← el juego (motor, interfaz, contenido); lo único que se publica
 ├── secreto/    ← biblia de la historia, hilos y planes (SPOILERS)
 ├── herramientas/ ← scripts de balance y pruebas automáticas

@@ -56,7 +56,7 @@ Trabaja en este orden. Usa la lista de tareas para que Mario vea el progreso si 
 
 1. Sitúate en el repo y ejecuta `git pull --rebase origin main`.
 2. Comprueba que existe `node` (≥ 20) y `python3` con Playwright. No hay dependencias npm.
-3. Mira los **issues abiertos** del repo: `gh issue list --repo Klymapo/pokemon-infinito`. Ahí puede dejar Mario quejas o bugs.
+3. Mira los **issues abiertos** del repo: `gh issue list --repo Klymapo/PKM-INFINITE`. Ahí puede dejar Mario quejas o bugs.
 4. Lee `secreto/progreso.md`: hasta dónde ha llegado Mario.
 5. **Propuestas de ChatGPT:** `git fetch origin` y mira las ramas `chatgpt/*` (`git branch -r --list 'origin/chatgpt/*'`). Mario colabora con ChatGPT, que conoce muy bien sus gustos. Protocolo en `docs/COLABORACION.md`; tareas abiertas en `propuestas/TAREAS-CHATGPT.md`.
    - Lee lo nuevo (`git log main..origin/chatgpt/x`, `propuestas/chatgpt/`). **Considéralo en serio**: lo que diga de los gustos de Mario y de sus opiniones sobre el juego pesa tanto como `referencias.md`.
@@ -259,13 +259,20 @@ node herramientas/registro.mjs                         # registro automático
 python3 herramientas/humo.py --salida /tmp/humo        # humo en móvil
 python3 herramientas/ux.py --salida /tmp/ux             # Designer de Canvas: UX/UI de todas las pantallas
 node herramientas/auditar.mjs                          # todo lo anterior + informe (en paralelo; --hilos N para limitar; ~30 min con 2 núcleos)
-node herramientas/auditar.mjs --rapida [--bloque b07]  # mientras trabajas: validar, tester, cine, minijuegos y 4 bots hasta bNN_fin (informe en /tmp; ~2,5 min con b07)
+node herramientas/auditar.mjs --rapida [--bloque b07]  # mientras trabajas: validar, tester, cine, minijuegos y 4 bots hasta bNN_fin (informe en /tmp). Arranca cada bot desde su checkpoint del bloque anterior si sigue valiendo (~40 s); si no, juega desde B1 y lo guarda (~2,5 min)
+node herramientas/auditar.mjs --rapida --bloque b07 --desde-cero   # obliga a jugar desde B1 (los avisos de balance de la rápida con checkpoint solo cuentan el bloque nuevo)
+node herramientas/recorrido.mjs --semilla 3 --guardar-checkpoints  # guarda el estado en cada bNN_fin (herramientas/test/checkpoints/, no se sube)
+node herramientas/recorrido.mjs --semilla 3 --hasta b07_fin --desde b06_fin   # arranca desde el checkpoint
+node herramientas/hub.mjs --hallazgos-de a.json,b.json [--sin-bot]   # junta hallazgos de partidas del bot ya jugadas (la completa lo hace sola)
 node herramientas/ids.mjs existe b07_fin terraza_1     # ¿existe el id? como qué, bloque y archivo
 node herramientas/ids.mjs buscar /^nido/               # ids que coinciden, por tipo
 node herramientas/ids.mjs bloque b07                   # lugares, entrenadores, misiones y flags del bloque
 node herramientas/ids.mjs libre terraza_               # ¿prefijo ocupado? sugiere uno libre
 node herramientas/build-sw.mjs                         # antes de cada commit
+herramientas/guardar.sh --firma "…" --firma "…" "Bloque 8: tramo 2" [rutas…]   # guardado parcial: commit + push a la rama + fetch
 ```
+
+**Guardado parcial:** usa `herramientas/guardar.sh` en vez de `git add`/`commit`/`push`/`fetch` a mano. Sin rutas guarda todo lo cambiado salvo los informes de detalle de hoy (`secreto/auditorias/*-<hoy>.md`) y `secreto/registro-auto.md`, que aparta y devuelve. Añade «(guardado parcial)» al mensaje, pide las líneas de atribución de la sesión (`--firma`, repetible, o `GUARDAR_FIRMA`) y se niega a trabajar en `main` (publicar es la skill `publicar`).
 
 Para probar a mano, sirve `app/` con `python3 -m http.server -d app 8000` y ábrelo con Playwright en una pantalla de 412×860.
 

@@ -2,6 +2,7 @@
 
 > Sustituye leer enteros `biblia.md`, `registro.md`, `personajes.md`, `hilos.md`, `candidatas.md`, `referencias.md`, `progreso.md` y `balance.md` al empezar un trabajo. Abre el original solo para un detalle: cada dato apunta a su sección (→ archivo §). Estado al **2026-10-31**, contenido `2026-10-30.19`.
 > **(?)** = no está claro en los originales: confírmalo antes de escribir sobre eso.
+> **Cubre hasta:** `b07` (marca que lee la auditoría: avisa si `BLOCKS` va por delante; cámbiala al poner el resumen al día).
 
 ---
 

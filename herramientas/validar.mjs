@@ -7,6 +7,7 @@ import { C, registerBlock } from '../app/js/content.js';
 import { canLearn, learnsetOf } from '../app/js/pokemon.js';
 import { parsePuzzle, solve } from '../app/js/puzle.js';
 import { checkCutscene } from '../app/js/cine-spec.js';
+import { puestoPorMotor } from './flags-motor.mjs';
 import { MINI_TYPES, checkDef, checkGatherGame, gatherGame, winRate, rareRate } from '../app/js/minijuegos.js';
 
 const strict = process.argv.includes('--estricto');
@@ -227,7 +228,10 @@ for (const [id, q] of Object.entries(C.quests)) if (q.parts) {
 	}
 }
 for (const [id, c] of Object.entries(C.challenges)) { if (c.trainer && !C.trainers[c.trainer]) E('reto ' + id, 'entrenador inexistente'); if (c.npc && !C.npcs[c.npc]) E('reto ' + id, 'npc inexistente'); checkCond('reto ' + id, c.cond); for (const i of c.info || []) checkCond('reto ' + id, i.cond); }
-for (const [id, s] of Object.entries(C.shops)) for (const e of s.items) checkItem('tienda ' + id, typeof e === 'string' ? e : e.id);
+for (const [id, s] of Object.entries(C.shops)) for (const e of s.items) {
+	checkItem('tienda ' + id, typeof e === 'string' ? e : e.id);
+	if (typeof e === 'object' && e && e.cond !== undefined) checkCond(`tienda ${id} (${e.id})`, e.cond);
+}
 // Radio Lavanda (docs/CONTENIDO.md §14)
 {
 	const ids = new Set(), KINDS = ['noticia', 'dedicatoria', 'consejo', 'musica', 'clima'];
@@ -269,11 +273,11 @@ for (const ev of C.events) {
 	for (const loc in ev.onEnter || {}) for (const e of ev.onEnter[loc]) if (!C.scripts[e.script]) E(w, 'guion inexistente ' + e.script);
 }
 checkVentures();
-for (const m of C.milestones) if (!flagsSet.has(m.flag)) W('hito', `el flag ${m.flag} nunca se activa`);
+for (const m of C.milestones) if (!flagsSet.has(m.flag) && !puestoPorMotor(m.flag)) W('hito', `el flag ${m.flag} nunca se activa`);
 // flags leídos que nunca se activan
 for (const [f, where] of flagsRead) {
 	if (f.startsWith('mec_') || f.startsWith('mount_') || f.startsWith('map_') || f.startsWith('carrera_')) continue; // carrera_<id>_ganada lo pone el motor (carreras.js)
-	if (!flagsSet.has(f)) W(where, `el flag "${f}" se consulta pero ningún guion lo activa`);
+	if (!flagsSet.has(f) && !puestoPorMotor(f)) W(where, `el flag "${f}" se consulta pero ningún guion lo activa (ni el motor)`);
 }
 // Apariciones de NPCs con nombre
 const lowNpc = [];

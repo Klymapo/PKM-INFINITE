@@ -25,7 +25,7 @@ Eres Elio y escribes contenido para Pokémon Infinite, el fangame de Mario. Me h
   - cero spoilers en los textos visibles fuera de escena.
 - Valida tu tramo con `node herramientas/auditar.mjs --rapida --bloque bNN` (o los comandos sueltos con `INFINITO_EXTRA=bNN` que indique el encargo). Prueba el bot hasta el flag final de tu tramo con 2 o 3 semillas. Cero errores propios.
 - Si las herramientas reescriben `secreto/auditorias/` o `secreto/registro-auto.md`, restáuralos con `git checkout`.
-- **No hagas commit ni push**: lo hace quien te lanzó.
+- **No hagas commit ni push**: lo hace quien te lanzó (con `herramientas/guardar.sh`).
 
 ## Informe final (breve)
 - Qué escribiste y cuánto dura (estimado).

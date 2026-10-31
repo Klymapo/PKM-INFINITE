@@ -12,6 +12,7 @@ import { fileURLToPath } from 'url';
 import { loadDataNode } from './test/node-env.mjs';
 import { D, toID } from '../app/js/data.js';
 import { C, registerBlock } from '../app/js/content.js';
+import { motor, puestoPorMotor } from './flags-motor.mjs';
 
 const ROOT = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const CONTENT = path.join(ROOT, 'app/content');
@@ -73,6 +74,11 @@ for (const b of mod.BLOCKS) {
 	for (const id in b.races || {}) add('flagSet', `carrera_${id}_ganada`, b.id, `carrera ${id} (motor)`);
 	if (b.ends) add('flagRead', b.ends, b.id, 'final del bloque (ends)');
 }
+// Flags y vars que pone el motor (app/js/): cuentan como puestos («puesto por el motor: archivo»)
+const MOTOR = 'puesto por el motor: ';
+for (const [n, fs_] of motor().flag.names) add('flagSet', n, null, MOTOR + [...fs_].join(', '));
+for (const n of [...IDX.flagRead.keys()]) if (!IDX.flagSet.has(n)) { const f = puestoPorMotor(n); if (f) add('flagSet', n, null, MOTOR + f); }
+for (const [n, fs_] of motor().var.names) add('var', n, null, MOTOR + [...fs_].join(', '));
 const ALL_IDS = () => Object.entries(IDX).flatMap(([t, m]) => [...m.keys()].map(id => [t, id]));
 
 // ---------------- Texto de los archivos (para decir en qué archivo está) ----------------
@@ -115,12 +121,13 @@ if (cmd === 'existe') {
 				: t === 'entrenador' ? ` · ${C.trainers[id].cls || ''} ${C.trainers[id].name || ''}`.replace(/ +/g, ' ').trimEnd()
 				: t === 'mision' ? ` · «${C.quests[id].name}» (${C.quests[id].type}): ${Object.keys(C.quests[id].stages || {}).join(' → ')}`
 				: t === 'npc' ? ` · ${C.npcs[id].name || ''}` : '';
-			const donde = /^flag|^var|spot|minijuego|puzle|cine/.test(t) && e.ctx.size ? ` · en ${lista([...e.ctx], 4)}` : '';
+			const cx = [...e.ctx], mo = cx.filter(x => x.startsWith(MOTOR)), gu = cx.filter(x => !x.startsWith(MOTOR));
+			const donde = /^flag|^var|spot|minijuego|puzle|cine/.test(t) && e.ctx.size ? (gu.length ? ` · en ${lista(gu, 4)}` : '') + (mo.length ? ' · ' + mo.join('; ') : '') : '';
 			const arch = (f.defs.length ? f.defs : f.all);
 			console.log(`  ${TIPOS[t]} · ${blks(e)}${extra}${donde}${arch.length ? ' · ' + lista(arch, 3) : ''}`);
 		}
 		if (IDX.flagRead.has(id) && !IDX.flagSet.has(id) && !/^(mec|mount|map|carrera)_/.test(id)) console.log('  ⚠ se lee pero ningún guion lo pone (todavía)');
-		if (IDX.flagSet.has(id) && !IDX.flagRead.has(id)) console.log('  · se pone pero nadie lo lee');
+		if (IDX.flagSet.has(id) && !IDX.flagRead.has(id) && ![...IDX.flagSet.get(id).ctx].every(x => x.startsWith(MOTOR))) console.log('  · se pone pero nadie lo lee');
 	}
 	process.exit(faltan === rest.length ? 1 : 0);
 }

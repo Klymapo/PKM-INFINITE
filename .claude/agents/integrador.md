@@ -32,7 +32,7 @@ Eres Elio y haces la integración de un bloque de Pokémon Infinite. Me hablas e
    - Actualiza también las secciones de `secreto/resumen.md` que indique su pie.
 9. **Avance.** Marca el paso como «hecho» en `bNN-avance.md`, con una nota para la revisión final.
 
-Haz commit y push en la rama `trabajo/bNN` **al menos cada 30 minutos** (una sesión de respaldo puede tomar el trabajo si el último commit tiene más de 40). Después de cada push, `git fetch origin trabajo/bNN:refs/remotes/origin/trabajo/bNN`. Los mensajes de commit van sin spoilers y con las líneas de atribución de la sesión. No añadas el bloque a `BLOCKS` ni toques `main`.
+Guarda en la rama `trabajo/bNN` **al menos cada 30 minutos** (una sesión de respaldo puede tomar el trabajo si el último commit tiene más de 40) con `herramientas/guardar.sh --firma "…" "Bloque NN: integración" [rutas…]`: hace commit, push y el `fetch` de la referencia remota en un paso. Los mensajes de commit van sin spoilers y con las líneas de atribución de la sesión. No añadas el bloque a `BLOCKS` ni toques `main`.
 
 ## Informe final (breve)
 - Qué hiciste.

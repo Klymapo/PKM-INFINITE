@@ -14,8 +14,15 @@
 //   6. Viajes: «Ir» no lleva a sub-lugares sin entrada ni deja en un sitio sin salida.
 //   7. Regalos repetibles: tocar dos veces un sitio con señal no da dos veces lo mismo.
 //
-// Uso: node herramientas/hub.mjs [--semillas 3,5] [--cada 150] [--sin-bot] [--antiguo reach,needs,markers] [--salida archivo.md] [--hilos N]
+// Uso: node herramientas/hub.mjs [--semillas 3,5] [--horas 13,3] [--cada 150] [--sin-bot] [--antiguo reach,needs,markers] [--salida archivo.md] [--hilos N]
+//                               [--hallazgos-de a.json,b.json]
 //   --antiguo: reproduce los criterios de antes (para comprobar que la auditoría caza los fallos que vio Mario).
+//   --hallazgos-de: junta además los hallazgos que dejaron partidas del bot ya jugadas (ver abajo); con --sin-bot no
+//     juega las suyas. Lo usa auditar.mjs para no jugar dos veces las semillas 3 (13 h) y 5 (3 h).
+// Partida compartida con la auditoría: `node herramientas/hub.mjs --hijo --semilla 3 --hora 13 --cada 150 --informe-bot
+//   --hallazgos archivo.json [--guardar-checkpoints]` juega UNA partida del bot con las comprobaciones del hub enganchadas,
+//   imprime el informe normal del bot (el mismo que recorrido.mjs, y sale con su mismo código) y deja los hallazgos del
+//   hub en el archivo. Las comprobaciones trabajan sobre copias y no cambian la partida (mismo camino que sin hub).
 // Escribe secreto/auditorias/hub-AAAA-MM-DD.md y sale con código 1 si hay hallazgos graves.
 import { spawn } from 'child_process';
 import fs from 'fs';
@@ -56,7 +63,9 @@ async function parent() {
 	const dir = path.join(ROOT, 'herramientas/test/partidas');
 	const partidas = fs.existsSync(dir) ? fs.readdirSync(dir).filter(f => f.endsWith('.json')).sort() : [];
 	for (const p of partidas) jobs.push(['--partida', path.join(dir, p), ...pass]);
-	if (!argv.includes('--sin-bot')) seeds.forEach((s, i) => jobs.push(['--semilla', String(s), '--hora', i % 2 ? '3' : '13', '--cada', cada, ...pass]));
+	const horas = String(arg('--horas', '')).split(',').filter(Boolean); // por defecto, 13 h y 3 h alternas
+	if (!argv.includes('--sin-bot')) seeds.forEach((s, i) => jobs.push(['--semilla', String(s), '--hora', horas[i] || (i % 2 ? '3' : '13'), '--cada', cada, ...pass]));
+	const prev = String(arg('--hallazgos-de', '')).split(',').filter(Boolean);
 	const PAR = Math.max(1, +arg('--hilos', 0) || Math.max(2, Math.min(6, os.cpus().length))); // --hilos: lo pasa auditar.mjs para no pasarse de procesos
 	const results = new Array(jobs.length);
 	let next = 0;
@@ -66,6 +75,11 @@ async function parent() {
 			results[k] = await runChild(jobs[k]);
 		}
 	}));
+	for (const f of prev) {
+		const name = 'bot ' + path.basename(f, '.json').replace(/^hub-/, '').replace(/^s(\d+)-h(\d+)$/, 'semilla $1 ($2 h)');
+		try { const r = JSON.parse(fs.readFileSync(f, 'utf8')); r.meta.name = name; results.push(r); }
+		catch (e) { results.push({ meta: { name, checks: 0, sims: 0, ms: 0, error: `la partida del bot no dejó sus hallazgos (${e.message.slice(0, 120)})` }, findings: [] }); }
+	}
 	// juntar
 	const all = new Map();
 	const runs = [];
@@ -200,6 +214,7 @@ async function child() {
 					await checkState();
 				},
 				async done() { void stepNow; },
+				printReport: argv.includes('--informe-bot'),
 			};
 			await import('./recorrido.mjs');
 		}
@@ -211,7 +226,14 @@ async function child() {
 		const cur = merged.get(key);
 		if (cur) cur.n++; else merged.set(key, { ...f, n: 1 });
 	}
-	process.stdout.write(MARK + JSON.stringify({ meta: { checks, sims, ms: Date.now() - t0, error }, findings: [...merged.values()] }) + '\n');
+	const result = JSON.stringify({ meta: { checks, sims, ms: Date.now() - t0, error }, findings: [...merged.values()] });
+	if (arg('--hallazgos', null)) {
+		// partida compartida con la auditoría: el informe del bot ya salió por stdout; los hallazgos, a su archivo
+		fs.writeFileSync(arg('--hallazgos'), result + '\n');
+		if (error) console.log('Hub: la partida terminó con un error: ' + error);
+		process.exit(globalThis.__RECORRIDO_EXIT ?? 1);
+	}
+	process.stdout.write(MARK + result + '\n');
 	process.exit(0);
 
 	// ---------------------------------------------------------------
