@@ -9,7 +9,7 @@ Rama: `trabajo/b07` (se fusiona en `main` solo en el paso 6). Cada sesión hace 
 | 3 | Tramos T2 y T3 | **hecho** (2026-10-30, sesión de día) |
 | 4 | Tramos T4 y T5 | **hecho** (2026-10-30, sesión de día) |
 | 5 | Integración, arte, museo, balance y 24 recorridos hasta `b07_fin` | **hecho** (2026-10-30, sesión de noche) |
-| 6 | Revisión ligera, auditoría y publicación | pendiente |
+| 6 | Revisión ligera, auditoría y publicación | **en curso** (2026-10-30 22:40, sesión de día) |
 
 ## Notas por paso
 
