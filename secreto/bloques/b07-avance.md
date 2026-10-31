@@ -7,8 +7,8 @@ Rama: `trabajo/b07` (se fusiona en `main` solo en el paso 6). Cada sesión hace 
 | 1 | Plan, encargo y estructura (`b07-plan.md`, `b07-encargo.md`, comunes de `app/content/b07/`, stubs t0–t5) | **hecho** (2026-10-30, sesión de día) |
 | 2 | Tramos T0 y T1 | **hecho** (2026-10-30, sesión de día) |
 | 3 | Tramos T2 y T3 | **hecho** (2026-10-30, sesión de día) |
-| 4 | Tramos T4 y T5 | **en curso** (2026-10-30, sesión de día) |
-| 5 | Integración, arte, museo, balance y 24 recorridos hasta `b07_fin` | pendiente |
+| 4 | Tramos T4 y T5 | **hecho** (2026-10-30, sesión de día) |
+| 5 | Integración, arte, museo, balance y 24 recorridos hasta `b07_fin` | **en curso** (2026-10-30 21:00, sesión de día) |
 | 6 | Revisión ligera, auditoría y publicación | pendiente |
 
 ## Notas por paso
@@ -51,3 +51,16 @@ Tokens: T2 ≈ 454 k, T3 ≈ 433 k (total ≈ 887 k).
   - Arte: `fotoestadiohoyuelo` (art `estadio_noche`), `fotogrupocasa` (art `casa_ocho`), `clavobota`, `cuentovane`, `setaluminosa`.
   - Museo: flags de la Casa `b07_casa_devuelve` / `_lectura` / `_quintana` / `_fallido`.
 - Para T4: el objeto `setaluminosa` ya existe (T2) para la reparación de Kaori.
+
+### Paso 4 · 2026-10-30 · hecho
+
+Tokens: T4 ≈ 466 k, T5 ≈ 589 k (total ≈ 1 055 k).
+
+- T4 y T5 escritos; el bot llega a `b07_t4_hecho` (6/6) y a `b07_fin` (5/5 en la última ronda). 0 errores de validador, sin avisos `pendiente`.
+- Para el paso 5:
+  - **Balance:** Roy (`roy_g`) y Olivia (`olivia_1`) son muro en algunas semillas (hasta ×18 y ×14 derrotas con equipos flojos del bot). Ya suavizados (Roy 67–68 as 72; Olivia 67–69 as 73). Revisar con los 24 recorridos y que el bot use Dinamax.
+  - `hub.mjs` se colgó (>10 min) en T1, T4 y T5: hacerlo funcionar.
+  - `misiones.js`: `b07_m4` parte «Escuchar desde dentro» con `got: 'flag.b07_personal_media'`; etapa `planta` de `b07_t_bastien` con texto neutro (no «por contrato»).
+  - Superfan: Sandaconda en gimnasio Dragón (a propósito, equipo canon de Roy).
+  - Arte T4: `librotorneo`, `contratohorizonte`, `sobrenoa`, `cuadernokaori`, `frascokaori`/`muestralazo`, `lolarecetaverdad`. Arte T5: `insignianoa`, `expedientedufresne`, `notanoa`, `informeoctavia`.
+  - Museo T4: libro (`b07_libro_policia`/`_prensa`/`_octavia`), Lola (`b07_lola_testigo`/`_crampon`/`_vuelve`), `b07_torneo_ganado`, `b07_xero_detenido`/`_escapa`. Museo T5: Noa (`b07_noa_adios`, `b07_bastien_llega`/`_tarde`), Octavia (`b07_octavia_dentro`/`_publica`/`_testigo`, `b07_doble_delata_octavia`).
