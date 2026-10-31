@@ -9,7 +9,7 @@ Rama: `trabajo/b07` (se fusiona en `main` solo en el paso 6). Cada sesión hace 
 | 3 | Tramos T2 y T3 | **hecho** (2026-10-30, sesión de día) |
 | 4 | Tramos T4 y T5 | **hecho** (2026-10-30, sesión de día) |
 | 5 | Integración, arte, museo, balance y 24 recorridos hasta `b07_fin` | **hecho** (2026-10-30, sesión de noche) |
-| 6 | Revisión ligera, auditoría y publicación | **en curso** (2026-10-30 22:40, sesión de día) |
+| 6 | Revisión ligera, auditoría y publicación | **hecho** (2026-10-30, sesión de día) |
 
 ## Notas por paso
 
@@ -88,3 +88,12 @@ Tokens: no medidos en esta sesión (una sola sesión, sin subagentes).
 - Rhi 2,83 de media (revancha infinita): decidir si la revancha queda en una por día o se deja.
 - Las semillas 5 (día) y 7 (noche) se atascan en el B6 (Dragospiral/Esmalte y Fayenza): conocidas, no son del B7.
 - `progreso.md`: tachar Meganiumita y el Gigamax (Sopa Maxi) en «Mecánica especial asegurada»; añadir «Regiones por completar · Galar» (plan §14.2).
+
+### Paso 6 · 2026-10-30 · hecho
+
+Tokens: paso 5 ≈ 458 k; lector independiente ≈ 200 k. Total del bloque ≈ 4,0 M.
+
+- Lector independiente: apto (insignia de Noa aclarada como pareja de la de Trigal; revancha de Rhi una al día).
+- Pendiente para cuando se toque el museo: la insignia de la rama `b05_bastien_sigue` (museo vs. radio B5 y Fayenza B6) y que la pieza compruebe `b02_noa_trigal`.
+- Auditoría: apta. Validador 0 errores, bot 22/24 al final (las 2 que no llegan se atascan en el B6, Esmalte/Fayenza), hub 0 graves, humo OK, UX 0 graves.
+- Publicado como `2026-10-30.19`.
