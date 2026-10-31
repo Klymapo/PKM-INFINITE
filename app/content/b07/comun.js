@@ -77,11 +77,11 @@ export default {
 			],
 		},
 		gym_artejo: {
-			name: 'Estadio de Ciudad Artejo', npc: 'roy', trainer: 'roy_g', type: 'Dragon', rec: 72,
+			name: 'Estadio de Ciudad Artejo', npc: 'roy', trainer: 'roy_g', type: 'Dragon', rec: 71,
 			cond: 'flag.b07_artejo_llegada',
 			info: [
 				{ text: 'Líder: **Roy**, tipo **Dragón**. El rival de toda la vida del campeón. Se hace fotos con todo el mundo. También contigo, si ganas.' },
-				{ cond: 'flag.b07_gym_artejo_visto', text: '5 Pokémon, hasta el nivel 72. Le gusta cambiar el tiempo del combate. Su as **dinamaxiza**, y de una forma que no has visto.' },
+				{ cond: 'flag.b07_gym_artejo_visto', text: '5 Pokémon, hasta el nivel 71. Le gusta cambiar el tiempo del combate. Su as **dinamaxiza**, y de una forma que no has visto.' },
 				{ cond: 'flag.b07_gym_artejo_visto', text: '**Hada**, **Hielo** y **Dragón** contra los dragones. Su as es de **Acero** por fuera: ahí, **Lucha** y **Tierra**. Un Lucario lo sabe.' },
 				{ cond: 'flag.b07_roy_vencido', text: '✔ Medalla Dragón conseguida.' },
 			],

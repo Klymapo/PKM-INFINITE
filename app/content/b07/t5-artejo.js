@@ -421,11 +421,11 @@ export default {
 		roy_g: { name: 'Roy', cls: 'Líder', npc: 'roy', ai: 4, iv: 26, reward: 7920, bg: 'gym', terrain: 'gym',
 			gimmick: 'dynamax', ace: 'duraludon',
 			team: [
-				{ sp: 'flygon', lv: 67, moves: ['earthquake', 'dragonclaw', 'uturn', 'firepunch'], ability: 'levitate', nature: 'jolly', iv: 25 },
+				{ sp: 'flygon', lv: 67, moves: ['bulldoze', 'dragonclaw', 'uturn', 'firepunch'], ability: 'levitate', nature: 'jolly', iv: 25 }, // balance (paso 5): Terratemblor en vez de Terremoto (dejaba a Lucario fuera a la primera)
 				{ sp: 'sandaconda', lv: 67, moves: ['drillrun', 'stoneedge', 'rockslide', 'bodyslam'], ability: 'shedskin', nature: 'impish', iv: 25 },
 				{ sp: 'turtonator', lv: 68, moves: ['flamethrower', 'dragonpulse', 'bodypress', 'protect'], ability: 'shellarmor', nature: 'modest', iv: 26 },
 				{ sp: 'goodra', lv: 68, moves: ['dragonpulse', 'thunderbolt', 'sludgebomb', 'flamethrower'], ability: 'sapsipper', nature: 'modest', iv: 26 },
-				{ sp: 'duraludon', lv: 72, gmax: true, moves: ['flashcannon', 'dragonpulse', 'thunderbolt', 'bodypress'], ability: 'stalwart', nature: 'modest', iv: 30 },
+				{ sp: 'duraludon', lv: 71, gmax: true, moves: ['flashcannon', 'dragonpulse', 'thunderbolt', 'bodypress'], ability: 'stalwart', nature: 'modest', iv: 30 },
 			],
 			items: [{ id: 'fullheal', n: 1 }], // balance (paso 5): sin Superpoción; muro del bot en 2 de 24 recorridos (×16, ×25)
 			intro: 'Foto antes, que luego salgo despeinado. —Clic—. Ya está. Ahora sí: vamos a ver qué tiempo hace en este combate. Porque lo voy a cambiar.',
