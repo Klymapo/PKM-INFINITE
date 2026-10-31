@@ -20,6 +20,10 @@
 // 4 recorridos (semillas 1–4, día y noche alternos) hasta el final del bloque (`bNN_fin` o, si aún no existe, el último
 // `bNN_tN_hecho`). Sin hub, humo, UX, Superfan, Designer ni registro. `--bloque` por defecto: el último cargado; si el
 // bloque no está en BLOCKS lo carga con INFINITO_EXTRA. No toca secreto/: el informe va a una carpeta temporal.
+//
+// Tiempos medidos el 2026-10-31 (2 núcleos, B1–B7): completa antes 33 min 0 s (secuencial salvo los bots), ahora
+// 28–31 min; la máquina ya va al 100 % (≈55 min de CPU / 2), así que con más núcleos baja más. Rápida: 2 min 27 s
+// (b07_fin); con --bloque b03, 56 s.
 import { spawn } from 'child_process';
 import fs from 'fs';
 import os from 'os';
@@ -44,8 +48,8 @@ function run(cmd, args, timeoutMs = 15 * 60e3, env = process.env) {
 		p.on('close', code => { clearTimeout(t); tiempos.push([[cmd === 'node' ? '' : cmd, ...args].join(' ').trim(), Date.now() - t0]); res({ code, out }); });
 	});
 }
-// Cola con HILOS huecos. Cada tarea ocupa `slots` huecos (el hub lanza sus propios hijos) y se elige la de más
-// peso que quepa (primero lo largo, para que no se quede una tarea larga sola al final).
+// Cola con HILOS huecos. Cada tarea ocupa `slots` huecos (el humo los ocupa todos: va solo) y se elige
+// la de más peso que quepa (primero lo largo, para que no se quede una tarea larga sola al final).
 const cola = [];
 let libres = HILOS;
 function tarea(fn, { slots = 1, peso = 1 } = {}) {
@@ -54,7 +58,7 @@ function tarea(fn, { slots = 1, peso = 1 } = {}) {
 function bombea() {
 	for (let i = 0; i < cola.length;) {
 		const t = cola[i];
-		if (t.slots > libres) { if (t.peso >= 1000) break; i++; continue; } // el hub (el más largo) no se deja adelantar: si no, en máquinas grandes arrancaría el último
+		if (t.slots > libres) { if (t.slots > 1) break; i++; continue; } // una tarea de varios huecos no se deja adelantar (si no, arrancaría la última)
 		cola.splice(i, 1); libres -= t.slots;
 		Promise.resolve().then(t.fn).then(t.res, t.rej).finally(() => { libres += t.slots; bombea(); });
 	}
@@ -108,14 +112,16 @@ P.bots = botJobs.map(j => {
 });
 let events = [];
 if (!RAPIDA) {
-	const HUB_HIJOS = 5; // 3 partidas de Mario + 2 semillas (ver herramientas/hub.mjs)
-	const hubSlots = Math.min(HILOS, HUB_HIJOS);
-	P.hub = tarea(() => run('node', ['herramientas/hub.mjs', '--hilos', String(hubSlots)], 20 * 60e3), { slots: hubSlots, peso: 1000 });
+	// El hub lanza sus propios hijos (3 partidas de Mario + 2 semillas; ver herramientas/hub.mjs) con --hilos 2 pero aquí
+	// ocupa un solo hueco: sus hijos son desiguales y, si se le reservaran dos, el segundo se quedaría parado al final.
+	// Se pasa como mucho de un proceso sobre HILOS, y el sistema lo reparte. Va primero porque es lo más largo.
+	P.hub = tarea(() => run('node', ['herramientas/hub.mjs', '--hilos', String(Math.min(HILOS, 2))], 20 * 60e3), { peso: 1000 });
 	const mod = await import(path.join(ROOT, 'app/content/index.js'));
 	events = mod.BLOCKS.flatMap(b => b.events || []);
 	P.ev = events.map(e => node(['herramientas/recorrido.mjs', '--semilla', '1', '--fecha', e.from, '--hora', '20'], { peso: 200 }));
 	P.reg = node(['herramientas/registro.mjs'], { peso: 5 });
-	P.humo = tarea(() => run('python3', ['herramientas/humo.py', '--salida', path.join(os.tmpdir(), 'humo-' + fecha)], 10 * 60e3), { peso: 300 });
+	// el humo corre solo (todos los huecos): con la CPU ocupada, Playwright a veces agota sus esperas de 2 s y da un falso bloqueo
+	P.humo = tarea(() => run('python3', ['herramientas/humo.py', '--salida', path.join(os.tmpdir(), 'humo-' + fecha)], 10 * 60e3), { slots: HILOS, peso: 300 });
 	const iUx = botJobs.findIndex(j => j.s === 2 && j.hora === 13);
 	const uxArgs = ['herramientas/ux.py', '--salida', uxDir];
 	P.ux = (iUx >= 0 ? P.bots[iUx] : Promise.resolve()).then(() => tarea(() => run('python3', [...uxArgs, ...(fs.existsSync(uxSave) ? ['--partida', uxSave] : [])], 20 * 60e3), { peso: 900 }));

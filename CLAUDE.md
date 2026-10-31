@@ -258,8 +258,8 @@ node herramientas/recorrido.mjs --hasta b02_m3 --verbose
 node herramientas/registro.mjs                         # registro automático
 python3 herramientas/humo.py --salida /tmp/humo        # humo en móvil
 python3 herramientas/ux.py --salida /tmp/ux             # Designer de Canvas: UX/UI de todas las pantallas
-node herramientas/auditar.mjs                          # todo lo anterior + informe (en paralelo; --hilos N para limitar)
-node herramientas/auditar.mjs --rapida [--bloque b07]  # mientras trabajas: validar, tester, cine, minijuegos y 4 bots hasta bNN_fin (informe en /tmp)
+node herramientas/auditar.mjs                          # todo lo anterior + informe (en paralelo; --hilos N para limitar; ~30 min con 2 núcleos)
+node herramientas/auditar.mjs --rapida [--bloque b07]  # mientras trabajas: validar, tester, cine, minijuegos y 4 bots hasta bNN_fin (informe en /tmp; ~2,5 min con b07)
 node herramientas/ids.mjs existe b07_fin terraza_1     # ¿existe el id? como qué, bloque y archivo
 node herramientas/ids.mjs buscar /^nido/               # ids que coinciden, por tipo
 node herramientas/ids.mjs bloque b07                   # lugares, entrenadores, misiones y flags del bloque
