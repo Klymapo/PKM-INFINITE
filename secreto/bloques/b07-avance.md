@@ -5,7 +5,7 @@ Rama: `trabajo/b07` (se fusiona en `main` solo en el paso 6). Cada sesión hace 
 | Paso | Qué | Estado |
 |---|---|---|
 | 1 | Plan, encargo y estructura (`b07-plan.md`, `b07-encargo.md`, comunes de `app/content/b07/`, stubs t0–t5) | **hecho** (2026-10-30, sesión de día) |
-| 2 | Tramos T0 y T1 | pendiente |
+| 2 | Tramos T0 y T1 | **en curso** (2026-10-30 18:00, sesión de día) |
 | 3 | Tramos T2 y T3 | pendiente |
 | 4 | Tramos T4 y T5 | pendiente |
 | 5 | Integración, arte, museo, balance y 24 recorridos hasta `b07_fin` | pendiente |
@@ -14,6 +14,8 @@ Rama: `trabajo/b07` (se fusiona en `main` solo en el paso 6). Cada sesión hace 
 ## Notas por paso
 
 ### Paso 1 · 2026-10-30 · hecho
+
+Tokens: subagente de plan ≈ 499 k (134 herramientas, 2 h 17 min).
 
 **Resumen sin spoilers (lo puede leer Mario):** el Bloque 7 ya tiene plan, encargo y estructura. Será una región nueva, unas 15 horas en seis tramos, con dos medallas, una mecánica nueva, tres iniciales, un negocio nuevo y las tres ideas de ChatGPT aprobadas (dos como secundarias grandes y opcionales y una dentro de la historia principal). Ya están escritos los personajes nuevos, las misiones, las tiendas, las medallas, el negocio y tres cartas del Buzón para personajes que tocaba volver a ver. El bloque carga y valida sin errores, pero todavía no se puede jugar.
 
