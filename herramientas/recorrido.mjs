@@ -4,11 +4,19 @@
 // Uso: node herramientas/recorrido.mjs [--semilla N] [--max 20000] [--hasta flag] [--verbose] [--elecciones primera|azar] [--fecha MM-DD] [--hora HH]
 // Otras herramientas pueden «engancharse» a la partida: si antes de importar este módulo existe
 // globalThis.__RECORRIDO_HOOK = { onStep(step), done() }, se llama a onStep al principio de cada paso y, al terminar,
-// a done() en vez de imprimir el informe y salir (lo usa herramientas/hub.mjs para auditar el hub de misiones).
+// a done() en vez de imprimir el informe y salir (lo usa herramientas/hub.mjs para auditar el hub de misiones). Si el
+// gancho pone `printReport: true`, además se imprime el informe normal y el código de salida queda en
+// globalThis.__RECORRIDO_EXIT (sin salir): así el hub y el bot de la auditoría comparten una sola partida.
+//
+// Checkpoints (ver herramientas/checkpoints.mjs):
+//   --guardar-checkpoints  guarda el estado al llegar a cada final de bloque (bNN_fin) en herramientas/test/checkpoints/
+//   --desde bNN_fin        arranca desde el checkpoint de esa semilla/hora/fecha si es válido; si no, juega desde B1
+//                          (lo dice en la línea «Checkpoint:» del informe). El informe (derrotas, combates…) cuenta solo
+//                          lo jugado en esta ejecución.
 import { loadDataNode } from './test/node-env.mjs';
 import { D, toID, effectiveness } from '../app/js/data.js';
 import { C, registerBlock, topLoc } from '../app/js/content.js';
-import { G, newGame, evalCond, setExtraScope, addItem, removeItem, count, markCaught, boxInsert } from '../app/js/state.js';
+import { G, setG, newGame, evalCond, setExtraScope, addItem, removeItem, count, markCaught, boxInsert } from '../app/js/state.js';
 import { timeScope } from '../app/js/time.js';
 import { runScript, runFirst, UI } from '../app/js/guion.js';
 import { createPokemon, healFull, maxHp, checkEvolution, evolve, movesLearnedAt, canLearn, displayName } from '../app/js/pokemon.js';
@@ -28,6 +36,8 @@ const MAX = +arg('--max', 25000);
 const UNTIL = arg('--hasta', null);
 const VERBOSE = process.argv.includes('--verbose');
 const CHOICES = arg('--elecciones', 'azar');
+const DESDE = arg('--desde', null);
+const GUARDAR_CK = process.argv.includes('--guardar-checkpoints');
 // Fecha y hora simuladas (para que el resultado no dependa de cuándo se ejecuta).
 // --fecha MM-DD (por defecto, hoy) · --hora HH (por defecto 13; usa 2 para probar la noche)
 const FECHA = arg('--fecha', null);
@@ -35,6 +45,7 @@ const HORA = +arg('--hora', 13);
 {
 	const RealDate = Date;
 	const [mm, dd] = FECHA ? FECHA.split('-').map(Number) : [new RealDate().getMonth() + 1, new RealDate().getDate()];
+	globalThis.__RECORRIDO_FECHA = String(mm).padStart(2, '0') + '-' + String(dd).padStart(2, '0');
 	globalThis.Date = class extends RealDate {
 		constructor(...a) { if (a.length) super(...a); else { super(); this.setMonth(mm - 1, dd); this.setHours(HORA); } }
 		static now() { return RealDate.now(); }
@@ -466,12 +477,38 @@ async function grind(target) {
 const avg = () => G.party.reduce((s, p) => s + p.lv, 0) / G.party.length;
 
 // ---------------- Bucle principal ----------------
-newGame({ name: 'Bot', pron: ['el', 'ella', 'elle'][seed % 3] });
-await run(C.blocks[0].start);
-const t0 = Date.now();
 let lastProgress = 0, lastSig = '';
+const CK = (GUARDAR_CK || DESDE) ? await import('./checkpoints.mjs') : null;
+const ckOpts = flag => ({ seed, hora: HORA, fecha: globalThis.__RECORRIDO_FECHA, elecciones: CHOICES, flag });
+let ckNote = null, START = 0, resumed = false;
+if (DESDE) {
+	const r = CK.ckCheck(mod.BLOCKS, ckOpts(DESDE), true);
+	if (r.ok) {
+		const b = r.data.bot;
+		setG(r.data.G);
+		s0 = b.s0; START = b.step; lastProgress = b.lastProgress; lastSig = b.lastSig;
+		frontierRegion = b.frontierRegion; maxBlockSeen = b.maxBlockSeen; lastTrainerLoss = b.lastTrainerLoss; lastLostTrainer = b.lastLostTrainer; rot = b.rot;
+		Object.assign(blockedAt, b.blockedAt); Object.assign(spotRuns, b.spotRuns);
+		for (const [k, v] of Object.entries(b.gaveBy)) gaveBy[k] = new Set(v);
+		for (const x of b.scripts) report.scripts.add(x);
+		resumed = true; ckNote = `desde ${DESDE} (paso ${START})`;
+	} else ckNote = `${DESDE} no vale (${r.why}): se juega desde el principio`;
+}
+if (!resumed) {
+	newGame({ name: 'Bot', pron: ['el', 'ella', 'elle'][seed % 3] });
+	await run(C.blocks[0].start);
+}
+const t0 = Date.now();
 const sigNow = () => Object.keys(G.flags).length + '/' + Object.values(G.quests).map(q => q.stage).join(',') + '/' + G.player.badges.length + '/' + Object.keys(G.bag).length + '/' + G.party.map(p => p.sp).join(',');
-for (step = 0; step < MAX; step++) {
+// finales de bloque ya alcanzados al empezar (no se reescriben); el resto se guarda al primer paso en que esté puesto
+const ckEnds = GUARDAR_CK ? mod.BLOCKS.map(b => b.ends || b.id + '_fin').filter(f => !G.flags[f]) : [];
+const ckSaved = [];
+for (step = START; step < MAX; step++) {
+	for (let i = 0; i < ckEnds.length; i++) if (G.flags[ckEnds[i]]) {
+		const bot = { s0, step, lastProgress, lastSig, frontierRegion, maxBlockSeen, lastTrainerLoss, lastLostTrainer, rot, blockedAt, spotRuns, gaveBy: Object.fromEntries(Object.entries(gaveBy).map(([k, v]) => [k, [...v]])), scripts: [...report.scripts] };
+		CK.ckSave(mod.BLOCKS, ckOpts(ckEnds[i]), bot, G);
+		ckSaved.push(ckEnds[i]); ckEnds.splice(i--, 1);
+	}
 	if (UNTIL ? G.flags[UNTIL] : G.flags[C.blocks[C.blocks.length - 1].ends]) break;
 	if (HOOK?.onStep) await HOOK.onStep(step);
 	const sig = Object.keys(G.flags).length + '/' + Object.values(G.quests).map(q => q.stage).join(',') + '/' + G.player.badges.length + '/' + Object.keys(G.visited).length;
@@ -545,7 +582,7 @@ for (step = 0; step < MAX; step++) {
 
 // ---------------- Informe ----------------
 if (HOOK) await HOOK.done?.({ report, step });
-else {
+if (!HOOK || HOOK.printReport) {
 	const done = Object.entries(G.quests).filter(([k, q]) => q.done).map(([k]) => k);
 	const open = Object.entries(G.quests).filter(([k, q]) => !q.done).map(([k, q]) => `${k}:${q.stage}`);
 	const never = Object.keys(C.quests).filter(k => !G.quests[k]);
@@ -553,6 +590,7 @@ else {
 	const unusedScripts = Object.keys(C.scripts).filter(k => !report.scripts.has(k));
 	console.log(`\n=== RECORRIDO (semilla ${seed}${FECHA ? ' · fecha ' + FECHA : ''} · hora ${HORA}) ===`);
 	console.log(`Final alcanzado: ${G.flags[UNTIL || C.blocks[C.blocks.length - 1].ends] ? 'SÍ' : 'NO'} · pasos ${step} · ${((Date.now() - t0) / 1000).toFixed(1)} s`);
+	if (ckNote || ckSaved.length) console.log(`Checkpoint: ${[ckNote, ckSaved.length && 'guardados ' + ckSaved.join(', ')].filter(Boolean).join(' · ')}`);
 	console.log(`Medallas: ${G.player.badges.join(', ')} · Dinero ₽${G.player.money} · Equipo: ${G.party.map(p => `${p.sp} ${p.lv}`).join(', ')}`);
 	console.log(`Combates: ${report.battles.trainer} entrenador, ${report.battles.wild} salvajes · ganados ${report.battles.won} · perdidos ${report.battles.lost}`);
 	console.log(`Gimnasios:\n  ${report.gyms.join('\n  ') || '-'}`);
@@ -569,5 +607,7 @@ else {
 	if (report.repeatGifts.length) console.log(`REGALOS REPETIDOS:\n  ${report.repeatGifts.slice(0, 20).join('\n  ')}`);
 	if (report.errors.length) console.log(`ERRORES (${report.errors.length}):\n  ${[...new Set(report.errors)].slice(0, 40).join('\n  ')}`);
 	if (process.env.DUMP) (await import('fs')).writeFileSync(process.env.DUMP, JSON.stringify(G));
-	process.exit(report.errors.length || !G.flags[UNTIL || C.blocks[C.blocks.length - 1].ends] ? 1 : 0);
+	const code = report.errors.length || !G.flags[UNTIL || C.blocks[C.blocks.length - 1].ends] ? 1 : 0;
+	if (HOOK) globalThis.__RECORRIDO_EXIT = code;
+	else process.exit(code);
 }
