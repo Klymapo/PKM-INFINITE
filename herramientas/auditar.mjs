@@ -21,9 +21,21 @@
 // `bNN_tN_hecho`). Sin hub, humo, UX, Superfan, Designer ni registro. `--bloque` por defecto: el último cargado; si el
 // bloque no está en BLOCKS lo carga con INFINITO_EXTRA. No toca secreto/: el informe va a una carpeta temporal.
 //
+// Checkpoints (herramientas/checkpoints.mjs): la rápida arranca cada bot desde SU checkpoint del final del bloque
+// anterior (misma semilla, hora y fecha) si sigue valiendo; si no, juega desde B1 y lo deja hecho para la próxima
+// (`--desde-cero` lo obliga a jugar desde B1). La completa juega siempre desde B1, pero de paso guarda los checkpoints
+// de las 4 partidas de la rápida (semillas 1–4, día/noche alternos).
+//
+// Hub sin partidas propias: en la completa, las dos partidas del bot que el hub revisaba por su cuenta (semilla 3 de
+// día y 5 de noche) son las mismas del recorrido: esos dos bots corren con el hub enganchado (hub.mjs --hijo
+// --informe-bot) y el hub solo juega aparte las partidas reales de herramientas/test/partidas/.
+//
+// Resumen viejo: las dos avisan (sin bloquear) si la marca «Cubre hasta» de secreto/resumen.md va por detrás de BLOCKS.
+//
 // Tiempos medidos el 2026-10-31 (2 núcleos, B1–B7): completa antes 33 min 0 s (secuencial salvo los bots), ahora
 // 28–31 min; la máquina ya va al 100 % (≈55 min de CPU / 2), así que con más núcleos baja más. Rápida: 2 min 27 s
-// (b07_fin); con --bloque b03, 56 s.
+// (b07_fin); con --bloque b03, 56 s. Con checkpoints y hub compartido (mismo día): completa 27 min 46 s; rápida b07
+// 2 min 31 s la primera vez (juega desde B1 y guarda) y 36–38 s con checkpoint; rápida b03 con checkpoint, 35 s.
 import { spawn } from 'child_process';
 import fs from 'fs';
 import os from 'os';
@@ -70,11 +82,14 @@ const TESTS = ['herramientas/test/shift-test.mjs', 'herramientas/test/combates-e
 const TESTS_RAPIDA = ['herramientas/test/cine-test.mjs', 'herramientas/test/minijuegos-test.mjs'];
 
 // Bloque y flag final de la auditoría rápida
-let HASTA = null, BLOQUE = null;
+let HASTA = null, BLOQUE = null, DESDE = null;
+const m0 = await import(path.join(ROOT, 'app/content/index.js'));
+const PUBLICADO = m0.BLOCKS[m0.BLOCKS.length - 1].id; // último bloque de BLOCKS (sin los de INFINITO_EXTRA)
 if (RAPIDA) {
-	const m0 = await import(path.join(ROOT, 'app/content/index.js'));
 	BLOQUE = arg('--bloque', m0.BLOCKS[m0.BLOCKS.length - 1].id);
 	let b = m0.BLOCKS.find(x => x.id === BLOQUE);
+	// final del bloque anterior (el checkpoint desde el que arranca cada bot)
+	{ const i = m0.BLOCKS.indexOf(b), prev = b ? m0.BLOCKS[i - 1] : m0.BLOCKS[m0.BLOCKS.length - 1]; if (prev && !process.argv.includes('--desde-cero')) DESDE = prev.ends || prev.id + '_fin'; }
 	if (!b) {
 		if (!fs.existsSync(path.join(ROOT, 'app/content', BLOQUE, 'index.js'))) { console.log(`No existe app/content/${BLOQUE}/index.js`); process.exit(2); }
 		process.env.INFINITO_EXTRA = [...(process.env.INFINITO_EXTRA || '').split(',').filter(Boolean), BLOQUE].join(',');
@@ -98,24 +113,43 @@ if (!RAPIDA) P.fan = node(['herramientas/superfan.mjs'], { peso: 30 });
 P.tester = node(['herramientas/tester.mjs', ...informe('tester')], { peso: 30 });
 if (!RAPIDA) P.dis = node(['herramientas/disenador.mjs'], { peso: 30 });
 P.tests = (RAPIDA ? TESTS_RAPIDA : TESTS).map(t => [t, node([t], { peso: 10 })]);
-const botArgs = (s, hora) => ['herramientas/recorrido.mjs', '--semilla', String(s), '--hora', String(hora), ...(HASTA ? ['--hasta', HASTA] : [])];
+const botArgs = (s, hora) => ['herramientas/recorrido.mjs', '--semilla', String(s), '--hora', String(hora), ...(HASTA ? ['--hasta', HASTA] : []), ...(DESDE ? ['--desde', DESDE] : []), ...(RAPIDA || esRapida(s, hora) ? ['--guardar-checkpoints'] : [])];
+// las 4 partidas de la rápida (semillas 1–4, día y noche alternos): son las que tienen checkpoints
+function esRapida(s, hora) { return s <= 4 && hora === (s % 2 ? 13 : 3); }
+// partidas del bot que también revisa el hub (las de siempre: semilla 3 de día y 5 de noche; ver hub.mjs)
+const HUB_BOTS = [[3, 13], [5, 3]];
+const hubDir = path.join(os.tmpdir(), 'hub-bots-' + fecha);
 const uxDir = path.join(os.tmpdir(), 'ux-' + fecha);
 const uxSave = path.join(uxDir, 'partida.json');
 const botJobs = [];
 if (RAPIDA) for (let s = 1; s <= N; s++) botJobs.push({ s, hora: s % 2 ? 13 : 3 });
 else for (let s = 1; s <= N; s++) for (const hora of [13, 3]) botJobs.push({ s, hora });
+const hubFiles = [];
+if (!RAPIDA) { fs.rmSync(hubDir, { recursive: true, force: true }); fs.mkdirSync(hubDir, { recursive: true }); }
 P.bots = botJobs.map(j => {
 	// la partida de la semilla 2 de día es la que usa el Designer de Canvas (ux.py la generaba con el mismo bot y los mismos argumentos)
 	const dump = !RAPIDA && j.s === 2 && j.hora === 13;
 	if (dump) fs.mkdirSync(uxDir, { recursive: true });
+	// la misma partida con las comprobaciones del hub enganchadas: imprime el informe del bot y deja los hallazgos del hub
+	if (!RAPIDA && HUB_BOTS.some(([s, h]) => s === j.s && h === j.hora)) {
+		const f = path.join(hubDir, `hub-s${j.s}-h${j.hora}.json`);
+		hubFiles.push(f);
+		const a = botArgs(j.s, j.hora).slice(1);
+		return tarea(() => run('node', ['herramientas/hub.mjs', '--hijo', ...a, '--cada', '150', '--informe-bot', '--hallazgos', f], 20 * 60e3), { peso: 1000 });
+	}
 	return node(botArgs(j.s, j.hora), { peso: dump ? 400 : 200, env: dump ? { ...process.env, DUMP: uxSave } : process.env });
 });
 let events = [];
 if (!RAPIDA) {
-	// El hub lanza sus propios hijos (3 partidas de Mario + 2 semillas; ver herramientas/hub.mjs) con --hilos 2 pero aquí
-	// ocupa un solo hueco: sus hijos son desiguales y, si se le reservaran dos, el segundo se quedaría parado al final.
-	// Se pasa como mucho de un proceso sobre HILOS, y el sistema lo reparte. Va primero porque es lo más largo.
-	P.hub = tarea(() => run('node', ['herramientas/hub.mjs', '--hilos', String(Math.min(HILOS, 2))], 20 * 60e3), { peso: 1000 });
+	// El hub lanza sus propios hijos (las partidas reales de herramientas/test/partidas/) con --hilos 2 pero aquí ocupa un
+	// solo hueco: sus hijos son desiguales y, si se le reservaran dos, el segundo se quedaría parado al final.
+	// Se pasa como mucho de un proceso sobre HILOS, y el sistema lo reparte.
+	// Las partidas del bot que revisa ya las jugaron los bots de arriba (hub enganchado): aquí solo junta sus hallazgos y
+	// revisa las partidas reales. Si con --semillas pocas falta alguna, la juega él como antes.
+	const faltan = HUB_BOTS.filter(([s, h]) => !botJobs.some(j => j.s === s && j.hora === h));
+	const hubArgs = ['herramientas/hub.mjs', '--hilos', String(Math.min(HILOS, 2)), ...(hubFiles.length ? ['--hallazgos-de', hubFiles.join(',')] : []), ...(faltan.length ? ['--semillas', faltan.map(x => x[0]).join(','), '--horas', faltan.map(x => x[1]).join(',')] : ['--sin-bot'])];
+	const hubBots = P.bots.filter((_, i) => HUB_BOTS.some(([s, h]) => s === botJobs[i].s && h === botJobs[i].hora));
+	P.hub = Promise.all(hubBots).then(() => tarea(() => run('node', hubArgs, 20 * 60e3), { peso: 1000 }));
 	const mod = await import(path.join(ROOT, 'app/content/index.js'));
 	events = mod.BLOCKS.flatMap(b => b.events || []);
 	P.ev = events.map(e => node(['herramientas/recorrido.mjs', '--semilla', '1', '--fecha', e.from, '--hora', '20'], { peso: 200 }));
@@ -179,6 +213,13 @@ const runs = [];
 for (const [i, j] of botJobs.entries()) runs.push({ s: j.s, hora: j.hora, ...parse((await P.bots[i]).out) });
 const okRuns = runs.filter(r => r.fin && !r.errores);
 report.push('## 2. Bot de recorrido', '', `${okRuns.length} de ${runs.length} recorridos llegan al final sin errores (${RAPIDA ? `hasta \`${HASTA}\`; ` : ''}día 13 h y noche 3 h).`, '');
+if (RAPIDA) {
+	const ck = runs.map(r => r.out.match(/^Checkpoint: (.*)$/m)?.[1] || '');
+	const desde = ck.filter(c => c.startsWith('desde ')).length;
+	report.push(DESDE ? `Checkpoints: ${desde} de ${runs.length} recorridos arrancan desde su checkpoint de \`${DESDE}\`${desde < runs.length ? ' (los demás juegan desde B1 y lo dejan guardado para la próxima)' : ''}; derrotas y combates cuentan solo lo jugado desde ahí.` : 'Checkpoints: no hay bloque anterior (o `--desde-cero`): todos juegan desde B1.', '');
+	for (const [i, c] of ck.entries()) if (c && !c.startsWith('desde ')) report.push(`- semilla ${runs[i].s}: ${c}`);
+	report.push('');
+}
 report.push('| Semilla | Hora | Final | Derrotas | Atascos | Errores |', '|---|---|---|---|---|---|');
 for (const r of runs) report.push(`| ${r.s} | ${r.hora} h | ${r.fin ? 'sí' : '**NO**'} | ${r.lost} | ${r.atascos ? 'sí' : '—'} | ${r.errores ? '**SÍ**' : '—'} |`);
 const losses = {};
@@ -244,6 +285,7 @@ if (!RAPIDA) {
 	const humo = await P.humo;
 	report.push('## 5. Prueba de humo (móvil 412×860)', '', '```', humo.out.trim().split('\n').filter(l => !/404/.test(l)).slice(-15).join('\n'), '```', '', `Capturas en \`${shotDir}\`: míralas con la herramienta de lectura de imágenes.`, '');
 	if (humo.code !== 0) blockers.push('La prueba de humo encontró errores de JavaScript');
+	else if (/^Reintento: sí/m.test(humo.out)) warns.push('La prueba de humo pasó al segundo intento (el primero agotó una espera de Playwright o no encontró un botón): ' + humo.out.match(/^Reintento: sí \((.*)\)$/m)?.[1]?.slice(0, 200));
 
 	// 6. Designer de Canvas: UX/UI de todas las pantallas con una partida avanzada (no bloquea; los graves salen como aviso)
 	const ux = await P.ux;
@@ -251,6 +293,17 @@ if (!RAPIDA) {
 	const uxG = +(ux.out.match(/: (\d+) graves/)?.[1] || 0);
 	if (ux.code !== 0) warns.push('El Designer de Canvas no pudo terminar su revisión');
 	else if (uxG) warns.push(`El Designer de Canvas encontró ${uxG} problemas graves de interfaz (ver su informe)`);
+}
+
+// Resumen del mundo: ¿cubre el último bloque publicado? (solo avisa)
+{
+	const f = path.join(ROOT, 'secreto/resumen.md');
+	const txt = fs.existsSync(f) ? fs.readFileSync(f, 'utf8') : '';
+	const marca = txt.match(/Cubre hasta:\**\s*`?(b\d+)`?/i)?.[1]?.toLowerCase();
+	const num = id => +String(id).replace(/\D/g, '');
+	if (!txt) warns.push('No existe `secreto/resumen.md`');
+	else if (!marca) warns.push(`\`secreto/resumen.md\` no tiene la marca «Cubre hasta: \`bNN\`» (añade bajo la cabecera: \`> **Cubre hasta:** \`${PUBLICADO}\`\`)`);
+	else if (num(marca) < num(PUBLICADO)) warns.push(`\`secreto/resumen.md\` llega hasta \`${marca}\` y \`BLOCKS\` ya va por \`${PUBLICADO}\`: ponlo al día (instrucciones al pie del resumen) y cambia su marca «Cubre hasta»`);
 }
 
 // Resumen
