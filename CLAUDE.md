@@ -66,6 +66,20 @@ Trabaja en este orden. Usa la lista de tareas para que Mario vea el progreso si 
 
 ### 2.2 Leer el mundo (siempre, antes de escribir)
 
+**Empieza por `secreto/resumen.md`.** Condensa en pocas páginas la biblia, el registro, los personajes, los hilos, las candidatas, las referencias, el progreso y el balance, e indica en qué sección de cada original está cada cosa. Abre los archivos de la tabla solo cuando necesites un detalle concreto. Al publicar cada bloque, actualiza el resumen siguiendo las instrucciones de su pie.
+
+**Agentes y skills del repo** (`.claude/`), para no reescribir encargos largos:
+
+| Tipo | Nombre | Para qué |
+|---|---|---|
+| Agente | `escritor-tramo` | Un tramo de un bloque. Prompt: «Bloque NN, tramo TN» |
+| Agente | `integrador` | Paso de integración de un bloque (coherencia, motor, arte, museo, balance, bot) |
+| Agente | `lector-independiente` | Revisión de §3.2, ligera y sin subagentes |
+| Agente | `reparador` | Un bug o una queja de Mario, de principio a fin |
+| Skill | `bloque-por-paquetes` | Escribir un bloque en seis pasos con hoja de avance y respaldos |
+| Skill | `bug-reportado` | Entender, reproducir, arreglar y probar lo que reporta Mario |
+| Skill | `publicar` | Fusionar en `main`, `build-sw`, push y anotación en el reporte maestro |
+
 | Archivo | Para qué |
 |---|---|
 | `docs/CONTENIDO.md` | Formato |
