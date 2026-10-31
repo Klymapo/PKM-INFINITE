@@ -427,7 +427,7 @@ export default {
 				{ sp: 'goodra', lv: 68, moves: ['dragonpulse', 'thunderbolt', 'sludgebomb', 'flamethrower'], ability: 'sapsipper', nature: 'modest', iv: 26 },
 				{ sp: 'duraludon', lv: 72, gmax: true, moves: ['flashcannon', 'dragonpulse', 'thunderbolt', 'bodypress'], ability: 'stalwart', nature: 'modest', iv: 30 },
 			],
-			items: [{ id: 'superpotion', n: 1 }, { id: 'fullheal', n: 1 }],
+			items: [{ id: 'fullheal', n: 1 }], // balance (paso 5): sin Superpoción; muro del bot en 2 de 24 recorridos (×16, ×25)
 			intro: 'Foto antes, que luego salgo despeinado. —Clic—. Ya está. Ahora sí: vamos a ver qué tiempo hace en este combate. Porque lo voy a cambiar.',
 			win: 'Vaya. Vaya, vaya. —Se ríe, de verdad—. Me has ganado en mi castillo. Esta foto la voy a imprimir.',
 			lose: 'Tormenta de arena, dragones y una torre que se hace enorme. Ya sabes cómo va esto. Vuelve cuando quieras: siempre tengo batería.' },

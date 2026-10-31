@@ -508,9 +508,9 @@ export default {
 				{ sp: 'sirfetchd', lv: 68, moves: ['leafblade', 'brutalswing', 'closecombat', 'knockoff'], ability: 'steadfast', item: 'leek', nature: 'adamant', iv: 27 },
 				{ sp: 'toxtricity', lv: 68, moves: ['overdrive', 'sludgebomb', 'boomburst', 'voltswitch'], ability: 'punkrock', nature: 'modest', iv: 27 },
 				{ sp: 'corviknight', lv: 69, moves: ['bravebird', 'ironhead', 'bodypress', 'uturn'], ability: 'mirrorarmor', nature: 'impish', iv: 27 },
-				{ sp: 'cinderace', lv: 70, gmax: true, moves: ['pyroball', 'bounce', 'uturn', 'zenheadbutt'], ability: 'blaze', item: 'sitrusberry', nature: 'jolly', iv: 30 },
+				{ sp: 'cinderace', lv: 69, gmax: true, moves: ['pyroball', 'bounce', 'uturn', 'zenheadbutt'], ability: 'blaze', item: 'sitrusberry', nature: 'jolly', iv: 30 },
 			],
-			items: [{ id: 'hyperpotion', n: 2 }],
+			items: [{ id: 'hyperpotion', n: 1 }], // balance (paso 5): opcional y repetible; 2,8 derrotas de media del bot con as 70 y dos Hiperpociones
 			intro: 'En casa. En mi césped. Bueno, en su plástico. Me da igual. ¡Saque de centro!',
 			win: '…Gol. Tuyo. En mi campo. —Se ríe, y no le sale del todo—. Bueno. Bueno. Ha sido limpio. Eso es lo único que importa.',
 			lose: '¡GOOOOL! ¡EN CASA! ¡POR LA ESCUADRA! —Corre media cancha con los brazos abiertos y vuelve—. Ha sido limpio, ¿eh? Dime que ha sido limpio.' },
@@ -1205,7 +1205,7 @@ export default {
 			cond: 'flag.b07_casa_rhi',
 			info: [
 				{ text: 'De noche, en el **Estadio de Hoyuelo**, Rhi te reta «en el campo de su padre». No da medalla. Te deja curar antes. Gane quien gane, la historia sigue.' },
-				{ text: '6 Pokémon, hasta el nivel 70. Su as sale el último y **se hace enorme** de una forma que no has visto, con una bola de fuego encima.' },
+				{ text: '6 Pokémon, hasta el nivel 69. Su as sale el último y **se hace enorme** de una forma que no has visto, con una bola de fuego encima.' },
 				{ text: '**Agua**, **Tierra** y **Roca** contra su as. Su pájaro de acero aguanta mucho: ahí, **Eléctrico** o **Fuego**. Ojo con un Pokémon que se mueve antes que nadie cuando no ataca.' },
 				{ cond: 'flag.b07_rhi_vencida_7', text: '✔ Ganado en el estadio. «Ha sido limpio».' },
 				{ cond: COMBATE, text: 'Revancha en **el Campo** de los Hargreave, cuando quieras.' },

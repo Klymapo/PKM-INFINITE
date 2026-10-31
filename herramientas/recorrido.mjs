@@ -180,14 +180,20 @@ function battle(cfg) {
 				// Dinamax como una persona (B7): contra el as de un jefe que dinamaxiza, cuando el rival ya se ha hecho
 				// gigante, o con el último Pokémon en pie en un combate contra un entrenador con nombre.
 				if (action?.type === 'move' && !action.gimmick && o.gimmicks.dynamax && kind === 'trainer') {
+					// …pero no con cualquiera: con {riolu}, con quien tenga un golpe supereficaz o cuando ya quedan pocos
+					// (antes dinamaxizaba lo primero que hubiera en el campo, aunque fuera un Sableye contra un Duraludon).
 					const foeId = toID(foe.species.baseSpecies);
-					const jefe = trainer?.gimmick === 'dynamax' && (foeId === trainer.ace || foe.volatiles?.dynamax);
-					const apurado = trainer?.npc && ctl.battle.p1.pokemonLeft <= 1 && foe.volatiles?.dynamax;
-					if (jefe || apurado || foe.volatiles?.dynamax) action.gimmick = 'dynamax';
+					const amenaza = (trainer?.gimmick === 'dynamax' && foeId === trainer.ace) || foe.volatiles?.dynamax;
+					const best = AI.scoreMoves(ctl.battle, me, foe, 4).filter(x => x.move.category !== 'Status').sort((a, b) => b.score - a.score)[0];
+					const bueno = !!best && AI.typeMult(ctl.battle, best.move.type, foe) >= 2;
+					const luc = ['riolu', 'lucario'].includes(toID(me.species.baseSpecies));
+					const pocos = ctl.battle.p1.pokemonLeft <= 2;
+					if (amenaza && (bueno || luc || pocos)) action.gimmick = 'dynamax';
 				}
 			}
 		}
 		r = ctl.turn(action);
+		if (process.env.LOG_TRAINER && cfg.trainer === process.env.LOG_TRAINER) console.log('    > ' + JSON.stringify(action) + ' | ' + (r.events || []).filter(e => e.t === 'text' || e.t === 'dyn').map(e => e.t === 'dyn' ? `[dyn ${e.side}${e.gmax ? ' gmax' : ''}]` : e.s).join(' / ').slice(0, 400));
 		if (r.error) {
 			const errs = [r.error];
 			const tries = [0, 1, 2, 3].map(i => ({ type: 'move', i })).concat(ctl.options().switches.filter(x => !x.fainted && !x.active).map(x => ({ type: 'switch', idx: x.idx })));
