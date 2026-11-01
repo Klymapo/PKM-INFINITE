@@ -20,7 +20,7 @@
 | B6 | V · La voz del narrador | Teselia (Porcelana → Dragospiral) | `b06_inicio`, `flag.b05_fin && !flag.b06_inicio_hecho` | `b06_fin` | 68 | Voltio (Camila), Temblor (Brock) |
 | B7 | VI · Ego | Galar (Par → Artejo), `hours: 15` | `b07_inicio`, `flag.b06_fin && !flag.b07_inicio_hecho` | `b07_fin` | 74 | Planta (Percy), Dragón (Roy) |
 
-Además, **pasadas de profundidad** (P6–P10, red de auxilio, eventos 2026, Buzón, negocios, Cuadrante, casos, Pueblo Cirio) dentro de las carpetas `b02`–`b06` (→ registro, una sección por publicación).
+Además, **pasadas de profundidad** (P6–P10, red de auxilio, eventos 2026, Buzón, negocios, Cuadrante, casos, Pueblo Cirio) dentro de las carpetas `b02`–`b06`, y dos secundarias del B7 en `b07/t7-secundarias.js` (`b07_s_perdidos` con Agnes, `b07_s_cesped` con Gareth; 2026-10-31, aún sin publicar) (→ registro, una sección por publicación).
 
 ### 1.2 Mario (→ progreso, tabla inicial)
 

@@ -711,3 +711,22 @@ Todo en `app/content/b06/` (t12–t15) y motor nuevo en `app/js/` (`carreras.js`
 - **Arte:** 20 objetos clave en pixel art (`PX_ITEMS`) y tres fotos (`estadio_noche`, `casa_ocho`, `mudsdale_abrevadero`) en `acuarela.js`. Sin Pokémon dibujados (el de la foto del abrevadero es una mancha movida, como el del B5).
 - **Museo:** `b07/t6-museo.js` (mismo patrón que el B6, no en `b05/t7-museo.js`): sala de Galar con etiqueta (Noa), broche (Octavia) y llave (Casa); estribo en miniatura en la sala de Alola.
 - **Textos:** formas de España en comunes y T0 (Vale, tío, chaval, ordenador, Cogió); `tramo: 2` en «La excursionista»; `got` en «Escuchar desde dentro»; etapa `planta` de Bastien sin «por contrato».
+
+### Secundarias añadidas 2026-10-31 · `b07/t7-secundarias.js` (rama `revision/b07-secundarias`)
+
+Contenido de profundidad en zonas del B7 ya escritas (spots por `extraSpots`). Las dos se abren tras la cena en casa de Rhi (`flag.b07_casa_rhi`, T3), siguen abiertas después de `b07_fin` y no adelantan trama. Sin hilos del tronco ni pistas del Diario; Diario en las tres variantes (`D_PURGADO` / `D_REFORMADO` / `D_DOBLE`) al cerrar cada una.
+
+**A) «Objetos perdidos»** (`b07_s_perdidos`, side, est 30, `parts`) · Agnes Tull, estación de Pistón (spot «La ventanilla de objetos perdidos», `estacion_piston`).
+- Etapas: `devolver` → `volver` → `done`. Agnes da `cuadernosonia` y `cojinnate`; la **consigna 12** es una cerradura (`lock`, id `b07_perd_consigna`, nivel 2, tema `caja`) que da `lataespecias` («Para P., cuando aprenda»).
+- Entregas: Sonia en `lab_sonia` (`flag.b07_perd_sonia`; da 2 `expcandym`; línea extra con `b07_fin`) · Nate en `casa_rhi` (`flag.b07_perd_nate`; lee `b07_nate_vencido`, `b07_rhi_vencida_7`) · Priya en `curri_piston` (`flag.b07_perd_priya`; era de **su maestra**, que dejó la taberna y se fue al sur sin señas: personaje sin nombre, no hace falta que vuelva; lee `b07_gaspar_curri`, `b07_sopa_maxi`; da 1 `maxmushrooms`).
+- Final: Agnes arranca la hoja del cuaderno (`hojaagnes`, `read`) y da 2 `expcandyl`. Lee `b07_agnes_visto`, `b07_oficio_aguja`, `b07_oficio_relojeria`. Spot posterior «La balda de objetos perdidos».
+- Personajes: Agnes (escenas 2–4 de su total; sigue siendo de un solo bloque ⚠), Sonia, Nate, Priya ⚠ (+1 escena).
+
+**B) «Muchos verdes»** (`b07_s_cesped`, side, est 35, `parts`) · Gareth, El Campo de los Hargreave (spot «Gareth, junto a la caseta», `campo_hargreave`, cond `flag.b07_campo`).
+- Etapas: `semillas` → `campo` → `done`. Tres hierbas: bancales (`terrazas_hoyuelo`, cosecha `catch` id `b07_cesped_bancales`) → `flag.b07_cesped_terrazas`; Pradera Radiante (escena) → `flag.b07_cesped_pradera`; césped viejo tras la grada norte del estadio (`estadio_hoyuelo`, rastreo `aura` id `b07_cesped_rollos` con {riolu}, y spot alternativo sin él) → `flag.b07_cesped_estadio` + `tepeviejo`.
+- Siembra (`flag.b07_cesped_sembrado`) y amistoso opcional **`b07_cesped_gareth`** (Dubwool 66, Torkoal 66, Mudsdale 67, Gogoat 68; cura antes; `lose: 'continue'`; gane o pierda se cierra). Premio: `libretagareth` (`read`, libreta del césped de 2004, con el primer gol de Rhi en el córner sur) y **`b07_mt_campo_hierba`** (MT Campo de Hierba, `grassyterrain`; esta misión es su única fuente).
+- Lee decisiones: `b07_rhi_combate` / `DOLIDA` (Rhi llega a la siembra o mira de lejos), **`b07_merengue_campo`** (Merengue hace guardia junto a la franja y mira hacia Artejo: duelo de Noa, sin nombrarla), `b07_percy_vencido` (Percy saluda), `partner("b07_campo")`.
+- Personajes: Gareth ⚠ (+3 escenas, sigue en un solo bloque), Rhi, Percy (solo narración).
+
+**Pendientes:** pixel art (`PX_ITEMS`) de `cuadernosonia`, `cojinnate`, `lataespecias`, `tepeviejo`, `hojaagnes` y `libretagareth` (usan el icono por defecto). Agnes y Gareth siguen necesitando aparecer en otro bloque (vuelta a Galar).
+- **Bot:** `recorrido.mjs` ahora vuelve a un desvío (`branch`) ya visitado si dentro hay algo «nuevo» (antes no podía volver a la Pradera Radiante).

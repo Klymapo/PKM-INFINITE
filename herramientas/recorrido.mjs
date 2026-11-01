@@ -378,7 +378,9 @@ async function routeWalk(loc) {
 			if (it.trainer && it.optional && !G.beaten[it.trainer]) await battle({ trainer: it.trainer });
 			if (it.spot?.action?.gather && (it.cond === undefined || evalCond(it.cond)) && !G.gather[loc.id + ':' + it.spot.action.gather]) botGather(it.spot.action.gather);
 			if (it.talk && (it.cond === undefined || evalCond(it.cond))) { const k = loc.id + '|t' + pos + '|' + (it.talk.find(x => x.cond === undefined || evalCond(x.cond))?.script || ''); const sg = sigNow(); const rec = spotRuns[k] ||= { n: 0, sig: '' }; if (rec.sig !== sg && rec.n < 6) { rec.n++; rec.sig = sg; await runFirst(it.talk); } }
-			if (it.branch && (it.branch.cond === undefined || evalCond(it.branch.cond)) && !G.visited[it.branch.go]) { await enter(it.branch.go, { from: loc.id }); return; }
+			// (2026-10-31) también vuelve a un desvío ya visitado si dentro hay algo «nuevo» (antes no sabía volver a un
+			// lugar al que solo se entra por `branch`, p. ej. la Pradera Radiante para `b07_s_cesped`)
+			if (it.branch && (it.branch.cond === undefined || evalCond(it.branch.cond)) && (!G.visited[it.branch.go] || hasPending(it.branch.go))) { await enter(it.branch.go, { from: loc.id }); return; }
 			if (G.loc !== loc.id) return;
 		}
 		if (dir > 0 && pos === r.length) { await enter(r.to, { from: loc.id }); return; }
