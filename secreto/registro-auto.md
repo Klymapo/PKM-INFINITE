@@ -1,6 +1,6 @@
 # Registro automático (no editar a mano)
 
-Generado: 2026-10-31T04:56:59.004Z · contenido 2026-10-30.19
+Generado: 2026-11-01T01:34:22.462Z · contenido 2026-10-31.1
 
 ## Apariciones de NPCs (escenas por bloque)
 
@@ -8,7 +8,7 @@ Generado: 2026-10-31T04:56:59.004Z · contenido 2026-10-30.19
 |---|---|---|---|---|---|---|---|---|
 | Abril Lucero (`abril`) | 0 | 0 | 0 | 0 | 0 | 7 | 0 | 7 ⚠ 1 bloque(s) |
 | Acromo (`acromo`) | 0 | 0 | 0 | 0 | 0 | 9 | 0 | 9 ⚠ 1 bloque(s) |
-| Agnes Tull (`agnes`) | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 7 ⚠ 1 bloque(s) |
+| Agnes Tull (`agnes`) | 0 | 0 | 0 | 0 | 0 | 0 | 12 | 12 ⚠ 1 bloque(s) |
 | Alexia (`alexia`) | 7 | 2 | 0 | 3 | 10 | 3 | 1 | 26 |
 | Dr. Ansel Moreau (`ansel`) | 3 | 0 | 0 | 1 | 1 | 0 | 1 | 6 |
 | Antón (`anton`) | 0 | 6 | 0 | 0 | 0 | 0 | 0 | 6 ⚠ 1 bloque(s) |
@@ -85,7 +85,7 @@ Generado: 2026-10-31T04:56:59.004Z · contenido 2026-10-30.19
 | Misty (`misty`) | 0 | 0 | 0 | 14 | 7 | 4 | 0 | 25 |
 | Morti (`morti`) | 0 | 4 | 0 | 0 | 0 | 1 | 0 | 5 ⚠ 2 bloque(s) |
 | Naboru (`naboru`) | 0 | 0 | 0 | 0 | 0 | 0 | 6 | 6 ⚠ 1 bloque(s) |
-| Nate (`nate`) | 6 | 2 | 0 | 0 | 0 | 0 | 6 | 14 |
+| Nate (`nate`) | 6 | 2 | 0 | 0 | 0 | 0 | 7 | 15 |
 | Nereida (`nereida`) | 0 | 0 | 0 | 0 | 8 | 1 | 0 | 9 ⚠ 2 bloque(s) |
 | Nerio (`nerio`) | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Nico Ferrer (`nico_ferrer`) | 0 | 0 | 0 | 0 | 0 | 8 | 5 | 13 ⚠ 2 bloque(s) |
@@ -102,18 +102,18 @@ Generado: 2026-10-31T04:56:59.004Z · contenido 2026-10-30.19
 | Jade Peña (`p7_jade`) | 0 | 0 | 0 | 3 | 0 | 0 | 0 | 3 ⚠ 1 bloque(s) |
 | La Mayor (`p7_mayor`) | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 2 ⚠ 1 bloque(s) |
 | Rosaura (`p7_rosaura`) | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 2 ⚠ 1 bloque(s) |
-| Gareth Hargreave (`padre_rhi`) | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 5 ⚠ 1 bloque(s) |
+| Gareth Hargreave (`padre_rhi`) | 0 | 0 | 0 | 0 | 0 | 0 | 12 | 12 ⚠ 1 bloque(s) |
 | Percy (`percy`) | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 7 ⚠ 1 bloque(s) |
 | Petra (`petra`) | 3 | 5 | 6 | 4 | 4 | 14 | 6 | 42 |
 | Philippe (`philippe`) | 4 | 1 | 0 | 0 | 42 | 8 | 8 | 63 |
 | Prof. Pimpinela (`pimpinela`) | 0 | 0 | 0 | 0 | 3 | 2 | 0 | 5 ⚠ 2 bloque(s) |
 | Presidente de Silph (`presidente_silph`) | 0 | 0 | 0 | 2 | 0 | 0 | 0 | 2 ⚠ 1 bloque(s) |
-| Priya Lal (`priya`) | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 7 ⚠ 1 bloque(s) |
+| Priya Lal (`priya`) | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Protón (`proton`) | 0 | 2 | 0 | 0 | 0 | 0 | 0 | 2 ⚠ 1 bloque(s) |
 | Mauro Quintana (`quintana`) | 0 | 0 | 0 | 0 | 0 | 6 | 26 | 32 ⚠ 2 bloque(s) |
 | Abuela Remedios (`remedios`) | 4 | 1 | 0 | 0 | 0 | 0 | 0 | 5 ⚠ 2 bloque(s) |
 | Renata (`renata`) | 3 | 3 | 9 | 1 | 1 | 32 | 8 | 57 |
-| Rhi (`rhi`) | 13 | 5 | 6 | 9 | 5 | 2 | 13 | 53 |
+| Rhi (`rhi`) | 13 | 5 | 6 | 9 | 5 | 2 | 14 | 54 |
 | Fabien Rouxel (`rouxel`) | 3 | 1 | 0 | 0 | 2 | 0 | 0 | 6 |
 | Roy (`roy`) | 0 | 0 | 0 | 0 | 0 | 0 | 5 | 5 ⚠ 1 bloque(s) |
 | Sabrina (`sabrina`) | 0 | 0 | 0 | 2 | 6 | 2 | 0 | 10 |
@@ -121,7 +121,7 @@ Generado: 2026-10-31T04:56:59.004Z · contenido 2026-10-30.19
 | Serafina Lemnis (`sera`) | 4 | 8 | 0 | 3 | 1 | 5 | 5 | 26 |
 | Simón (`simon`) | 3 | 0 | 0 | 2 | 4 | 4 | 0 | 13 |
 | Adela (`sobrina`) | 0 | 0 | 5 | 14 | 11 | 0 | 0 | 30 |
-| Sonia (`sonia`) | 0 | 0 | 0 | 0 | 0 | 0 | 7 | 7 ⚠ 1 bloque(s) |
+| Sonia (`sonia`) | 0 | 0 | 0 | 0 | 0 | 0 | 8 | 8 ⚠ 1 bloque(s) |
 | Tadeo Lis (`tadeo`) | 0 | 0 | 0 | 0 | 0 | 2 | 2 | 4 ⚠ 2 bloque(s) |
 | Don Teodoro (`teodoro`) | 0 | 0 | 0 | 0 | 0 | 8 | 1 | 9 ⚠ 2 bloque(s) |
 | Tía Rosa (`tia_rosa`) | 0 | 0 | 0 | 0 | 0 | 8 | 1 | 9 ⚠ 2 bloque(s) |
@@ -877,6 +877,10 @@ Generado: 2026-10-31T04:56:59.004Z · contenido 2026-10-30.19
 - `b07_casa_septima_abierta` — b07:b07_casa_mecanismo
 - `b07_casa_zorua` — b07:b07_casa_zorua
 - `b07_cerrojos` — b07:b07_noa
+- `b07_cesped_estadio` — b07:b07_cesped_estadio
+- `b07_cesped_pradera` — b07:b07_cesped_pradera
+- `b07_cesped_sembrado` — b07:b07_cesped_siembra
+- `b07_cesped_terrazas` — b07:b07_cesped_terrazas
 - `b07_chatot_oido` — b07:b07_marcador_chatot
 - `b07_coartada_rota` — b07:b07_tadeo_pasillo
 - `b07_crampon_llegada` — b07:b07_crampon_llegada
@@ -1005,6 +1009,9 @@ Generado: 2026-10-31T04:56:59.004Z · contenido 2026-10-30.19
 - `b07_padre_rhi` — b07:b07_cena
 - `b07_percy_terrazas` — b07:b07_percy_terrazas
 - `b07_percy_vencido` — b07:b07_percy_reto
+- `b07_perd_nate` — b07:b07_perd_nate
+- `b07_perd_priya` — b07:b07_perd_priya
+- `b07_perd_sonia` — b07:b07_perd_sonia
 - `b07_personal_intento` — b07:b07_personal
 - `b07_personal_media` — b07:b07_personal_pillados
 - `b07_petra_abajo_din` — b07:b07_petra
@@ -1486,6 +1493,8 @@ Generado: 2026-10-31T04:56:59.004Z · contenido 2026-10-30.19
 - `b07_s_casa` (side) La Casa de las Siete Puertas: carta → testigos → casa → acusar → hecha
 - `b07_s_fosiles` (side) Fósiles que no encajan: mitades → hecha
 - `b07_m_maxi` (main) La Maximuñequera: ruta2 → hecha
+- `b07_s_perdidos` (side) Objetos perdidos: devolver → volver → hecha
+- `b07_s_cesped` (side) Muchos verdes: semillas → campo → hecha
 
 ## Entrenadores con nombre de NPC
 
@@ -1639,6 +1648,7 @@ Generado: 2026-10-31T04:56:59.004Z · contenido 2026-10-30.19
 - `macro_3` (b07) Seguridad de Macrocosmos: Weezing (Galar) 70, Boltund 70, Copperajah 71
 - `roy_g` (b07) Roy: Flygon 67, Sandaconda 67, Turtonator 68, Goodra 68, Duraludon 71
 - `olivia_1` (b07) Olivia: Froslass 67, Milotic 68, Salazzle 68, Tsareena 68, Copperajah 69, Garbodor 73
+- `b07_cesped_gareth` (b07) Gareth: Dubwool 66, Torkoal 66, Mudsdale 67, Gogoat 68
 
 ## Nombres de entrenadores usados (para no repetir)
 
