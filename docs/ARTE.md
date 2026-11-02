@@ -152,3 +152,13 @@ Itera hasta que la lista salga limpia. **Mínimo dos rondas.** La primera versi�
 - **Personajes con nombre:** llevan un `look` diseñado a mano con, como mínimo, `head`, `brows`, `nose` y `collar` explícitos, y un rasgo que sale del contorno (peinado, sombrero, capucha, coleta…).
 - **Revisión:** `node herramientas/retratos.mjs --salida /tmp/retratos` genera `contactos.png`, `siluetas.png`, `grises.png`, `real.png`, `animacion.png` (normal / parpadeo / hablando) e `iou.txt`. Con `--todos` incluye genéricos y canon; con `--solo id1,id2`, solo esos.
 - **IoU en bustos:** la métrica se calcula sobre la cabeza y el cuello (filas < 40). Como todos los bustos comparten tamaño y posición, casi cualquier par supera 0,85. El umbral práctico es **0,93**: por encima, cambia uno de los dos. Por debajo, decide la hoja de siluetas a ojo.
+
+## Elenco A compartido (2026-11-02)
+
+Los 28 personajes aprobados usan un único sprite de cuerpo completo por identidad. `app/js/elenco.js` resuelve ids y nombres heredados, y dibuja los marcos de `app/img/elenco-a.png`. Se reutiliza desde `portraitFor()` en diálogos, negocios, expedientes, casos, cartas y combates; las cinemáticas consultan el mismo registro antes de recurrir al retrato procedural o al sprite externo. Las variantes de Enfermera Joy comparten diseño; el protagonista se identifica por su id, independientemente del nombre de la partida.
+
+La sustitución es de presentación: no cambia flags, decisiones ni guardados. Los guiones antiguos y futuros que usen esas identidades reciben automáticamente el mismo diseño. Personajes no incluidos, identidades intencionalmente ocultas y los Pokémon excluidos conservan sus reglas anteriores. El editor también muestra el sprite aprobado por defecto. Si el jugador cambia sus rasgos a propósito, conserva la personalización procedural anterior; «Usar sprite A del protagonista» permite volver al diseño aprobado. Las partidas existentes adoptan el sprite nuevo sin cambiar sus datos de aspecto.
+
+El diálogo ordinario usa una capa de fondo al 30 %; en cine, las intervenciones con hablante atenúan la escena al 24 % y la narración recupera su iluminación. Al cerrar el diálogo no queda un estado global de oscuridad.
+
+Para añadir un personaje, añadir su marco y nombre a CAST. No duplicar imágenes por escena. Regenerar el índice de imágenes y el service worker con `node herramientas/build-sw.mjs`. Pruebas: `node herramientas/test/elenco-test.mjs` y `CHROMIUM_PATH=<navegador> node herramientas/test/elenco-ui.mjs` con el sitio local servido en el puerto 8190 (o APP_URL).

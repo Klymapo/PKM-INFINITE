@@ -219,3 +219,9 @@ span.cs-item img { width: 100%; height: 100%; image-rendering: pixelated; }
 /* Sin sprite (sin conexión ni caché), el medallón de reserva no debe decir quién es cuando la escena lo esconde */
 .fx-silhouette .cs-medal b, .fx-silhouette .cs-medal i, .dim .cs-medal b, .dim .cs-medal i { visibility: hidden; }
 .fx-silhouette .cs-medal, .dim .cs-medal { --c1: #14161c; --c2: #14161c; }
+
+/* El diálogo destaca sobre la escena sin alterar sus luces ni el estado del motor. */
+.cs-dialog-shade { position: absolute; inset: 0; z-index: 5; background: rgba(10,15,30,.24); opacity: 0; pointer-events: none; transition: opacity .15s; }
+.cutscene.is-conversation .cs-dialog-shade { opacity: 1; }
+.cs-spr.cast-sprite { width: var(--sz); height: calc(var(--sz) * 1.2); object-fit: contain; }
+@media (prefers-reduced-motion: reduce) { .cs-dialog-shade { transition: none; } }

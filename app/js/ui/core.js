@@ -4,6 +4,7 @@ import { portraitCanvas, trainerImg } from '../art.js';
 import { G } from '../state.js';
 import { C, topLoc } from '../content.js';
 import { illus } from '../imagenes.js';
+import { characterSprite } from '../elenco.js';
 
 export function h(tag, attrs = {}, ...kids) {
 	const el = document.createElement(tag);
@@ -32,10 +33,15 @@ export function setTextSpeed(s) { speed = s; }
 /** Retrato para un NPC: sprite de entrenador (canon) o retrato procedural (original). */
 export function portraitFor(n) {
 	if (!n) return null;
-	if (n.id === 'jugador' || n.portrait === 'jugador') return portraitCanvas({ ...(G.player.look || {}), bg: '#2a3c66' });
-	{ const im = n.id && illus('retratos/' + n.id + '.png', 'portrait-illus'); if (im) return im; }
-	if (n.sprite) return trainerImg(n.sprite, n.look || { seed: n.name });
-	return portraitCanvas({ ...(n.look || { seed: n.name }), bg: n.bg || n.look?.bg || '#2a3c66' });
+	if (n.id === 'jugador' || n.portrait === 'jugador') n = { ...n, look: n.look || G?.player?.look || {} };
+	const fallback = () => {
+		if (n.id === 'jugador' || n.portrait === 'jugador') return portraitCanvas({ ...(n.look || {}), bg: '#2a3c66' });
+		const im = n.id && illus('retratos/' + n.id + '.png', 'portrait-illus');
+		if (im) return im;
+		if (n.sprite) return trainerImg(n.sprite, n.look || { seed: n.name });
+		return portraitCanvas({ ...(n.look || { seed: n.name }), bg: n.bg || n.look?.bg || '#2a3c66' });
+	};
+	return characterSprite(n, fallback) || fallback();
 }
 
 // ---------- Diálogo ----------
@@ -43,7 +49,7 @@ export function portraitFor(n) {
 export function say(n, text, opts = {}) {
 	logLine({ k: n ? 'say' : 'narr', n: n?.name || null, t: text });
 	return new Promise(resolve => {
-		const ov = h('div', { class: 'overlay' + (opts.dim ? ' dim' : '') });
+		const ov = h('div', { class: 'overlay conversation' + (opts.dim ? ' dim' : '') });
 		const portrait = n && n.portrait !== false ? portraitFor(n) : null;
 		const box = h('div', { class: 'dialog' + (portrait ? '' : ' noportrait') + (n ? '' : ' narr') });
 		if (portrait) box.append(h('div', { class: 'portrait' }, portrait));

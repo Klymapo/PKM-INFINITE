@@ -12,7 +12,7 @@ import {
 	markTramo, walkFriendship, findPath, canEnter, healParty, whiteout, trainingOpen, avgLevel, pendingNotices, routeProg, activeEvents, eventCalendar,
 } from '../world.js';
 import { runScript, runFirst, UI, tx, findRiolu, closeHangingThreads } from '../guion.js';
-import { monImg, itemImg, sceneCanvas, portraitCanvas, HAIRS, LOOK_DEFAULTS, ballIcon, pxItem } from '../art.js';
+import { monImg, itemImg, sceneCanvas, HAIRS, LOOK_DEFAULTS, ballIcon, pxItem } from '../art.js';
 import { h, $, app, say, readPaper, choose, prompt, confirm, toast, openSheet, closeAllSheets, topSheet, onSwipe, lastTab, slideIn, setTextSpeed, portraitFor, logLine, logButton, openDialogLog } from './core.js';
 import { runBattle, learnMoveUI, evolveUI } from './battle-ui.js';
 import { resolveLook } from '../retrato.js';
@@ -240,13 +240,13 @@ function startClock() {
 /** Vista previa y controles para editar un look. Devuelve { preview, parts }. */
 function lookEditor(look, { size = 120 } = {}) {
 	const preview = h('div', { style: { width: size + 'px', height: size + 'px', borderRadius: '20px', overflow: 'hidden', border: '3px solid var(--cream)', margin: '0 auto' } });
-	const redraw = () => { preview.innerHTML = ''; const c = portraitCanvas(look); c.style.width = '100%'; c.style.height = '100%'; preview.append(c); };
+	const redraw = () => { preview.innerHTML = ''; const c = portraitFor({ id: 'jugador', name: 'Tu personaje', look }); c.style.width = '100%'; c.style.height = '100%'; preview.append(c); };
 	const swatchRow = (colors, key) => {
 		const row = h('div', { class: 'swatches' });
 		colors.forEach((c, i) => {
 			const val = key === 'skin' ? i : c;
 			const b = h('button', { 'aria-label': 'Color', style: { background: c }, class: look[key] === val ? 'on' : '' });
-			b.onclick = () => { look[key] = val; row.querySelectorAll('button').forEach(x => x.classList.remove('on')); b.classList.add('on'); redraw(); };
+			b.onclick = () => { look[key] = val; look.spriteMode = 'procedural'; row.querySelectorAll('button').forEach(x => x.classList.remove('on')); b.classList.add('on'); redraw(); };
 			row.append(b);
 		});
 		return row;
@@ -255,7 +255,7 @@ function lookEditor(look, { size = 120 } = {}) {
 		const row = h('div', { class: 'tabs', style: { flexWrap: 'wrap' } });
 		opts.forEach(([k, n]) => {
 			const b = h('button', { class: look[key] === k ? 'on' : '' }, n);
-			b.onclick = () => { look[key] = k; row.querySelectorAll('button').forEach(x => x.classList.remove('on')); b.classList.add('on'); redraw(); };
+			b.onclick = () => { look[key] = k; look.spriteMode = 'procedural'; row.querySelectorAll('button').forEach(x => x.classList.remove('on')); b.classList.add('on'); redraw(); };
 			row.append(b);
 		});
 		return row;
@@ -265,6 +265,7 @@ function lookEditor(look, { size = 120 } = {}) {
 	return {
 		preview,
 		parts: [
+			h('button', { class: 'btn', onclick: () => { look.spriteMode = 'elenco'; redraw(); } }, 'Usar sprite A del protagonista'),
 			T('Piel'), swatchRow(['#ffe0c7', '#f5cba7', '#e0ac85', '#c68863', '#9a6646', '#6e4630'], 'skin'),
 			T('Cara'), optRow('head', [['round', 'Redonda'], ['oval', 'Ovalada'], ['square', 'Cuadrada'], ['heart', 'Corazón'], ['long', 'Alargada']]),
 			T('Mirada'), optRow('eyesStyle', [['normal', 'Normal'], ['big', 'Grandes'], ['almond', 'Almendrados'], ['sharp', 'Afilados'], ['sleepy', 'Tranquilos'], ['lashes', 'Pestañas']]),

@@ -16,3 +16,6 @@ Rama: `chatgpt/misiones-2026-10-11`. Solo propuestas; Claude revisa y decide la 
 - `AUDITORIA-ARTE-2026-10-11.md`: auditoría visual de 8 candidatos; los ocho PNG están subidos y aprobados. Continúan pendientes los demás retratos, postales, icono y título.
 
 **Archivos de arte adicionales verificados:** `retrato-lila.png`, `retrato-sera.png`, `retrato-renata.png`, `retrato-irene.png`, `retrato-petra.png`, `retrato-ysolde.png` (todos en `img/`).
+
+## Elenco A · 2026-11-02
+Integración solicitada por Admin de los 28 sprites aprobados y atenuación de conversaciones. Ver `sprites-elenco/VERIFICACION.md` para alcance y pruebas.

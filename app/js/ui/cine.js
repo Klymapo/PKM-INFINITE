@@ -6,6 +6,7 @@ import { D, toID, TYPE_COLORS } from '../data.js';
 import { tx, findRiolu, findCandela } from '../guion.js';
 import { monUrls, itemImg, sceneCanvas, pxItem, trainerImg } from '../art.js';
 import { retratoGrid } from '../retrato.js';
+import { characterSprite } from '../elenco.js';
 import { phase } from '../time.js';
 import { h, portraitFor, logLine, logButton } from './core.js';
 import { fmtText } from '../util.js';
@@ -71,7 +72,8 @@ function runScene(spec, opts, resolve) {
 	const coverEl = h('div', { class: 'cs-cover' });
 	const bigEl = h('div', { class: 'cs-big' });
 	const shakeEl = h('div', { class: 'cs-shake' }, bgc, actorsEl, fxc, tintEl);
-	const stage = h('div', { class: 'cs-stage' }, shakeEl, vigEl, bigEl, irisEl, coverEl);
+	const dialogueShade = h('div', { class: 'cs-dialog-shade' });
+	const stage = h('div', { class: 'cs-stage' }, shakeEl, vigEl, bigEl, irisEl, coverEl, dialogueShade);
 	const nameEl = h('div', { class: 'cs-name' });
 	const cap = h('div', { class: 'cs-cap', role: 'status', 'aria-live': 'polite' });
 	const hint = h('div', { class: 'cs-hint' }, h('span', { class: 'cs-hint-t' }, 'Toca para seguir'), h('i', {}));
@@ -561,7 +563,10 @@ function runScene(spec, opts, resolve) {
 	const visual = (a) => {
 		if (a.kind === 'item') { const el = pxItem(toID(a.src), 96) || itemImg(a.src); el.classList.add('cs-item'); return el; }
 		if (a.kind === 'mon') return monEl(a.src, a.shiny);
+		a.el.classList.remove('k-spr'); a.el.classList.add('k-npc');
 		const n = npcOf(a.src), look = n.look || { seed: n.name };
+		const sprite = characterSprite(n, () => { const b = bust(look); a.el.classList.replace('k-spr', 'k-npc'); a.vis = b; return b; });
+		if (sprite) { sprite.classList.add('cs-spr'); a.el.classList.replace('k-npc', 'k-spr'); return sprite; }
 		if (n.sprite && a.src !== 'jugador') {
 			const img = trainerImg(n.sprite, look); img.classList.add('cs-spr');
 			img.onerror = () => { const b = bust(look); a.el.classList.replace('k-spr', 'k-npc'); img.replaceWith(b); a.vis = b; };
@@ -803,6 +808,7 @@ function runScene(spec, opts, resolve) {
 		nameEl.innerHTML = ''; bigEl.innerHTML = ''; bigEl.classList.remove('on');
 		const name = fr.as ? tx(fr.as) : who?.name || '';
 		root.classList.toggle('is-big', !!fr.big);
+		root.classList.toggle('is-conversation', !!fr.say && !!text && !fr.big);
 		if (fr.big) {
 			cap.innerHTML = ''; ty.done = true; ty.doneAt = now; band.classList.add('ready');
 			bigEl.append(h('div', { class: 'cs-big-t', html: fmtText(text) }), fr.sub ? h('div', { class: 'cs-big-s', html: fmtText(tx(fr.sub)) }) : null);
