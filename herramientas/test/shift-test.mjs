@@ -62,5 +62,66 @@ for (const mode of ['rechaza', 'acepta']) {
 	const r = ctl.turn({ type: 'move', i: 0 });
 	check(!r.error && !r.shiftOffer && !ctl.options().shift, 'tras Ida y Vuelta del rival no ofrece cambiar');
 }
+// Ilusión no debe revelar al relevo en el aviso ni en la ficha. Equipo sintético, sin guiones de historia.
+for (const mode of ['rechaza', 'acepta']) {
+	newGame({ name: 'Prueba' });
+	G.party.push(createPokemon('snorlax', { level: 70, moves: ['tackle', 'splash'] }));
+	G.party.push(createPokemon('blissey', { level: 70, moves: ['tackle', 'splash'] }));
+	const t = { name: 'Prueba', ai: 1, team: [
+		{ sp: 'rattata', lv: 1, moves: ['splash'] },
+		{ sp: 'zoroark', lv: 70, ability: 'illusion', moves: ['splash'] },
+		{ sp: 'magikarp', lv: 70, moves: ['splash'], gender: 'F' },
+	] };
+	const ctl = new BattleCtl({ kind: 'trainer', foes: buildTrainerTeam(t, createPokemon), trainer: t, shift: true, noExp: true, seed: [1, 2, 3, 4] });
+	ctl.start();
+	const r = ctl.turn({ type: 'move', i: 0 });
+	check(r.shiftOffer?.foe === 'Magikarp' && r.shiftOffer.sp === 'magikarp', `${mode}: el aviso anuncia el disfraz`);
+	check(!ctl.battle.p2.pokemon.find(p => p.species.id === 'zoroark').illusion, 'prever el disfraz no modifica el simulador');
+	const out = ctl.turn(mode === 'acepta' ? { type: 'switch', idx: 1 } : { type: 'noshift' });
+	check(ctl.active('p2').species.id === 'zoroark' && ctl.active('p2').illusion?.species.id === 'magikarp', 'sale realmente Zoroark con Ilusión');
+	const shown = out.events.find(e => e.t === 'switch' && e.side === 'p2')?.info;
+	check(shown?.sp === 'magikarp' && shown.name === 'Magikarp' && shown.gender === 'F', 'la ficha usa especie, nombre y género aparentes');
+	const harmless = ctl.turn({ type: 'move', i: 1 });
+	check(!!ctl.active('p2').illusion && !harmless.events.some(e => e.t === 'switch' && e.side === 'p2'), 'Salpicadura no rompe Ilusión');
+	const hit = ctl.turn({ type: 'move', i: 0 });
+	const reveal = hit.events.find(e => e.t === 'switch' && e.side === 'p2')?.info;
+	check(!ctl.active('p2').illusion && reveal?.sp === 'zoroark' && reveal.name === 'Zoroark', 'el golpe revela a Zoroark');
+	check(reveal?.hp === ctl.active('p2').hp && reveal.hp > 0, 'la revelación conserva los PS restantes, no los pone a cero');
+}
+// El anuncio debe coincidir con la salida real también con apodos, forma regional y sin compañero disponible.
+for (const variant of ['apodo', 'hisui', 'ultimo', 'cola-debilitada']) {
+	newGame({ name: 'Prueba' });
+	G.party.push(createPokemon('snorlax', { level: 70, moves: ['tackle'] }));
+	G.party.push(createPokemon('blissey', { level: 70 }));
+	const species = variant === 'hisui' ? 'zoroarkhisui' : 'zoroark';
+	const t = { name: 'Prueba', ai: 1, team: [{ sp: 'rattata', lv: 1, moves: ['splash'] }, { sp: species, lv: 70, ability: 'illusion', moves: ['splash'] }] };
+	if (variant !== 'ultimo') t.team.push({ sp: 'magikarp', lv: 70, moves: ['splash'], nick: variant === 'apodo' ? 'Burbuja' : undefined });
+	if (variant === 'cola-debilitada') t.team.push({ sp: 'bidoof', lv: 1 });
+	const ctl = new BattleCtl({ kind: 'trainer', foes: buildTrainerTeam(t, createPokemon), trainer: t, shift: true, noExp: true, seed: [1, 2, 3, 4] });
+	ctl.start();
+	if (variant === 'cola-debilitada') { const tail = ctl.battle.p2.pokemon.at(-1); tail.hp = 0; tail.fainted = true; ctl.battle.p2.pokemonLeft--; }
+	const r = ctl.turn({ type: 'move', i: 0 });
+	const out = ctl.turn({ type: 'noshift' });
+	const shown = out.events.find(e => e.t === 'switch' && e.side === 'p2')?.info;
+	check(ctl.active('p2').species.id === species, `${variant}: el relevo real es la especie de prueba`);
+	check(!!shown && r.shiftOffer?.foe === shown.name && r.shiftOffer.sp === shown.sp, `${variant}: aviso y salida real coinciden`);
+	check((variant === 'ultimo') ? shown?.sp === species : shown?.sp === 'magikarp', `${variant}: solo se anuncia disfraz cuando corresponde`);
+}
+// El jugador decide su cambio DESPUÉS del aviso: Gas Reactivo puede entrar o salir antes del relevo rival.
+for (const gas of ['permanece', 'sale', 'entra', 'escudo']) {
+	newGame({ name: 'Prueba' });
+	const weezing = createPokemon('weezing', { level: 70, moves: ['tackle'], ability: 'neutralizinggas' });
+	const blissey = createPokemon('blissey', { level: 70, moves: ['tackle'] });
+	G.party.push(...(gas === 'entra' ? [blissey, weezing] : [weezing, blissey]));
+	const t = { name: 'Prueba', ai: 1, team: [{ sp: 'rattata', lv: 1, moves: ['splash'] }, { sp: 'zoroark', lv: 70, ability: 'illusion', moves: ['splash'] }, { sp: 'magikarp', lv: 70, moves: ['splash'] }] };
+	if (gas === 'escudo') t.team[1].item = 'abilityshield';
+	const ctl = new BattleCtl({ kind: 'trainer', foes: buildTrainerTeam(t, createPokemon), trainer: t, shift: true, noExp: true, seed: [1, 2, 3, 4] });
+	ctl.start();
+	const r = ctl.turn({ type: 'move', i: 0 });
+	check(gas === 'escudo' ? r.shiftOffer?.foe === 'Magikarp' && r.shiftOffer.sp === 'magikarp' : r.shiftOffer?.foe === 'otro Pokémon' && r.shiftOffer.sp === null, `gas ${gas}: aviso sin revelar información oculta`);
+	const out = ctl.turn((gas === 'permanece' || gas === 'escudo') ? { type: 'noshift' } : { type: 'switch', idx: 1 });
+	const shown = out.events.find(e => e.t === 'switch' && e.side === 'p2')?.info;
+	check(shown?.sp === (gas === 'sale' || gas === 'escudo' ? 'magikarp' : 'zoroark'), `gas ${gas}: la entrada real respeta la habilidad activa`);
+}
 console.log(fails ? `FALLAN ${fails}` : 'Todo bien');
 process.exit(fails ? 1 : 0);

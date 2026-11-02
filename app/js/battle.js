@@ -241,8 +241,9 @@ export class BattleCtl {
 			const details = args[2] || '';
 			const spId = toID(details.split(',')[0]);
 			const info = {
-				name: sp?.name || args[1].slice(5), sp: D.species[spId] ? spId : toID(sp?.species?.name),
-				lv: sp?.level, hp, maxhp: maxhp || sp?.maxhp, shiny: details.includes('shiny'), gender: sp?.gender,
+				// El protocolo ya trae el nombre y género aparentes de Ilusión; el objeto del simulador conserva los reales.
+				name: args[1].slice(5), sp: D.species[spId] ? spId : toID(sp?.species?.name),
+				lv: sp?.level, hp: args[3] ? hp : sp?.hp, maxhp: maxhp || sp?.maxhp, shiny: details.includes('shiny'), gender: details.split(', ').find(x => x === 'M' || x === 'F') || '',
 				status: sp?.status && sp.status !== 'fnt' ? sp.status : '', boosts: {},
 			};
 			if (side === 'p2') {
@@ -561,7 +562,14 @@ export class BattleCtl {
 			this.pump();
 			return;
 		}
-		this.shiftOffer = { foe: target.name, sp: toID(target.species.name), choice: 'switch ' + (b.p2.pokemon.indexOf(target) + 1) };
+		// Al entrar se intercambia con el activo debilitado: Ilusión copia al último compañero vivo, no a sí mismo.
+		// Prever la identidad sin disparar eventos ni modificar target.illusion antes de su entrada real.
+		// hasAbility() ignora las habilidades del banquillo; consultar la habilidad que tendrá al entrar.
+		const disguise = target.ability === 'illusion' ? [...b.p2.pokemon].reverse().find(p => p !== target && !p.fainted) : null;
+		const shown = disguise && (!target.terastallized || !['Ogerpon', 'Terapagos'].includes(disguise.species.baseSpecies)) ? disguise : target;
+		// Gas Reactivo puede entrar o salir con el cambio que el jugador aún no ha elegido. No adelantar la identidad real.
+		const uncertain = shown !== target && target.item !== 'abilityshield' && b.p1.pokemon.some(p => !p.fainted && p.hp > 0 && p.ability === 'neutralizinggas');
+		this.shiftOffer = { foe: uncertain ? 'otro Pokémon' : shown.name, sp: uncertain ? null : toID(shown.species.name), choice: 'switch ' + (b.p2.pokemon.indexOf(target) + 1) };
 	}
 	declineShift() {
 		const b = this.battle;
