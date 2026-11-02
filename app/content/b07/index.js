@@ -14,6 +14,7 @@ import t4 from './t4-crampon.js';
 import t5 from './t5-artejo.js';
 import museo from './t6-museo.js';
 import secundarias from './t7-secundarias.js';
+import renata from './t8-renata.js';
 
 const block = {
 	id: 'b07', title: 'Acto VI · Ego', hours: 15, ends: 'b07_fin',
@@ -22,7 +23,7 @@ const block = {
 	locations: {}, trainers: {}, scripts: {}, challenges: {}, badges: {}, shops: {}, items: {}, events: [], milestones: [], mail: [], radio: [],
 	gather: {}, patches: {}, ventures: {},
 };
-const parts = [comun, t0, t1, t2, t3, t4, t5, museo, secundarias];
+const parts = [comun, t0, t1, t2, t3, t4, t5, museo, secundarias, renata];
 const extraSpots = {};
 for (const part of parts) {
 	for (const k of ['locations', 'trainers', 'scripts', 'challenges', 'badges', 'shops', 'items', 'quests', 'npcs', 'gather', 'ventures']) {

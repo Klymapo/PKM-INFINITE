@@ -388,6 +388,7 @@ export default {
 				] },
 			] },
 			{ quest: 'b07_m1', stage: 'par' },
+			{ call: 'b07_renata_amistoso' },
 		],
 		b07_puerta_tecnica: [
 			{ text: 'La técnica de Lemnis de la Puerta de Galar lleva un chubasquero azul con la lemniscata en la espalda y sujeta una taza de té con las dos manos, como si fuera lo único caliente del condado.' },
