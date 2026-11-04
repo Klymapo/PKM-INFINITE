@@ -13,6 +13,7 @@
 //   --desde bNN_fin        arranca desde el checkpoint de esa semilla/hora/fecha si es válido; si no, juega desde B1
 //                          (lo dice en la línea «Checkpoint:» del informe). El informe (derrotas, combates…) cuenta solo
 //                          lo jugado en esta ejecución.
+import { equipOwnedMegas } from './recorrido-preparacion.mjs';
 import { loadDataNode } from './test/node-env.mjs';
 import { D, toID, effectiveness } from '../app/js/data.js';
 import { C, registerBlock, topLoc } from '../app/js/content.js';
@@ -184,7 +185,7 @@ function battle(cfg) {
 				const pot = ['maxpotion', 'hyperpotion', 'superpotion', 'potion'].find(i => count(i) > 0);
 				action = { type: 'item', item: pot, uid: ctl.partyOf(me).uid };
 			} else {
-				const d = AI.decide(ctl.battle, 'p1', { level: 4, wild: false, gimmick: G.flags.mec_mega && count('megaring') ? 'mega' : null, gimmickUsed: ctl.gimmickUsed });
+				const d = AI.decide(ctl.battle, 'p1', { level: 4, wild: false, gimmick: G.flags.mec_mega && count('megaring') ? 'mega' : null, gimmickUsed: ctl.gimmickUsed, ace: me.name });
 				if (!d) { action = { type: 'move', i: 0 }; }
 				else if (d.choice.startsWith('switch')) action = { type: 'switch', idx: +d.choice.split(' ')[1] - 1 };
 				else { const parts = d.choice.split(' '); action = { type: 'move', i: +parts[1] - 1, gimmick: parts[2] === 'mega' ? 'mega' : parts[2] === 'zmove' ? 'z' : parts[2] === 'dynamax' ? 'dynamax' : parts[2] === 'terastallize' ? 'tera' : null }; }
@@ -456,6 +457,7 @@ function manageTeam() {
 	if (want >= 0) { core.push(rest[want]); rest.splice(want, 1); }
 	else if (rest.length) { rot = (rot + 1) % rest.length; core.push(rest[rot]); rest.splice(rot, 1); }
 	G.party = core;
+	equipOwnedMegas(G.party, G.bag, G.flags.mec_mega && count('megaring') > 0);
 	G.boxes = G.boxes.map(() => []);
 	for (const p of rest) boxInsert(G, p);
 }
