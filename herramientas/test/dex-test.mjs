@@ -1,0 +1,26 @@
+import assert from 'node:assert/strict';
+import {loadDataNode} from './node-env.mjs';
+import{D}from'../../app/js/data.js';loadDataNode();
+let Q;try{Q=await import('../../app/js/dex.js');}catch{}
+assert.equal(typeof Q?.queryDex,'function','falta el catálogo filtrable de la Pokédex');
+const dex={seen:{1:true,2:true,26:true},caught:{1:true}}, owned=new Set(['bulbasaur']);
+const q=opts=>Q.queryDex({dex,owned,...opts});
+assert.ok(q({status:'all'}).length>1000,'Nacional completa sin corte a 400');
+assert.deepEqual(q({status:'seen',search:'bulbásaur'}).map(x=>x.id),['bulbasaur']);
+assert.deepEqual(q({status:'caught'}).map(x=>x.id),['bulbasaur']);
+assert.ok(q({status:'missing'}).every(x=>!dex.caught[x.num]));
+assert.deepEqual(q({status:'owned'}).map(x=>x.id),['bulbasaur']);
+assert.ok(q({origin:'johto',status:'all'}).every(x=>x.gen===2));
+assert.ok(q({origin:'alola',status:'all'}).some(x=>x.id==='raichualola'));
+assert.ok(q({origin:'hisui',status:'all'}).some(x=>x.id==='wyrdeer'));
+assert.ok(!q({origin:'galar',status:'all'}).some(x=>x.id==='wyrdeer'));
+assert.ok(!q({origin:'kanto',status:'all'}).some(x=>x.id==='raichualola'));
+assert.ok(q({type:'Fire',status:'all'}).every(x=>x.types.includes('Fire')));
+assert.ok(q({evolution:'friendship',status:'all'}).some(x=>x.id==='riolu'));
+assert.ok(q({evolution:'item',status:'all'}).some(x=>x.id==='pikachu'));
+assert.ok(q({evolution:'middle',status:'all'}).some(x=>x.id==='ivysaur'));
+assert.ok(q({evolution:'final',status:'all'}).some(x=>x.id==='venusaur'));
+assert.equal(q({search:'0001',status:'all'})[0].id,'bulbasaur');
+assert.equal(q({search:'zzzz no existe',status:'all'}).length,0);
+const strength=q({status:'seen',sort:'strength'});assert.ok(strength.every((x,i)=>!i||x.bs.reduce((a,b)=>a+b,0)<=strength[i-1].bs.reduce((a,b)=>a+b,0)));
+console.log('Pokédex: catálogo completo, orígenes, formas, estados, evolución, tipos y búsqueda: OK');

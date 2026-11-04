@@ -1,3 +1,4 @@
+import { queryDex, dexCatalog, DEX_ORIGINS } from '../dex.js';
 import { convivir } from '../convivir.js';
 // Pantallas principales: título, creación, lugar, ruta, mapa y menús.
 import { D, toID, TYPE_COLORS, typeStyle, typeName, STAT_NAMES, STATS, abilityName, natureName, moveName, itemName } from '../data.js';
@@ -2785,30 +2786,50 @@ function viewPostcard(t) {
 	document.body.append(ov);
 }
 
-function openDex() {
-	const sheet = openSheet('Pokédex', null);
-	let filter = 'seen';
-	const draw = () => {
-		const tabs = h('div', { class: 'tabs' }, ...[['seen', 'Vistos'], ['caught', 'Capturados'], ['all', 'Nacional']].map(([k, n]) => h('button', { class: filter === k ? 'on' : '', onclick: () => { filter = k; draw(); } }, n)));
-		const grid = h('div', { class: 'dexgrid' });
-		const nums = Object.keys(D.byNum).map(Number).sort((a, b) => a - b);
-		let shown = 0;
-		for (const n of nums) {
-			const seen = G.dex.seen[n], caught = G.dex.caught[n];
-			if (filter === 'seen' && !seen) continue;
-			if (filter === 'caught' && !caught) continue;
-			if (filter === 'all' && shown > 400) break;
-			shown++;
-			const id = D.byNum[n];
-			const cell = h('button', { class: 'dexcell' + (seen ? '' : ' unk'), onclick: () => seen && dexEntry(id) },
-				seen ? monImg(id, { anim: false }) : h('div', { style: { height: '70%' } }),
-				h('span', {}, (caught ? '◓ ' : '') + (seen ? D.species[id].name : '#' + String(n).padStart(4, '0'))));
-			grid.append(cell);
-		}
-		if (!shown) grid.append(h('div', { class: 'empty', style: { gridColumn: '1 / -1' } }, 'Aún no hay nada aquí.'));
-		sheet.set([tabs, grid]);
-	};
-	draw();
+export function openDex() {
+ const sheet = openSheet('Pokédex', null);
+ sheet.el.classList.add('dex-sheet');
+ const state = { origin: 'all', type: 'all', status: 'seen', evolution: 'all', search: '', sort: 'number' };
+ let page = 0;
+ const PAGE = 48;
+ const owned = new Set([...G.party, ...G.boxes.flat()].map(p => p.sp));
+ const STATUSES = [['seen','Vistos'],['caught','Atrapados'],['uncaught','Vistos sin atrapar'],['missing','Me faltan'],['unknown','Sin descubrir'],['owned','Equipo y PC'],['all','Todos']];
+ const EVOS = [['all','Cualquier evolución'],['can','Puede evolucionar'],['first','Etapa inicial'],['middle','Etapa intermedia'],['final','Etapa final'],['single','Sin evolución'],['friendship','Evoluciona por amistad'],['item','Evoluciona con objeto']];
+ const draw = () => {
+  const scope = queryDex({ dex:G.dex, status:'all', origin:state.origin });
+  const nums = [...new Set(scope.map(s=>s.num))];
+  const caught = nums.filter(n=>G.dex.caught[n]).length, seen = nums.filter(n=>G.dex.seen[n] || G.dex.caught[n]).length;
+  const results = h('div', { class:'dex-results' });
+  const renderResults = () => {
+   const list = queryDex({ dex:G.dex, owned, ...state });
+   const pages = Math.max(1, Math.ceil(list.length/PAGE)); page = Math.min(page,pages-1);
+   const grid = h('div', { class:'dexgrid visual-dex' });
+   for (const s of list.slice(page*PAGE,(page+1)*PAGE)) {
+    const caught=!!G.dex.caught[s.num], seen=!!G.dex.seen[s.num] || caught;
+    grid.append(h('button', { class:'dexcard'+(caught?' caught':seen?' seen':' unknown'), disabled:!seen, onclick:()=>dexEntry(s.id), 'aria-label':seen ? `${s.name}, ${caught?'atrapado':'visto sin atrapar'}` : `Número ${s.num}, sin descubrir` },
+     h('div',{class:'dexcard-top'},h('span',{},'#'+String(s.num).padStart(4,'0')),h('span',{class:'dex-badge'},caught?'◓ Atrapado':seen?'◉ Visto':'?')),
+     h('div',{class:'dex-art'},seen?monImg(s.id,{anim:false}):h('span',{class:'dex-question'},'?')),
+     h('b',{class:'dex-name'},seen?s.name:'Sin descubrir'),
+     seen ? h('div',{class:'typechip-row'},...s.types.map(t=>h('span',{class:'type',style:typeStyle(t)},typeName(t)))) : null,
+     seen ? h('span',{class:'dex-stage'},s.evos?.length?'Puede evolucionar':s.prevo?'Etapa final':'Sin evolución') : null));
+   }
+   const pager = h('div',{class:'dex-pager'},
+    h('button',{class:'btn',disabled:page===0,onclick:()=>{page--;renderResults();results.scrollIntoView({block:'start'});}},'← Anterior'),
+    h('span',{'aria-live':'polite'},`${page+1} / ${pages}`),
+    h('button',{class:'btn',disabled:page>=pages-1,onclick:()=>{page++;renderResults();results.scrollIntoView({block:'start'});}},'Siguiente →'));
+   results.replaceChildren(h('div',{class:'dex-count',role:'status'},`${list.length} resultados${list.length ? ' · '+(page*PAGE+1)+'–'+Math.min((page+1)*PAGE,list.length):''}`),list.length?grid:h('div',{class:'empty'},'No hay Pokémon con esta combinación. Prueba otro filtro o limpia la búsqueda.'),pager);
+  };
+  const change = (key,value) => { state[key]=value;page=0;draw(); };
+  const select = (label,key,options) => h('label',{class:'dex-select'},h('span',{},label),h('select',{'aria-label':label,onchange:e=>change(key,e.target.value)},...options.map(([v,n])=>h('option',{value:v,selected:state[key]===v},n))));
+  const regions = h('div',{class:'dex-regions','aria-label':'Región de origen'},...DEX_ORIGINS.map(([id,name])=>h('button',{class:'dex-region'+(state.origin===id?' on':''),'aria-pressed':String(state.origin===id),onclick:()=>change('origin',id)},name)));
+  const progress = h('div',{class:'dex-overview'},h('div',{},h('span',{class:'dex-eyebrow'},'REGIÓN DE ORIGEN'),h('h2',{},DEX_ORIGINS.find(([id])=>id===state.origin)?.[1] || 'Nacional')),h('div',{class:'dex-metrics'},h('span',{},h('b',{},String(caught)),' atrapados'),h('span',{},h('b',{},String(seen)),' vistos'),h('span',{},h('b',{},String(nums.length)),' especies')),h('div',{class:'dex-progress',role:'progressbar','aria-label':'Progreso de captura','aria-valuemin':0,'aria-valuemax':nums.length,'aria-valuenow':caught},h('i',{style:{width:(nums.length?caught/nums.length*100:0)+'%'}})));
+  const search = h('input',{class:'field-input dex-search',type:'search',placeholder:'Buscar por nombre o número…','aria-label':'Buscar Pokémon',value:state.search,oninput:e=>{state.search=e.target.value;page=0;renderResults();}});
+  const statuses = h('div',{class:'dex-statuses','aria-label':'Estado de captura'},...STATUSES.map(([id,name])=>h('button',{class:'pill'+(state.status===id?' on':''),'aria-pressed':String(state.status===id),onclick:()=>change('status',id)},name)));
+  const filters = h('details',{class:'dex-filters',open:state.type!=='all'||state.evolution!=='all'},h('summary',{},'Tipos, evolución y orden'),h('div',{class:'dex-types'},...['all',...Object.keys(TYPE_COLORS).filter(t=>t!=='???')].map(t=>h('button',{class:'type-filter'+(state.type===t?' on':''),style:t==='all'?{}:typeStyle(t),'aria-pressed':String(state.type===t),onclick:()=>change('type',t)},t==='all'?'Todos los tipos':typeName(t)))),h('div',{class:'dex-selects'},select('Evolución','evolution',EVOS),select('Ordenar por','sort',[['number','Número'],['name','Nombre'],['strength','Total de stats']])));
+  sheet.set([progress,regions,h('div',{class:'dex-controls'},search,statuses,filters,h('button',{class:'linkbtn',onclick:()=>{Object.assign(state,{origin:'all',type:'all',status:'seen',evolution:'all',search:'',sort:'number'});page=0;draw();}},'Restablecer filtros'),h('div',{class:'dex-explainer'},'Las regiones indican origen y formas regionales; no son las listas regionales oficiales. Vistos y capturados se registran por especie.')),results]);
+  renderResults();
+ };
+ draw();
 }
 
 function knownLocationsOf(spId) {
@@ -2825,9 +2846,12 @@ function dexEntry(id) {
 	const s = D.species[id];
 	const caught = G.dex.caught[s.num];
 	const where = knownLocationsOf(id);
+	const relatives = [s.prevo, id, ...(s.evos || [])].filter(x=>D.species[x] && !D.species[x].battleOnly);
+	const family = relatives.length > 1 ? h('div',{class:'dex-family'},h('div',{class:'section-title'},'Evolución · etapa anterior y siguientes'),h('div',{class:'dex-family-row'},...relatives.map(key=>{const sp=D.species[key],known=!!G.dex.seen[sp.num]||!!G.dex.caught[sp.num];return h('button',{class:'dex-relative'+(key===id?' current':''),disabled:!known||key===id,onclick:()=>dexEntry(key)},known?monImg(key,{anim:false}):h('span',{},'?'),h('span',{},known?sp.name:'Sin descubrir'));}))) : null;
 	openSheet(`#${String(s.num).padStart(4, '0')} ${s.name}`, h('div', {},
 		h('div', { style: { display: 'grid', placeItems: 'center', height: '160px' } }, monImg(id)),
 		h('div', { class: 'pad' }, h('div', { class: 'typechip-row' }, ...s.types.map(t => h('span', { class: 'type', style: typeStyle(t) }, typeName(t)))), h('div', { style: { color: 'var(--muted)', marginTop: '6px' } }, s.genus || '')),
+		family,
 		caught ? h('div', { class: 'diary-entry' }, s.dex || '') : h('div', { class: 'note' }, 'Captúralo para ver su entrada completa.'),
 		caught ? h('div', {}, ...STATS.map((k, i) => h('div', { class: 'statbar' }, h('span', {}, STAT_NAMES[k]), h('b', {}, s.bs[i]), h('div', { class: 'b' }, h('i', { style: { width: Math.min(100, s.bs[i] / 1.8) + '%' } }))))) : null,
 		h('dl', { class: 'kv' }, h('dt', {}, 'Altura'), h('dd', {}, (s.hw?.[0] || '?') + ' m'), h('dt', {}, 'Peso'), h('dd', {}, (s.hw?.[1] || '?') + ' kg'),
@@ -2842,7 +2866,7 @@ export function openZoneGuide(trainingZone) {
 	 for (const id of trainingZone.trainers || []) for (const m of C.trainers[id]?.team || []) rows.push({ ...m, capturable: false });
 	 for (const m of trainingZone.wild || []) rows.push({ ...m, capturable: true });
 	 const sh = openSheet('Pokémon de entrenamiento', null);
-	 sh.set([h('div', { class: 'note' }, 'Solo se muestran los encuentros de esta zona de entrenamiento.'), ...rows.map(m => h('div', { class: 'row' }, h('div', { class: 'lbl' }, G.dex.seen[D.species[m.sp]?.num] ? D.species[m.sp]?.name : '???', h('div', { class: 's' }, m.capturable ? 'Salvaje de entrenamiento · capturable desde Buscar salvajes' : 'Equipo de instructor · no capturable')))), rows.length ? null : h('div', { class: 'empty' }, 'No hay encuentros de entrenamiento disponibles.')]); return;
+	 sh.set([h('div', { class: 'note' }, 'Solo se muestran los encuentros de esta zona de entrenamiento.'), ...rows.map(m => { const s = D.species[m.sp]; const seen = !!G.dex.seen[s?.num] || !!G.dex.caught[s?.num]; return h('div', { class: 'row training-mon' }, h('div', { class:'training-sprite'+(seen?'':' undiscovered'), role:'img', 'aria-label':seen?s?.name:'Pokémon sin descubrir' }, monImg(m.sp,{anim:false})), h('div', { class: 'lbl' }, h('b',{},seen?s?.name:'???'),h('div',{class:'typechip-row'},...(seen?s?.types||[]:[]).map(t=>h('span',{class:'type',style:typeStyle(t)},typeName(t)))), h('div', { class: 's' }, `${Array.isArray(m.lv)?'Nv. '+m.lv.join('–'):'Nv. '+m.lv} · ${m.capturable ? 'Salvaje · capturable desde Buscar salvajes' : 'Equipo de instructor · no capturable'}`))); }), rows.length ? null : h('div', { class: 'empty' }, 'No hay encuentros de entrenamiento disponibles.')]); return;
 	}
 	const loc = L(G.loc);
 	const sheet = openSheet('Guía de zona', null);
