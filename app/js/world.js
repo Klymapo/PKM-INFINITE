@@ -101,15 +101,14 @@ export function tramoTerrain(loc, n) {
 }
 
 /** Tabla de encuentros para un terreno, filtrada por hora, condición y eventos. */
-export function encounterTable(loc, terrain) {
+export function encounterTable(loc, terrain, ph = phase()) {
 	const base = loc.route?.encounters?.[terrain] || loc.encounters?.[terrain] || [];
 	let list = base.slice();
 	for (const e of activeEvents()) if (e.encounters?.[loc.id]?.[terrain]) list = list.concat(e.encounters[loc.id][terrain]);
-	const ph = phase();
 	return list.filter(x => {
-		if (x.time === 'night' && ph !== 'noche') return false;
-		if (x.time === 'day' && ph === 'noche') return false;
-		if (x.time === 'morning' && ph !== 'manana') return false;
+		if (ph !== null && x.time === 'night' && ph !== 'noche') return false;
+		if (ph !== null && x.time === 'day' && ph === 'noche') return false;
+		if (ph !== null && x.time === 'morning' && ph !== 'manana') return false;
 		if (x.cond !== undefined && !evalCond(x.cond)) return false;
 		return true;
 	});
@@ -117,10 +116,7 @@ export function encounterTable(loc, terrain) {
 
 /** Probabilidad de cada especie por encuentro (0–1) en una fase del día ('manana', 'dia', 'tarde', 'noche'). */
 export function encounterOdds(loc, terrain, ph = phase()) {
-	const base = loc.route?.encounters?.[terrain] || loc.encounters?.[terrain] || [];
-	let list = base.slice();
-	for (const e of activeEvents()) if (e.encounters?.[loc.id]?.[terrain]) list = list.concat(e.encounters[loc.id][terrain]);
-	list = list.filter(x => !(x.time === 'night' && ph !== 'noche') && !(x.time === 'day' && ph === 'noche') && !(x.time === 'morning' && ph !== 'manana') && (x.cond === undefined || evalCond(x.cond)));
+	const list = encounterTable(loc, terrain, ph);
 	const tot = list.reduce((s, e) => s + (e.w || 1), 0);
 	const out = {};
 	for (const e of list) out[e.sp] = (out[e.sp] || 0) + (e.w || 1) / (tot || 1);
@@ -252,12 +248,18 @@ export function pendingNotices() {
 }
 
 /** Terrenos utilizables aquí: nunca heredar encuentros del padre ni de otra ruta. */
-export function dexnavTerrains(loc) {
+export function dexnavTerrains(loc, { allTimes = false } = {}) {
+ const entries = t => encounterTable(loc, t, allTimes ? null : phase());
  if (!loc) return [];
  if (loc.route) {
   const pos = G.route?.id === loc.id ? G.route.pos : 0;
-  return [tramoTerrain(loc, pos)].filter(t => encounterTable(loc, t).length);
+  return [tramoTerrain(loc, pos)].filter(t => entries(t).length);
  }
  return [...new Set(spotsOf(loc).filter(s => s.action?.explore).map(s => s.action.explore === true ? 'grass' : s.action.explore))]
-  .filter(t => encounterTable(loc, t).length);
+  .filter(t => entries(t).length);
+}
+
+/** Guía del terreno local a cualquier hora, manteniendo condiciones y eventos activos. */
+export function zoneGuideEncounters(loc) {
+ return Object.fromEntries(dexnavTerrains(loc, { allTimes:true }).map(t=>[t,encounterTable(loc,t,null)]));
 }
