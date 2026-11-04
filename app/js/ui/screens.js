@@ -1,3 +1,4 @@
+import { convivir } from '../convivir.js';
 // Pantallas principales: título, creación, lugar, ruta, mapa y menús.
 import { D, toID, TYPE_COLORS, typeStyle, typeName, STAT_NAMES, STATS, abilityName, natureName, moveName, itemName } from '../data.js';
 import { C, topLoc } from '../content.js';
@@ -8,7 +9,7 @@ import {
 	createPokemon, displayName, maxHp, calcStats, healFull, expProgress, checkEvolution, addHappy, natureMod, canLearn,
 } from '../pokemon.js';
 import {
-	L, isRoute, spotsOf, descOf, tramoItems, tramoTerrain, encounterTable, encounterOdds, rollWild, mounted, encounterRate, canMove,
+	L, isRoute, dexnavTerrains, spotsOf, descOf, tramoItems, tramoTerrain, encounterTable, encounterOdds, rollWild, mounted, encounterRate, canMove,
 	markTramo, walkFriendship, findPath, canEnter, healParty, whiteout, trainingOpen, avgLevel, pendingNotices, routeProg, activeEvents, eventCalendar,
 } from '../world.js';
 import { runScript, runFirst, UI, tx, findRiolu, closeHangingThreads } from '../guion.js';
@@ -531,6 +532,7 @@ function renderPlace(main, loc) {
 		desc.append(more, btn);
 	}
 	main.append(desc);
+	if (dexnavTerrains(loc).length) main.append(h('button', { class: 'btn dexnav-btn', onclick: () => openDexNav() }, '🔎 DexNav · rastrear un Pokémon'));
 	const spots = spotsOf(loc).map(s => ({ s, m: spotMarker(s), kind: spotKind(s) }));
 	// Misiones aquí: lo que tiene «!» o «?» va primero, con el nombre de la misión
 	const quests = spots.filter(x => x.m && x.m.kind !== 'hint' && x.kind === 'people');
@@ -940,7 +942,8 @@ function trainingMenu(t, s, { open, pz, cap, coach }) {
 			h('div', { class: 'tz-label' }, 'Preparar'),
 			h('div', { class: 'tz-grid' },
 				btn('heal', '❤️ Curar al equipo', 'Gratis'),
-				btn('pc', '💻 Abrir la PC', 'Cambia tu equipo')),
+				btn('pc', '💻 Abrir la PC', 'Cambia tu equipo'),
+				h('button', { class: 'btn', onclick: () => openZoneGuide(t) }, '📍 Pokémon de entrenamiento')),
 			zoneDirectory(t),
 		]);
 	});
@@ -1230,17 +1233,21 @@ function dexnavBonus(chain) {
 		find: Math.min(0.92, 0.7 + chain * 0.01),
 	};
 }
-function openDexNav() {
+export function openDexNav(selectedTerrain) {
 	const loc = L(G.loc);
-	if (!loc?.route) return;
-	const pos = G.route?.pos || 0;
-	const terrain = tramoTerrain(loc, pos);
+	const terrains = dexnavTerrains(loc);
+	if (!terrains.length) { openSheet('DexNav', [h('div', { class: 'empty' }, 'Aquí no hay Pokémon salvajes que rastrear ahora mismo.')]); return; }
+	if (!selectedTerrain && terrains.length > 1) {
+	 const sh = openSheet('DexNav · elegir zona', null);
+	 sh.set(terrains.map(t => h('button', { class: 'row', onclick: () => { sh.close(); openDexNav(t); } }, terrainTxt(t).en))); return;
+	}
+	const terrain = terrains.includes(selectedTerrain) ? selectedTerrain : terrains[0];
 	const all = encounterTable(loc, terrain);
 	const odds = encounterOdds(loc, terrain);
 	const dn = G.dexnav || {};
 	const sheet = openSheet('DexNav', null);
 	const TN = { grass: 'hierba alta', cave: 'cueva', water: 'agua', forest: 'bosque', flowers: 'flores', sand: 'arena', snow: 'nieve', path: 'camino', rocks: 'rocas' };
-	const body = [h('div', { class: 'note' }, `Rastrea un Pokémon que ya hayas visto en este tramo (${TN[terrain] || terrain}). Si lo encuentras varias veces seguidas, la cadena sube: más nivel, más potencial, más opciones de habilidad oculta y de variocolor. Huir o fallar el rastreo rompe la cadena.`)];
+	const body = [h('div', { class: 'note' }, `Rastrea un Pokémon que ya hayas visto en este lugar (${TN[terrain] || terrain}). Si lo encuentras varias veces seguidas, la cadena sube: más nivel, más potencial, más opciones de habilidad oculta y de variocolor. Huir o fallar el rastreo rompe la cadena.`)];
 	if (dn.sp) { const b = dexnavBonus(dn.chain); body.push(h('div', { class: 'note' }, `🔗 Cadena actual: **${D.species[dn.sp]?.name}** ×${dn.chain} · IVs perfectos: ${b.perfect} · Hab. oculta: ${Math.round(b.hidden * 100)} % · Variocolor: 1/${b.shinyRate}`.replace(/\*\*/g, ''))); }
 	const list = h('div', { class: 'list' });
 	const species = [...new Set(all.map(e => e.sp))].sort((a, b) => (odds[b] || 0) - (odds[a] || 0));
@@ -1262,6 +1269,7 @@ function openDexNav() {
 	sheet.set(body);
 }
 async function dexnavTrack(loc, terrain, sp) {
+	if (G.loc !== loc.id || !dexnavTerrains(loc).includes(terrain)) { await say(null, 'Ese terreno no está disponible aquí ahora mismo.'); return; }
 	const entries = encounterTable(loc, terrain).filter(e => e.sp === sp);
 	if (!entries.length) { await say(null, 'Ahora mismo no hay rastro de ese Pokémon por aquí.'); return; }
 	G.dexnav ||= {};
@@ -1752,6 +1760,7 @@ export function openSummary(p, onChange, live = null) {
 		} else {
 			const idx = G.party.indexOf(p);
 			body = h('div', { class: 'list' },
+				h('button', { class: 'row', onclick: () => openConvivir(p, () => { onChange?.(); draw(); }) }, h('div', { class: 'ico' }, '💛'), h('div', { class: 'lbl' }, 'Convivir', h('div', { class: 's' }, 'Jugar, cepillar o descansar · +15 de amistad una vez al día'))),
 				idx > 0 ? h('button', { class: 'row', onclick: () => { G.party.splice(idx, 1); G.party.unshift(p); onChange?.(); toast(`${displayName(p)} irá en cabeza`); draw(); } }, h('div', { class: 'ico' }, '⬆️'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Poner en cabeza'))) : null,
 				h('button', { class: 'row', onclick: async () => { const n = await prompt('Nuevo mote (vacío para quitarlo):', p.nick || ''); p.nick = (n || '').slice(0, 12); sheet.title(displayName(p)); onChange?.(); draw(); } }, h('div', { class: 'ico' }, '✏️'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Cambiar mote'))),
 				h('button', { class: 'row', onclick: () => giveItemTo(p, draw) }, h('div', { class: 'ico' }, '✦'), h('div', { class: 'lbl' }, h('div', { class: 't' }, p.item ? `Objeto: ${itemName(p.item)}` : 'Darle un objeto'), h('div', { class: 's' }, p.item ? 'Toca para quitarlo o cambiarlo' : 'Objetos equipables de la mochila'))),
@@ -2646,6 +2655,7 @@ function openMore() {
 		(() => { const n = gatherReadyCount(), tot = knownGatherPoints().length; return row('🍒', 'Recolección', tot ? (n ? `✨ ${n} ${n === 1 ? 'punto listo' : 'puntos listos'} de ${tot}` : `${tot} ${tot === 1 ? 'punto' : 'puntos'} · nada listo aún`) : 'Bayas, huertos y vetas que conoces', openGatherMenu); })(),
 		row('🧺', 'Colección', `Postales ${Object.keys(G.album || {}).length} · Objetos ${Object.keys(G.found || {}).length}`, () => openCollection()),
 		row('📜', 'Conversaciones', 'Relee lo último que te dijeron', () => openDialogLog()),
+		row('🔎', 'DexNav', 'Rastrear Pokémon del lugar actual', () => openDexNav()),
 		row('📍', 'Guía de zona', 'Qué Pokémon hay por aquí', openZoneGuide),
 		(() => { const v = venturesSummary(); return (v.mine || v.offers) ? row('🤝', 'Negocios', v.mine ? `${v.mine} ${v.mine === 1 ? 'negocio' : 'negocios'} · por recoger ${fmtMoney(v.money)}${v.ready ? ' · ❗ te necesitan' : v.almost ? ' · ⏳ almacén casi lleno' : ''}${v.pedido ? ' · 📨 pedido' : ''}${v.offers ? ` · ${v.offers} ${v.offers === 1 ? 'oportunidad' : 'oportunidades'}` : ''}` : `${v.offers} ${v.offers === 1 ? 'oportunidad' : 'oportunidades'} para invertir`, () => openVentures()) : null; })(),
 		(() => { const n = unreadMail(); return row('📬', 'Buzón', n ? `✨ ${n} ${n === 1 ? 'cosa sin abrir' : 'cosas sin abrir'}` : 'Cartas, periódicos y encargos', openMailbox); })(),
@@ -2826,11 +2836,18 @@ function dexEntry(id) {
 	));
 }
 
-export function openZoneGuide() {
+export function openZoneGuide(trainingZone) {
+	if (trainingZone?.trainers || trainingZone?.wild) {
+	 const rows = [];
+	 for (const id of trainingZone.trainers || []) for (const m of C.trainers[id]?.team || []) rows.push({ ...m, capturable: false });
+	 for (const m of trainingZone.wild || []) rows.push({ ...m, capturable: true });
+	 const sh = openSheet('Pokémon de entrenamiento', null);
+	 sh.set([h('div', { class: 'note' }, 'Solo se muestran los encuentros de esta zona de entrenamiento.'), ...rows.map(m => h('div', { class: 'row' }, h('div', { class: 'lbl' }, G.dex.seen[D.species[m.sp]?.num] ? D.species[m.sp]?.name : '???', h('div', { class: 's' }, m.capturable ? 'Salvaje de entrenamiento · capturable desde Buscar salvajes' : 'Equipo de instructor · no capturable')))), rows.length ? null : h('div', { class: 'empty' }, 'No hay encuentros de entrenamiento disponibles.')]); return;
+	}
 	const loc = L(G.loc);
 	const sheet = openSheet('Guía de zona', null);
 	const body = [h('div', { class: 'section-title' }, loc.name)];
-	const enc = loc.route?.encounters || loc.encounters || {};
+	const enc = Object.fromEntries(dexnavTerrains(loc).map(t => [t, encounterTable(loc, t)]));
 	const TNAMES = { grass: 'Hierba alta', cave: 'Cueva', water: 'Agua', fish: 'Pesca', forest: 'Bosque', flowers: 'Flores', sand: 'Arena', snow: 'Nieve', path: 'Camino', rocks: 'Rocas' };
 	let any = false;
 	for (const t in enc) {
@@ -3272,4 +3289,22 @@ async function showPaceNotice(m) {
 	} finally { busy = false; }
 	await saveGame();
 	render(); // por si hay más avisos en cola (únicos que vuelven, eventos)
+}
+
+export function openConvivir(p, redraw) {
+ const sheet = openSheet('Convivir con ' + displayName(p), null);
+ let working = false;
+ const hearts = v => `${(v / 25.5).toFixed(1)} / 10 corazones (${v}/255)`;
+ const draw = (result, action) => sheet.set([
+  h('div', { class: 'sprite' }, monImg(p.sp, { anim: false, shiny: p.shiny })),
+  h('div', { class: 'note' }, result ? `${displayName(p)} ${action === 'Jugar' ? 'se anima jugando contigo' : action === 'Cepillar' ? 'se deja cuidar y se acomoda a tu lado' : 'descansa tranquilamente junto a ti'}.` : 'Elige cómo pasar un rato juntos. Es gratis; el primer momento de cada día aumenta su amistad en 15 puntos.'),
+  result ? h('div', { class: 'note', role: 'status' }, `${hearts(result.before)} → ${hearts(result.after)}. ${result.gained ? '+' + result.gained + ' de amistad.' : result.rewarded ? 'Ya tiene la amistad al máximo.' : 'Ya recibió el aumento de hoy. Puedes seguir conviviendo.'}`) : null,
+  friendshipView(p),
+  ...['Jugar', 'Cepillar', 'Descansar'].map(action => h('button', { class: 'btn', onclick: async () => {
+   if (working) return; working = true;
+   try { const result = convivir(p); await saveGame(); redraw?.(); draw(result, action); }
+   finally { working = false; }
+  } }, action)),
+ ]);
+ draw();
 }
