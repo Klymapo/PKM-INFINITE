@@ -250,3 +250,14 @@ export function pendingNotices() {
 	}
 	return out;
 }
+
+/** Terrenos utilizables aquí: nunca heredar encuentros del padre ni de otra ruta. */
+export function dexnavTerrains(loc) {
+ if (!loc) return [];
+ if (loc.route) {
+  const pos = G.route?.id === loc.id ? G.route.pos : 0;
+  return [tramoTerrain(loc, pos)].filter(t => encounterTable(loc, t).length);
+ }
+ return [...new Set(spotsOf(loc).filter(s => s.action?.explore).map(s => s.action.explore === true ? 'grass' : s.action.explore))]
+  .filter(t => encounterTable(loc, t).length);
+}

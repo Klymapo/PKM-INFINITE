@@ -47,7 +47,7 @@ function engineHash() {
 	if (ENGINE) return ENGINE;
 	const h = crypto.createHash('sha1');
 	for (const d of ['app/js', 'app/lib', 'app/data']) hashFiles(h, files(path.join(ROOT, d)));
-	hashFiles(h, ['herramientas/recorrido.mjs', 'herramientas/test/node-env.mjs', 'herramientas/checkpoints.mjs'].map(f => path.join(ROOT, f)));
+	hashFiles(h, ['herramientas/recorrido.mjs', 'herramientas/recorrido-preparacion.mjs', 'herramientas/test/node-env.mjs', 'herramientas/checkpoints.mjs'].map(f => path.join(ROOT, f)));
 	return (ENGINE = h.digest('hex'));
 }
 
