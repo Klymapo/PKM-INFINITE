@@ -535,7 +535,6 @@ function renderPlace(main, loc) {
 		desc.append(more, btn);
 	}
 	main.append(desc);
-	if (dexnavTerrains(loc).length) main.append(h('button', { class: 'btn dexnav-btn', onclick: () => openDexNav() }, '🔎 DexNav · rastrear un Pokémon'));
 	const spots = spotsOf(loc).map(s => ({ s, m: spotMarker(s), kind: spotKind(s) }));
 	// Misiones aquí: lo que tiene «!» o «?» va primero, con el nombre de la misión
 	const quests = spots.filter(x => x.m && x.m.kind !== 'hint' && x.kind === 'people');
@@ -555,6 +554,13 @@ function renderPlace(main, loc) {
 	const services = spots.filter(x => x.kind === 'services');
 	if (services.length) {
 		main.append(h('div', { class: 'pills' }, ...services.map(({ s }) => h('button', { class: 'pill', onclick: () => guarded(() => doSpot(s, loc)) }, h('span', { class: 'pi' }, spotIcon(s)), tx(s.label)))));
+	}
+	if (dexnavTerrains(loc).length) {
+		main.append(h('section', { class: 'city-dex-panel', 'aria-label': 'Pokémon de la zona', 'data-noswipe': '' },
+			h('div', { class: 'city-dex-heading' }, 'Pokémon de la zona'),
+			h('div', { class: 'city-dex-actions' },
+				h('button', { class: 'btn dexnav-btn', 'aria-label': 'DexNav · rastrear un Pokémon', onclick: () => openDexNav() }, h('span', { class: 'city-dex-symbol', 'aria-hidden': 'true' }, '⌖'), h('span', {}, h('b', {}, 'DexNav'), h('small', {}, 'Rastrear un Pokémon'))),
+				h('button', { class: 'btn city-guide-btn', 'aria-label': 'Guía de zona · ver encuentros', onclick: () => openZoneGuide() }, h('span', { class: 'city-dex-symbol', 'aria-hidden': 'true' }, '≡'), h('span', {}, h('b', {}, 'Guía de zona'), h('small', {}, 'Ver encuentros'))))));
 	}
 	const people = spots.filter(x => x.kind === 'people' && !quests.includes(x));
 	if (people.length) {
