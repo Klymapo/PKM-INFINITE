@@ -20,7 +20,7 @@ try {
  await page.evaluate(async()=>{const U=await import('./js/ui/core.js');U.closeAllSheets();const {G}=await import('./js/state.js');G.loc='test_interior';const {C}=await import('./js/content.js');C.locations.test_interior={id:'test_interior',name:'Interior',parent:'test_city',spots:[]};(await import('./js/ui/screens.js')).openDexNav();});
  await page.getByText('Aquí no hay Pokémon salvajes que rastrear ahora mismo.',{exact:true}).waitFor();
  await page.evaluate(async()=>{(await import('./js/ui/core.js')).closeAllSheets();(await import('./js/ui/screens.js')).openZoneGuide({trainers:[],wild:[{sp:'magikarp',lv:5}]});});
- await page.getByText(/Salvaje · capturable desde Buscar salvajes/).waitFor();assert.equal(await page.getByText('Rattata',{exact:true}).count(),0);
+ await page.locator('.capture-section.cap-catch .capture-chip').waitFor();assert.equal(await page.getByText('Rattata',{exact:true}).count(),0);
  await page.evaluate(async()=>{(await import('./js/ui/core.js')).closeAllSheets();const{G}=await import('./js/state.js');(await import('./js/ui/screens.js')).openConvivir(G.party[0]);});
  await page.getByRole('button',{name:'Jugar',exact:true}).click();await page.getByText(/\+15 de amistad\./).waitFor();
  assert.equal(await page.evaluate(async()=>(await import('./js/state.js')).G.party[0].happy),225);

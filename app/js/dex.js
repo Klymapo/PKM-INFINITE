@@ -27,13 +27,15 @@ export function evolutionMatch(s, mode) {
  if (mode === 'item') return next.some(e=>['useItem','levelHold','trade'].includes(e.evoType));
  return true;
 }
-export function queryDex({dex,owned=new Set(),origin='all',type='all',status='seen',evolution='all',search='',sort='number'}={}) {
+export function queryDex({dex,owned=new Set(),origin='all',type='all',status='seen',evolution='all',search='',sort='number',availability='all',captureIndex}={}) {
  const term = normalizeDex(search).replace(/^#/, '');
  const list = dexCatalog().filter(s => {
   const caught=!!dex?.caught?.[s.num], seen=!!dex?.seen?.[s.num] || caught;
   if (origin!=='all' && dexOrigin(s)!==origin) return false;
   if (type!=='all' && !s.types.includes(type)) return false;
   if (status==='seen'&&!seen || status==='caught'&&!caught || status==='uncaught'&&(!seen||caught) || status==='missing'&&caught || status==='unknown'&&seen || status==='owned'&&!owned.has(s.id)) return false;
+  if (availability==='here' && !captureIndex?.catch.has(s.id)) return false;
+  if (availability==='battle' && (!captureIndex?.battle.has(s.id) || captureIndex?.catch.has(s.id))) return false;
   if (!evolutionMatch(s,evolution)) return false;
   return !term || (seen && normalizeDex(s.name).includes(term)) || String(s.num)===String(Number(term)) || String(s.num).padStart(4,'0')===term;
  });

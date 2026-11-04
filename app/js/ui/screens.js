@@ -1,3 +1,4 @@
+import { trainingRoster, trainingWild, localCaptureIndex, captureLabel } from '../capturas.js';
 import { queryDex, dexCatalog, DEX_ORIGINS } from '../dex.js';
 import { convivir } from '../convivir.js';
 // Pantallas principales: título, creación, lugar, ruta, mapa y menús.
@@ -939,7 +940,7 @@ function trainingMenu(t, s, { open, pz, cap, coach }) {
 				t.trainers?.length ? btn('practice', '⚔️ ' + (practice || 'Práctica'), open ? 'Experiencia y premio' : (practice ? 'Solo cuenta para el premio' : 'Tu equipo ya lo superó'), 'primary', !practice) : null,
 				t.trainers?.length ? btn('elite', '🔥 Modo élite', `Rivales a Nv. ${tope} · ₽300 · escalera ${Math.min(eliteWins(t), LADDER)}/${LADDER}`, 'elite') : null,
 				t.trainers?.length && eliteWins(t) >= LADDER ? btn('ladder', G.flags[ladderKey(t)] ? '👑 Revancha con el instructor' : '👑 El verdadero equipo', G.flags[ladderKey(t)] ? 'Sin premio · por el gusto' : `Nv. ${tope + 2} · premio propio`, 'elite wide') : null,
-				open && t.wild?.length ? btn('wild', '🌿 Buscar salvajes', null, 'wide') : null),
+				open && trainingWild(t).length ? btn('wild', '🌿 Buscar salvajes', null, 'wide') : null),
 			h('div', { class: 'tz-label' }, 'Preparar'),
 			h('div', { class: 'tz-grid' },
 				btn('heal', '❤️ Curar al equipo', 'Gratis'),
@@ -1000,8 +1001,9 @@ async function training(t, s) {
 			render(); continue;
 		}
 		if (k === 'wild') {
-			const e = pick(t.wild);
-			const res = await battle({ wild: { sp: e.sp, lv: Array.isArray(e.lv) ? e.lv[0] + Math.floor(rng() * (e.lv[1] - e.lv[0] + 1)) : e.lv } });
+			const e = pick(trainingWild(t));
+			if (!e) continue;
+			const res = await battle({ wild: { sp: e.sp, lv: Array.isArray(e.lv) ? e.lv[0] + Math.floor(rng() * (e.lv[1] - e.lv[0] + 1)) : e.lv, noCatch: !!e.noCatch } });
 			if (res?.result === 'lose') return res;
 			render(); continue;
 		}
@@ -1012,7 +1014,7 @@ async function training(t, s) {
 async function exploreHere(loc, terrain) {
 	const w = rollWild(loc, terrain);
 	if (!w) { await say(null, 'No parece haber Pokémon por aquí.'); return; }
-	await battle({ wild: { mon: w.mon, gimmick: w.entry.gimmick } });
+	await battle({ wild: { mon: w.mon, gimmick: w.entry.gimmick, noCatch: !!w.entry.noCatch } });
 }
 
 // =================== Rutas ===================
@@ -1180,7 +1182,7 @@ async function arriveTramo(loc, n, dir) {
 			if (w) {
 				const lead = G.party.find(p => p.hp > 0);
 				if ((G.vars.repel || 0) > 0 && lead && w.mon.lv < lead.lv) return;
-				await battle({ wild: { mon: w.mon, gimmick: w.entry.gimmick }, terrain });
+				await battle({ wild: { mon: w.mon, gimmick: w.entry.gimmick, noCatch: !!w.entry.noCatch }, terrain });
 			}
 		}
 	}
@@ -1216,7 +1218,7 @@ async function searchHere() {
 	if (w && rng() < 0.85) {
 		routeMsg = '';
 		await say(null, terrainTxt(terrain).move);
-		await battle({ wild: { mon: w.mon, gimmick: w.entry.gimmick }, terrain });
+		await battle({ wild: { mon: w.mon, gimmick: w.entry.gimmick, noCatch: !!w.entry.noCatch }, terrain });
 	} else {
 		routeMsg = 'Buscas un rato, pero no encuentras nada.';
 	}
@@ -1261,7 +1263,7 @@ export function openDexNav(selectedTerrain) {
 			h('div', { class: 'sprite' }, seen ? monImg(sp, { anim: false }) : h('div', { style: { fontSize: '26px' } }, '❔')),
 			h('div', { class: 'info' },
 				h('div', { class: 'name' }, seen ? s.name : '???', caught ? h('span', { class: 'caughtmark' }, '◓') : null, all.find(e => e.sp === sp)?.displaced ? h('span', { class: 'status', style: { background: '#7a5cd6' } }, 'DESPLAZADO') : null),
-				h('div', { class: 'hptext' }, h('span', {}, seen ? (caught ? 'Capturado' : 'Visto, sin capturar') + (chain ? ` · 🔗 ${chain}` : '') : 'Aún no lo has visto'), h('span', {}, p ? `1 de cada ${Math.round(1 / p)}` : ''))),
+				h('div', { class: 'hptext' }, h('span', {}, seen ? (caught ? 'Capturado' : 'Visto, sin capturar') + (all.filter(e=>e.sp===sp).some(e=>!e.noCatch)?' · Capturable':' · Solo combate') + (chain ? ` · 🔗 ${chain}` : '') : 'Aún no lo has visto'), h('span', {}, p ? `1 de cada ${Math.round(1 / p)}` : ''))),
 			seen ? h('button', { class: 'btn primary dn-go', onclick: async () => { sheet.close(); await guarded(() => dexnavTrack(loc, terrain, sp)); } }, 'Rastrear') : null);
 		list.append(row);
 	}
@@ -1289,7 +1291,7 @@ async function dexnavTrack(loc, terrain, sp) {
 	const ivIdx = [0, 1, 2, 3, 4, 5].sort(() => rng() - 0.5).slice(0, b.perfect);
 	const ivs = [0, 1, 2, 3, 4, 5].map(i => ivIdx.includes(i) ? 31 : Math.floor(rng() * 32));
 	const mon = createPokemon(sp, { level, ivs, hidden: rng() < b.hidden, shinyRate: count('shinycharm') ? Math.round(b.shinyRate / 3) : b.shinyRate, form: e.form });
-	const res = await battle({ wild: { mon }, terrain });
+	const res = await battle({ wild: { mon, noCatch: !!e.noCatch, gimmick:e.gimmick }, terrain });
 	if (res?.result === 'win' || res?.result === 'caught') {
 		G.dexnav.chain = (G.dexnav.chain || 0) + 1;
 		const nb = dexnavBonus(G.dexnav.chain);
@@ -2789,7 +2791,11 @@ function viewPostcard(t) {
 export function openDex() {
  const sheet = openSheet('Pokédex', null);
  sheet.el.classList.add('dex-sheet');
- const state = { origin: 'all', type: 'all', status: 'seen', evolution: 'all', search: '', sort: 'number' };
+ const state = { origin: 'all', type: 'all', status: 'seen', evolution: 'all', search: '', sort: 'number', availability:'all' };
+ const captureIndex=localCaptureIndex();
+ const REGION_COLORS={all:'#e35d79',kanto:'#d85654',johto:'#c99b36',hoenn:'#38a997',sinnoh:'#6d8bd6',teselia:'#8c72b0',kalos:'#49a5cf',alola:'#e7a05d',galar:'#b067a1',hisui:'#759e82',paldea:'#de7957'};
+ const REGION_SIGNS={all:'◈',kanto:'✦',johto:'◒',hoenn:'≈',sinnoh:'▲',teselia:'◇',kalos:'✧',alola:'☼',galar:'♜',hisui:'❖',paldea:'◉'};
+ let layout='grid';
  let page = 0;
  const PAGE = 48;
  const owned = new Set([...G.party, ...G.boxes.flat()].map(p => p.sp));
@@ -2801,17 +2807,19 @@ export function openDex() {
   const caught = nums.filter(n=>G.dex.caught[n]).length, seen = nums.filter(n=>G.dex.seen[n] || G.dex.caught[n]).length;
   const results = h('div', { class:'dex-results' });
   const renderResults = () => {
-   const list = queryDex({ dex:G.dex, owned, ...state });
+   const list = queryDex({ dex:G.dex, owned, captureIndex, ...state });
    const pages = Math.max(1, Math.ceil(list.length/PAGE)); page = Math.min(page,pages-1);
-   const grid = h('div', { class:'dexgrid visual-dex' });
+   const grid = h('div', { class:'dexgrid visual-dex'+(layout==='list'?' dex-list':'') });
    for (const s of list.slice(page*PAGE,(page+1)*PAGE)) {
     const caught=!!G.dex.caught[s.num], seen=!!G.dex.seen[s.num] || caught;
-    grid.append(h('button', { class:'dexcard'+(caught?' caught':seen?' seen':' unknown'), disabled:!seen, onclick:()=>dexEntry(s.id), 'aria-label':seen ? `${s.name}, ${caught?'atrapado':'visto sin atrapar'}` : `Número ${s.num}, sin descubrir` },
+    const capture=captureLabel(s.id,captureIndex);
+    grid.append(h('button', { style:seen?'--dex-color:'+(TYPE_COLORS[s.types[0]]||'#60708e'):null, class:'dexcard'+(caught?' caught':seen?' seen':' unknown'), disabled:!seen, onclick:()=>dexEntry(s.id), 'aria-label':seen ? `${s.name}, ${caught?'atrapado':'visto sin atrapar'}` : `Número ${s.num}, sin descubrir` },
      h('div',{class:'dexcard-top'},h('span',{},'#'+String(s.num).padStart(4,'0')),h('span',{class:'dex-badge'},caught?'◓ Atrapado':seen?'◉ Visto':'?')),
      h('div',{class:'dex-art'},seen?monImg(s.id,{anim:false}):h('span',{class:'dex-question'},'?')),
      h('b',{class:'dex-name'},seen?s.name:'Sin descubrir'),
      seen ? h('div',{class:'typechip-row'},...s.types.map(t=>h('span',{class:'type',style:typeStyle(t)},typeName(t)))) : null,
-     seen ? h('span',{class:'dex-stage'},s.evos?.length?'Puede evolucionar':s.prevo?'Etapa final':'Sin evolución') : null));
+     seen ? h('span',{class:'dex-stage'},s.evos?.length?'Puede evolucionar':s.prevo?'Etapa final':'Sin evolución') : null,
+     seen ? h('span',{class:'capture-chip cap-'+capture.state},capture.text) : null));
    }
    const pager = h('div',{class:'dex-pager'},
     h('button',{class:'btn',disabled:page===0,onclick:()=>{page--;renderResults();results.scrollIntoView({block:'start'});}},'← Anterior'),
@@ -2821,12 +2829,14 @@ export function openDex() {
   };
   const change = (key,value) => { state[key]=value;page=0;draw(); };
   const select = (label,key,options) => h('label',{class:'dex-select'},h('span',{},label),h('select',{'aria-label':label,onchange:e=>change(key,e.target.value)},...options.map(([v,n])=>h('option',{value:v,selected:state[key]===v},n))));
-  const regions = h('div',{class:'dex-regions','aria-label':'Región de origen'},...DEX_ORIGINS.map(([id,name])=>h('button',{class:'dex-region'+(state.origin===id?' on':''),'aria-pressed':String(state.origin===id),onclick:()=>change('origin',id)},name)));
-  const progress = h('div',{class:'dex-overview'},h('div',{},h('span',{class:'dex-eyebrow'},'REGIÓN DE ORIGEN'),h('h2',{},DEX_ORIGINS.find(([id])=>id===state.origin)?.[1] || 'Nacional')),h('div',{class:'dex-metrics'},h('span',{},h('b',{},String(caught)),' atrapados'),h('span',{},h('b',{},String(seen)),' vistos'),h('span',{},h('b',{},String(nums.length)),' especies')),h('div',{class:'dex-progress',role:'progressbar','aria-label':'Progreso de captura','aria-valuemin':0,'aria-valuemax':nums.length,'aria-valuenow':caught},h('i',{style:{width:(nums.length?caught/nums.length*100:0)+'%'}})));
+  const regions = h('div',{class:'dex-regions','aria-label':'Región de origen'},...DEX_ORIGINS.map(([id,name])=>h('button',{class:'dex-region'+(state.origin===id?' on':''),style:'--region-color:'+REGION_COLORS[id],'aria-pressed':String(state.origin===id),onclick:()=>change('origin',id)},h('span',{class:'region-sign','aria-hidden':'true'},REGION_SIGNS[id]),name)));
+  const progress = h('div',{class:'dex-overview',style:'--region-color:'+REGION_COLORS[state.origin]},h('div',{},h('span',{class:'dex-eyebrow'},'REGIÓN DE ORIGEN'),h('h2',{},h('span',{class:'region-emblem','aria-hidden':'true'},REGION_SIGNS[state.origin]),DEX_ORIGINS.find(([id])=>id===state.origin)?.[1] || 'Nacional')),h('div',{class:'dex-metrics'},h('span',{},h('b',{},String(caught)),' atrapados'),h('span',{},h('b',{},String(seen)),' vistos'),h('span',{},h('b',{},String(nums.length)),' especies')),h('div',{class:'dex-progress',role:'progressbar','aria-label':'Progreso de captura','aria-valuemin':0,'aria-valuemax':nums.length,'aria-valuenow':caught},h('i',{style:{width:(nums.length?caught/nums.length*100:0)+'%'}})));
   const search = h('input',{class:'field-input dex-search',type:'search',placeholder:'Buscar por nombre o número…','aria-label':'Buscar Pokémon',value:state.search,oninput:e=>{state.search=e.target.value;page=0;renderResults();}});
   const statuses = h('div',{class:'dex-statuses','aria-label':'Estado de captura'},...STATUSES.map(([id,name])=>h('button',{class:'pill'+(state.status===id?' on':''),'aria-pressed':String(state.status===id),onclick:()=>change('status',id)},name)));
+  const availability = h('div',{class:'dex-capture-tabs','aria-label':'Disponibilidad local'},...[["all","Todas las zonas"],["here","Capturables aquí"],["battle","Solo combate aquí"]].map(([id,name])=>h('button',{class:'capture-tab capture-mode-'+id+(state.availability===id?' on':''),'aria-pressed':String(state.availability===id),onclick:()=>change('availability',id)},name)));
+  const shortcuts=h('div',{class:'dex-shortcuts'},h('button',{class:'quick-go',onclick:()=>{Object.assign(state,{status:'missing',availability:'here',search:'',origin:'all',type:'all',evolution:'all'});page=0;draw();}},'◓ Me faltan aquí'),h('button',{class:'quick-go',onclick:()=>{Object.assign(state,{status:'owned',availability:'all',evolution:'can',search:''});page=0;draw();}},'↗ Mis evoluciones'),h('button',{class:'quick-go',onclick:()=>{layout=layout==='grid'?'list':'grid';draw();}},layout==='grid'?'☷ Vista lista':'▦ Vista tarjetas'));
   const filters = h('details',{class:'dex-filters',open:state.type!=='all'||state.evolution!=='all'},h('summary',{},'Tipos, evolución y orden'),h('div',{class:'dex-types'},...['all',...Object.keys(TYPE_COLORS).filter(t=>t!=='???')].map(t=>h('button',{class:'type-filter'+(state.type===t?' on':''),style:t==='all'?{}:typeStyle(t),'aria-pressed':String(state.type===t),onclick:()=>change('type',t)},t==='all'?'Todos los tipos':typeName(t)))),h('div',{class:'dex-selects'},select('Evolución','evolution',EVOS),select('Ordenar por','sort',[['number','Número'],['name','Nombre'],['strength','Total de stats']])));
-  sheet.set([progress,regions,h('div',{class:'dex-controls'},search,statuses,filters,h('button',{class:'linkbtn',onclick:()=>{Object.assign(state,{origin:'all',type:'all',status:'seen',evolution:'all',search:'',sort:'number'});page=0;draw();}},'Restablecer filtros'),h('div',{class:'dex-explainer'},'Las regiones indican origen y formas regionales; no son las listas regionales oficiales. Vistos y capturados se registran por especie.')),results]);
+  sheet.set([progress,regions,h('div',{class:'dex-controls'},search,shortcuts,availability,statuses,filters,h('button',{class:'linkbtn',onclick:()=>{Object.assign(state,{origin:'all',type:'all',status:'seen',evolution:'all',search:'',sort:'number',availability:'all'});page=0;draw();}},'Restablecer filtros'),h('details',{class:'dex-explainer'},h('summary',{},'Sobre las regiones y capturas'),h('p',{},'Las regiones indican origen y formas regionales; no son las listas regionales oficiales. Vistos y capturados se registran por especie.'))),results]);
   renderResults();
  };
  draw();
@@ -2851,6 +2861,7 @@ function dexEntry(id) {
 	openSheet(`#${String(s.num).padStart(4, '0')} ${s.name}`, h('div', {},
 		h('div', { style: { display: 'grid', placeItems: 'center', height: '160px' } }, monImg(id)),
 		h('div', { class: 'pad' }, h('div', { class: 'typechip-row' }, ...s.types.map(t => h('span', { class: 'type', style: typeStyle(t) }, typeName(t)))), h('div', { style: { color: 'var(--muted)', marginTop: '6px' } }, s.genus || '')),
+		h('div',{class:'note'},h('b',{class:'capture-chip cap-'+captureLabel(id,localCaptureIndex()).state},captureLabel(id,localCaptureIndex()).text),h('div',{},'Se refiere a los encuentros disponibles en el lugar donde estás ahora, no a todas las formas de obtener esta especie.')),
 		family,
 		caught ? h('div', { class: 'diary-entry' }, s.dex || '') : h('div', { class: 'note' }, 'Captúralo para ver su entrada completa.'),
 		caught ? h('div', {}, ...STATS.map((k, i) => h('div', { class: 'statbar' }, h('span', {}, STAT_NAMES[k]), h('b', {}, s.bs[i]), h('div', { class: 'b' }, h('i', { style: { width: Math.min(100, s.bs[i] / 1.8) + '%' } }))))) : null,
@@ -2862,11 +2873,19 @@ function dexEntry(id) {
 
 export function openZoneGuide(trainingZone) {
 	if (trainingZone?.trainers || trainingZone?.wild) {
-	 const rows = [];
-	 for (const id of trainingZone.trainers || []) for (const m of C.trainers[id]?.team || []) rows.push({ ...m, capturable: false });
-	 for (const m of trainingZone.wild || []) rows.push({ ...m, capturable: true });
-	 const sh = openSheet('Pokémon de entrenamiento', null);
-	 sh.set([h('div', { class: 'note' }, 'Solo se muestran los encuentros de esta zona de entrenamiento.'), ...rows.map(m => { const s = D.species[m.sp]; const seen = !!G.dex.seen[s?.num] || !!G.dex.caught[s?.num]; return h('div', { class: 'row training-mon' }, h('div', { class:'training-sprite'+(seen?'':' undiscovered'), role:'img', 'aria-label':seen?s?.name:'Pokémon sin descubrir' }, monImg(m.sp,{anim:false})), h('div', { class: 'lbl' }, h('b',{},seen?s?.name:'???'),h('div',{class:'typechip-row'},...(seen?s?.types||[]:[]).map(t=>h('span',{class:'type',style:typeStyle(t)},typeName(t)))), h('div', { class: 's' }, `${Array.isArray(m.lv)?'Nv. '+m.lv.join('–'):'Nv. '+m.lv} · ${m.capturable ? 'Salvaje · capturable desde Buscar salvajes' : 'Equipo de instructor · no capturable'}`))); }), rows.length ? null : h('div', { class: 'empty' }, 'No hay encuentros de entrenamiento disponibles.')]); return;
+	 const rows = trainingRoster(trainingZone);
+     const sh = openSheet('Pokémon de entrenamiento', null);
+     const labels={catch:['◓ Capturables aquí','Salvajes que puedes encontrar y capturar con Balls.'],battle:['⚔ Solo combate','Los equipos ajenos y encuentros que no admiten captura.'],unavailable:['◷ No disponibles ahora','La zona requiere otra condición o el nivel del equipo cierra la práctica.']};
+     const body=[h('div',{class:'capture-legend'},'Verde: captura · Coral: combate · Ámbar: no disponible')];
+     for(const state of ['catch','battle','unavailable']) {
+      const group=rows.filter(m=>m.state===state); if(!group.length) continue;
+      body.push(h('section',{class:'capture-section cap-'+state},h('div',{class:'capture-heading'},h('b',{},labels[state][0]),h('span',{},String(group.length))),h('p',{},labels[state][1]),...group.map(m=>{
+       const s=D.species[m.sp],seen=!!G.dex.seen[s?.num]||!!G.dex.caught[s?.num];
+       return h('div',{class:'row training-mon'},h('div',{class:'training-sprite'+(seen?'':' undiscovered'),role:'img','aria-label':seen?s?.name:'Pokémon sin descubrir'},monImg(m.sp,{anim:false})),h('div',{class:'lbl'},h('b',{},seen?s?.name:'???'),h('div',{class:'typechip-row'},...(seen?s?.types||[]:[]).map(t=>h('span',{class:'type',style:typeStyle(t)},typeName(t)))),h('div',{class:'s'},`Nv. ${Array.isArray(m.lv)?m.lv.join('–'):m.lv}`),h('span',{class:'capture-chip cap-'+state},state==='catch'?'Capturable':state==='battle'?'No capturable':'No disponible'),h('div',{class:'s'},m.reason)));
+      })));
+     }
+     if(!rows.length)body.push(h('div',{class:'empty'},'No hay encuentros de entrenamiento disponibles.'));
+     sh.set(body); return;
 	}
 	const loc = L(G.loc);
 	const sheet = openSheet('Guía de zona', null);
@@ -2907,7 +2926,7 @@ export function openZoneGuide(trainingZone) {
 			list.append(h('div', { class: 'mon' + (pNow ? '' : ' fainted') },
 				h('div', { class: 'sprite' }, seen ? monImg(sp, { anim: false }) : h('div', { style: { fontSize: '26px' } }, '❔')),
 				h('div', { class: 'info' },
-					h('div', { class: 'name' }, seen ? s.name : '???', G.dex.caught[s.num] ? h('span', { class: 'caughtmark' }, '◓') : null, e.displaced ? h('span', { class: 'status', style: { background: '#7a5cd6' } }, 'DESPLAZADO') : null),
+					h('div', { class: 'name' }, seen ? s.name : '???', G.dex.caught[s.num] ? h('span', { class: 'caughtmark' }, '◓') : null, h('span',{class:'capture-chip cap-'+(entries.some(x=>!x.noCatch)?'catch':'battle')},entries.some(x=>!x.noCatch)?'Capturable aquí':'Solo combate'), e.displaced ? h('span', { class: 'status', style: { background: '#7a5cd6' } }, 'DESPLAZADO') : null),
 					h('div', { class: 'hptext' }, h('span', {}, h('b', { style: { color: rCol } }, rName), ' · ' + nowTxt), h('span', {}, lvTxt)),
 					split ? h('div', { class: 'oddsplit' }, split) : null)));
 		}

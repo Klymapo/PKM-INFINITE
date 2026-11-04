@@ -24,3 +24,7 @@ assert.equal(q({search:'0001',status:'all'})[0].id,'bulbasaur');
 assert.equal(q({search:'zzzz no existe',status:'all'}).length,0);
 const strength=q({status:'seen',sort:'strength'});assert.ok(strength.every((x,i)=>!i||x.bs.reduce((a,b)=>a+b,0)<=strength[i-1].bs.reduce((a,b)=>a+b,0)));
 console.log('Pokédex: catálogo completo, orígenes, formas, estados, evolución, tipos y búsqueda: OK');
+const captureIndex={catch:new Set(['bulbasaur']),battle:new Set(['ivysaur','bulbasaur']),unavailable:new Set()};
+assert.deepEqual(q({status:'all',availability:'here',captureIndex}).map(s=>s.id),['bulbasaur']);
+assert.deepEqual(q({status:'all',availability:'battle',captureIndex}).map(s=>s.id),['ivysaur']);
+console.log('Disponibilidad local combinada con filtros: OK');

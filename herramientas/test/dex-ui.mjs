@@ -32,7 +32,7 @@ try{
  await page.getByText('Tipos, evolución y orden',{exact:true}).click();await page.screenshot({path:'/tmp/dex-mobile-filters.png'});
  await page.setViewportSize({width:320,height:700});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
  await page.evaluate(async()=>{(await import('./js/ui/core.js')).closeAllSheets();const{C}=await import('./js/content.js');C.trainers.dex_test={team:[{sp:'charmander',lv:10}]};(await import('./js/ui/screens.js')).openZoneGuide({trainers:['dex_test'],wild:[{sp:'bulbasaur',lv:[5,8]}]});});
- assert.equal(await page.locator('.training-sprite').count(),2);await page.getByText('Bulbasaur',{exact:true}).waitFor();await page.getByText(/Equipo de instructor · no capturable/).waitFor();
+ assert.equal(await page.locator('.training-sprite').count(),2);await page.getByText('Bulbasaur',{exact:true}).waitFor();await page.locator('.capture-section.cap-battle .capture-chip').getByText('No capturable',{exact:true}).waitFor();
  await page.setViewportSize({width:412,height:860});await page.screenshot({path:'/tmp/dex-mobile-training.png'});
  assert.deepEqual(errors,[]);console.log('Pokédex móvil: filtros combinados, búsqueda, paginación, evolución, 320 px y sprites de entrenamiento: OK');
 }finally{await browser.close();}

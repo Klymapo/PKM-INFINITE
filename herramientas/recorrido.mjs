@@ -342,7 +342,7 @@ async function doSpot(s) {
 		}
 		return;
 	}
-	if (a.explore) { const w = rollWild(L(G.loc), a.explore === true ? 'grass' : a.explore); if (w) await battle({ wild: { mon: w.mon } }); }
+	if (a.explore) { const w = rollWild(L(G.loc), a.explore === true ? 'grass' : a.explore); if (w) await battle({ wild: { mon: w.mon, noCatch: !!w.entry.noCatch } }); }
 }
 function autoShop(id) {
 	const shop = C.shops[id];
@@ -405,7 +405,7 @@ async function routeWalk(loc) {
 		}
 		if (!happened && Math.random() < encounterRate(loc)) {
 			const w = rollWild(loc, tramoTerrain(loc, n));
-			if (w) await battle({ wild: { mon: w.mon, gimmick: w.entry.gimmick } });
+			if (w) await battle({ wild: { mon: w.mon, gimmick: w.entry.gimmick, noCatch: !!w.entry.noCatch } });
 			if (G.loc !== loc.id) return;
 		}
 		if (G.party.every(p => p.hp <= 0)) return;
@@ -473,7 +473,7 @@ async function grind(target) {
 	while (avg() < target && n++ < 40) {
 		const w = rollWild(loc, loc.route.terrain || 'grass');
 		if (!w) break;
-		await battle({ wild: { mon: w.mon } });
+		await battle({ wild: { mon: w.mon, noCatch: !!w.entry.noCatch } });
 		if (partyNeedsHeal()) { usePotions(); if (partyNeedsHeal()) { healParty(); } }
 	}
 	return true;
