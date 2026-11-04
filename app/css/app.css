@@ -1143,3 +1143,56 @@ img.illus.priv { image-rendering: auto; width: 100%; aspect-ratio: 16 / 10; obje
 canvas.cast-sprite { object-fit: contain !important; image-rendering: pixelated; }
 .overlay.conversation:not(.dim) { background: rgba(10, 15, 30, .30); }
 .dialog .portrait:has(.cast-sprite) { width: 112px; height: 168px; bottom: calc(100% - 4px); left: 8px; border: 0; border-radius: 0; background: transparent; box-shadow: none; pointer-events: none; }
+
+/* Pokédex visual: una región y filtros combinables, con tarjetas legibles en móvil. */
+.dex-overview { margin: 8px 12px; padding: 18px; border: 1px solid #546594; border-radius: 20px; background: linear-gradient(130deg,#243a66,#182435); }
+.dex-overview h2 { margin:4px 0 14px; font-size:26px; }
+.dex-eyebrow { color:#91b5e9; font-size:10px; letter-spacing:.15em; }
+.dex-metrics { display:flex; gap:18px; flex-wrap:wrap; font-size:12px; color:var(--cream); }
+.dex-metrics b { display:block; font-size:22px; }
+.dex-progress { height:7px; border-radius:9px; overflow:hidden; margin-top:15px; background:#101b2c; }
+.dex-progress i { display:block; height:100%; background:var(--gold); }
+.dex-regions { display:flex; gap:7px; overflow-x:auto; padding:8px 12px 14px; scrollbar-width:thin; }
+.dex-region { flex:0 0 auto; border:1px solid var(--line); border-radius:14px; padding:11px 15px; background:var(--ink-2); color:var(--cream); }
+.dex-region.on { background:var(--gold); color:#142036; border-color:var(--gold); font-weight:800; }
+.dex-controls { padding:0 12px; }
+.dex-search { width:100%; box-sizing:border-box; margin:4px 0 12px; }
+.dex-statuses { display:flex; flex-wrap:wrap; gap:6px; margin-bottom:12px; }
+.dex-statuses .pill { min-height:40px; padding:9px 12px; }
+.dex-statuses .pill.on { background:var(--cream); color:var(--ink); border-color:var(--cream); }
+.dex-filters { border:1px solid var(--line); border-radius:14px; padding:12px; background:var(--ink-2); }
+.dex-filters summary { cursor:pointer; min-height:26px; font-weight:700; }
+.dex-types { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:7px; margin:12px 0; }
+.type-filter { border:1px solid var(--line); border-radius:10px; padding:9px 5px; background:var(--ink); color:var(--cream); min-height:40px; }
+.type-filter.on { outline:2px solid var(--gold); outline-offset:1px; font-weight:800; }
+.dex-selects { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+.dex-select { display:grid; gap:6px; font-size:11px; min-width:0; }
+.dex-select select { width:100%; min-width:0; background:var(--ink); color:var(--cream); border:1px solid var(--line); border-radius:8px; padding:10px 5px; min-height:44px; }
+.dex-explainer { color:var(--muted); font-size:11px; line-height:1.5; padding-bottom:8px; }
+.dex-count { padding:12px 14px; color:var(--muted); font-size:12px; }
+.visual-dex { grid-template-columns:repeat(3,minmax(0,1fr)); gap:9px; }
+.dexcard { position:relative; display:flex; flex-direction:column; align-items:center; min-width:0; border:1px solid var(--line); border-radius:15px; padding:9px 5px; background:var(--ink-2); color:var(--cream); text-align:center; overflow:hidden; }
+.dexcard.caught { border-color:#63a48c; background:linear-gradient(165deg,#203b3a,var(--ink-2)); }
+.dexcard.unknown { opacity:.55; }
+.dexcard-top { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:3px; width:100%; font-size:9px; color:var(--muted); }
+.dex-badge { font-size:8px; color:#9ed2bd; }
+.dex-art { display:grid; place-items:center; width:100%; height:82px; }
+.dex-art img,.dex-art .fallback { width:76px; height:76px; object-fit:contain; }
+.dex-name { font-size:12px; overflow-wrap:anywhere; margin:3px 0 8px; }
+.dexcard .typechip-row { display:flex; gap:3px; flex-wrap:wrap; justify-content:center; }
+.dexcard .type { font-size:8px; padding:3px 5px; }
+.dex-stage { font-size:9px; color:var(--muted); margin-top:7px; }
+.dex-question { font-size:36px; color:var(--muted); }
+.dex-pager { display:flex; align-items:center; justify-content:space-between; gap:8px; padding:14px 12px 24px; font-size:12px; }
+.dex-pager .btn { padding:11px 12px; min-height:44px; }
+.dex-family { padding:6px 12px; }
+.dex-family-row { display:flex; gap:8px; overflow:auto; padding:4px 0 12px; }
+.dex-relative { display:grid; justify-items:center; gap:5px; flex:0 0 94px; background:var(--ink-2); color:var(--cream); border:1px solid var(--line); border-radius:12px; padding:8px; font-size:11px; }
+.dex-relative.current { border-color:var(--gold); }
+.dex-relative img,.dex-relative .fallback { width:64px; height:64px; object-fit:contain; }
+.training-sprite { flex:0 0 72px; width:72px; height:72px; display:grid; place-items:center; }
+.training-sprite img,.training-sprite .fallback { width:68px; height:68px; object-fit:contain; }
+.training-sprite.undiscovered { filter:brightness(0); opacity:.5; }
+.training-mon .typechip-row { display:flex; gap:4px; margin:6px 0; flex-wrap:wrap; }
+.training-mon .type { font-size:10px; }
+@media(max-width:350px) { .visual-dex { grid-template-columns:repeat(2,minmax(0,1fr)); } .dex-selects { grid-template-columns:1fr; } }

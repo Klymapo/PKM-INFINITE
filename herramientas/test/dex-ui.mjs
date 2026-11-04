@@ -1,0 +1,38 @@
+import {createRequire}from'node:module';import assert from'node:assert/strict';
+const require=createRequire(import.meta.url),{chromium}=require(process.env.CODEX_PRIMARY_RUNTIME_NODE_MODULES+'/playwright');
+const browser=await chromium.launch({executablePath:process.env.CHROMIUM_PATH,args:['--no-sandbox','--disable-gpu','--disable-dev-shm-usage']});
+const page=await browser.newPage({viewport:{width:412,height:860},serviceWorkers:'block'}),errors=[];
+page.on('pageerror',e=>errors.push(e.message));
+try{
+ await page.goto(process.env.APP_URL);await page.getByText('Nueva partida',{exact:true}).waitFor();
+ await page.evaluate(async()=>{const S=await import('./js/state.js'),P=await import('./js/pokemon.js');S.newGame({name:'Test'});S.G.party.push(P.createPokemon('bulbasaur',{level:10}));for(let n=1;n<=151;n++)S.G.dex.seen[n]=true;S.G.dex.caught={1:true,4:true,7:true};(await import('./js/ui/screens.js')).openDex();});
+ assert.equal(await page.locator('.dexcard').count(),48);
+ await page.screenshot({path:'/tmp/dex-mobile-overview.png'});
+ await page.getByRole('button',{name:'Atrapados',exact:true}).click();assert.equal(await page.locator('.dexcard').count(),3);
+ await page.getByRole('button',{name:'Equipo y PC',exact:true}).click();assert.equal(await page.locator('.dexcard').count(),1);
+ await page.getByRole('button',{name:'Todos',exact:true}).click();
+ await page.getByRole('button',{name:'Johto',exact:true}).click();
+ assert.ok((await page.locator('.dex-count').textContent()).includes('100 resultados'));
+ await page.getByRole('button',{name:'Hisui',exact:true}).click();assert.ok(await page.locator('.dexcard').count()>7);
+ await page.getByRole('button',{name:'Restablecer filtros',exact:true}).click();
+ await page.getByLabel('Buscar Pokémon',{exact:true}).fill('char');assert.equal(await page.locator('.dexcard').count(),3);
+ await page.getByLabel('Buscar Pokémon',{exact:true}).fill('nunca existe');await page.getByText(/No hay Pokémon con esta combinación/).waitFor();
+ await page.getByLabel('Buscar Pokémon',{exact:true}).fill('');
+ await page.getByText('Tipos, evolución y orden',{exact:true}).click();await page.getByRole('button',{name:'Fuego',exact:true}).click();
+ const vals=await page.locator('.dexcard .typechip-row').allTextContents();assert.ok(vals.length&&vals.every(v=>v.includes('Fuego')));
+ await page.getByLabel('Evolución',{exact:true}).selectOption('middle');assert.equal(await page.locator('.dexcard').count(),2);
+ await page.getByLabel('Ordenar por',{exact:true}).selectOption('name');
+ await page.getByRole('button',{name:'Restablecer filtros',exact:true}).click();
+ await page.getByRole('button',{name:'Bulbasaur, atrapado',exact:true}).click();await page.locator('.dex-family').waitFor();
+ await page.evaluate(async()=>{(await import('./js/ui/core.js')).closeAllSheets();(await import('./js/ui/screens.js')).openDex();});
+ await page.getByRole('button',{name:'Todos',exact:true}).click();
+ await page.getByRole('button',{name:'Siguiente →',exact:true}).click();assert.ok((await page.locator('.dex-count').textContent()).includes('49–96'));
+ assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.screenshot({path:'/tmp/dex-mobile-grid.png'});
+ await page.getByText('Tipos, evolución y orden',{exact:true}).click();await page.screenshot({path:'/tmp/dex-mobile-filters.png'});
+ await page.setViewportSize({width:320,height:700});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth));
+ await page.evaluate(async()=>{(await import('./js/ui/core.js')).closeAllSheets();const{C}=await import('./js/content.js');C.trainers.dex_test={team:[{sp:'charmander',lv:10}]};(await import('./js/ui/screens.js')).openZoneGuide({trainers:['dex_test'],wild:[{sp:'bulbasaur',lv:[5,8]}]});});
+ assert.equal(await page.locator('.training-sprite').count(),2);await page.getByText('Bulbasaur',{exact:true}).waitFor();await page.getByText(/Equipo de instructor · no capturable/).waitFor();
+ await page.setViewportSize({width:412,height:860});await page.screenshot({path:'/tmp/dex-mobile-training.png'});
+ assert.deepEqual(errors,[]);console.log('Pokédex móvil: filtros combinados, búsqueda, paginación, evolución, 320 px y sprites de entrenamiento: OK');
+}finally{await browser.close();}
