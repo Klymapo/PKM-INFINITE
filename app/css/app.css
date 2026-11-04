@@ -1258,3 +1258,15 @@ canvas.cast-sprite { object-fit: contain !important; image-rendering: pixelated;
 .training-boss>div { margin-top:7px; }
 .tz-tags { flex-wrap:wrap; }
 .tile .zoneboss-badge { margin-top:7px; }
+
+/* Accesos del Dex en ciudades: bloque propio, botones alineados. */
+.city-dex-panel { margin:14px 12px 8px;padding:12px;border:1px solid #5b7198;border-radius:16px;background:linear-gradient(125deg,#25394e,#24283e); }
+.city-dex-heading { color:#bdcee8;font-size:12px;font-weight:700;margin-bottom:10px; }
+.city-dex-actions { display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px; }
+.city-dex-actions .btn { width:100%;min-width:0;min-height:78px;box-sizing:border-box;text-align:left;justify-content:flex-start;padding:10px;gap:8px; }
+.city-dex-actions .dexnav-btn { background:#315d87;border-color:#698fb8;color:#fff; }
+.city-dex-actions .city-guide-btn { background:#3d3b62;border-color:#827caf;color:#fff; }
+.city-dex-symbol { flex:0 0 auto;font-size:25px;color:#e9dbac; }
+.city-dex-actions b { display:block;font-size:13px; }
+.city-dex-actions small { display:block;font-size:11px;font-weight:400;line-height:1.4;margin-top:3px;color:#e0e8f4; }
+@media(max-width:350px) { .city-dex-actions .btn { flex-direction:column;align-items:flex-start;gap:3px; } .city-dex-symbol { font-size:21px; } }

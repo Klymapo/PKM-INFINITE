@@ -13,7 +13,7 @@ try {
  C.locations.test_city={id:'test_city',name:'Ciudad de prueba',encounters:{grass:[{sp:'rattata',lv:5}],water:[{sp:'magikarp',lv:5}]},spots:[{label:'Hierba',action:{explore:true}},{label:'Agua',action:{explore:'water'}}]};
  S.G.dex.seen[19]=true;S.G.dex.seen[129]=true;(await import('./js/ui/screens.js')).render();
  });
- await page.getByText('🔎 DexNav · rastrear un Pokémon',{exact:true}).click();
+ await page.getByRole('button',{name:'DexNav · rastrear un Pokémon',exact:true}).click();
  await page.getByText('DexNav · elegir zona',{exact:true}).waitFor();
  await page.evaluate(async()=>{const U=await import('./js/ui/core.js');U.closeAllSheets();(await import('./js/ui/screens.js')).openDexNav('grass');});
  await page.getByText('Rattata',{exact:true}).waitFor(); assert.equal(await page.getByText('Magikarp',{exact:true}).count(),0);
