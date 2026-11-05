@@ -121,6 +121,18 @@ const choices = {
   cg_carga_t6_borrador_final: /Archivar el borrador/,
   cg_carga_recibo_deduccion: /La recepción del papel/,
   cg_carga_recibo_decision: /Rectificación pública/,
+  cg_carga_t7_t_mara: /Preguntarle qué hace ahora/,
+  cg_carga_t7_t_tablero: /Preparación, cambio de vagón/,
+  cg_carga_t7_t_lectura: /Pedirle que diga cuántas cajas/,
+  cg_carga_t7_i_tarjetas: /Mantener separados sus tres testimonios/,
+  cg_carga_t7_i_carta: /Pedir que cada guía identifique/,
+  cg_carga_t7_i_lectura: /Confirmar la recepción de la hoja/,
+  cg_carga_t7_c_nivel: /Medir de nuevo los dos niveles/,
+  cg_carga_t7_c_protocolo: /Revisar niveles, comprobar rejilla/,
+  cg_carga_t7_c_wooper: /Observarlo sin intentar capturarlo/,
+  cg_carga_t7_orden_final: /Trigal: maniobras/,
+  cg_carga_t7_procedimiento: /Conservar la decisión/,
+  cg_carga_t7_conclusion: /Confirmar hechos, separar hipótesis/,
   cg_carga_entrega_final: /Anotar también/
 };
 UI.choose = async (_, options) => {
