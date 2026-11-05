@@ -12,8 +12,9 @@ import simulacionT4 from './cg-carga-johto-ampliacion-t4.js';
 import segundoTurnoT5 from './cg-carga-johto-ampliacion-t5.js';
 import reciboT6 from './cg-carga-johto-ampliacion-t6.js';
 import cierreT7 from './cg-carga-johto-ampliacion-t7.js';
+import aperturaT0 from './cg-carga-johto-ampliacion-t0.js';
 
-const PARTES = [t01, t23, t45, t67, anexoT1, gabineteT2, acequiaT3, simulacionT4, segundoTurnoT5, reciboT6, cierreT7];
+const PARTES = [t01, t23, t45, t67, anexoT1, gabineteT2, acequiaT3, simulacionT4, segundoTurnoT5, reciboT6, cierreT7, aperturaT0];
 const out = {
   npcs: {}, items: {}, quests: {}, scripts: {}, trainers: {}, gather: {},
   shops: {}, locations: {}, patches: {}, events: [], milestones: []
