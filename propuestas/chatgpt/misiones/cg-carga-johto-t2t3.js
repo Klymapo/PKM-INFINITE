@@ -42,7 +42,7 @@ export default {
         new: '!flag.cg_carga_t3_plantas', doneIf: 'flag.cg_carga_t3_plantas',
         talk: [{ script: 'cg_carga_plantas' }] },
       { label: 'Refugio de Wooper', icon: '💧', sub: 'Auxiliar sin capturar ni asustar al Pokémon',
-        cond: 'flag.cg_carga_t3_huellas && flag.cg_carga_t3_rejilla && flag.cg_carga_t3_plantas && !flag.cg_carga_t3_fin',
+        cond: 'flag.cg_carga_t3_huellas && flag.cg_carga_t3_rejilla && flag.cg_carga_t3_plantas && flag.cg_carga_t3_trabajo_hecho && !flag.cg_carga_t3_fin',
         new: 'true', talk: [{ script: 'cg_carga_wooper' }] },
       { label: 'Canal en calma', icon: '🌿', sub: 'Una nueva marca en la ribera',
         cond: 'flag.cg_carga_t3_fin', talk: [{ script: 'cg_carga_caoba_despues' }] }
@@ -241,6 +241,10 @@ export default {
       ] }
     ],
     cg_carga_wooper: [
+      { if: '!flag.cg_carga_t3_trabajo_hecho', then: [
+        { say: 'rotom', text: '¡Bzzt! Todavía no sabemos si despejar de golpe sería peligroso. Mide el agua y compara los turnos en la pasarela y la caseta de aforo.' },
+        { end: true }
+      ] },
       'Wooper mira el agua estancada y luego la corriente clara. Lo que parecía una pista del paquete es también su sitio para vivir.',
       { say: 'rotom', text: '¡Bzzt! Podemos arreglar la orilla sin meterlo en una Poké Ball. ¿Qué prefieres?' },
       { choice: [
