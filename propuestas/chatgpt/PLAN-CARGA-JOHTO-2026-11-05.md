@@ -133,3 +133,11 @@ D. Cierre y premio una única vez, más un epílogo persistente y accesible; tod
 **Verificación:** 65 acciones guiadas T0–T7; salida, derrota, reintento, opción sin minijuego, no duplicación de anilla, victoria/derrota del combate y no saltarse inspección de Wooper. [GitHub Actions aprobada](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42120001145): validador sin errores, Tester/Superfan/Designer 0 graves, auditoría rápida B7 aprobada. **Duración 6–8 h aún NO comprobada**; se requiere revisión editorial independiente y auditoría integral al cierre.
 
 **Siguiente incremento:** T4, envío de prueba: ampliar la simulación logística con decisiones causales que cambien un procedimiento, no otra serie de inspecciones idénticas.
+
+
+## Avance incremental · T4 envío de prueba · 2026-11-05
+**Cuarto incremento COMPLETADO Y VALIDADO EN RÁPIDA, NO PUBLICADO.** Nueva simulación local en Caoba con dos subáreas (patio y estafeta), Nelo y un acta consultable: ruta de pasarela mojada y ruta de grava exigen protecciones diferentes. El jugador registra preparación, control, relevo documental y recepción física; una decisión equivocada deja una anotación recuperable sin reiniciar el tramo. El cierre de T4 exige ahora haber completado la simulación.
+
+**Evidencia:** [CI aprobada 42123540729](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42123540729), 73 acciones guiadas T0–T7, rutas alternativas/errores/reintentos y acta una vez; validador 0 errores, Game Tester 0 graves y 0 detalles, Superfan 0 graves, Designer 0 graves y auditoría rápida de B7 aprobada. Contenido del módulo `misiones/cg-carga-johto-ampliacion-t4.js` conectado al agregador; la historia publicada permanece aislada.
+
+**Siguientes pendientes de ampliación:** T5 segundo turno, T6 recibo en blanco, T7 entrega final, y T0 apertura. Quedan auditoría integral final, evaluación narrativa independiente y cronometraje real para la meta de 6–8 h; los borradores T0–T7 existen pero eso no constituye certificación de duración.
