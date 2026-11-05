@@ -96,14 +96,18 @@ D. Cierre y premio una única vez, más un epílogo persistente y accesible; tod
 ## Hoja de avance para reanudaciones
 | Entrega | Estado al 2026-11-05 | Evidencia |
 |---|---|---|
-| Recuperación del encargo aprobado y sus ocho tramos | HECHO | Resumen de la conversación previa + verificación de GitHub |
-| Versión publicada en main, integridad del repo | HECHO | main `843b8a9`, contenido `2026-11-05.2` |
-| Diseño y contratos del paquete paralelo | HECHO | Este documento |
-| Implementación jugable T0–T1 | EN PREPARACIÓN | `misiones/cg-carga-johto.js` |
-| Implementación T2–T3 | PENDIENTE | — |
-| Implementación T4–T5 | PENDIENTE | — |
-| Implementación T6–T7 | PENDIENTE | — |
-| Integración + auditoría completa + lector independiente | PENDIENTE | No ejecutar antes de terminar todos los tramos |
-| Publicación en main / Cloudflare | NO | Solo después de aprobado |
+| Recuperar el contrato y los ocho tramos | HECHO | Este plan y GitHub |
+| Verificar versión de main sin modificarla | HECHO | main `843b8a9`, contenido `2026-11-05.2` |
+| Diseñar la historia y los controles de continuidad | HECHO | Este plan |
+| T0–T1 | BORRADOR ENTREGADO | `misiones/cg-carga-johto.js` |
+| T2–T3 | BORRADOR ENTREGADO | `misiones/cg-carga-johto-t2t3.js` |
+| T4–T5 | BORRADOR ENTREGADO | `misiones/cg-carga-johto-t4t5.js` |
+| T6–T7 | BORRADOR ENTREGADO | `misiones/cg-carga-johto-t6t7.js` |
+| Ensamblado sin activar contenido | HECHO | `misiones/cg-carga-johto-completo.js` |
+| Revisión estática de JS, guiones e IDs | PARCIAL | Análisis de sintaxis, sin test de motor |
+| Auditoría completa + lector independiente + test de duración | PENDIENTE | No se ha ejecutado una partida completa |
+| Publicación en main / Cloudflare | NO | Prohibida hasta aprobación |
 
-**Nota de continuidad:** la conversación anterior reportó ocho tramos escritos y cuatro en ampliación, pero no apareció ningún archivo de ese trabajo en las ramas del repositorio. Esta carpeta es una reconstrucción fiel del contrato y de la estructura, NO una restauración byte a byte de un borrador inexistente en GitHub.
+**Nota de continuidad:** en la sesión anterior se reportó un borrador avanzado, pero no apareció en GitHub. Se reconstruyeron cuatro módulos nuevos que cubren ocho tramos; no es restauración literal de los archivos originales.
+
+**Importante:** el objetivo de 6–8 horas permanece pendiente de cronometría. Los ocho tramos tienen escenas y decisiones, pero contar actividades no prueba duración jugada. No debe certificarse ninguna cifra sin ensayo humano y ampliación cuando haga falta. No se ha ejecutado el validador del motor ni el recorrido real. Elio decidirá integración, pruebas y publicación.
