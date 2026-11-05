@@ -21,3 +21,14 @@ Rama: `chatgpt/misiones-2026-10-11`. Solo propuestas; Claude revisa y decide la 
 Integración solicitada por Admin de los 28 sprites aprobados y atenuación de conversaciones. Ver `sprites-elenco/VERIFICACION.md` para alcance y pruebas.
 
 - [HABILIDADES.md](HABILIDADES.md): Cápsula/Parche funcionales y personalización voluntaria de Golisopod.
+
+## Aventura paralela de Johto · 2026-11-05
+**Rama de entrega:** `chatgpt/carga-johto-2026-11-05`. **NO PUBLICADA**; ningún cambio en `app/` ni `main`.
+- `PLAN-CARGA-JOHTO-2026-11-05.md`: alcance, ocho tramos, reglas de continuidad y hoja de avance para reanudar.
+- `misiones/cg-carga-johto.js`: tramos T0–T1, misión y objetos comunes.
+- `misiones/cg-carga-johto-t2t3.js`: tramos T2–T3.
+- `misiones/cg-carga-johto-t4t5.js`: tramos T4–T5 y combate opcional.
+- `misiones/cg-carga-johto-t6t7.js`: tramos T6–T7, epílogo y reconocimiento de nivel con guardas.
+- `misiones/cg-carga-johto-completo.js`: ensamblador de los cuatro módulos para revisión de Elio.
+
+**Estado:** escritura en borrador terminada (ocho tramos), sintaxis JavaScript y comprobación estática de referencias internas revisadas. **FALTAN** prueba del motor, auditoría integral, revisión editorial independiente y confirmación de duración 6–8 horas. No publicar ni atribuir duración comprobada. Respeta continuidad y sin medallas ni regiones nuevas.
