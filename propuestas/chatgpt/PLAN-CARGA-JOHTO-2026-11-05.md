@@ -165,3 +165,11 @@ D. Cierre y premio una única vez, más un epílogo persistente y accesible; tod
 **Pruebas:** [CI 42129589096](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42129589096) **aprobada**: validador sin errores, Tester/Superfan/Designer sin graves, **108 acciones** T0–T7 comprobadas, bloqueo del cierre prematuro, no-duplicación de premios y regresión rápida B7 aprobada. Los fallos de CI anteriores se corrigieron ampliando el recorrido guiado; no representan el estado actual.
 
 **Siguiente incremento:** T0 — presentación e inicio de Olivo. Después lector independiente, auditoría integral del juego, verificación visual y cronometría real antes de publicar; la meta de **6–8 horas** no está demostrada.
+
+
+## Avance incremental · T0, apertura de Olivo · 2026-11-05
+**OCTAVO INCREMENTO HECHO Y VALIDADO EN AUDITORÍA RÁPIDA; TODAVÍA SIN PUBLICAR.** Dos subáreas (dársena y cobertizo), Dalia, croquis y ficha, investigación física de señales y rutas separadas, maqueta de cajas con ayuda opcional y práctica Pokémon omisible. La primera deducción exige completar el ensayo, que no atribuye culpabilidad ni resuelve la firma original.
+
+**Evidencia:** [CI rápida 42131773554](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42131773554) aprobada: 119 acciones T0–T7, un nuevo puzle de 10 pasos, validador sin errores, Tester/Superfan/Designer 0 graves y regresión rápida B7 aprobada. Corpus ~18,556 palabras de diálogos/opciones, con alternativas no recorridas.
+
+**Todos los T0–T7 ya tienen borrador y ampliación. Fase de contenido terminada, NO publicación.** Se inició [CI integral 42132087414](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42132087414); resultado pendiente de verificarse. Control editorial necesario: Diario y voz de Rotom por ramas del Eco, continuidad, repetición del mecanismo documental y lector independiente. Además, ensayo cronometrado por jugador real para comprobar **6–8 horas** y revisión de UX móvil. Solo después publicar junto con todas las correcciones, sin borrar la rama ni tocar `main` hasta aprobación.
