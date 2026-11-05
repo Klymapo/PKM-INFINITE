@@ -96,3 +96,13 @@ Mantener esta historia fuera de `app/content/comunidad/lista.js` y fuera de `mai
 - Pruebas específicas T5: no es posible cerrar la entrevista sin investigación; se puede salir del puzle y retomarlo; llave y pliego no se duplican; la falsa pista se puede refutar; las dos formas de presentar evidencia preservan las decisiones; no cambian las medallas ni el tope condicionado 74→76.
 - Corpus de texto y opciones del paquete: **~14,240 palabras contando ramas alternativas** (antes ~12,586). Esto NO demuestra 6–8 horas de partida.
 - **Pendiente:** ampliar T6 y T7, reforzar T0, revisión narrativa independiente, cronometraje de juego y auditoría integral final actualizada. La auditoría integral anterior precede a estas ampliaciones.
+
+
+## Incremento 6 · Rectificación del recibo en Olivo (2026-11-05)
+**Estado:** módulo aditivo implementado y **auditoría rápida APROBADA**; **NO PUBLICADO**.
+- Archivo nuevo `misiones/cg-carga-johto-ampliacion-t6.js`, integrado en `cg-carga-johto-completo.js`. Añade **2 salas** (cotejo y rectificación), **1 NPC** (Celia), **2 objetos clave de lectura** (calco y borrador) y **11 guiones**.
+- Nueva secuencia jugable: solicitar consulta de copias, distinguir casillas DOCUMENTACIÓN/MERCANCÍA, reconstruir tres marcas de tiempo, analizar una firma sin atribuir identidades, crear calco sin tocar el original, rectificar solo el asiento interpretado erróneamente, registrar la trazabilidad del cambio y comprobar la legibilidad del borrador con una lectora ajena al caso. La decisión original entre difusión pública o reunión reservada se conserva y permanece después de este trabajo.
+- Guardas añadidas a `cg_carga_recibo_deduccion` y al botón de cierre: no se puede finalizar T6 antes de verificar el borrador; `cg_carga_recibo_cierre` entrega el recibo **una sola vez**.
+- **Auditoría real:** [GitHub Actions 42127962390](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42127962390) **ÉXITO**. Validador sin errores; Tester 0 graves/0 detalles; Superfan y Designer 0 graves; prueba guiada **95 acciones T0–T7**; prueba específica de bloqueo de cierre anticipado y no-duplicación de calco, borrador y recibo; regresión rápida de B7 aprobada; tope 74→76 condicionado, no alterado.
+- Corpus de diálogos/opciones: **~15,401 palabras con ramas alternativas mutuamente excluyentes** (anterior ~14,240). **No demuestra duración real de 6–8 horas.**
+- Pendiente: ampliar T7 y T0, revisar narración/continuidad con lector independiente, cronometrar una partida y ejecutar auditoría integral completa sobre el paquete final. La auditoría rápida no equivale a revisión editorial ni a prueba humana.
