@@ -141,3 +141,11 @@ D. Cierre y premio una única vez, más un epílogo persistente y accesible; tod
 **Evidencia:** [CI aprobada 42123540729](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42123540729), 73 acciones guiadas T0–T7, rutas alternativas/errores/reintentos y acta una vez; validador 0 errores, Game Tester 0 graves y 0 detalles, Superfan 0 graves, Designer 0 graves y auditoría rápida de B7 aprobada. Contenido del módulo `misiones/cg-carga-johto-ampliacion-t4.js` conectado al agregador; la historia publicada permanece aislada.
 
 **Siguientes pendientes de ampliación:** T5 segundo turno, T6 recibo en blanco, T7 entrega final, y T0 apertura. Quedan auditoría integral final, evaluación narrativa independiente y cronometraje real para la meta de 6–8 h; los borradores T0–T7 existen pero eso no constituye certificación de duración.
+
+
+## Avance incremental · T5 segundo turno (Olivo) · 2026-11-05
+**QUINTO INCREMENTO COMPLETADO Y VALIDADO EN RÁPIDA, SIN PUBLICAR.** Se añadió `misiones/cg-carga-johto-ampliacion-t5.js` al paquete: muelle y entreplanta, auxiliar Isela, permiso de consulta, huellas y señales del turno, palés que abren el archivo, pliego de documentación, señal de emergencia que funciona como falsa pista y reconstrucción que prepara la conversación con el encargado. La elección entre mostrar primero el pliego o escuchar primero el testimonio se conserva en la entrevista; el combate permanece opcional y curado previamente.
+
+**Pruebas:** [GitHub Actions 42126640002](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42126640002) aprobada; validador sin errores, nuevo puzle resoluble en 10 pasos, Tester/Superfan/Designer 0 graves, 84 acciones de la prueba de integración, premio y llave sin duplicación, rutas de entrevista y regresión rápida de B7 aprobada. No se ha integrado en `main`.
+
+**Siguientes ampliaciones:** T6 (revisión de recibos y consecuencias de corrección), T7 (cierre y consecuencias con elenco sin cambiar el canon), T0 (apertura). Después: revisor independiente, auditoría integral final y prueba cronometrada; las 6–8 horas siguen pendientes de acreditar.
