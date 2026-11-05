@@ -24,8 +24,8 @@ export default {
         ]
       },
       stages: {
-        olivo: 'En **Olivo**, revisa tres pruebas del envío junto al almacén del faro.',
-        deduccion: 'En **Olivo**, compara las tres pruebas en la mesa de revisión.',
+        olivo: 'En **Olivo**, revisa la etiqueta, el peso y el libro del almacén, luego investiga la **dársena de servicio** y prueba por separado el recorrido de sobres y mercancías.',
+        deduccion: 'En **Olivo**, completa el ensayo del cobertizo y compara las observaciones con las tres pruebas originales en la mesa de Yasmina.',
         trigal: 'Ve al **patio de carga de Trigal**. Revisa horario, conductor y precintos.',
         orden: 'En **Trigal**, visita el **anexo del patio** y verifica el desvío de vagones antes de ordenar la cronología en el tablón.',
         iris: 'En **Iris**, escucha a los tres guías y coteja tinta, sello y firma en el **Gabinete de copias** antes de cerrar la mesa de testimonios.',
@@ -45,10 +45,10 @@ export default {
           label: 'Yasmina y el registro de carga',
           sub: 'Una caja está donde nadie recuerda haberla dejado',
           icon: '📦', cond: '!flag.cg_carga_t0_fin',
-          new: '!flag.cg_carga_inicio || (flag.cg_carga_t0_papel && flag.cg_carga_t0_masa && flag.cg_carga_t0_libro)',
+          new: '!flag.cg_carga_inicio || (flag.cg_carga_t0_papel && flag.cg_carga_t0_masa && flag.cg_carga_t0_libro && flag.cg_carga_t0_anexo_fin)',
           talk: [
             { cond: '!flag.cg_carga_inicio', script: 'cg_carga_inicio' },
-            { cond: 'flag.cg_carga_t0_papel && flag.cg_carga_t0_masa && flag.cg_carga_t0_libro', script: 'cg_carga_inferencia' },
+            { cond: 'flag.cg_carga_t0_papel && flag.cg_carga_t0_masa && flag.cg_carga_t0_libro && flag.cg_carga_t0_anexo_fin', script: 'cg_carga_inferencia' },
             { script: 'cg_carga_yasmina_espera' }
           ]
         },
@@ -217,6 +217,10 @@ export default {
       ] }
     ],
     cg_carga_inferencia: [
+      { if: '!flag.cg_carga_t0_anexo_fin', then: [
+        { say: 'rotom', text: '¡Bzzt! Falta comprobar las rutas de sobres y mercancías en la dársena de Olivo antes de presentar una conclusión.' },
+        { end: true }
+      ] },
       'Yasmina coloca las tres pruebas una al lado de otra. Ninguna contiene toda la historia.',
       { quest: 'cg_carga_johto', stage: 'deduccion' },
       { say: 'yasmina', text: 'Dime solo qué sabemos. Lo que sospechamos puede esperar.' },
