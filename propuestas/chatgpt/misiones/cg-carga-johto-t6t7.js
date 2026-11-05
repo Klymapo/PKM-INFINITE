@@ -27,7 +27,7 @@ export default {
         new: '!flag.cg_carga_t6_casilla', doneIf: 'flag.cg_carga_t6_casilla',
         talk: [{ script: 'cg_carga_recibo_casilla' }] },
       { label: 'Decidir qué corregir', icon: '🖋️', sub: 'Separar hechos demostrados de hipótesis',
-        cond: 'flag.cg_carga_t6_hojas && flag.cg_carga_t6_tinta && flag.cg_carga_t6_casilla && !flag.cg_carga_t6_fin',
+        cond: 'flag.cg_carga_t6_hojas && flag.cg_carga_t6_tinta && flag.cg_carga_t6_casilla && flag.cg_carga_t6_borrador_listo && !flag.cg_carga_t6_fin',
         new: 'true', talk: [{ script: 'cg_carga_recibo_deduccion' }] },
       { label: 'Entregar el documento en persona', icon: '📨', sub: 'Hay tres lugares donde verificar que la corrección sirve',
         cond: 'flag.cg_carga_t6_fin && !flag.cg_carga_t7_fin',
@@ -128,6 +128,10 @@ export default {
       ] }
     ],
     cg_carga_recibo_deduccion: [
+      { if: '!flag.cg_carga_t6_borrador_listo', then: [
+        { say: 'rotom', text: 'Antes de decidir hay que probar el nuevo recibo en la sala de cotejo de Olivo.' },
+        { end: true }
+      ] },
       { say: 'yasmina', text: 'Las pruebas ya están. Dame la explicación que podrías sostener delante de quienes trabajaron ese día.' },
       { choice: [
         { text: 'Un trabajador falsificó la firma para robar la carga', then: [
