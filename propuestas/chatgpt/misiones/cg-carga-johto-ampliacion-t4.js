@@ -28,7 +28,7 @@ export default {
         {
           label: 'Nelo y el mapa de dos recorridos', icon: '🗺️',
           sub: 'Escoge qué ruta de demostración se utilizará',
-          cond: '!flag.cg_carga_t4_recorrido_fin',
+          cond: '!flag.cg_carga_t4_ruta',
           new: '!flag.cg_carga_t4_ruta',
           doneIf: 'flag.cg_carga_t4_ruta',
           talk: [{ script: 'cg_carga_t4_rutas' }]
