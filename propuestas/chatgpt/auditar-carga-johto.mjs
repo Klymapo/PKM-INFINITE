@@ -13,6 +13,10 @@ for (const b of mod.BLOCKS) registerBlock(b);
 const id = 'cg_carga_johto';
 assert(C.quests[id], 'Falta misión paralela');
 assert(C.scripts.cg_carga_fin, 'Falta cierre del episodio');
+assert(C.locations.cg_carga_t0_darsena && C.locations.cg_carga_t0_cobertizo, 'Faltan dársena y cobertizo T0');
+assert(C.trainers.cg_carga_t0_practica_olivo, 'Falta práctica Pokémon del cobertizo T0');
+assert((await import('../../app/js/data.js')).D.items.cgcargat0croquis, 'Falta croquis de Olivo');
+assert((await import('../../app/js/data.js')).D.items.cgcargat0ficha, 'Falta ficha de dos ventanillas');
 assert(C.locations.cg_carga_anexo_trigal, 'Falta anexo físico de Trigal');
 assert(C.trainers.cg_carga_practica_trigal, 'Falta combate opcional de Trigal');
 assert(C.locations.cg_carga_gabinete_iris, 'Falta gabinete de pruebas de Iris');
@@ -48,6 +52,16 @@ const choices = {
   cg_carga_etiqueta: /Comparar hora impresa/,
   cg_carga_bascula: /Calibrarla/,
   cg_carga_libro: /Comparar los números/,
+  cg_carga_t0_dalia: /Pedir permiso para observar/,
+  cg_carga_t0_ventanilla: /Seguir el camino de un mensajero/,
+  cg_carga_t0_huellas_escena: /Comprobar el final de las huellas/,
+  cg_carga_t0_senales_escena: /Distinguir la señal de relevo/,
+  cg_carga_t0_croquis_escena: /Dibujar por separado la ruta/,
+  cg_carga_t0_manual: /Leer el funcionamiento/,
+  cg_carga_t0_maqueta_ayuda: /Pedir la maniobra supervisada/,
+  cg_carga_t0_formulario: /Entregar primero la hoja/,
+  cg_carga_t0_practica: /Participar en el entrenamiento amistoso/,
+  cg_carga_t0_sintesis: /Una firma de papeles no acredita/,
   cg_carga_inferencia: /Primero debemos separar/,
   cg_carga_olivo_decision: /Pedir revisión formal/,
   cg_carga_horario: /Separar preparación/,
@@ -166,7 +180,18 @@ const route = [
   ['cg_carga_etiqueta','cg_carga_t0_papel'],
   ['cg_carga_bascula','cg_carga_t0_masa'],
   ['cg_carga_libro','cg_carga_t0_libro'],
-  ['cg_carga_inferencia','cg_carga_t0_fin'],
+  ['cg_carga_t0_dalia','cg_carga_t0_permiso','cg_carga_t0_darsena'],
+  ['cg_carga_t0_ventanilla','cg_carga_t0_ventanilla'],
+  ['cg_carga_t0_huellas_escena','cg_carga_t0_huellas'],
+  ['cg_carga_t0_senales_escena','cg_carga_t0_senales'],
+  ['cg_carga_t0_croquis_escena','cg_carga_t0_croquis_listo'],
+  ['cg_carga_t0_manual','cg_carga_t0_manual','cg_carga_t0_cobertizo'],
+  ['cg_carga_t0_maqueta_escena','cg_carga_t0_maqueta'],
+  ['cg_carga_t0_formulario','cg_carga_t0_formulario'],
+  ['cg_carga_t0_practica','cg_carga_t0_practica_ganada'],
+  ['cg_carga_t0_releer_ficha',null],
+  ['cg_carga_t0_sintesis','cg_carga_t0_anexo_fin'],
+  ['cg_carga_inferencia','cg_carga_t0_fin','olivo'],
   ['cg_carga_patio','cg_carga_t1_inicio','trigal'],
   ['cg_carga_horario','cg_carga_t1_horario'],
   ['cg_carga_testigo','cg_carga_t1_testigo'],
@@ -284,7 +309,7 @@ assert(!evalCond('!flag.cg_carga_t7_fin'), 'La escena final debe desaparecer del
 assert(C.locations.olivo.spots.some(s => s.label === 'Recuerdo del envío de Johto'), 'Falta epílogo accesible');
 await advance('cg_carga_epilogo');
 assert.deepEqual({ money: G.player.money, cap: G.vars.cap, items: G.bag.maxpotion, hitos: G.vars.hitos }, snapshot, 'El epílogo no debe pagar otra vez');
-console.log('✔ T0–T7: 108 escenas/acciones comprobadas, ampliaciones T1–T7 y premios únicos');
+console.log('✔ T0–T7: 119 escenas/acciones comprobadas, ampliaciones T0–T7 y premios únicos');
 
 // La salida de la maqueta y la derrota del entrenamiento dejan reintentar.
 reset(74);
