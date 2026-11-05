@@ -1,0 +1,64 @@
+name: Auditoría Argos — aventura paralela Johto
+on:
+  push:
+    branches: [chatgpt/carga-johto-2026-11-05]
+    paths:
+      - "propuestas/chatgpt/misiones/cg-carga-johto*.js"
+      - ".github/workflows/auditoria-carga-johto.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  auditar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    env:
+      INFINITO_EXTRA: qa_johto
+    steps:
+      - name: Descargar repositorio
+        uses: actions/checkout@v4
+      - name: Preparar Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Instalar solo el paquete temporal de auditoría
+        shell: bash
+        run: |
+          mkdir -p app/content/qa_johto
+          cat > app/content/qa_johto/index.js <<'JS'
+          import paquete from '../../../propuestas/chatgpt/misiones/cg-carga-johto-completo.js';
+          export default {
+            ...paquete,
+            id: 'qa_johto',
+            title: 'Aventura opcional de Johto (auditoría, no publicada)',
+            hours: 7,
+            ends: 'cg_carga_t7_fin',
+            regions: {},
+            milestones: []
+          };
+          JS
+      - name: Herramientas de Elio — validador
+        shell: bash
+        run: node herramientas/validar.mjs
+      - name: Herramientas de Elio — Game Tester
+        shell: bash
+        run: node herramientas/tester.mjs
+      - name: Herramientas de Elio — Superfan
+        shell: bash
+        run: node herramientas/superfan.mjs
+      - name: Herramientas de Elio — Game Designer
+        shell: bash
+        run: node herramientas/disenador.mjs
+      - name: Herramientas de Elio — auditoría rápida y recorridos
+        shell: bash
+        run: node herramientas/auditar.mjs --rapida --bloque qa_johto --hasta cg_carga_t7_fin --semillas 2 --hilos 2
+      - name: Guardar informes de auditoría
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: informes-carga-johto
+          path: |
+            secreto/auditorias/*
+            propuestas/chatgpt/PLAN-CARGA-JOHTO-2026-11-05.md
+          if-no-files-found: ignore
+          retention-days: 7
