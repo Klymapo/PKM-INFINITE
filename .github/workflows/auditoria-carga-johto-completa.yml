@@ -1,0 +1,61 @@
+name: Auditoría completa Argos — Johto aislado
+on:
+  push:
+    branches: [chatgpt/carga-johto-2026-11-05]
+    paths:
+      - ".github/workflows/auditoria-carga-johto-completa.yml"
+permissions:
+  contents: read
+jobs:
+  auditoria-completa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Montar propuesta solo en el runner (nunca main)
+        shell: bash
+        run: |
+          mkdir -p app/content/qa_johto
+          cp propuestas/chatgpt/misiones/cg-carga-johto*.js app/content/qa_johto/
+          cat > app/content/qa_johto/index.js <<'JS'
+          import propuesta from './cg-carga-johto-completo.js';
+          export default {
+            ...propuesta,
+            id: 'qa_johto',
+            title: 'Johto: aventura lateral (solo auditoría)',
+            hours: 7,
+            ends: 'b07_fin',
+            regions: {},
+            milestones: []
+          };
+          JS
+          cat >> app/content/index.js <<'JS'
+
+          // Aditivo únicamente durante la auditoría efímera.
+          import qa_johto from './qa_johto/index.js';
+          BLOCKS.push(qa_johto);
+          JS
+          node herramientas/build-sw.mjs
+      - name: Instalar Playwright libre y Chromium
+        shell: bash
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install --with-deps chromium
+      - name: Ejecutar auditoría integral de Elio (con humo y UX móvil)
+        shell: bash
+        run: node herramientas/auditar.mjs --semillas 4 --hilos 4
+      - name: Archivar resultados (no publicar)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: auditoria-completa-johto
+          path: |
+            secreto/auditorias/*-2026-11-05.md
+          retention-days: 7
+          if-no-files-found: ignore
