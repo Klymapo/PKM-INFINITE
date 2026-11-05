@@ -27,7 +27,7 @@ export default {
         olivo: 'En **Olivo**, revisa tres pruebas del envío junto al almacén del faro.',
         deduccion: 'En **Olivo**, compara las tres pruebas en la mesa de revisión.',
         trigal: 'Ve al **patio de carga de Trigal**. Revisa horario, conductor y precintos.',
-        orden: 'En **Trigal**, visita el **anexo del patio** y verifica el desvío de vagones antes de ordenar la cronología en el tablón.'
+        orden: 'En **Trigal**, visita el **anexo del patio** y verifica el desvío de vagones antes de ordenar la cronología en el tablón.',
         iris: 'En **Iris**, escucha a los tres guías y compara sus testimonios.',
         caoba: 'En **Caoba**, examina el canal y ayuda a un Wooper antes de seguir la carga.',
         prueba: 'En **Caoba**, prepara el envío de prueba y verifica peso, sello y horarios.',
