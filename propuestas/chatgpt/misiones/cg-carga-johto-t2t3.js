@@ -20,7 +20,7 @@ export default {
         new: '!flag.cg_carga_t2_guia3', doneIf: 'flag.cg_carga_t2_guia3',
         talk: [{ script: 'cg_carga_guia_sello' }] },
       { label: 'Mesa de cotejo de Iris', icon: '🧩', sub: 'Tres relatos, un registro y una pregunta precisa',
-        cond: 'flag.cg_carga_t2_guia1 && flag.cg_carga_t2_guia2 && flag.cg_carga_t2_guia3 && !flag.cg_carga_t2_fin',
+        cond: 'flag.cg_carga_t2_guia1 && flag.cg_carga_t2_guia2 && flag.cg_carga_t2_guia3 && flag.cg_carga_t2_anexo_cotejo && !flag.cg_carga_t2_fin',
         new: 'true', talk: [{ script: 'cg_carga_cotejo_iris' }] },
       { label: 'La ficha del camino', icon: '🧭', sub: 'Anota el siguiente destino',
         cond: 'flag.cg_carga_t2_fin', talk: [{ script: 'cg_carga_iris_despues' }] }
@@ -136,6 +136,10 @@ export default {
       ] }
     ],
     cg_carga_cotejo_iris: [
+      { if: '!flag.cg_carga_t2_anexo_cotejo', then: [
+        { say: 'rotom', text: '¡Bzzt! Antes hay que cotejar la firma con el original protegido. El gabinete de copias de Iris está abierto para consulta.' },
+        { end: true }
+      ] },
       'Pones las tres declaraciones en el mismo borde de la mesa. El dibujo, el farol y la mancha de agua no se contradicen.',
       { say: 'rotom', text: '¡Bzzt! El reto es qué significa la firma, no a quién le pertenece. Esa pregunta todavía no tiene pruebas.' },
       { choice: [
