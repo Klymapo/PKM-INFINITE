@@ -52,7 +52,7 @@ export default {
         new: '!flag.cg_carga_t5_firmas', doneIf: 'flag.cg_carga_t5_firmas',
         talk: [{ script: 'cg_carga_firmas' }] },
       { label: 'Encargado del segundo turno', icon: '🧑‍🏭', sub: 'El guardia está dispuesto a explicar lo que falta',
-        cond: 'flag.cg_carga_t5_guardia && flag.cg_carga_t5_entreplanta && flag.cg_carga_t5_firmas && !flag.cg_carga_t5_fin',
+        cond: 'flag.cg_carga_t5_guardia && flag.cg_carga_t5_entreplanta && flag.cg_carga_t5_firmas && flag.cg_carga_t5_forma && !flag.cg_carga_t5_fin',
         new: 'true', talk: [{ script: 'cg_carga_encargado' }] }
     ] }
   },
@@ -225,6 +225,15 @@ export default {
       ] }
     ],
     cg_carga_encargado: [
+      { if: '!flag.cg_carga_t5_forma', then: [
+        { say: 'rotom', text: '¡Bzzt! Antes de entrevistarlo necesitamos contrastar el segundo turno en el muelle y la entreplanta y decidir cómo presentar las pruebas.' },
+        { end: true }
+      ] },
+      { if: 'flag.cg_carga_t5_forma_documento', then: [
+        'Presentas el pliego corregido. El encargado examina los dos asientos antes de responder; esta vía deja que el papel haga la primera pregunta.'
+      ], else: [
+        'Guardas el pliego un momento y pides al encargado que relate lo ocurrido antes de cotejarlo. Escuchar no significa dar por verdadera toda su versión.'
+      ] },
       'El encargado de almacén llega con una llave, dos recibos y una expresión de cansancio que no intenta disimular.',
       { say: 'yasmina', text: 'Estamos intentando reconstruir el turno. Podemos ir despacio. Nadie está aquí para perder un empleo por una sospecha.' },
       'El encargado examina tus tres notas antes de hablar.',
@@ -256,6 +265,11 @@ export default {
       ] }
     ],
     cg_carga_turno_cierre: [
+      { if: 'flag.cg_carga_t5_forma_documento', then: [
+        'El encargado señala una casilla concreta que debe rectificarse y pide que la corrección quede firmada con fecha, sin borrar la anotación original.'
+      ], else: [
+        'El encargado completa primero su testimonio; luego ve el pliego y reconoce que una firma de relevo terminó archivada como si fuera de entrega.'
+      ] },
       'La cronología se vuelve más simple: el recibo más antiguo era de documentos, no de un paquete.',
       { say: 'yasmina', text: 'Ahora sí tenemos elementos para explicar el error. Pero aún falta decidir cómo corregirlo sin cargarle a nadie una culpa que no podemos demostrar.' },
       { set: { 'flag.cg_carga_t5_fin': true } },
