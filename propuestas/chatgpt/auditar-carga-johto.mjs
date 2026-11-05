@@ -21,6 +21,9 @@ assert(C.locations.cg_carga_ribera_caoba, 'Falta pasarela de Caoba');
 assert(C.locations.cg_carga_caseta_caoba, 'Falta caseta de aforo');
 assert(C.trainers.cg_carga_guardacanal_practica, 'Falta práctica Pokémon del canal');
 assert((await import('../../app/js/data.js')).D.items.cgcargaanillacanal, 'Falta anilla del canal');
+assert(C.locations.cg_carga_t4_patio, 'Falta patio de ensayo T4');
+assert(C.locations.cg_carga_t4_estafeta, 'Falta estafeta T4');
+assert((await import('../../app/js/data.js')).D.items.cgcargat4actaensayo, 'Falta acta final T4');
 let stage = '';
 let mode = 'main';
 const errors = [];
@@ -77,6 +80,13 @@ const choices = {
   cg_carga_prueba_peso: /Registrar por separado/,
   cg_carga_prueba_sello: /Atar el primer cordel/,
   cg_carga_prueba_hora: /Anotar preparación/,
+  cg_carga_t4_rutas: /Elegir la pasarela húmeda/,
+  cg_carga_t4_empaque_escena: /Poner la funda impermeable/,
+  cg_carga_t4_registro_carga: /Firmar preparación/,
+  cg_carga_t4_control_ruta: /Detenerse, comprobar/,
+  cg_carga_t4_documentos: /Acusar recibo de la carpeta/,
+  cg_carga_t4_recepcion_escena: /Pesar la caja/,
+  cg_carga_t4_contraste: /El papel y la caja tienen recepciones distintas/,
   cg_carga_prueba_conclusion: /El formulario pudo firmarse/,
   cg_carga_entreplanta: /Comparar el polvo/,
   cg_carga_guardia: /Comparar columnas/,
@@ -164,7 +174,15 @@ const route = [
   ['cg_carga_prueba_peso','cg_carga_t4_peso'],
   ['cg_carga_prueba_sello','cg_carga_t4_sello'],
   ['cg_carga_prueba_hora','cg_carga_t4_hora'],
-  ['cg_carga_prueba_conclusion','cg_carga_t4_fin'],
+  ['cg_carga_t4_rutas','cg_carga_t4_ruta','cg_carga_t4_patio'],
+  ['cg_carga_t4_empaque_escena','cg_carga_t4_empaque'],
+  ['cg_carga_t4_registro_carga','cg_carga_t4_carga'],
+  ['cg_carga_t4_control_ruta','cg_carga_t4_control','cg_carga_t4_estafeta'],
+  ['cg_carga_t4_documentos','cg_carga_t4_relevo'],
+  ['cg_carga_t4_recepcion_escena','cg_carga_t4_recepcion'],
+  ['cg_carga_t4_contraste','cg_carga_t4_recorrido_fin'],
+  ['cg_carga_t4_ensayo_despues',null],
+  ['cg_carga_prueba_conclusion','cg_carga_t4_fin','caoba'],
   ['cg_carga_turno_inicio','cg_carga_t5_inicio','olivo'],
   ['cg_carga_entreplanta','cg_carga_t5_entreplanta'],
   ['cg_carga_guardia','cg_carga_t5_guardia'],
@@ -193,7 +211,7 @@ assert(!evalCond('!flag.cg_carga_t7_fin'), 'La escena final debe desaparecer del
 assert(C.locations.olivo.spots.some(s => s.label === 'Recuerdo del envío de Johto'), 'Falta epílogo accesible');
 await advance('cg_carga_epilogo');
 assert.deepEqual({ money: G.player.money, cap: G.vars.cap, items: G.bag.maxpotion, hitos: G.vars.hitos }, snapshot, 'El epílogo no debe pagar otra vez');
-console.log('✔ T0–T7: 65 escenas/acciones comprobadas, Trigal/Iris/Caoba y premios únicos');
+console.log('✔ T0–T7: 73 escenas/acciones comprobadas, Trigal/Iris/Caoba/ensayo T4 y premios únicos');
 
 // La salida de la maqueta y la derrota del entrenamiento dejan reintentar.
 reset(74);
@@ -285,6 +303,46 @@ for (const variant of ['lose','battle']) {
   assert(variant !== 'lose' || !G.flags.cg_carga_t3_simulacro_ganado, 'La derrota no cuenta como victoria');
 }
 console.log('✔ Caoba: entrenamiento opcional, victoria y derrota sin bloqueo');
+
+// T4: las decisiones del ensayo afectan el embalaje y dejan una bitácora de errores
+// sin alterar el progreso principal. Se comprueban ambas rutas y una elección incorrecta.
+reset(74);
+G.flags.cg_carga_t4_inicio = true;
+G.flags.cg_carga_t4_peso = true;
+G.flags.cg_carga_t4_sello = true;
+G.flags.cg_carga_t4_hora = true;
+await advance('cg_carga_prueba_conclusion', null, 'caoba');
+assert(!G.flags.cg_carga_t4_fin, 'No se permite terminar T4 sin haber ejecutado el envío');
+const routePref = choices.cg_carga_t4_rutas;
+const packPref = choices.cg_carga_t4_empaque_escena;
+const registerPref = choices.cg_carga_t4_registro_carga;
+choices.cg_carga_t4_rutas = /Elegir el bordo de grava/;
+await advance('cg_carga_t4_rutas', 'cg_carga_t4_ruta', 'cg_carga_t4_patio');
+assert(G.flags.cg_carga_t4_ruta_bordo && !G.flags.cg_carga_t4_ruta_pasarela, 'El bordo debe elegir la rama de grava');
+choices.cg_carga_t4_empaque_escena = /Poner la funda impermeable/;
+await advance('cg_carga_t4_empaque_escena', null);
+assert(!G.flags.cg_carga_t4_empaque && G.flags.cg_carga_t4_retraso_empaque, 'La funda no puede proteger el cajón en el bordo');
+choices.cg_carga_t4_empaque_escena = /Asegurar el cajón con correas cruzadas/;
+await advance('cg_carga_t4_empaque_escena', 'cg_carga_t4_empaque');
+assert(G.flags.cg_carga_t4_correas, 'El bordo debe exigir correas');
+choices.cg_carga_t4_registro_carga = /Copiar la firma en preparación y recepción/;
+await advance('cg_carga_t4_registro_carga', null);
+assert(!G.flags.cg_carga_t4_carga && G.flags.cg_carga_t4_retraso_registro, 'Firmar la recepción antes del envío debe quedar como error');
+choices.cg_carga_t4_registro_carga = registerPref;
+await advance('cg_carga_t4_registro_carga', 'cg_carga_t4_carga');
+await advance('cg_carga_t4_control_ruta', 'cg_carga_t4_control', 'cg_carga_t4_estafeta');
+await advance('cg_carga_t4_documentos', 'cg_carga_t4_relevo');
+await advance('cg_carga_t4_recepcion_escena', 'cg_carga_t4_recepcion');
+await advance('cg_carga_t4_contraste', 'cg_carga_t4_recorrido_fin');
+assert.equal(G.bag.cgcargat4actaensayo, 1, 'El contraste final debe entregar una acta');
+await advance('cg_carga_t4_contraste', null);
+assert.equal(G.bag.cgcargat4actaensayo, 1, 'El acta no se puede duplicar');
+await advance('cg_carga_prueba_conclusion', 'cg_carga_t4_fin', 'caoba');
+choices.cg_carga_t4_rutas = routePref;
+choices.cg_carga_t4_empaque_escena = packPref;
+console.log('✔ T4: las dos rutas validan su protección, error documentado, reintento y acta una sola vez');
+
+for (const variant of ['lose','battle']) {
 
 for (const variant of ['battle','lose']) {
   reset(74);
