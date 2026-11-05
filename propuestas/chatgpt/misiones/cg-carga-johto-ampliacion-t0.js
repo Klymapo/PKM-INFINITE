@@ -247,7 +247,7 @@ export default {
       onQuit: [
         { set: { 'flag.cg_carga_t0_maqueta_intento': true } },
         { say: 'rotom', text: '¡Bzzt! La maqueta se puede repetir o pedir ayuda. Ninguna nota se borra por dejar el ejercicio.' }
-      ]
+      ] }
     ],
     cg_carga_t0_maqueta_ayuda: [
       { say: 'cg_carga_dalia_olivo', text: 'Esto es una demostración de procedimiento, no una competencia. Si prefieres observar, haré el movimiento.' },
