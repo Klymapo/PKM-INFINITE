@@ -165,7 +165,10 @@ export default {
       ] }
     ],
     cg_carga_recibo_cierre: [
-      { give: 'cg_carga_recibo' },
+      { if: '!flag.cg_carga_t6_recibo_dado', then: [
+        { give: 'cg_carga_recibo' },
+        { set: { 'flag.cg_carga_t6_recibo_dado': true } }
+      ] },
       { read: 'cg_carga_recibo' },
       { quest: 'cg_carga_johto', stage: 'entrega' },
       { say: 'rotom', text: '¡Bzzt! ¡Ahora toca una entrega verdadera! Si tres sitios confirman que entienden la corrección, el papel habrá servido.' },
