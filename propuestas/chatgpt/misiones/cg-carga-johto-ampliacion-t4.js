@@ -132,7 +132,6 @@ export default {
       { choice: [
         {
           text: 'Elegir la pasarela húmeda (ruta corta)',
-          cond: '!flag.cg_carga_t4_ruta',
           then: [
             { set: { 'flag.cg_carga_t4_ruta': true, 'flag.cg_carga_t4_ruta_pasarela': true } },
             'La ruta marcada en azul cruza tablas húmedas. El embalaje tendrá que impedir que la humedad alcance la etiqueta.',
@@ -141,7 +140,6 @@ export default {
         },
         {
           text: 'Elegir el bordo de grava (ruta larga)',
-          cond: '!flag.cg_carga_t4_ruta',
           then: [
             { set: { 'flag.cg_carga_t4_ruta': true, 'flag.cg_carga_t4_ruta_bordo': true } },
             'La ruta en amarillo rodea la acequia. Es seca, pero un tramo de grava hace vibrar los cajones mal sujetos.',
@@ -150,7 +148,6 @@ export default {
         },
         {
           text: 'Salir del plano sin elegir',
-          cond: '!flag.cg_carga_t4_ruta',
           then: [
             'Nelo guarda el gis. «Cuando quieras, seguimos. Todavía no hay carga ni hora registrada».'
           ]
