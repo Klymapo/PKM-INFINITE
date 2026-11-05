@@ -249,6 +249,10 @@ export default {
       ] }
     ],
     cg_carga_fin: [
+      { if: 'flag.cg_carga_t7_fin', then: [
+        { say: 'rotom', text: '¡Bzzt! Este expediente ya quedó cerrado. El reconocimiento se entrega una sola vez.' },
+        { end: true }
+      ] },
       { money: 2400 },
       { give: 'maxpotion', n: 2 },
       { set: { 'flag.cg_carga_t7_fin': true } },
