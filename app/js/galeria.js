@@ -1,6 +1,5 @@
-// Galería privada (pedido de Mario, 2026-10-28): imágenes que Mario mete desde su teléfono (postales y momentos
-// dibujados por Argos, que llevan Pokémon y por eso NO viven en el repo ni se publican). Se guardan solo en este
-// teléfono, en IndexedDB, con su nombre de archivo como clave. Nunca se suben a ningún sitio.
+// Galería privada: imágenes que Mario importa desde su teléfono. Se guardan solo en ese
+// dispositivo, en IndexedDB, con el nombre de archivo como clave.
 //   postal-<idLugar>.png   → sustituye a la postal del Álbum (Colección) de ese lugar
 //   momento-NN-<slug>.png  → se ve en la galería con su título
 // La parte pura (nombres y títulos) se prueba en Node: herramientas/test/galeria-test.mjs.

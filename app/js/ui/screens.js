@@ -34,6 +34,7 @@ import { moveMany, moveBox, swapBoxes, boxName, hasBoxName, setBoxName, BOX_NAME
 import { playPuzzle } from './rejilla.js';
 import { repairSave } from '../reparaciones.js';
 import { illus } from '../imagenes.js';
+import { unlockedMoments } from '../momentos.js';
 import { playCutscene } from './cine.js';
 import { playMinigame, showLoot } from './minijuegos.js';
 import { MINI_INFO, gatherGame, gatherCargo, prepare, settle, sumCargo } from '../minijuegos.js';
@@ -2735,7 +2736,8 @@ function openCollection(startTab = 'postcards') {
 		const album = G.album || {};
 		const uni = itemUniverse();
 		const keys = Object.keys(G.bag).filter(id => G.bag[id] > 0 && D.items[id]?.pocket === 'key');
-		const tabs = h('div', { class: 'tabs' }, ...[['postcards', 'Postales', `${towns.filter(t => album[t.id]).length}/${towns.length}`], ['items', 'Objetos', `${Object.keys(uni).filter(id => G.found?.[id]).length}/${Object.keys(uni).length}`], ['keep', 'Recuerdos', String(keys.length)]]
+		const moments = unlockedMoments();
+		const tabs = h('div', { class: 'tabs' }, ...[['postcards', 'Postales', `${towns.filter(t => album[t.id]).length}/${towns.length}`], ['items', 'Objetos', `${Object.keys(uni).filter(id => G.found?.[id]).length}/${Object.keys(uni).length}`], ['keep', 'Recuerdos', String(keys.length + moments.length)]]
 			.map(([k, n, c]) => h('button', { class: tab === k ? 'on' : '', onclick: () => { tab = k; draw(); } }, n, h('span', { class: 'tabcount' }, c))));
 		const body = h('div', {});
 		if (tab === 'postcards') {
@@ -2748,7 +2750,7 @@ function openCollection(startTab = 'postcards') {
 				for (const t of list) {
 					const have = album[t.id];
 					const card = h('button', { class: 'postcard' + (have ? '' : ' locked'), onclick: () => have && viewPostcard(t) },
-						have ? (illus('postales/' + t.id + '.png') || GAL.swapIfPrivate(sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' }), 'postal-' + t.id + '.png')) : h('div', { class: 'pc-q' }, '?'),
+						have ? (postcardArt(t)) : h('div', { class: 'pc-q' }, '?'),
 						h('div', { class: 'pc-name' }, have ? (t.short || t.name.replace(/^(Ciudad|Pueblo) /, '')) : '???'));
 					grid.append(card);
 				}
@@ -2773,7 +2775,18 @@ function openCollection(startTab = 'postcards') {
 				body.append(list);
 			}
 		} else {
-			if (!keys.length) body.append(h('div', { class: 'empty' }, 'Aún no guardas ningún recuerdo.'));
+			if (moments.length) {
+				const grid = h('div', { class: 'postgrid' });
+				for (const moment of moments) {
+					const img = illus(moment.image);
+					img.loading = 'lazy';
+					grid.append(h('button', { class: 'postcard moment-card', onclick: () => viewMoment(moment) },
+						img, h('div', { class: 'pc-name' }, moment.title)));
+				}
+				body.append(h('div', { class: 'section-title' }, 'Momentos ilustrados'), grid);
+			}
+			if (!keys.length && !moments.length) body.append(h('div', { class: 'empty' }, 'Aún no guardas ningún recuerdo.'));
+			if (keys.length && moments.length) body.append(h('div', { class: 'section-title' }, 'Objetos de recuerdo'));
 			const list = h('div', { class: 'list' });
 			for (const id of keys) {
 				const it = D.items[id];
@@ -2788,8 +2801,24 @@ function openCollection(startTab = 'postcards') {
 	draw();
 }
 
+function postcardArt(t) {
+	const image = illus('postales/' + t.id + '.png') ||
+		sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' });
+	return GAL.swapIfPrivate(image, 'postal-' + t.id + '.png');
+}
+
+function viewMoment(moment) {
+	const img = illus(moment.image);
+	img.alt = moment.title;
+	const overlay = h('div', { class: 'overlay dim art-viewer', onclick: () => overlay.remove() },
+		h('div', { class: 'postcard-big moment-card' }, img,
+			h('div', { class: 'pcb-text' }, h('div', { class: 'pcb-greet' }, moment.title))),
+		h('div', { class: 'art-hint' }, 'Toca para cerrar'));
+	document.body.append(overlay);
+}
+
 function viewPostcard(t) {
-	const cv = illus('postales/' + t.id + '.png') || GAL.swapIfPrivate(sceneCanvas({ ...(t.bg || {}), seed: t.bg?.seed || t.id }, { phase: 'dia' }), 'postal-' + t.id + '.png');
+	const cv = postcardArt(t);
 	const date = new Date(G.album[t.id]).toLocaleDateString('es-MX', { day: 'numeric', month: 'long', year: 'numeric' });
 	const first = (descOf(t) || '').replace(/\*\*/g, '').split(/(?<=\.)\s/)[0];
 	const ov = h('div', { class: 'overlay dim art-viewer', onclick: () => ov.remove() },
