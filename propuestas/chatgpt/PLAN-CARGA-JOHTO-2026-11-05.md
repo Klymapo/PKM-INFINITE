@@ -117,3 +117,11 @@ D. Cierre y premio una única vez, más un epílogo persistente y accesible; tod
 **Primera ampliación (T1): HECHA y auditada en rápida.** Se añadió un anexo explorable al patio de Trigal con aprendiz de inventarios, cotejo de vagones, marcas en suelo, diálogo con varias vías, maqueta táctil de desvíos y práctica Pokémon opcional con curación y reintento. El tablón del patio ahora exige la prueba del desvío. Guardado en `cg-carga-johto-ampliacion-t1.js`, integrado en `cg-carga-johto-completo.js`.
 
 **Pruebas:** 46 acciones y caminos de victoria/derrota/reintento verificados; validador, Tester y auditoría rápida aprobados en [GitHub Actions](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42116652477). El módulo nuevo no se ha publicado y el objetivo de 6–8 h sigue sin comprobar. **Siguiente incremento:** T2 (Iris), con otro tipo de actividad jugable y revisión de voces/continuidad.
+
+
+## Avance incremental verificado · T2 Iris · 2026-11-05
+**Segundo incremento: HECHO y validado en auditoría rápida.** Módulo `misiones/cg-carga-johto-ampliacion-t2.js` conectado. El gabinete de copias ofrece inspección de fibras, comparación de tintas, prueba de humedad sin alterar originales, minijuego de memoria con alternativa supervisada, tablero de contradicciones y acta de cotejo. Alda y dos objetos de lectura nuevos no modifican el elenco principal. El cierre de Iris ya exige comparar las fuentes materiales.
+
+**Pruebas:** total acumulado de **54 acciones**; se comprobaron victoria/cancelación/derrota/reintento del cajón, copia supervisada, lectura sin duplicación y conservación de recompensas. [Auditoría rápida aprobada](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42118247947); validador sin errores y revisores de Elio sin graves. **Todavía no publicado.**
+
+**Siguiente incremento recomendado:** T3 Caoba — exploración de campo, agua y cuidado de Wooper mediante un reto jugable diferente; mantener el objetivo de 6–8 h como hipótesis por comprobar y no declarar duración sin jugarlo.
