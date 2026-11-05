@@ -30,6 +30,8 @@ assert((await import('../../app/js/data.js')).D.items.cgcargat5pliego, 'Falta pl
 assert(C.locations.cg_carga_t6_sala_cotejo && C.locations.cg_carga_t6_mesa_revision, 'Faltan las salas de rectificación T6');
 assert((await import('../../app/js/data.js')).D.items.cgcargat6calco, 'Falta calco de Olivo');
 assert((await import('../../app/js/data.js')).D.items.cgcargat6borrador, 'Falta borrador T6');
+assert(C.locations.cg_carga_t7_patio_final && C.locations.cg_carga_t7_archivo_final && C.locations.cg_carga_t7_orilla_final && C.locations.cg_carga_t7_mesa_cierre, 'Faltan las 4 áreas T7');
+assert((await import('../../app/js/data.js')).D.items.cgcargat7libreta, 'Falta libreta T7');
 let stage = '';
 let mode = 'main';
 const errors = [];
@@ -251,9 +253,22 @@ const route = [
   ['cg_carga_t6_borrador_final','cg_carga_t6_borrador_listo'],
   ['cg_carga_t6_relectura',null],
   ['cg_carga_recibo_deduccion','cg_carga_t6_fin','olivo'],
+  ['cg_carga_t7_t_mara','cg_carga_t7_t_mara','cg_carga_t7_patio_final'],
+  ['cg_carga_t7_t_tablero','cg_carga_t7_t_tablero'],
+  ['cg_carga_t7_t_lectura','cg_carga_t7_t_lectura'],
   ['cg_carga_entrega_trigal','cg_carga_t7_trigal','trigal'],
+  ['cg_carga_t7_i_tarjetas','cg_carga_t7_i_tarjetas','cg_carga_t7_archivo_final'],
+  ['cg_carga_t7_i_carta','cg_carga_t7_i_carta'],
+  ['cg_carga_t7_i_lectura','cg_carga_t7_i_lectura'],
   ['cg_carga_entrega_iris','cg_carga_t7_iris','iris'],
+  ['cg_carga_t7_c_nivel','cg_carga_t7_c_nivel','cg_carga_t7_orilla_final'],
+  ['cg_carga_t7_c_protocolo','cg_carga_t7_c_protocolo'],
+  ['cg_carga_t7_c_wooper','cg_carga_t7_c_wooper'],
   ['cg_carga_entrega_caoba','cg_carga_t7_caoba','caoba'],
+  ['cg_carga_t7_orden_final','cg_carga_t7_ordenados','cg_carga_t7_mesa_cierre'],
+  ['cg_carga_t7_procedimiento','cg_carga_t7_procedimiento'],
+  ['cg_carga_t7_conclusion','cg_carga_t7_cierre_listo'],
+  ['cg_carga_t7_relectura',null],
   ['cg_carga_entrega_final','cg_carga_t7_fin','olivo']
 ];
 reset();
@@ -269,7 +284,7 @@ assert(!evalCond('!flag.cg_carga_t7_fin'), 'La escena final debe desaparecer del
 assert(C.locations.olivo.spots.some(s => s.label === 'Recuerdo del envío de Johto'), 'Falta epílogo accesible');
 await advance('cg_carga_epilogo');
 assert.deepEqual({ money: G.player.money, cap: G.vars.cap, items: G.bag.maxpotion, hitos: G.vars.hitos }, snapshot, 'El epílogo no debe pagar otra vez');
-console.log('✔ T0–T7: 95 escenas/acciones comprobadas, ampliaciones T1–T6 y premios únicos');
+console.log('✔ T0–T7: 108 escenas/acciones comprobadas, ampliaciones T1–T7 y premios únicos');
 
 // La salida de la maqueta y la derrota del entrenamiento dejan reintentar.
 reset(74);
