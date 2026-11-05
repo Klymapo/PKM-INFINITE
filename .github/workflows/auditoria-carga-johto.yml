@@ -4,6 +4,7 @@ on:
     branches: [chatgpt/carga-johto-2026-11-05]
     paths:
       - "propuestas/chatgpt/misiones/cg-carga-johto*.js"
+      - "propuestas/chatgpt/auditar-carga-johto.mjs"
       - ".github/workflows/auditoria-carga-johto.yml"
   workflow_dispatch:
 permissions:
