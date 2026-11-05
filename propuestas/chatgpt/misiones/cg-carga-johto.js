@@ -32,7 +32,7 @@ export default {
         caoba: 'En **Caoba**, examina las huellas, visita la **pasarela** y la **caseta de aforo**, compara el agua y ayuda a Wooper sin ponerlo en riesgo.',
         prueba: 'En **Caoba**, comprueba peso, sello y horarios, luego realiza una simulación con ruta, embalaje, relevo documental y recepción en la **estafeta de ensayo**.',
         turno: 'En **Olivo**, revisa el segundo turno del almacén y escucha al encargado.',
-        recibo: 'En **Olivo**, coteja las pruebas y decide cómo corregir el registro.',
+        recibo: 'En **Olivo**, visita la **sala de cotejo**, conserva los asientos originales y comprueba el nuevo recibo antes de decidir cómo corregirlo.',
         entrega: 'Obtén los acuses de **Trigal**, **Iris** y **Caoba** y cierra la carpeta en **Olivo**.',
         hecha: 'El registro quedó corregido y la entrega llegó a su destino.'
       }
