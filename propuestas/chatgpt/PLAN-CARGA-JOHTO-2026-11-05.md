@@ -1,0 +1,109 @@
+# Pokémon Infinite · paquete paralelo de Johto
+
+**Título de trabajo (uso interno):** La carga que nadie firmó
+**Estado:** RECONSTRUCCIÓN desde el último diseño conocido, NO publicado.
+**Fecha:** 2026-11-05
+**Autor:** Argos/ChatGPT para revisión de Elio.
+**Rama de entrega:** `chatgpt/carga-johto-2026-11-05`
+**Ámbito:** Propuesta aislada; nunca reemplaza ni prolonga B7.
+
+## Contrato innegociable
+- Historia enteramente paralela en **Johto**, utilizando Olivo, Trigal, Iris y Caoba, más lugares ya accesibles. No abre una región nueva, no introduce medallas ni continúa la gira interregional.
+- Sus ocho tramos deben poder jugarse sin avanzar automáticamente ningún hilo principal. No tocar decisiones, romances, inventarios de personajes, muertes ni flags centrales. Yasmina, Kaori y Tobías intervienen solo en momentos compatibles y de forma condicional según su disponibilidad; no cambiar su estado.
+- Ningún guion nuevo debe adelantar conocimiento de bloques futuros. Si una aparición de algún recurrente queda fuera de su ventana de continuidad, sustituirla por un mensaje o testimonio previo o una referencia indirecta.
+- Todos los ids nuevos bajo `cg_carga_`. Sin renombrar ni borrar ids publicados. Parches exclusivamente aditivos. Se respetan los nombres y datos oficiales de Pokémon.
+- El objeto y la firma son un misterio que las pruebas permiten deducir; NO conectar el giro a un villano, organización o arco central sin consentimiento editorial de Elio.
+- Siempre hay reintentos claros y salida voluntaria. Ningún combate contra personaje con nombre sin curación previa. Una derrota nunca borra las pruebas ni bloquea el cierre. Sin misiones por espera real.
+- La misión piloto previa duró **15 minutos como máximo**. Para una duración de 6–8 horas, se necesita una estructura equivalente a **24–32 pilotos**, no ocho escenas lineales. Por eso cada tramo tiene al menos **tres o cuatro unidades de actividad** (investigar, confrontar, deducir, jugar).
+- Las duraciones son metas de diseño, **no se declaran verificadas hasta cronometraje real**.
+
+## Ritmo y duración: 8 tramos, 24–32 unidades
+| Tramo | Meta orientativa | Unidades jugables (15 min de referencia) | Ancla |
+|---|---:|---:|---|
+| T0 | 45–55 min | 3–4 | Olivo: un envío que llegó antes de ser enviado |
+| T1 | 45–60 min | 3–4 | Trigal: patio de carga, rutas y dos manifiestos |
+| T2 | 50–60 min | 3–4 | Iris: tres guías que describen una misma firma |
+| T3 | 45–60 min | 3–4 | Caoba: aguas alteradas y un Wooper |
+| T4 | 45–55 min | 3–4 | Envío de prueba: transporte y contraejemplo |
+| T5 | 45–60 min | 3–4 | Segundo turno: almacén, operación nocturna y jefe |
+| T6 | 45–60 min | 3–4 | Recibo en blanco: hipótesis, evidencia y decisión |
+| T7 | 45–60 min | 3–4 | Entrega en persona y epílogo explorable |
+| **Total** | **6–8 h objetivo** | **24–32** | Requiere prueba real |
+
+### T0 · El envío que ya estaba allí (Olivo)
+A. Incidente: Yasmina pide revisar un embalaje abandonado cuyo sello de recepción antecede a la salida. No se obliga a aceptar.
+B. Inspección libre de **tres fuentes**: etiqueta original (fecha), peso del cajón (faltante que no rompe el sello), libro de entrada (dos caligrafías). Cada fuente genera evidencia separada y una observación propia.
+C. Interpretación inicial de tres hipótesis, con pistas y reintentos. La respuesta correcta NO resuelve quién firmó; solo determina dónde investigar.
+D. Consecuencia local visible: ordenar pruebas en un sobre y decidir entre avisar a la guardia de almacén o mirar primero otro registro. Dos variaciones del mismo recorrido, sin reputación global.
+
+### T1 · El patio de carga (Trigal)
+A. Llegada: reconstruir la diferencia entre horario ferroviario, registro de carretas y testimonios.
+B. Dos entrevistas con versiones compatibles solo si se separan **fecha de carga** y **fecha de recepción**; seleccionar qué pregunta hacer primero altera un diálogo posterior.
+C. Recorrido por tres estaciones del patio, con uno o dos combates **opcionales y curación previa**; rutas accesibles sin combatir.
+D. Deducción: ajustar el orden de tres envíos; el orden inválido devuelve una pista específica, no reinicia.
+
+### T2 · Tres guías, una firma (Iris)
+A. Tres testimonios de guías; cada uno recuerda una parte material distinta y una omisión.
+B. Mecánica de cotejo: tinta, papel y sello son variables separadas; no basta con repetir tres veces “preguntar”.
+C. Tobías introduce un contraejemplo técnico; no le hace saber información de trama principal.
+D. Primer giro sustentado: el documento puede ser auténtico aunque quien figure no estuvo presente. Una pequeña decisión guarda una observación, no modifica la historia troncal.
+
+### T3 · El agua devuelta (Caoba)
+A. Seguir la ruta que habría seguido el paquete hacia un canal.
+B. Un Wooper afectado cambia el objetivo de “buscar una caja” a “medir un daño”: prueba en la orilla, control de agua, seguimiento corto.
+C. Tres métodos de observación, no solo tres objetos: escuchar a la gente, verificar huellas y examinar la marca de agua. El orden es libre.
+D. Elegir cómo auxiliar al Wooper sin capturarlo ni forzar una recompensa Pokémon; el resultado cambia mensajes posteriores.
+
+### T4 · Envío de prueba
+A. Preparar una réplica inerte sin trasladar material peligroso, con objetos y pesos verificables.
+B. Ruta logística con cuatro decisiones de transporte; un error consume tiempo ficticio y da una pista, no atrapa al jugador.
+C. Prueba de falsación: comprobar si la duplicación aparente se debe al registro o al movimiento real.
+D. Reinterpretar la evidencia recogida y abrir el segundo turno; pausa natural con curación y acceso al mapa.
+
+### T5 · El segundo turno
+A. Almacén al anochecer con **opción de jugar a cualquier hora**: hora ficticia de la escena, no evento de reloj real.
+B. Investigación en dos plantas; tres pistas nuevas, una falsa pista explicable y un objeto de llave.
+C. Jefe de almacén: combate de desafío opcional o negociable, cura previa, reintento y sin castigo narrativo por perder.
+D. Revelación parcial del motivo del envío; las decisiones anteriores alteran a quién le toca explicar primero, no el eje del misterio.
+
+### T6 · El recibo en blanco
+A. Mesa con todas las piezas de evidencia, **sin revelación automática** antes de decidir.
+B. Presentar una acusación a elegir entre al menos tres hipótesis; dos se refutan mostrando una contradicción concreta.
+C. Confrontar la firma ausente a través de un testigo, con posibilidad de abstenerse sin bloquear la aventura.
+D. Decisión moral acotada sobre cómo corregir el registro: verdad pública con anonimización / conciliación y constancia. Cambia epílogo y recuerdos, no ramificaciones de personajes centrales.
+
+### T7 · Entrega en persona
+A. Entregar personalmente el documento y comprobar qué cambia en la rutina de las personas afectadas.
+B. Tres visitas opcionales a Olivo/Trigal/Iris/Caoba para comprobar consecuencias según las elecciones previas.
+C. Una prueba final corta de coherencia (no un nuevo villano): distinguir qué se sabe, qué se supone y qué no se puede probar.
+D. Cierre y premio una única vez, más un epílogo persistente y accesible; todas las etapas se registran en el Diario.
+
+## Balance y recompensa
+- **Tope de nivel propuesto:** 74 → 76 **una sola vez** al completar el episodio, conservando cualquier tope existente superior; el integrador debe confirmar el mecanismo real del motor y que no se dispare de nuevo al rejugar.
+- El contenido puede verse como aventura lateral en Johto, pero no debe saltarse el ritmo de nivel de un jugador que aún va por bloques anteriores. El desbloqueo de la recompensa se condiciona a que el progreso publicado ya admita tope 74; no se eleva prematuramente desde 56/62.
+- El premio económico debe corresponder al esfuerzo de 6–8h, sin farmeo infinito; consumibles normales y recuerdos de lectura son preferibles a una especie o mecánica exclusiva.
+- Sin Pokémon inventados, ni Pokémon regalado, ni evoluciones obligatorias. Wooper es una víctima ambiental, no premio.
+- Los combates son **intermedios** y opcionales salvo clímax justificado; ninguno exige que el jugador tenga un Pokémon concreto.
+- El conjunto debe aportar variedad en mecánicas (deducción, rutas, observación, breve puzle, decisiones, combate), no solo 6 horas de texto.
+
+## Auditoría de Elio antes de publicación
+1. Checar integridad de ids y lugares, `docs/CONTENIDO.md`, `herramientas/validar.mjs` y `tester.mjs`.
+2. Revisar voces de Yasmina, Kaori y Tobías en continuidad, sin abrir spoilers en el chat público.
+3. `hub.mjs`, bots de día/noche, escenarios perder/reintentar, recorrido desde una partida intermedia, inspección visual móvil.
+4. `auditar.mjs` completo + lector independiente. Medir duración con ejecución humana real; si no llega al rango, ampliar escenas y tareas significativas, nunca inflar `est` sin trabajo.
+5. Solo una vez aprobado: integrar mediante protocolo de Elio, regenerar service worker y publicar en main con reporte maestro actualizado.
+
+## Hoja de avance para reanudaciones
+| Entrega | Estado al 2026-11-05 | Evidencia |
+|---|---|---|
+| Recuperación del encargo aprobado y sus ocho tramos | HECHO | Resumen de la conversación previa + verificación de GitHub |
+| Versión publicada en main, integridad del repo | HECHO | main `843b8a9`, contenido `2026-11-05.2` |
+| Diseño y contratos del paquete paralelo | HECHO | Este documento |
+| Implementación jugable T0–T1 | EN PREPARACIÓN | `misiones/cg-carga-johto.js` |
+| Implementación T2–T3 | PENDIENTE | — |
+| Implementación T4–T5 | PENDIENTE | — |
+| Implementación T6–T7 | PENDIENTE | — |
+| Integración + auditoría completa + lector independiente | PENDIENTE | No ejecutar antes de terminar todos los tramos |
+| Publicación en main / Cloudflare | NO | Solo después de aprobado |
+
+**Nota de continuidad:** la conversación anterior reportó ocho tramos escritos y cuatro en ampliación, pero no apareció ningún archivo de ese trabajo en las ramas del repositorio. Esta carpeta es una reconstrucción fiel del contrato y de la estructura, NO una restauración byte a byte de un borrador inexistente en GitHub.
