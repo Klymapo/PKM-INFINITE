@@ -125,3 +125,11 @@ D. Cierre y premio una única vez, más un epílogo persistente y accesible; tod
 **Pruebas:** total acumulado de **54 acciones**; se comprobaron victoria/cancelación/derrota/reintento del cajón, copia supervisada, lectura sin duplicación y conservación de recompensas. [Auditoría rápida aprobada](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42118247947); validador sin errores y revisores de Elio sin graves. **Todavía no publicado.**
 
 **Siguiente incremento recomendado:** T3 Caoba — exploración de campo, agua y cuidado de Wooper mediante un reto jugable diferente; mantener el objetivo de 6–8 h como hipótesis por comprobar y no declarar duración sin jugarlo.
+
+
+## Avance incremental · T3 Caoba · 2026-11-05
+**Tercer incremento HECHO y auditado en rápida**, sin publicar. El canal ahora incluye subáreas `cg_carga_ribera_caoba` y `cg_carga_caseta_caoba`, la cuidadora Ina, medidas de nivel/sedimento, recuperación opcional de anilla por pesca o pértiga, ensayo de caudal, informe y combate de práctica opcional. El auxilio final a Wooper exige haber comprobado el cauce, sin introducir captura ni recompensa Pokémon. Los cambios viven en `misiones/cg-carga-johto-ampliacion-t3.js`, ensamblados en `cg-carga-johto-completo.js` y conectados al T3 original con guardas.
+
+**Verificación:** 65 acciones guiadas T0–T7; salida, derrota, reintento, opción sin minijuego, no duplicación de anilla, victoria/derrota del combate y no saltarse inspección de Wooper. [GitHub Actions aprobada](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42120001145): validador sin errores, Tester/Superfan/Designer 0 graves, auditoría rápida B7 aprobada. **Duración 6–8 h aún NO comprobada**; se requiere revisión editorial independiente y auditoría integral al cierre.
+
+**Siguiente incremento:** T4, envío de prueba: ampliar la simulación logística con decisiones causales que cambien un procedimiento, no otra serie de inspecciones idénticas.
