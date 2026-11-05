@@ -19,3 +19,5 @@ Rama: `chatgpt/misiones-2026-10-11`. Solo propuestas; Claude revisa y decide la 
 
 ## Elenco A · 2026-11-02
 Integración solicitada por Admin de los 28 sprites aprobados y atenuación de conversaciones. Ver `sprites-elenco/VERIFICACION.md` para alcance y pruebas.
+
+- [HABILIDADES.md](HABILIDADES.md): Cápsula/Parche funcionales y personalización voluntaria de Golisopod.
