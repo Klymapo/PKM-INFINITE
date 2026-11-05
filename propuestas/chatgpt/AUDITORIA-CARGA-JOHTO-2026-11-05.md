@@ -40,3 +40,14 @@ El ensayo inicial pidió al bot general terminar en `cg_carga_t7_fin`, el final 
 
 ## Política de integración
 Mantener esta historia fuera de `app/content/comunidad/lista.js` y fuera de `main`. Los módulos de `propuestas/chatgpt/misiones/` son propuestas a revisar por Elio. Solo integrar tras los bloqueadores resueltos y actualización del reporte maestro de Gaston.
+
+
+## Incremento 1 · Anexo de Trigal (2026-11-05)
+**Estado:** implementación en propuesta y auditoría rápida **aprobada**, sin publicar.
+- Nuevo archivo: `misiones/cg-carga-johto-ampliacion-t1.js`.
+- Se agregó al paquete combinado como módulo aditivo. Contiene **1 subárea explorable**, **1 NPC propio**, **1 entrenador de práctica**, **8 guiones** y **1 puzle táctil de 8 pasos mínimos**. La inspección del desvío ahora es necesaria antes de completar la cronología de Trigal.
+- Se ampliaron las pruebas de integración de 39 a **46 acciones**, con verificaciones explícitas del reintento del puzle, de la derrota y recuperación en el entrenamiento y de las recompensas del episodio.
+- **GitHub Actions:** [auditoría rápida exitosa del incremento](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42116652477). Validador sin errores, Game Tester 0 graves, Superfan 0 graves, Game Designer 0 graves, auditoría rápida de B7 aprobada. El validador resuelve el puzle nuevo en 8 pasos.
+- Se detectó y corrigió una coma faltante durante la primera ejecución: se atendió el fallo antes de considerar aprobada la ampliación.
+- Corpus contabilizado (todas las alternativas, NO lectura real): **~7571 palabras** frente a **~6228** antes del incremento.
+- **Pendiente:** ampliar los siguientes tramos, comprobar duración real de 6–8 horas y repetir auditoría integral con todos los incrementos. La [auditoría integral anterior](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42114097886) aprobó la versión previa, **no incluye esta ampliación**.
