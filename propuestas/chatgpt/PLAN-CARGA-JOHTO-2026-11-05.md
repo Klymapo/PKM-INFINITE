@@ -111,3 +111,9 @@ D. Cierre y premio una única vez, más un epílogo persistente y accesible; tod
 **Nota de continuidad:** en la sesión anterior se reportó un borrador avanzado, pero no apareció en GitHub. Se reconstruyeron cuatro módulos nuevos que cubren ocho tramos; no es restauración literal de los archivos originales.
 
 **Importante:** el objetivo de 6–8 horas permanece pendiente de cronometría. Los ocho tramos tienen escenas y decisiones, pero contar actividades no prueba duración jugada. No debe certificarse ninguna cifra sin ensayo humano y ampliación cuando haga falta. No se ha ejecutado el validador del motor ni el recorrido real. Elio decidirá integración, pruebas y publicación.
+
+
+## Avance incremental verificado · 2026-11-05
+**Primera ampliación (T1): HECHA y auditada en rápida.** Se añadió un anexo explorable al patio de Trigal con aprendiz de inventarios, cotejo de vagones, marcas en suelo, diálogo con varias vías, maqueta táctil de desvíos y práctica Pokémon opcional con curación y reintento. El tablón del patio ahora exige la prueba del desvío. Guardado en `cg-carga-johto-ampliacion-t1.js`, integrado en `cg-carga-johto-completo.js`.
+
+**Pruebas:** 46 acciones y caminos de victoria/derrota/reintento verificados; validador, Tester y auditoría rápida aprobados en [GitHub Actions](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42116652477). El módulo nuevo no se ha publicado y el objetivo de 6–8 h sigue sin comprobar. **Siguiente incremento:** T2 (Iris), con otro tipo de actividad jugable y revisión de voces/continuidad.
