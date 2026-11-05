@@ -13,6 +13,8 @@ for (const b of mod.BLOCKS) registerBlock(b);
 const id = 'cg_carga_johto';
 assert(C.quests[id], 'Falta misión paralela');
 assert(C.scripts.cg_carga_fin, 'Falta cierre del episodio');
+assert(C.locations.cg_carga_anexo_trigal, 'Falta anexo físico de Trigal');
+assert(C.trainers.cg_carga_practica_trigal, 'Falta combate opcional de Trigal');
 let stage = '';
 let mode = 'main';
 const errors = [];
@@ -23,6 +25,7 @@ UI.read = async () => {};
 UI.onScript = (s) => { stage = s; };
 UI.goto = async (to) => { G.loc = to; };
 UI.battle = async () => ({ result: mode === 'lose' ? 'lose' : 'win' });
+UI.puzzle = async () => ({ result: mode === 'quit' ? 'quit' : 'solved', moves: 16 });
 const choices = {
   cg_carga_inicio: /Revisar las hojas/,
   cg_carga_etiqueta: /Comparar hora impresa/,
@@ -34,6 +37,12 @@ const choices = {
   cg_carga_testigo: /Preguntar qué transportó/,
   cg_carga_precinto: /Emparejar número/,
   cg_carga_orden: /Preparación.*despacho.*salida/,
+  cg_carga_t1_anexo_vagones: /Comparar el registro de maniobras/,
+  cg_carga_t1_anexo_ruedas: /Seguir el surco/,
+  cg_carga_t1_anexo_mara: /Preguntarle qué vio/,
+  cg_carga_t1_anexo_archivo: /Cotejar el parte/,
+  cg_carga_t1_anexo_practica: /Hacer el combate/,
+  cg_carga_t1_anexo_cotejo: /La remesa cambió de vagón/,
   cg_carga_guia_camino: /Preguntar por el estado/,
   cg_carga_guia_relevo: /Preguntar qué entregó/,
   cg_carga_guia_sello: /Comparar la mancha/,
@@ -92,7 +101,14 @@ const route = [
   ['cg_carga_horario','cg_carga_t1_horario'],
   ['cg_carga_testigo','cg_carga_t1_testigo'],
   ['cg_carga_precinto','cg_carga_t1_precinto'],
-  ['cg_carga_orden','cg_carga_t1_fin'],
+  ['cg_carga_t1_anexo_vagones','cg_carga_t1_anexo_vagones','cg_carga_anexo_trigal'],
+  ['cg_carga_t1_anexo_ruedas','cg_carga_t1_anexo_ruedas'],
+  ['cg_carga_t1_anexo_mara','cg_carga_t1_anexo_testimonio'],
+  ['cg_carga_t1_anexo_puzzle','cg_carga_t1_anexo_panel'],
+  ['cg_carga_t1_anexo_archivo','cg_carga_t1_anexo_archivo'],
+  ['cg_carga_t1_anexo_practica','cg_carga_t1_anexo_practica_ganada'],
+  ['cg_carga_t1_anexo_cotejo','cg_carga_t1_ruta_hecha'],
+  ['cg_carga_orden','cg_carga_t1_fin','trigal'],
   ['cg_carga_iris_inicio','cg_carga_t2_inicio','iris'],
   ['cg_carga_guia_camino','cg_carga_t2_guia1'],
   ['cg_carga_guia_relevo','cg_carga_t2_guia2'],
@@ -136,7 +152,26 @@ assert(!evalCond('!flag.cg_carga_t7_fin'), 'La escena final debe desaparecer del
 assert(C.locations.olivo.spots.some(s => s.label === 'Recuerdo del envío de Johto'), 'Falta epílogo accesible');
 await advance('cg_carga_epilogo');
 assert.deepEqual({ money: G.player.money, cap: G.vars.cap, items: G.bag.maxpotion, hitos: G.vars.hitos }, snapshot, 'El epílogo no debe pagar otra vez');
-console.log('✔ T0–T7: 39 escenas/acciones comprobadas, conclusión, premios y guardas de repetición');
+console.log('✔ T0–T7: 46 escenas/acciones comprobadas, anexo de Trigal, conclusión y guardas de premios');
+
+// La salida de la maqueta y la derrota del entrenamiento dejan reintentar.
+reset(74);
+G.flags.cg_carga_t1_inicio = true;
+G.flags.cg_carga_t1_anexo_vagones = true;
+G.flags.cg_carga_t1_anexo_ruedas = true;
+mode = 'quit';
+await advance('cg_carga_t1_anexo_puzzle', null, 'cg_carga_anexo_trigal');
+assert(!G.flags.cg_carga_t1_anexo_panel, 'Salir del puzle no debe abrir el archivo');
+mode = 'main';
+await advance('cg_carga_t1_anexo_puzzle', 'cg_carga_t1_anexo_panel');
+console.log('✔ Maqueta: salir y reintentar sin perder progreso');
+reset(74);
+mode = 'lose';
+await advance('cg_carga_t1_anexo_practica', null, 'cg_carga_anexo_trigal');
+assert(!G.flags.cg_carga_t1_anexo_practica_ganada, 'La derrota no se marca como victoria');
+mode = 'main';
+await advance('cg_carga_t1_anexo_practica','cg_carga_t1_anexo_practica_ganada');
+console.log('✔ Entrenamiento: derrota, curación y reintento');
 
 for (const variant of ['battle','lose']) {
   reset(74);
