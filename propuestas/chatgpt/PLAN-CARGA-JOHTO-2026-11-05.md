@@ -149,3 +149,11 @@ D. Cierre y premio una única vez, más un epílogo persistente y accesible; tod
 **Pruebas:** [GitHub Actions 42126640002](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42126640002) aprobada; validador sin errores, nuevo puzle resoluble en 10 pasos, Tester/Superfan/Designer 0 graves, 84 acciones de la prueba de integración, premio y llave sin duplicación, rutas de entrevista y regresión rápida de B7 aprobada. No se ha integrado en `main`.
 
 **Siguientes ampliaciones:** T6 (revisión de recibos y consecuencias de corrección), T7 (cierre y consecuencias con elenco sin cambiar el canon), T0 (apertura). Después: revisor independiente, auditoría integral final y prueba cronometrada; las 6–8 horas siguen pendientes de acreditar.
+
+
+## Avance incremental · T6, la corrección del recibo (Olivo) · 2026-11-05
+**SEXTO INCREMENTO HECHO Y APROBADO EN AUDITORÍA RÁPIDA; NO PUBLICADO.** Agregadas las salas de cotejo y rectificación, con Celia y un mecanismo de edición causal: se conserva el acuse documental, se diferencia de la llegada física y se añaden notas que explican el cambio; una tercera persona debe comprender la nueva copia antes de concluir. El cierre T6 ahora requiere este procedimiento. Calco, borrador y recibo están protegidos contra entregas duplicadas.
+
+**Pruebas:** [CI aprobada 42127962390](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42127962390): 95 acciones T0–T7, validación 0 errores, Tester/Superfan/Designer 0 graves, regresión rápida B7 aprobada y prueba específica de documentos únicos. El resto de la partida publicada no se modificó.
+
+**Siguiente incremento:** T7 — acuses de Trigal/Iris/Caoba, respuestas reconocibles de sus participantes y consecuencias del procedimiento público/reservado; después T0, una auditoría integral, lectura independiente y cronometraje real. Meta de 6–8 h aún NO comprobada.
