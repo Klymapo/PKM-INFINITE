@@ -500,7 +500,33 @@ for (const variant of ['battle','lose']) {
   assert.equal(G.quests[id].stage, 'recibo', 'El combate no debe colgar la misión');
   console.log('✔ Combate opcional: ' + (variant === 'battle' ? 'victoria' : 'derrota') + ' continúa');
 }
+// T7: el cierre exige cotejar los tres acuses en Olivo y no duplica premios.
+reset(74);
+G.flags.cg_carga_t7_trigal = true;
+G.flags.cg_carga_t7_iris = true;
+G.flags.cg_carga_t7_caoba = true;
+const beforeT7 = G.player.money;
+await advance('cg_carga_entrega_final', null, 'olivo');
+assert.equal(G.player.money, beforeT7, 'El final no debe pagar antes de la mesa de cierre');
+assert(!G.flags.cg_carga_t7_fin, 'Sin mesa de cierre T7 no puede terminar');
+G.flags.cg_carga_t7_cierre_listo = true;
+await advance('cg_carga_entrega_final','cg_carga_t7_fin');
+const onceT7 = { money: G.player.money, items: G.bag.maxpotion, cap: G.vars.cap };
+await advance('cg_carga_fin');
+assert.deepEqual({ money: G.player.money, items: G.bag.maxpotion, cap: G.vars.cap }, onceT7, 'Repetir cierre no puede dar premios adicionales');
+console.log('✔ T7: prueba final obligatoria, cierre y recompensas no duplicables');
+
+// La elección reservada y el testimonio previo no deben volverse públicos.
+reset(74);
+G.flags.cg_carga_t6_reservada = true;
+G.flags.cg_carga_t5_forma_dialogo = true;
+G.flags.cg_carga_t7_ordenados = true;
+await advance('cg_carga_t7_procedimiento','cg_carga_t7_procedimiento','cg_carga_t7_mesa_cierre');
+assert(!G.flags.cg_carga_t6_publica, 'La opción reservada debe conservarse');
+console.log('✔ T7: vía reservada y entrevista por diálogo preservadas');
+
 reset(62);
+G.flags.cg_carga_t7_cierre_listo = true;
 G.flags.cg_carga_t7_trigal = true;
 G.flags.cg_carga_t7_iris = true;
 G.flags.cg_carga_t7_caoba = true;
