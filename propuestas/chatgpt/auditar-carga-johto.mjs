@@ -17,6 +17,10 @@ assert(C.locations.cg_carga_anexo_trigal, 'Falta anexo físico de Trigal');
 assert(C.trainers.cg_carga_practica_trigal, 'Falta combate opcional de Trigal');
 assert(C.locations.cg_carga_gabinete_iris, 'Falta gabinete de pruebas de Iris');
 assert((await import('../../app/js/data.js')).D.items.cgcargacalcoiris, 'Falta calco de Iris');
+assert(C.locations.cg_carga_ribera_caoba, 'Falta pasarela de Caoba');
+assert(C.locations.cg_carga_caseta_caoba, 'Falta caseta de aforo');
+assert(C.trainers.cg_carga_guardacanal_practica, 'Falta práctica Pokémon del canal');
+assert((await import('../../app/js/data.js')).D.items.cgcargaanillacanal, 'Falta anilla del canal');
 let stage = '';
 let mode = 'main';
 const errors = [];
@@ -59,6 +63,15 @@ const choices = {
   cg_carga_huellas: /Seguir la marca/,
   cg_carga_rejilla: /Comparar la corriente/,
   cg_carga_plantas: /Buscar el punto/,
+  cg_carga_t3_estacas: /Medir desde las dos estacas/,
+  cg_carga_t3_sedimentos: /Comparar el sedimento/,
+  cg_carga_t3_cordeles: /Seguir cada cuerda/,
+  cg_carga_t3_recuperar: /Usar la caña de rescate/,
+  cg_carga_t3_ina: /Preguntar quién atiende/,
+  cg_carga_t3_turnos: /Comparar las tareas/,
+  cg_carga_t3_ensayo_caudal: /Despejar la obstrucción/,
+  cg_carga_t3_simulacro: /Aceptar la práctica/,
+  cg_carga_t3_informe: /Hubo un remanso por obstrucción/,
   cg_carga_wooper: /Despejar la rejilla/,
   cg_carga_prueba_inicio: /Preparar el ensayo/,
   cg_carga_prueba_peso: /Registrar por separado/,
@@ -135,7 +148,18 @@ const route = [
   ['cg_carga_huellas','cg_carga_t3_huellas'],
   ['cg_carga_rejilla','cg_carga_t3_rejilla'],
   ['cg_carga_plantas','cg_carga_t3_plantas'],
-  ['cg_carga_wooper','cg_carga_t3_fin'],
+  ['cg_carga_t3_estacas','cg_carga_t3_flotacion','cg_carga_ribera_caoba'],
+  ['cg_carga_t3_sedimentos','cg_carga_t3_lodo'],
+  ['cg_carga_t3_cordeles','cg_carga_t3_rastro'],
+  ['cg_carga_t3_recuperar','cg_carga_t3_anilla'],
+  ['cg_carga_t3_pasarela_despues',null],
+  ['cg_carga_t3_ina','cg_carga_t3_ina','cg_carga_caseta_caoba'],
+  ['cg_carga_t3_turnos','cg_carga_t3_turnos'],
+  ['cg_carga_t3_ensayo_caudal','cg_carga_t3_flujo'],
+  ['cg_carga_t3_simulacro','cg_carga_t3_simulacro_ganado'],
+  ['cg_carga_t3_informe','cg_carga_t3_trabajo_hecho'],
+  ['cg_carga_t3_repaso',null],
+  ['cg_carga_wooper','cg_carga_t3_fin','caoba'],
   ['cg_carga_prueba_inicio','cg_carga_t4_inicio'],
   ['cg_carga_prueba_peso','cg_carga_t4_peso'],
   ['cg_carga_prueba_sello','cg_carga_t4_sello'],
@@ -169,7 +193,7 @@ assert(!evalCond('!flag.cg_carga_t7_fin'), 'La escena final debe desaparecer del
 assert(C.locations.olivo.spots.some(s => s.label === 'Recuerdo del envío de Johto'), 'Falta epílogo accesible');
 await advance('cg_carga_epilogo');
 assert.deepEqual({ money: G.player.money, cap: G.vars.cap, items: G.bag.maxpotion, hitos: G.vars.hitos }, snapshot, 'El epílogo no debe pagar otra vez');
-console.log('✔ T0–T7: 54 escenas/acciones comprobadas, anexos Trigal/Iris, conclusión y premios únicos');
+console.log('✔ T0–T7: 65 escenas/acciones comprobadas, Trigal/Iris/Caoba y premios únicos');
 
 // La salida de la maqueta y la derrota del entrenamiento dejan reintentar.
 reset(74);
@@ -220,6 +244,47 @@ assert(!G.flags.cg_carga_t2_calco, 'Perder memoria del cierre no puede marcar ca
 delete UI.minigame;
 await advance('cg_carga_t2_cajon','cg_carga_t2_calco');
 console.log('✔ Archivo Iris: derrota, reintento y obtención de la copia');
+
+// Caoba: la captura de la anilla es opcional; abandonar o perder no borra pistas.
+// La cuidadora ofrece alternativa sin minijuego, y el mismo objeto no puede duplicarse.
+reset(74);
+G.flags.cg_carga_t3_inicio = true;
+G.flags.cg_carga_t3_rastro = true;
+mode = 'quit';
+UI.minigame = async () => ({ result: 'quit' });
+await advance('cg_carga_t3_recuperar', null, 'cg_carga_ribera_caoba');
+assert(!G.flags.cg_carga_t3_anilla && !G.bag.cgcargaanillacanal, 'Salir del canal no puede dar la anilla');
+mode = 'main';
+UI.minigame = async () => ({ result: 'lose', score: 0, grade: 0 });
+await advance('cg_carga_t3_recuperar');
+assert(!G.flags.cg_carga_t3_anilla && !G.bag.cgcargaanillacanal, 'Perder el rescate no puede dar la anilla');
+delete UI.minigame;
+const saveRescue = choices.cg_carga_t3_recuperar;
+choices.cg_carga_t3_recuperar = /Solicitar la pértiga de Ina/;
+await advance('cg_carga_t3_recuperar', 'cg_carga_t3_anilla');
+assert.equal(G.bag.cgcargaanillacanal, 1, 'La pértiga debe dar una sola anilla');
+await advance('cg_carga_t3_recuperar');
+assert.equal(G.bag.cgcargaanillacanal, 1, 'No se puede duplicar la anilla');
+choices.cg_carga_t3_recuperar = saveRescue;
+console.log('✔ Acequia Caoba: salida, derrota, alternativa con pértiga y pieza única');
+
+// Nadie puede cerrar la ayuda al Wooper antes de comprobar el agua.
+reset(74);
+G.flags.cg_carga_t3_inicio = true;
+G.flags.cg_carga_t3_huellas = true;
+G.flags.cg_carga_t3_rejilla = true;
+G.flags.cg_carga_t3_plantas = true;
+await advance('cg_carga_wooper', null, 'caoba');
+assert(!G.flags.cg_carga_t3_fin, 'No debe cerrar Wooper antes del informe de aforo');
+console.log('✔ Wooper: prohibido saltarse la inspección ambiental');
+
+for (const variant of ['lose','battle']) {
+  reset(74);
+  mode = variant;
+  await advance('cg_carga_t3_simulacro', variant === 'lose' ? null : 'cg_carga_t3_simulacro_ganado','cg_carga_caseta_caoba');
+  assert(variant !== 'lose' || !G.flags.cg_carga_t3_simulacro_ganado, 'La derrota no cuenta como victoria');
+}
+console.log('✔ Caoba: entrenamiento opcional, victoria y derrota sin bloqueo');
 
 for (const variant of ['battle','lose']) {
   reset(74);
