@@ -1,6 +1,7 @@
 import { LADDER, ladderKey, eliteWins, trainingBoss } from '../entrenamiento.js';
 import { trainingRoster, trainingWild, localCaptureIndex, captureLabel } from '../capturas.js';
 import { queryDex, dexCatalog, DEX_ORIGINS } from '../dex.js';
+import { abilityOptions, changeAbility } from '../habilidades.js';
 import { convivir } from '../convivir.js';
 // Pantallas principales: título, creación, lugar, ruta, mapa y menús.
 import { D, toID, TYPE_COLORS, typeStyle, typeName, STAT_NAMES, STATS, abilityName, natureName, moveName, itemName } from '../data.js';
@@ -1741,7 +1742,7 @@ export function openSummary(p, onChange, live = null) {
 			const evo = evolutionCard(p, hints, { all: evoAll, onMore: () => { evoAll = true; draw(); } });
 			const kv = h('dl', { class: 'kv' },
 				h('dt', {}, 'Especie'), h('dd', {}, `${s.name} (Nº ${s.num})`),
-				h('dt', {}, 'Habilidad'), h('dd', {}, abilityName(p.abil)),
+				h('dt', {}, 'Habilidad'), h('dd', {}, abilityName(p.abil) + (p.abilityCustom ? ' · Personalizada' : '')),
 				h('dt', {}, ''), h('dd', { style: { fontWeight: 400, color: 'var(--muted)' } }, D.abilities[p.abil]?.desc || ''),
 				h('dt', {}, 'Naturaleza'), h('dd', {}, natureName(p.nat) + (D.natures[p.nat]?.plus ? ` (+${STAT_NAMES[D.natures[p.nat].plus]}, −${STAT_NAMES[D.natures[p.nat].minus]})` : '')),
 				h('dt', {}, 'Objeto'), h('dd', {}, p.item ? itemName(p.item) : 'Ninguno'),
@@ -1776,6 +1777,7 @@ export function openSummary(p, onChange, live = null) {
 		} else {
 			const idx = G.party.indexOf(p);
 			body = h('div', { class: 'list' },
+				h('button', { class: 'row', onclick: () => openAbilityMenu(p, () => { onChange?.(); draw(); }) }, h('div', { class: 'ico' }, '✨'), h('div', { class: 'lbl' }, 'Cambiar habilidad', h('div', { class: 's' }, abilityName(p.abil) + (p.abilityCustom ? ' · Personalizada' : '')))),
 				h('button', { class: 'row', onclick: () => openConvivir(p, () => { onChange?.(); draw(); }) }, h('div', { class: 'ico' }, '💛'), h('div', { class: 'lbl' }, 'Convivir', h('div', { class: 's' }, 'Jugar, cepillar o descansar · +15 de amistad una vez al día'))),
 				idx > 0 ? h('button', { class: 'row', onclick: () => { G.party.splice(idx, 1); G.party.unshift(p); onChange?.(); toast(`${displayName(p)} irá en cabeza`); draw(); } }, h('div', { class: 'ico' }, '⬆️'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Poner en cabeza'))) : null,
 				h('button', { class: 'row', onclick: async () => { const n = await prompt('Nuevo mote (vacío para quitarlo):', p.nick || ''); p.nick = (n || '').slice(0, 12); sheet.title(displayName(p)); onChange?.(); draw(); } }, h('div', { class: 'ico' }, '✏️'), h('div', { class: 'lbl' }, h('div', { class: 't' }, 'Cambiar mote'))),
@@ -1926,7 +1928,7 @@ async function itemMenu(id, redraw) {
 		redraw();
 		return;
 	}
-	const usable = USE_ON_MON[id] !== undefined || CURES[id] || REVIVES[id] || VITAMINS[id] !== undefined || EV_BERRIES[id] !== undefined || id === 'rarecandy' || it.cat === 'evolution' || REPELS[id] || id === 'ppup' || id === 'ppmax' || id === 'ether' || id === 'elixir' || id === 'maxether' || id === 'maxelixir' || it.use;
+	const usable = ['abilitycapsule', 'abilitypatch'].includes(id) || USE_ON_MON[id] !== undefined || CURES[id] || REVIVES[id] || VITAMINS[id] !== undefined || EV_BERRIES[id] !== undefined || id === 'rarecandy' || it.cat === 'evolution' || REPELS[id] || id === 'ppup' || id === 'ppmax' || id === 'ether' || id === 'elixir' || id === 'maxether' || id === 'maxelixir' || it.use;
 	const opts = [];
 	if (it.read) opts.push(['Leer', () => readPaper(it.name, tx(it.read), { icon: itemImg(id) })]);
 	if (it.art) opts.push(['Mirar', async () => { const { viewArt } = await import('./acuarela.js'); await viewArt(id); }]);
@@ -1958,6 +1960,7 @@ async function useItemOutside(id) {
 	const i = await choose(`¿En quién usar ${it.name}?`, G.party.map(p => `${displayName(p)} · Nv.${p.lv} · ${p.hp}/${maxHp(p)}`).concat(['Cancelar']));
 	if (i >= G.party.length) return;
 	const p = G.party[i];
+	if (['abilitycapsule', 'abilitypatch'].includes(id)) { await openAbilityChange(p, id); return; }
 	const mhp = maxHp(p);
 	let did = false, msg = '';
 	if (REVIVES[id] !== undefined) {
@@ -3362,4 +3365,29 @@ export function openConvivir(p, redraw) {
   } }, action)),
  ]);
  draw();
+}
+
+// Cambios voluntarios fuera del combate; cancelar nunca consume objetos.
+async function openAbilityMenu(p, redraw) {
+ const methods = [['abilitycapsule', 'Cápsula Habilidad'], ['abilitypatch', 'Parche Habilidad']];
+ if (p.sp === 'golisopod') methods.push(['custom', 'Personalizar Golisopod · gratis']);
+ const i = await choose(`Habilidad actual: **${abilityName(p.abil)}**.\nCápsula: otra habilidad normal. Parche: habilidad oculta.`, methods.map(([id, label]) => label + (id === 'custom' ? '' : ` · tienes ${count(id)}`)).concat(['Cancelar']));
+ if (!methods[i]) return;
+ await openAbilityChange(p, methods[i][0]);
+ redraw?.();
+}
+async function openAbilityChange(p, method) {
+ if (method !== 'custom' && !count(method)) { await say(null, 'No tienes ese objeto en la mochila.'); return; }
+ const options = abilityOptions(p, method);
+ if (!options.length) { await say(null, p.sp === 'golisopod' ? 'Golisopod solo tiene Retirada y no tiene habilidad oculta. Puedes usar Personalizar Golisopod en su ficha → Acciones.' : 'Este Pokémon no tiene otra habilidad compatible con ese objeto. No se ha gastado nada.'); return; }
+ const custom = method === 'custom';
+ const i = await choose(custom ? 'Personalización de este Golisopod: gratis y reversible. Estas alternativas no son habilidades oficiales de su especie.' : 'Elige la nueva habilidad. Se consumirá un objeto al confirmar.', options.map(o => `${abilityName(o.id)} — ${D.abilities[o.id]?.desc || ''}`).concat(['Cancelar']));
+ const option = options[i];
+ if (!option || !await confirm(`¿Cambiar ${abilityName(p.abil)} por ${abilityName(option.id)}?`)) return;
+ // Revalidar tras los diálogos evita gastar por un cambio ya aplicado.
+ if (!abilityOptions(p, method).some(o => o.id === option.id)) return;
+ if (!custom && !removeItem(method)) return;
+ changeAbility(p, method, option.id);
+ await saveGame();
+ await say(null, `¡${displayName(p)} ahora tiene ${abilityName(p.abil)}!${p.abilityCustom ? ' (Personalizada)' : ''}`);
 }
