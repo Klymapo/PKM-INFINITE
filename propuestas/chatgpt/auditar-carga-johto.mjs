@@ -16,7 +16,7 @@ assert(C.scripts.cg_carga_fin, 'Falta cierre del episodio');
 assert(C.locations.cg_carga_anexo_trigal, 'Falta anexo físico de Trigal');
 assert(C.trainers.cg_carga_practica_trigal, 'Falta combate opcional de Trigal');
 assert(C.locations.cg_carga_gabinete_iris, 'Falta gabinete de pruebas de Iris');
-assert(C.items?.cg_carga_calco_iris || (await import('../../app/js/data.js')).D.items.cg_carga_calco_iris, 'Falta calco de Iris');
+assert((await import('../../app/js/data.js')).D.items.cgcargacalcoiris, 'Falta calco de Iris');
 let stage = '';
 let mode = 'main';
 const errors = [];
