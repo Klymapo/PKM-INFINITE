@@ -27,6 +27,9 @@ assert((await import('../../app/js/data.js')).D.items.cgcargat4actaensayo, 'Falt
 assert(C.locations.cg_carga_t5_muelle && C.locations.cg_carga_t5_entreplanta_area, 'Faltan las dos plantas de Olivo');
 assert((await import('../../app/js/data.js')).D.items.cgcargat5llavecopia, 'Falta llave T5');
 assert((await import('../../app/js/data.js')).D.items.cgcargat5pliego, 'Falta pliego T5');
+assert(C.locations.cg_carga_t6_sala_cotejo && C.locations.cg_carga_t6_mesa_revision, 'Faltan las salas de rectificación T6');
+assert((await import('../../app/js/data.js')).D.items.cgcargat6calco, 'Falta calco de Olivo');
+assert((await import('../../app/js/data.js')).D.items.cgcargat6borrador, 'Falta borrador T6');
 let stage = '';
 let mode = 'main';
 const errors = [];
@@ -107,6 +110,15 @@ const choices = {
   cg_carga_recibo_hojas: /Separar hechos confirmados/,
   cg_carga_recibo_tinta: /Distinguir el orden/,
   cg_carga_recibo_casilla: /Leer el encabezado/,
+  cg_carga_t6_permiso: /Comparar las copias/,
+  cg_carga_t6_campos: /Distinguir ambos títulos/,
+  cg_carga_t6_tiempos: /Separar hora de impresión/,
+  cg_carga_t6_firma: /Registrar que la firma fue posterior/,
+  cg_carga_t6_calco_escena: /Guardar un calco anónimo/,
+  cg_carga_t6_asiento: /Aclarar solo la referencia equivocada/,
+  cg_carga_t6_traza: /Agregar una nota/,
+  cg_carga_t6_lectura: /La carpeta se recibió primero/,
+  cg_carga_t6_borrador_final: /Archivar el borrador/,
   cg_carga_recibo_deduccion: /La recepción del papel/,
   cg_carga_recibo_decision: /Rectificación pública/,
   cg_carga_entrega_final: /Anotar también/
@@ -215,7 +227,18 @@ const route = [
   ['cg_carga_recibo_hojas','cg_carga_t6_hojas'],
   ['cg_carga_recibo_tinta','cg_carga_t6_tinta'],
   ['cg_carga_recibo_casilla','cg_carga_t6_casilla'],
-  ['cg_carga_recibo_deduccion','cg_carga_t6_fin'],
+  ['cg_carga_t6_permiso','cg_carga_t6_permiso','cg_carga_t6_sala_cotejo'],
+  ['cg_carga_t6_campos','cg_carga_t6_campos'],
+  ['cg_carga_t6_tiempos','cg_carga_t6_tiempos'],
+  ['cg_carga_t6_firma','cg_carga_t6_firma'],
+  ['cg_carga_t6_calco_escena','cg_carga_t6_calco_listo'],
+  ['cg_carga_t6_repaso',null],
+  ['cg_carga_t6_asiento','cg_carga_t6_asiento','cg_carga_t6_mesa_revision'],
+  ['cg_carga_t6_traza','cg_carga_t6_traza'],
+  ['cg_carga_t6_lectura','cg_carga_t6_lectura'],
+  ['cg_carga_t6_borrador_final','cg_carga_t6_borrador_listo'],
+  ['cg_carga_t6_relectura',null],
+  ['cg_carga_recibo_deduccion','cg_carga_t6_fin','olivo'],
   ['cg_carga_entrega_trigal','cg_carga_t7_trigal','trigal'],
   ['cg_carga_entrega_iris','cg_carga_t7_iris','iris'],
   ['cg_carga_entrega_caoba','cg_carga_t7_caoba','caoba'],
@@ -234,7 +257,7 @@ assert(!evalCond('!flag.cg_carga_t7_fin'), 'La escena final debe desaparecer del
 assert(C.locations.olivo.spots.some(s => s.label === 'Recuerdo del envío de Johto'), 'Falta epílogo accesible');
 await advance('cg_carga_epilogo');
 assert.deepEqual({ money: G.player.money, cap: G.vars.cap, items: G.bag.maxpotion, hitos: G.vars.hitos }, snapshot, 'El epílogo no debe pagar otra vez');
-console.log('✔ T0–T7: 84 escenas/acciones comprobadas, ampliaciones T1–T5 y premios únicos');
+console.log('✔ T0–T7: 95 escenas/acciones comprobadas, ampliaciones T1–T6 y premios únicos');
 
 // La salida de la maqueta y la derrota del entrenamiento dejan reintentar.
 reset(74);
@@ -405,6 +428,38 @@ await advance('cg_carga_t5_presentacion','cg_carga_t5_forma');
 assert(G.flags.cg_carga_t5_forma_dialogo && !G.flags.cg_carga_t5_forma_documento,'La vía diálogo debe conservarse');
 choices.cg_carga_t5_presentacion = oldPresentation;
 console.log('✔ T5: dos vías de presentación, falsa pista descartada y pliego único');
+
+// T6: no se puede publicar una corrección sin que otra persona entienda la copia.
+// Releer la evidencia no entrega objetos adicionales, y repetir el cierre no duplica el recibo.
+reset(74);
+G.flags.cg_carga_t6_inicio = true;
+G.flags.cg_carga_t6_hojas = true;
+G.flags.cg_carga_t6_tinta = true;
+G.flags.cg_carga_t6_casilla = true;
+await advance('cg_carga_recibo_deduccion',null,'olivo');
+assert(!G.flags.cg_carga_t6_fin, 'No debe cerrarse T6 sin borrador cotejado');
+await advance('cg_carga_t6_permiso','cg_carga_t6_permiso','cg_carga_t6_sala_cotejo');
+await advance('cg_carga_t6_campos','cg_carga_t6_campos');
+await advance('cg_carga_t6_tiempos','cg_carga_t6_tiempos');
+await advance('cg_carga_t6_firma','cg_carga_t6_firma');
+await advance('cg_carga_t6_calco_escena','cg_carga_t6_calco_listo');
+assert.equal(G.bag.cgcargat6calco, 1, 'Debe dar un calco');
+await advance('cg_carga_t6_calco_escena');
+await advance('cg_carga_t6_repaso');
+assert.equal(G.bag.cgcargat6calco, 1, 'Calco no se duplica al repetir lectura');
+await advance('cg_carga_t6_asiento','cg_carga_t6_asiento','cg_carga_t6_mesa_revision');
+await advance('cg_carga_t6_traza','cg_carga_t6_traza');
+await advance('cg_carga_t6_lectura','cg_carga_t6_lectura');
+await advance('cg_carga_t6_borrador_final','cg_carga_t6_borrador_listo');
+assert.equal(G.bag.cgcargat6borrador, 1, 'Debe dar un borrador');
+await advance('cg_carga_t6_borrador_final');
+await advance('cg_carga_t6_relectura');
+assert.equal(G.bag.cgcargat6borrador, 1, 'Borrador no se duplica');
+await advance('cg_carga_recibo_deduccion','cg_carga_t6_fin','olivo');
+assert.equal(G.bag.cgcargarecibo, 1, 'Recibo debe darse una vez');
+await advance('cg_carga_recibo_cierre');
+assert.equal(G.bag.cgcargarecibo, 1, 'Recibo no se puede duplicar');
+console.log('✔ T6: cierre condicionado, calco y borrador únicos, copia entendible y recibo no duplicado');
 
 for (const variant of ['battle','lose']) {
   reset(74);
