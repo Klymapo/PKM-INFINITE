@@ -34,7 +34,7 @@ export default {
         new: 'flag.cg_carga_t7_trigal && flag.cg_carga_t7_iris && flag.cg_carga_t7_caoba',
         talk: [{ script: 'cg_carga_entrega_inicio' }] },
       { label: 'Cerrar la carpeta del caso', icon: '📚', sub: 'Reúne los tres acuses sin adelantar la historia principal',
-        cond: 'flag.cg_carga_t7_trigal && flag.cg_carga_t7_iris && flag.cg_carga_t7_caoba && !flag.cg_carga_t7_fin',
+        cond: 'flag.cg_carga_t7_trigal && flag.cg_carga_t7_iris && flag.cg_carga_t7_caoba && flag.cg_carga_t7_cierre_listo && !flag.cg_carga_t7_fin',
         new: 'true', talk: [{ script: 'cg_carga_entrega_final' }] },
       { label: 'Recuerdo del envío de Johto', icon: '📦', sub: 'La caja ya no tiene números contradictorios',
         cond: 'flag.cg_carga_t7_fin', talk: [{ script: 'cg_carga_epilogo' }] },
@@ -183,6 +183,10 @@ export default {
       ] }
     ],
     cg_carga_entrega_trigal: [
+      { if: '!flag.cg_carga_t7_t_lectura', then: [
+        { say: 'rotom', text: '¡Bzzt! Antes de firmar, Mara debe probar el nuevo registro en el patio de verificación de Trigal.' },
+        { end: true }
+      ] },
       'El conductor del patio vuelve a enrollar su cuerda. Esta vez deja una vuelta sin apretar para poder añadir un nudo.',
       '«Así está mejor: yo preparé unas cajas y otro se llevó el formulario. Antes parecía que debía responder por las dos cosas».',
       { if: 'flag.cg_carga_t6_publica', then: [
@@ -194,6 +198,10 @@ export default {
       { say: 'rotom', text: '¡Bzzt! ¡Un acuse! ¡Este sí dice lo que confirma!' }
     ],
     cg_carga_entrega_iris: [
+      { if: '!flag.cg_carga_t7_i_lectura', then: [
+        { say: 'rotom', text: '¡Bzzt! El archivo de los tres testimonios de Iris tiene que comprobar primero qué recibió cada guía.' },
+        { end: true }
+      ] },
       'Los tres guías se ponen de acuerdo en algo por primera vez: ninguno había firmado por una mercancía que no vio.',
       'El primero dibuja el camino correcto; la segunda señala el farol; la tercera acomoda el papel seco dentro de una funda.',
       { if: 'flag.cg_carga_t6_publica', then: [
@@ -205,6 +213,10 @@ export default {
       'La copia que dejan para el archivo tiene tres comprobaciones y ninguna acusación.'
     ],
     cg_carga_entrega_caoba: [
+      { if: '!flag.cg_carga_t7_c_wooper', then: [
+        { say: 'rotom', text: '¡Bzzt! Primero hay que comprobar el nuevo protocolo del canal y dejar tranquilo a Wooper en Caoba.' },
+        { end: true }
+      ] },
       'El canal corre libre junto a las plantas. Wooper asoma la cabeza, observa la superficie y vuelve a meterse.',
       { if: 'flag.cg_carga_t3_cauce', then: [
         'El encargado ha dejado una señal donde despejaste la rejilla: «Revisar después de lluvias fuertes».'
@@ -216,6 +228,10 @@ export default {
       { say: 'rotom', text: '¡Bzzt! ¡Acuse número tres! ¡Y Wooper nos mira sin querer morder nuestros dedos! Eso cuenta como éxito.' }
     ],
     cg_carga_entrega_final: [
+      { if: '!flag.cg_carga_t7_cierre_listo', then: [
+        { say: 'rotom', text: '¡Bzzt! Faltan las conclusiones de la mesa de cierre de Olivo. Hay que ordenar los tres acuses antes de concluir.' },
+        { end: true }
+      ] },
       'Yasmina coloca los tres acuses sobre la mesa. Los encabezados coinciden con lo que cada persona realmente hizo.',
       { say: 'yasmina', text: 'Cuando llegaste, yo pensaba que necesitaba descubrir quién había firmado algo imposible. Resultó que tenía que averiguar qué significaba esa firma.' },
       { say: 'yasmina', text: 'Gracias por no convertir una duda en una condena. No siempre sale así.' },
