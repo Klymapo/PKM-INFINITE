@@ -4,6 +4,7 @@ on:
     branches: [chatgpt/carga-johto-2026-11-05]
     paths:
       - ".github/workflows/auditoria-carga-johto-completa.yml"
+  workflow_dispatch:
 permissions:
   contents: read
 jobs:
@@ -42,6 +43,9 @@ jobs:
           BLOCKS.push(qa_johto);
           JS
           node herramientas/build-sw.mjs
+      - name: Recorrer toda la historia paralela T0–T7 antes del audit visual
+        shell: bash
+        run: node propuestas/chatgpt/auditar-carga-johto.mjs
       - name: Instalar Playwright libre y Chromium
         shell: bash
         run: |
