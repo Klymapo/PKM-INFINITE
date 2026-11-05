@@ -311,6 +311,45 @@ await advance('cg_carga_epilogo');
 assert.deepEqual({ money: G.player.money, cap: G.vars.cap, items: G.bag.maxpotion, hitos: G.vars.hitos }, snapshot, 'El epílogo no debe pagar otra vez');
 console.log('✔ T0–T7: 119 escenas/acciones comprobadas, ampliaciones T0–T7 y premios únicos');
 
+// T0: no se puede saltar la dársena; el ejercicio es accesible con o sin puzle.
+reset(74);
+G.flags.cg_carga_inicio = true;
+G.flags.cg_carga_t0_papel = true;
+G.flags.cg_carga_t0_masa = true;
+G.flags.cg_carga_t0_libro = true;
+await advance('cg_carga_inferencia', null, 'olivo');
+assert(!G.flags.cg_carga_t0_fin, 'La deducción original no debe cerrar T0 antes de la dársena');
+await advance('cg_carga_t0_dalia', 'cg_carga_t0_permiso', 'cg_carga_t0_darsena');
+await advance('cg_carga_t0_ventanilla','cg_carga_t0_ventanilla');
+await advance('cg_carga_t0_huellas_escena','cg_carga_t0_huellas');
+await advance('cg_carga_t0_senales_escena','cg_carga_t0_senales');
+await advance('cg_carga_t0_croquis_escena','cg_carga_t0_croquis_listo');
+await advance('cg_carga_t0_manual','cg_carga_t0_manual','cg_carga_t0_cobertizo');
+mode = 'quit';
+await advance('cg_carga_t0_maqueta_escena',null);
+assert(!G.flags.cg_carga_t0_maqueta && G.flags.cg_carga_t0_maqueta_intento, 'Salir de maqueta no cuenta como resolverla');
+mode = 'main';
+await advance('cg_carga_t0_maqueta_ayuda','cg_carga_t0_maqueta');
+assert(G.flags.cg_carga_t0_maqueta_asistida, 'Ayuda debe marcar la vía supervisada');
+await advance('cg_carga_t0_formulario','cg_carga_t0_formulario');
+assert.equal(G.bag.cgcargat0ficha, 1, 'Ficha de ventanillas entregada una vez');
+await advance('cg_carga_t0_releer_ficha');
+await advance('cg_carga_t0_formulario');
+assert.equal(G.bag.cgcargat0ficha, 1, 'Ficha no se duplica');
+await advance('cg_carga_t0_sintesis','cg_carga_t0_anexo_fin');
+await advance('cg_carga_inferencia','cg_carga_t0_fin','olivo');
+assert.equal(G.bag.cgcargat0croquis, 1, 'Croquis único');
+console.log('✔ T0: deducción con requisitos, salida de puzzle, vía asistida y documentos únicos');
+
+// El combate amistoso de la dársena no afecta las pruebas y tiene curación.
+reset(74);
+mode = 'lose';
+await advance('cg_carga_t0_practica',null,'cg_carga_t0_cobertizo');
+assert(!G.flags.cg_carga_t0_practica_ganada, 'La derrota opcional no cuenta como victoria');
+mode = 'main';
+await advance('cg_carga_t0_practica','cg_carga_t0_practica_ganada');
+console.log('✔ T0: práctica opcional con derrota y reintento');
+
 // La salida de la maqueta y la derrota del entrenamiento dejan reintentar.
 reset(74);
 G.flags.cg_carga_t1_inicio = true;
