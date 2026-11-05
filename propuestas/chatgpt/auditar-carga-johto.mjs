@@ -342,8 +342,6 @@ choices.cg_carga_t4_rutas = routePref;
 choices.cg_carga_t4_empaque_escena = packPref;
 console.log('✔ T4: las dos rutas validan su protección, error documentado, reintento y acta una sola vez');
 
-for (const variant of ['lose','battle']) {
-
 for (const variant of ['battle','lose']) {
   reset(74);
   mode = variant;
