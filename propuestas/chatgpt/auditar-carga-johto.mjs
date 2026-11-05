@@ -24,6 +24,9 @@ assert((await import('../../app/js/data.js')).D.items.cgcargaanillacanal, 'Falta
 assert(C.locations.cg_carga_t4_patio, 'Falta patio de ensayo T4');
 assert(C.locations.cg_carga_t4_estafeta, 'Falta estafeta T4');
 assert((await import('../../app/js/data.js')).D.items.cgcargat4actaensayo, 'Falta acta final T4');
+assert(C.locations.cg_carga_t5_muelle && C.locations.cg_carga_t5_entreplanta_area, 'Faltan las dos plantas de Olivo');
+assert((await import('../../app/js/data.js')).D.items.cgcargat5llavecopia, 'Falta llave T5');
+assert((await import('../../app/js/data.js')).D.items.cgcargat5pliego, 'Falta pliego T5');
 let stage = '';
 let mode = 'main';
 const errors = [];
@@ -91,6 +94,15 @@ const choices = {
   cg_carga_entreplanta: /Comparar el polvo/,
   cg_carga_guardia: /Comparar columnas/,
   cg_carga_firmas: /Comprobar dónde/,
+  cg_carga_t5_permiso_escena: /Pedir copias y seguir/,
+  cg_carga_t5_marca_rueda: /Seguir las dos marcas/,
+  cg_carga_t5_farol_escena: /Comparar la señal/,
+  cg_carga_t5_pizarra: /Leer cada inicial/,
+  cg_carga_t5_manual: /Leer el recorrido/,
+  cg_carga_t5_casillero: /Comparar el sello/,
+  cg_carga_t5_falso_destino: /Seguir la flecha/,
+  cg_carga_t5_cotejo: /El carrito se reubicó/,
+  cg_carga_t5_presentacion: /Mostrarle el pliego primero/,
   cg_carga_encargado: /Escuchar el relato/,
   cg_carga_recibo_hojas: /Separar hechos confirmados/,
   cg_carga_recibo_tinta: /Distinguir el orden/,
@@ -187,7 +199,18 @@ const route = [
   ['cg_carga_entreplanta','cg_carga_t5_entreplanta'],
   ['cg_carga_guardia','cg_carga_t5_guardia'],
   ['cg_carga_firmas','cg_carga_t5_firmas'],
-  ['cg_carga_encargado','cg_carga_t5_fin'],
+  ['cg_carga_t5_permiso_escena','cg_carga_t5_permiso','cg_carga_t5_muelle'],
+  ['cg_carga_t5_marca_rueda','cg_carga_t5_marca'],
+  ['cg_carga_t5_farol_escena','cg_carga_t5_farol'],
+  ['cg_carga_t5_pizarra','cg_carga_t5_custodia'],
+  ['cg_carga_t5_manual','cg_carga_t5_manual','cg_carga_t5_entreplanta_area'],
+  ['cg_carga_t5_pales_puzzle','cg_carga_t5_pales'],
+  ['cg_carga_t5_casillero','cg_carga_t5_pliego_obtenido'],
+  ['cg_carga_t5_falso_destino','cg_carga_t5_falsa_pista'],
+  ['cg_carga_t5_cotejo','cg_carga_t5_reconstruccion','cg_carga_t5_muelle'],
+  ['cg_carga_t5_presentacion','cg_carga_t5_forma'],
+  ['cg_carga_t5_despues',null],
+  ['cg_carga_encargado','cg_carga_t5_fin','olivo'],
   ['cg_carga_recibo_inicio','cg_carga_t6_inicio'],
   ['cg_carga_recibo_hojas','cg_carga_t6_hojas'],
   ['cg_carga_recibo_tinta','cg_carga_t6_tinta'],
@@ -211,7 +234,7 @@ assert(!evalCond('!flag.cg_carga_t7_fin'), 'La escena final debe desaparecer del
 assert(C.locations.olivo.spots.some(s => s.label === 'Recuerdo del envío de Johto'), 'Falta epílogo accesible');
 await advance('cg_carga_epilogo');
 assert.deepEqual({ money: G.player.money, cap: G.vars.cap, items: G.bag.maxpotion, hitos: G.vars.hitos }, snapshot, 'El epílogo no debe pagar otra vez');
-console.log('✔ T0–T7: 73 escenas/acciones comprobadas, Trigal/Iris/Caoba/ensayo T4 y premios únicos');
+console.log('✔ T0–T7: 84 escenas/acciones comprobadas, ampliaciones T1–T5 y premios únicos');
 
 // La salida de la maqueta y la derrota del entrenamiento dejan reintentar.
 reset(74);
@@ -342,9 +365,52 @@ choices.cg_carga_t4_rutas = routePref;
 choices.cg_carga_t4_empaque_escena = packPref;
 console.log('✔ T4: las dos rutas validan su protección, error documentado, reintento y acta una sola vez');
 
+// T5: sin pruebas, el encargado no debe cerrar el turno; la maqueta se puede abandonar
+// y las dos maneras de presentar un pliego válido no cambian el resultado.
+reset(74);
+G.flags.cg_carga_t5_guardia = true;
+G.flags.cg_carga_t5_entreplanta = true;
+G.flags.cg_carga_t5_firmas = true;
+await advance('cg_carga_encargado',null,'olivo');
+assert(!G.flags.cg_carga_t5_fin, 'El encargado no debe saltarse la investigación de dos plantas');
+G.flags.cg_carga_t5_manual = true;
+mode = 'quit';
+await advance('cg_carga_t5_pales_puzzle',null,'cg_carga_t5_entreplanta_area');
+assert(!G.flags.cg_carga_t5_pales && !G.bag.cgcargat5llavecopia, 'Salir del puzzle no da llave');
+mode = 'main';
+await advance('cg_carga_t5_pales_puzzle','cg_carga_t5_pales');
+assert.equal(G.bag.cgcargat5llavecopia, 1, 'La maqueta entrega una sola llave');
+await advance('cg_carga_t5_pales_puzzle');
+assert.equal(G.bag.cgcargat5llavecopia, 1, 'Repetir la maqueta no duplica llave');
+console.log('✔ T5: la investigación es obligatoria; maqueta admite salida y llave única');
+
+reset(74);
+G.flags.cg_carga_t5_inicio = true;
+await advance('cg_carga_t5_permiso_escena','cg_carga_t5_permiso','cg_carga_t5_muelle');
+await advance('cg_carga_t5_marca_rueda','cg_carga_t5_marca');
+await advance('cg_carga_t5_farol_escena','cg_carga_t5_farol');
+await advance('cg_carga_t5_pizarra','cg_carga_t5_custodia');
+await advance('cg_carga_t5_manual','cg_carga_t5_manual','cg_carga_t5_entreplanta_area');
+await advance('cg_carga_t5_pales_puzzle','cg_carga_t5_pales');
+await advance('cg_carga_t5_casillero','cg_carga_t5_pliego_obtenido');
+const pliego = G.bag.cgcargat5pliego;
+await advance('cg_carga_t5_casillero');
+assert.equal(pliego, 1, 'El pliego debe entregarse una vez');
+assert.equal(G.bag.cgcargat5pliego, 1, 'No puede duplicarse el pliego');
+await advance('cg_carga_t5_falso_destino','cg_carga_t5_falsa_pista');
+await advance('cg_carga_t5_cotejo','cg_carga_t5_reconstruccion','cg_carga_t5_muelle');
+const oldPresentation = choices.cg_carga_t5_presentacion;
+choices.cg_carga_t5_presentacion = /Escuchar primero su versión/;
+await advance('cg_carga_t5_presentacion','cg_carga_t5_forma');
+assert(G.flags.cg_carga_t5_forma_dialogo && !G.flags.cg_carga_t5_forma_documento,'La vía diálogo debe conservarse');
+choices.cg_carga_t5_presentacion = oldPresentation;
+console.log('✔ T5: dos vías de presentación, falsa pista descartada y pliego único');
+
 for (const variant of ['battle','lose']) {
   reset(74);
   mode = variant;
+  G.flags.cg_carga_t5_forma = true;
+  G.flags.cg_carga_t5_forma_documento = true;
   G.flags.cg_carga_t5_guardia = true;
   G.flags.cg_carga_t5_entreplanta = true;
   G.flags.cg_carga_t5_firmas = true;
