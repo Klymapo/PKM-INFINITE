@@ -6,8 +6,9 @@ import t23 from './cg-carga-johto-t2t3.js';
 import t45 from './cg-carga-johto-t4t5.js';
 import t67 from './cg-carga-johto-t6t7.js';
 import anexoT1 from './cg-carga-johto-ampliacion-t1.js';
+import gabineteT2 from './cg-carga-johto-ampliacion-t2.js';
 
-const PARTES = [t01, t23, t45, t67, anexoT1];
+const PARTES = [t01, t23, t45, t67, anexoT1, gabineteT2];
 const out = {
   npcs: {}, items: {}, quests: {}, scripts: {}, trainers: {}, gather: {},
   shops: {}, locations: {}, patches: {}, events: [], milestones: []
