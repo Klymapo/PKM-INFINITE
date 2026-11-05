@@ -51,3 +51,15 @@ Mantener esta historia fuera de `app/content/comunidad/lista.js` y fuera de `mai
 - Se detectó y corrigió una coma faltante durante la primera ejecución: se atendió el fallo antes de considerar aprobada la ampliación.
 - Corpus contabilizado (todas las alternativas, NO lectura real): **~7571 palabras** frente a **~6228** antes del incremento.
 - **Pendiente:** ampliar los siguientes tramos, comprobar duración real de 6–8 horas y repetir auditoría integral con todos los incrementos. La [auditoría integral anterior](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42114097886) aprobó la versión previa, **no incluye esta ampliación**.
+
+
+## Incremento 2 · Gabinete de copias de Iris (2026-11-05)
+**Estado:** implementado y validado en auditoría rápida, pero NO PUBLICADO.
+- Nuevo módulo `misiones/cg-carga-johto-ampliacion-t2.js` integrado de forma aditiva en `cg-carga-johto-completo.js`. Contiene **1 subárea explorable**, **1 NPC (Alda)**, **2 objetos de lectura**, **9 guiones** y **1 minijuego de cerradura/memoria** de nivel 2 sin consumo de recursos de pago.
+- El jugador compara el papel a contraluz, distingue las tintas, realiza un ensayo de humedad en una hoja de prueba, contrasta las fuentes y redacta un acta que identifica tanto lo sabido como lo no demostrable.
+- El minijuego no bloquea: se puede abandonar, perder y reintentar, o pedir la apertura supervisada del cajón. El calco solo puede obtenerse una vez y releerlo no duplica objetos.
+- El cotejo final de Iris exige haber terminado el gabinete. La misión principal, las medallas, las regiones y los flags narrativos previos no se modificaron.
+- **Auditoría real:** [GitHub Actions · ejecución 42118247947](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42118247947) **EXITOSA**: `validar.mjs` sin errores; Game Tester, Superfan y Game Designer con **0 graves**; prueba guiada T0–T7 en **54 acciones**; ruta con cajón ganado, salida, derrota + reintento y apertura supervisada; auditoría rápida B7 aprobada. El validador reconoce **103 minijuegos**, uno más que antes.
+- Corpus de la propuesta ahora aproximadamente **8,964 palabras contando todas las alternativas**, un aumento desde ~7,571. No representa tiempo jugado.
+- Un primer intento con el nuevo gabinete falló porque la prueba guiada antigua todavía no hacía el cotejo. Otro reveló que el test buscaba un objeto sin normalizar su id con `toID`. Ambos problemas **se corrigieron**, y la nueva corrida aprobada es la que cuenta.
+- **Sigue pendiente:** ampliar los demás tramos, revisar voces/continuidad con lector independiente, comprobar 6–8 horas de juego real y repetir auditoría integral sobre el estado final. No confundir la aprobación técnica rápida con aprobación editorial.
