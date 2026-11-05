@@ -20,7 +20,12 @@ export default {
         deduccion: 'En **Olivo**, compara las tres pruebas en la mesa de revisión.',
         trigal: 'Ve al **patio de carga de Trigal**. Revisa horario, conductor y precintos.',
         orden: 'En **Trigal**, reconstruye el orden de los envíos en el tablón.',
-        iris: 'Busca en **Iris** a quienes guiaron el trayecto. La investigación continúa allí.',
+        iris: 'En **Iris**, escucha a los tres guías y compara sus testimonios.',
+        caoba: 'En **Caoba**, examina el canal y ayuda a un Wooper antes de seguir la carga.',
+        prueba: 'En **Caoba**, prepara el envío de prueba y verifica peso, sello y horarios.',
+        turno: 'En **Olivo**, revisa el segundo turno del almacén y escucha al encargado.',
+        recibo: 'En **Olivo**, coteja las pruebas y decide cómo corregir el registro.',
+        entrega: 'Obtén los acuses de **Trigal**, **Iris** y **Caoba** y cierra la carpeta en **Olivo**.',
         hecha: 'El registro quedó corregido y la entrega llegó a su destino.'
       }
     }
