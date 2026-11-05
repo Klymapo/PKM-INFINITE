@@ -27,7 +27,7 @@ export default {
         olivo: 'En **Olivo**, revisa tres pruebas del envío junto al almacén del faro.',
         deduccion: 'En **Olivo**, compara las tres pruebas en la mesa de revisión.',
         trigal: 'Ve al **patio de carga de Trigal**. Revisa horario, conductor y precintos.',
-        orden: 'En **Trigal**, reconstruye el orden de los envíos en el tablón.',
+        orden: 'En **Trigal**, visita el **anexo del patio** y verifica el desvío de vagones antes de ordenar la cronología en el tablón.'
         iris: 'En **Iris**, escucha a los tres guías y compara sus testimonios.',
         caoba: 'En **Caoba**, examina el canal y ayuda a un Wooper antes de seguir la carga.',
         prueba: 'En **Caoba**, prepara el envío de prueba y verifica peso, sello y horarios.',
@@ -113,7 +113,7 @@ export default {
         {
           label: 'Tablón de reconstrucción',
           sub: 'Ordena lo que ocurrió sin confundir carga con salida',
-          icon: '📋', cond: 'flag.cg_carga_t1_horario && flag.cg_carga_t1_testigo && flag.cg_carga_t1_precinto && !flag.cg_carga_t1_fin',
+          icon: '📋', cond: 'flag.cg_carga_t1_horario && flag.cg_carga_t1_testigo && flag.cg_carga_t1_precinto && flag.cg_carga_t1_ruta_hecha && !flag.cg_carga_t1_fin',
           new: 'true', talk: [{ script: 'cg_carga_orden' }]
         },
         {
@@ -334,6 +334,10 @@ export default {
       ] }
     ],
     cg_carga_orden: [
+      { if: '!flag.cg_carga_t1_ruta_hecha', then: [
+        { say: 'rotom', text: '¡Bzzt! Nos falta comparar el movimiento de los vagones. El anexo está detrás del patio.' },
+        { end: true }
+      ] },
       { quest: 'cg_carga_johto', stage: 'orden' },
       'Las tres hojas forman un triángulo: preparación, salida y recepción. Al lado hay tres pinzas para ordenarlas.',
       { say: 'rotom', text: '¡Bzzt! ¡La tarea no es adivinar quién mintió! Es colocar lo que sí sabemos en orden.' },
