@@ -157,3 +157,11 @@ D. Cierre y premio una única vez, más un epílogo persistente y accesible; tod
 **Pruebas:** [CI aprobada 42127962390](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42127962390): 95 acciones T0–T7, validación 0 errores, Tester/Superfan/Designer 0 graves, regresión rápida B7 aprobada y prueba específica de documentos únicos. El resto de la partida publicada no se modificó.
 
 **Siguiente incremento:** T7 — acuses de Trigal/Iris/Caoba, respuestas reconocibles de sus participantes y consecuencias del procedimiento público/reservado; después T0, una auditoría integral, lectura independiente y cronometraje real. Meta de 6–8 h aún NO comprobada.
+
+
+## Avance incremental · T7 desenlace · 2026-11-05
+**SÉPTIMO INCREMENTO COMPLETADO Y VALIDADO EN RÁPIDA, NO PUBLICADO.** Se añadió `misiones/cg-carga-johto-ampliacion-t7.js`, con cuatro áreas locales y 13 guiones: verificación de maniobras y su acuse en Trigal; cotejo de testimonios y acuse de documentos en Iris; revisión del caudal y cuidado de Wooper en Caoba; y una mesa de conclusión en Olivo. Las decisiones de difusión pública/reservada y de conversación del segundo turno tienen reflejo narrativo, pero no reescriben la historia principal. Cada acuse necesita su actividad y el cierre necesita la prueba final; premios únicos y límite 74→76 condicionado.
+
+**Pruebas:** [CI 42129589096](https://github.com/Klymapo/PKM-INFINITE/actions/runs/42129589096) **aprobada**: validador sin errores, Tester/Superfan/Designer sin graves, **108 acciones** T0–T7 comprobadas, bloqueo del cierre prematuro, no-duplicación de premios y regresión rápida B7 aprobada. Los fallos de CI anteriores se corrigieron ampliando el recorrido guiado; no representan el estado actual.
+
+**Siguiente incremento:** T0 — presentación e inicio de Olivo. Después lector independiente, auditoría integral del juego, verificación visual y cronometría real antes de publicar; la meta de **6–8 horas** no está demostrada.
