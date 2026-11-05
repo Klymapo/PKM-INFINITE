@@ -49,6 +49,9 @@ jobs:
       - name: Herramientas de Elio — Game Designer
         shell: bash
         run: node herramientas/disenador.mjs
+      - name: Prueba guiada — 8 tramos, victoria, derrota y recompensas
+        shell: bash
+        run: node propuestas/chatgpt/auditar-carga-johto.mjs
       - name: Herramientas de Elio — auditoría rápida y recorridos
         shell: bash
         run: node herramientas/auditar.mjs --rapida --bloque qa_johto --hasta cg_carga_t7_fin --semillas 2 --hilos 2
