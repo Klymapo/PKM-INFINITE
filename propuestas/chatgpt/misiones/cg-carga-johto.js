@@ -29,7 +29,7 @@ export default {
         trigal: 'Ve al **patio de carga de Trigal**. Revisa horario, conductor y precintos.',
         orden: 'En **Trigal**, visita el **anexo del patio** y verifica el desvío de vagones antes de ordenar la cronología en el tablón.',
         iris: 'En **Iris**, escucha a los tres guías y coteja tinta, sello y firma en el **Gabinete de copias** antes de cerrar la mesa de testimonios.',
-        caoba: 'En **Caoba**, examina el canal y ayuda a un Wooper antes de seguir la carga.',
+        caoba: 'En **Caoba**, examina las huellas, visita la **pasarela** y la **caseta de aforo**, compara el agua y ayuda a Wooper sin ponerlo en riesgo.'
         prueba: 'En **Caoba**, prepara el envío de prueba y verifica peso, sello y horarios.',
         turno: 'En **Olivo**, revisa el segundo turno del almacén y escucha al encargado.',
         recibo: 'En **Olivo**, coteja las pruebas y decide cómo corregir el registro.',
