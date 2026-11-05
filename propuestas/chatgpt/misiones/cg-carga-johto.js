@@ -15,6 +15,14 @@ export default {
     cg_carga_johto: {
       name: 'La carga que nadie firmó',
       type: 'side', est: 450,
+      parts: {
+        title: 'Tres pruebas iniciales del envío',
+        items: [
+          { label: 'Etiqueta y horas', where: 'olivo', done: 'flag.cg_carga_t0_papel', hint: 'Revisa la etiqueta en Olivo y distingue la hora impresa de la firma.' },
+          { label: 'Peso del embalaje', where: 'olivo', done: 'flag.cg_carga_t0_masa', hint: 'Revisa la báscula del almacén de Olivo.' },
+          { label: 'Libro de entrada', where: 'olivo', done: 'flag.cg_carga_t0_libro', hint: 'Compara los asientos del libro en Olivo.' }
+        ]
+      },
       stages: {
         olivo: 'En **Olivo**, revisa tres pruebas del envío junto al almacén del faro.',
         deduccion: 'En **Olivo**, compara las tres pruebas en la mesa de revisión.',
@@ -326,6 +334,7 @@ export default {
       ] }
     ],
     cg_carga_orden: [
+      { quest: 'cg_carga_johto', stage: 'orden' },
       'Las tres hojas forman un triángulo: preparación, salida y recepción. Al lado hay tres pinzas para ordenarlas.',
       { say: 'rotom', text: '¡Bzzt! ¡La tarea no es adivinar quién mintió! Es colocar lo que sí sabemos en orden.' },
       { choice: [
