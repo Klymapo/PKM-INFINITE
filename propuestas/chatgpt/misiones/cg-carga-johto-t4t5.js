@@ -32,7 +32,7 @@ export default {
         new: '!flag.cg_carga_t4_hora', doneIf: 'flag.cg_carga_t4_hora',
         talk: [{ script: 'cg_carga_prueba_hora' }] },
       { label: 'Reproducir el envío', icon: '🧩', sub: 'Compara las etapas sin abrir nuevas rutas',
-        cond: 'flag.cg_carga_t4_peso && flag.cg_carga_t4_sello && flag.cg_carga_t4_hora && !flag.cg_carga_t4_fin',
+        cond: 'flag.cg_carga_t4_peso && flag.cg_carga_t4_sello && flag.cg_carga_t4_hora && flag.cg_carga_t4_recorrido_fin && !flag.cg_carga_t4_fin',
         new: 'true', talk: [{ script: 'cg_carga_prueba_conclusion' }] }
     ] },
     olivo: { spots: [
@@ -128,6 +128,10 @@ export default {
       ] }
     ],
     cg_carga_prueba_conclusion: [
+      { if: '!flag.cg_carga_t4_recorrido_fin', then: [
+        { say: 'rotom', text: '¡Bzzt! La prueba no acaba con pesar una caja: necesitamos simular la ruta, el relevo de documentos y la entrega real en la estafeta de Caoba.' },
+        { end: true }
+      ] },
       'La caja de prueba llega al otro extremo de la mesa. Las tres pruebas muestran dónde nace una discrepancia en un registro.',
       { choice: [
         { text: 'Una diferencia entre papeles demuestra que la caja nunca existió', then: [
