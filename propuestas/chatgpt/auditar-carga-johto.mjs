@@ -15,6 +15,8 @@ assert(C.quests[id], 'Falta misión paralela');
 assert(C.scripts.cg_carga_fin, 'Falta cierre del episodio');
 assert(C.locations.cg_carga_anexo_trigal, 'Falta anexo físico de Trigal');
 assert(C.trainers.cg_carga_practica_trigal, 'Falta combate opcional de Trigal');
+assert(C.locations.cg_carga_gabinete_iris, 'Falta gabinete de pruebas de Iris');
+assert(C.items?.cg_carga_calco_iris || (await import('../../app/js/data.js')).D.items.cg_carga_calco_iris, 'Falta calco de Iris');
 let stage = '';
 let mode = 'main';
 const errors = [];
@@ -46,6 +48,13 @@ const choices = {
   cg_carga_guia_camino: /Preguntar por el estado/,
   cg_carga_guia_relevo: /Preguntar qué entregó/,
   cg_carga_guia_sello: /Comparar la mancha/,
+  cg_carga_t2_gabinete_permiso: /Pedir una copia y trabajar/,
+  cg_carga_t2_fibras: /Seguir el borde entre fibras/,
+  cg_carga_t2_tintas: /Separar impresión, sello y firma/,
+  cg_carga_t2_cajon: /Reproducir la secuencia/,
+  cg_carga_t2_humedad: /Mojar solo la fecha/,
+  cg_carga_t2_tablero: /Los tres testimonios describen partes distintas/,
+  cg_carga_t2_acta: /Separar hechos materiales, relatos/,
   cg_carga_cotejo_iris: /La firma prueba/,
   cg_carga_huellas: /Seguir la marca/,
   cg_carga_rejilla: /Comparar la corriente/,
@@ -113,7 +122,15 @@ const route = [
   ['cg_carga_guia_camino','cg_carga_t2_guia1'],
   ['cg_carga_guia_relevo','cg_carga_t2_guia2'],
   ['cg_carga_guia_sello','cg_carga_t2_guia3'],
-  ['cg_carga_cotejo_iris','cg_carga_t2_fin'],
+  ['cg_carga_t2_gabinete_permiso','cg_carga_t2_gabinete_permiso','cg_carga_gabinete_iris'],
+  ['cg_carga_t2_fibras','cg_carga_t2_fibra'],
+  ['cg_carga_t2_tintas','cg_carga_t2_tinta'],
+  ['cg_carga_t2_cajon','cg_carga_t2_calco'],
+  ['cg_carga_t2_leer_calco',null],
+  ['cg_carga_t2_humedad','cg_carga_t2_ensayo'],
+  ['cg_carga_t2_tablero','cg_carga_t2_tablero'],
+  ['cg_carga_t2_acta','cg_carga_t2_anexo_cotejo'],
+  ['cg_carga_cotejo_iris','cg_carga_t2_fin','iris'],
   ['cg_carga_caoba_inicio','cg_carga_t3_inicio','caoba'],
   ['cg_carga_huellas','cg_carga_t3_huellas'],
   ['cg_carga_rejilla','cg_carga_t3_rejilla'],
@@ -152,7 +169,7 @@ assert(!evalCond('!flag.cg_carga_t7_fin'), 'La escena final debe desaparecer del
 assert(C.locations.olivo.spots.some(s => s.label === 'Recuerdo del envío de Johto'), 'Falta epílogo accesible');
 await advance('cg_carga_epilogo');
 assert.deepEqual({ money: G.player.money, cap: G.vars.cap, items: G.bag.maxpotion, hitos: G.vars.hitos }, snapshot, 'El epílogo no debe pagar otra vez');
-console.log('✔ T0–T7: 46 escenas/acciones comprobadas, anexo de Trigal, conclusión y guardas de premios');
+console.log('✔ T0–T7: 54 escenas/acciones comprobadas, anexos Trigal/Iris, conclusión y premios únicos');
 
 // La salida de la maqueta y la derrota del entrenamiento dejan reintentar.
 reset(74);
@@ -172,6 +189,37 @@ assert(!G.flags.cg_carga_t1_anexo_practica_ganada, 'La derrota no se marca como 
 mode = 'main';
 await advance('cg_carga_t1_anexo_practica','cg_carga_t1_anexo_practica_ganada');
 console.log('✔ Entrenamiento: derrota, curación y reintento');
+
+// Gabinete de Iris: el cierre y la consulta nunca deben forzar una batalla ni la vía de pago.
+// La alternativa supervisada se habilita por haber escuchado a la guía de los relevos.
+reset(74);
+G.flags.cg_carga_t2_inicio = true;
+G.flags.cg_carga_t2_guia2 = true;
+await advance('cg_carga_t2_gabinete_permiso','cg_carga_t2_gabinete_permiso','cg_carga_gabinete_iris');
+mode = 'quit';
+UI.minigame = async () => ({result: 'quit'});
+await advance('cg_carga_t2_cajon',null);
+assert(!G.flags.cg_carga_t2_calco, 'Salir del cajón no puede entregar calco');
+mode = 'main';
+const savedPref = choices.cg_carga_t2_cajon;
+choices.cg_carga_t2_cajon = /Solicitar una apertura supervisada/;
+await advance('cg_carga_t2_cajon','cg_carga_t2_calco');
+assert.equal(G.bag.cgcargacalcoiris, 1, 'Copia supervisada debe entregar exactamente un calco');
+await advance('cg_carga_t2_leer_calco');
+assert.equal(G.bag.cgcargacalcoiris, 1, 'Releer el calco no debe duplicarlo');
+choices.cg_carga_t2_cajon = savedPref;
+delete UI.minigame;
+console.log('✔ Archivo Iris: cancelación, consulta supervisada y lectura única');
+
+reset(74);
+G.flags.cg_carga_t2_inicio = true;
+await advance('cg_carga_t2_gabinete_permiso','cg_carga_t2_gabinete_permiso','cg_carga_gabinete_iris');
+UI.minigame = async () => ({result: 'lose', score: 0, grade: 0});
+await advance('cg_carga_t2_cajon','cg_carga_t2_cajon_intento');
+assert(!G.flags.cg_carga_t2_calco, 'Perder memoria del cierre no puede marcar calco obtenido');
+delete UI.minigame;
+await advance('cg_carga_t2_cajon','cg_carga_t2_calco');
+console.log('✔ Archivo Iris: derrota, reintento y obtención de la copia');
 
 for (const variant of ['battle','lose']) {
   reset(74);
