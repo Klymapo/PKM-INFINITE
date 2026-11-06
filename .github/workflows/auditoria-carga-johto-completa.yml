@@ -43,6 +43,7 @@ jobs:
           BLOCKS.push(qa_johto);
           JS
           node herramientas/build-sw.mjs
+      # HEAD actualizado: encuentros Goodra + revisión narrativa con tres voces de Rotom.
       - name: Recorrer toda la historia paralela T0–T7 antes del audit visual
         shell: bash
         run: node propuestas/chatgpt/auditar-carga-johto.mjs
@@ -60,6 +61,6 @@ jobs:
         with:
           name: auditoria-completa-johto
           path: |
-            secreto/auditorias/*-2026-11-05.md
+            secreto/auditorias/*-2026-11-0*.md
           retention-days: 7
           if-no-files-found: ignore
