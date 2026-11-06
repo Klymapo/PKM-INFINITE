@@ -52,6 +52,7 @@ assert((await import('../../app/js/data.js')).D.items.cgcargat6borrador, 'Falta 
 assert(C.locations.cg_carga_t7_patio_final && C.locations.cg_carga_t7_archivo_final && C.locations.cg_carga_t7_orilla_final && C.locations.cg_carga_t7_mesa_cierre, 'Faltan las 4 áreas T7');
 assert((await import('../../app/js/data.js')).D.items.cgcargat7libreta, 'Falta libreta T7');
 // Los encuentros de Hisui aparecen después de salvar a Wooper, sin afectar la búsqueda normal.
+newGame();
 const canalListaAntes = encounterTable(canalGoodra, 'grass', null);
 assert(canalListaAntes.some(e => e.sp === 'goomy'), 'Goomy debe estar disponible antes de la reparación');
 assert(!canalListaAntes.some(e => e.sp === 'sliggoohisui'), 'Hisui no se desbloquea antes de ayudar a Wooper');
