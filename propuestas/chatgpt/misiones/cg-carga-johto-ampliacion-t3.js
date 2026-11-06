@@ -86,8 +86,7 @@ export default {
           cond: 'flag.cg_carga_t3_anilla',
           talk: [{ script: 'cg_carga_t3_pasarela_despues' }]
         }
-      ]
-    },
+      ],
       encounters: {
         grass: [
           // Encuentros salvajes auténticos: captura permitida, no son equipos de entrenadores.
@@ -99,6 +98,7 @@ export default {
           { sp: 'barboach', lv: [66, 69], w: 14 }
         ]
       }
+    },
     cg_carga_caseta_caoba: {
       name: 'Caseta de aforo de Caoba', short: 'Caseta del canal',
       parent: 'caoba', region: 'johto', kind: 'building',
