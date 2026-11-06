@@ -23,6 +23,21 @@ assert(C.locations.cg_carga_gabinete_iris, 'Falta gabinete de pruebas de Iris');
 assert((await import('../../app/js/data.js')).D.items.cgcargacalcoiris, 'Falta calco de Iris');
 assert(C.locations.cg_carga_ribera_caoba, 'Falta pasarela de Caoba');
 assert(C.locations.cg_carga_caseta_caoba, 'Falta caseta de aforo');
+const { D } = await import('../../app/js/data.js');
+const { checkEvolution } = await import('../../app/js/pokemon.js');
+const { encounterTable } = await import('../../app/js/world.js');
+const { localCaptureIndex } = await import('../../app/js/capturas.js');
+const canalGoodra = C.locations.cg_carga_ribera_caoba;
+assert(canalGoodra.spots.some(s => s.action?.explore === 'grass'), 'El juncal necesita acción de búsqueda salvaje');
+const lineaGoodra = ['goomy', 'sliggoo', 'sliggoohisui'];
+for (const sp of lineaGoodra) {
+  assert(D.species[sp], 'No existe especie ' + sp);
+  assert(canalGoodra.encounters?.grass?.some(e => e.sp === sp && !e.noCatch), 'No es capturable ' + sp);
+}
+assert.equal(checkEvolution({sp:'goomy',lv:70,item:null,moves:[],happy:0},{trigger:'level',region:'johto',time:'day'}),'sliggoo','Goomy debe evolucionar a Sliggoo');
+assert.equal(checkEvolution({sp:'sliggoo',lv:70,item:null,moves:[],happy:0},{trigger:'level',region:'johto',time:'day'}),'goodra','Sliggoo debe evolucionar a Goodra');
+assert.equal(checkEvolution({sp:'sliggoohisui',lv:70,item:null,moves:[],happy:0},{trigger:'level',region:'johto',time:'day'}),'goodrahisui','Sliggoo Hisui debe evolucionar a Goodra Hisui');
+
 assert(C.trainers.cg_carga_guardacanal_practica, 'Falta práctica Pokémon del canal');
 assert((await import('../../app/js/data.js')).D.items.cgcargaanillacanal, 'Falta anilla del canal');
 assert(C.locations.cg_carga_t4_patio, 'Falta patio de ensayo T4');
@@ -36,6 +51,18 @@ assert((await import('../../app/js/data.js')).D.items.cgcargat6calco, 'Falta cal
 assert((await import('../../app/js/data.js')).D.items.cgcargat6borrador, 'Falta borrador T6');
 assert(C.locations.cg_carga_t7_patio_final && C.locations.cg_carga_t7_archivo_final && C.locations.cg_carga_t7_orilla_final && C.locations.cg_carga_t7_mesa_cierre, 'Faltan las 4 áreas T7');
 assert((await import('../../app/js/data.js')).D.items.cgcargat7libreta, 'Falta libreta T7');
+// Los encuentros de Hisui aparecen después de salvar a Wooper, sin afectar la búsqueda normal.
+const canalListaAntes = encounterTable(canalGoodra, 'grass', null);
+assert(canalListaAntes.some(e => e.sp === 'goomy'), 'Goomy debe estar disponible antes de la reparación');
+assert(!canalListaAntes.some(e => e.sp === 'sliggoohisui'), 'Hisui no se desbloquea antes de ayudar a Wooper');
+const flagsGoodra = G.flags || {};
+flagsGoodra.cg_carga_t3_fin = true;
+const canalListaDespues = encounterTable(canalGoodra, 'grass', null);
+assert(canalListaDespues.some(e => e.sp === 'sliggoohisui'), 'Hisui debe aparecer después de la reparación');
+assert(localCaptureIndex(canalGoodra).catch.has('sliggoohisui'), 'El DexNav debe clasificar Sliggoo Hisui como capturable');
+delete flagsGoodra.cg_carga_t3_fin;
+console.log('✔ Goodra: captura real Goomy/Sliggoo/Hisui, desbloqueo y ambas evoluciones');
+
 let stage = '';
 let mode = 'main';
 const errors = [];
