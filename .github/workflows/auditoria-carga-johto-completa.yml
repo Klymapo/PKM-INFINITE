@@ -44,6 +44,9 @@ jobs:
           JS
           node herramientas/build-sw.mjs
       # HEAD actualizado: encuentros Goodra + revisión narrativa con tres voces de Rotom.
+      - name: Validar variantes de Diario de Rotom y continuidad editorial
+        shell: bash
+        run: node propuestas/chatgpt/auditar-carga-johto-voces.mjs
       - name: Recorrer toda la historia paralela T0–T7 antes del audit visual
         shell: bash
         run: node propuestas/chatgpt/auditar-carga-johto.mjs
