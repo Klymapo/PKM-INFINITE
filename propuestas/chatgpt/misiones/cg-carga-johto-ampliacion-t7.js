@@ -156,7 +156,7 @@ export default {
         { text: 'Pedirle que diga cuántas cajas y cuántas operaciones hubo', then: [
           'Responde: «Una caja, tres operaciones. El número 18 describe dónde acabó la maniobra y el despacho». No necesita saber quién inició la investigación.',
           { set: { 'flag.cg_carga_t7_t_lectura': true } },
-          'El procedimiento se entiende por sí solo. El acuse de Trigal ya puede firmarse.'
+          'Mara traslada la secuencia comprobada a la hoja nueva: una remesa, tres operaciones y una firma solo para la maniobra que presenció. El encargado coteja las tarjetas con la hoja y autoriza el acuse de Trigal.'
         ] },
         { text: 'Pedirle que señale al responsable de todo el recorrido', then: [
           'El nuevo registro deja claro quién confirmó cada operación, pero no asigna a nadie hechos que no presenció.'
