@@ -164,7 +164,7 @@ export default {
       'Una rueda dejó un arco junto al muelle. Al lado hay una marca recta que termina antes de la oficina de documentos.',
       { choice: [
         { text: 'Comprobar el final de las huellas antes de sacar conclusiones', then: [
-          'El giro termina junto al muelle, no en la puerta de archivo. El carrito pudo maniobrar sin que ningún paquete cambiara de destinatario.',
+          'Ambas huellas terminan en el muelle, sin alcanzar la puerta del archivo. Un mismo carrito puede dejar esas marcas al girar allí; por sí solas no prueban ni una entrega ni la hora de la maniobra.',
           { set: { 'flag.cg_carga_t0_huellas': true } },
           'Dibujas el trayecto sin asignarle todavía una hora.'
         ] },
