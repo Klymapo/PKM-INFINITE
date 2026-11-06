@@ -10,7 +10,9 @@ permissions:
 jobs:
   lector-independiente:
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 65
+    env:
+      LECTOR_MODELO: qwen3:4b
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -29,7 +31,7 @@ jobs:
             if curl -fsS http://localhost:11434/api/tags >/dev/null; then break; fi
             sleep 2
           done
-          ollama pull qwen2.5:3b
+          ollama pull qwen3:4b
       - name: Lectura narrativa separada de la autoría
         shell: bash
         run: python3 propuestas/chatgpt/revisor-narrativo-local.py
