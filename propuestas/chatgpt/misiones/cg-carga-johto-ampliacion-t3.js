@@ -69,6 +69,18 @@ export default {
           new: 'true', talk: [{ script: 'cg_carga_t3_recuperar' }]
         },
         {
+          label: 'Juncal de los Pokémon dragón', icon: '🐉',
+          sub: 'Buscar salvajes capturables: Goomy y Sliggoo; tras ayudar a Wooper aparece el raro Sliggoo de Hisui',
+          cond: 'flag.cg_carga_t3_inicio',
+          action: { explore: 'grass' }
+        },
+        {
+          label: 'Ina: la colonia de la arcilla férrea', icon: '🐚',
+          sub: 'Una pista sobre la forma de Hisui después de limpiar el cauce',
+          cond: 'flag.cg_carga_t3_fin',
+          talk: [{ script: 'cg_carga_t3_colonia_goomy' }]
+        },
+        {
           label: 'Marca de rescate', icon: '🔵',
           sub: 'Dejar constancia del hallazgo sin sacar conclusiones apresuradas',
           cond: 'flag.cg_carga_t3_anilla',
@@ -76,6 +88,17 @@ export default {
         }
       ]
     },
+      encounters: {
+        grass: [
+          // Encuentros salvajes auténticos: captura permitida, no son equipos de entrenadores.
+          // La variante de Hisui se desbloquea al reparar el remanso de Wooper.
+          { sp: 'goomy', lv: [65, 69], w: 38 },
+          { sp: 'sliggoo', lv: [68, 71], w: 14 },
+          { sp: 'sliggoohisui', lv: [68, 71], w: 8, cond: 'flag.cg_carga_t3_fin' },
+          { sp: 'poliwag', lv: [65, 68], w: 26 },
+          { sp: 'barboach', lv: [66, 69], w: 14 }
+        ]
+      }
     cg_carga_caseta_caoba: {
       name: 'Caseta de aforo de Caoba', short: 'Caseta del canal',
       parent: 'caoba', region: 'johto', kind: 'building',
@@ -144,6 +167,12 @@ export default {
     }
   },
   scripts: {
+    cg_carga_t3_colonia_goomy: [
+      'Tras limpiar el remanso, la arcilla del fondo vuelve a ser visible. Cerca de las estacas, algunos Pokémon pequeños dejan rastros sinuosos entre los juncos.',
+      { say: 'cg_carga_ina_caoba', text: 'Los Goomy llevan tiempo en el juncal. También hay Sliggoo. Unos pocos tienen una concha pesada, como si la arcilla férrea se hubiera quedado con ellos: son la forma de Hisui.' },
+      { say: 'rotom', text: '¡Bzzt! Son Pokémon salvajes, no el Wooper al que ayudamos. Puedes buscarlos entre los juncos y capturarlos normalmente. Si entrenas a los Sliggoo, cada uno conserva su propia rama evolutiva.' },
+      'La búsqueda del juncal puede repetirse. Ningún Goodra es un regalo ni una recompensa obligatoria del caso.'
+    ],
     cg_carga_t3_estacas: [
       'La primera estaca tiene tres rayas. La segunda, dos. El agua llega a marcas distintas, aunque entre ambas no hay un desagüe nuevo.',
       { if: '(inParty("lucario") || inParty("riolu"))', then: [
