@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Lector narrativo externo/local: Qwen2.5 3B. Sin servicios de pago ni datos de usuario.
+"""Lector narrativo externo/local: Qwen3 4B (Apache-2.0). Sin servicios de pago ni datos de usuario.
 Revisa íntegramente los guiones de la propuesta aislada, divididos por tramos.
 El reporte puede contener SPOILERS; no publicar respuestas de historia en la conversación.
 """
@@ -52,14 +52,14 @@ def fetch_scripts():
     return json.loads(p.stdout)
 
 def invoke(model,prompt):
-    body=json.dumps({"model":model,"prompt":prompt,"stream":False,"options":{"temperature":0.15,"num_ctx":8192,"num_predict":490,"num_thread":4}}).encode()
+    body=json.dumps({"model":model,"prompt":prompt,"stream":False,"think":False,"options":{"temperature":0.15,"num_ctx":8192,"num_predict":490,"num_thread":4}}).encode()
     req=urllib.request.Request('http://127.0.0.1:11434/api/generate',data=body,headers={'Content-Type':'application/json'})
     with urllib.request.urlopen(req,timeout=900) as ans:
         value=json.loads(ans.read())
     return str(value.get('response','')).strip()
 
 def main():
-    model=os.getenv('LECTOR_MODELO','qwen2.5:3b')
+    model=os.getenv('LECTOR_MODELO','qwen3:4b')
     scripts=fetch_scripts()
     ids=set()
     parts=["# ⚠️ INFORME CON SPOILERS — Lector automatizado independiente de la autoría\n",
