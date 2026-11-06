@@ -1,0 +1,50 @@
+name: QA de publicación · historia lateral de Johto
+on:
+  push:
+    branches: [publish/johto-2026-11-05]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  prepublicacion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Generar Service Worker y comprobar precache
+        run: |
+          node herramientas/build-sw.mjs
+          node --input-type=module -e "import fs from 'node:fs';const sw=fs.readFileSync('app/sw.js','utf8');if (!sw.includes('content/johto/index.js') || !sw.includes('content/johto/cg-carga-johto-voz-rotom.js')) process.exit(1);"
+      - name: Herramientas de Elio (validador, tester, superfan y designer)
+        run: |
+          node herramientas/validar.mjs
+          node herramientas/tester.mjs
+          node herramientas/superfan.mjs
+          node herramientas/disenador.mjs
+      - name: Controlar voces y decisiones de Rotom
+        run: node herramientas/johto/auditar-carga-johto-voces.mjs
+      - name: Recorrido completo del nuevo episodio y encuentros de Goodra
+        run: node herramientas/johto/auditar-carga-johto.mjs
+      - name: Preparar navegador real para humo y UX
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install --with-deps chromium
+      - name: Auditoría integral de Elio y UX móvil con contenido publicado
+        run: node herramientas/auditar.mjs --semillas 4 --hilos 4
+      - name: Entregar Service Worker para su confirmación en Git
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: service-worker-johto-y-auditoria
+          path: |
+            app/sw.js
+            app/img/indice.json
+            secreto/auditorias/*
+          if-no-files-found: warn
+          retention-days: 7
