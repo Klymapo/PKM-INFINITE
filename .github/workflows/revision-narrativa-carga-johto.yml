@@ -1,0 +1,43 @@
+name: Revisión narrativa independiente — Johto (modelo local)
+on:
+  push:
+    branches: [chatgpt/carga-johto-2026-11-05]
+    paths:
+      - ".github/workflows/revision-narrativa-carga-johto.yml"
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  lector-independiente:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Instalar modelo libre para un segundo lector aislado (sin APIs ni claves)
+        shell: bash
+        run: |
+          curl -fsSL https://ollama.com/install.sh -o /tmp/instalar-ollama.sh
+          bash /tmp/instalar-ollama.sh
+          nohup ollama serve >/tmp/ollama-johto.log 2>&1 &
+          for i in $(seq 1 30); do
+            if curl -fsS http://localhost:11434/api/tags >/dev/null; then break; fi
+            sleep 2
+          done
+          ollama pull qwen2.5:3b
+      - name: Lectura narrativa separada de la autoría
+        shell: bash
+        run: python3 propuestas/chatgpt/revisor-narrativo-local.py
+      - name: Guardar dictamen (contiene spoilers; no publicar)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dictamen-narrativo-independiente-johto
+          path: propuestas/chatgpt/REVISION-LECTOR-LOCAL-T0-T7-2026-11-05.md
+          retention-days: 14
+          if-no-files-found: warn
