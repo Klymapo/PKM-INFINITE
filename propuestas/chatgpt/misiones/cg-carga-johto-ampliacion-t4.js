@@ -204,13 +204,13 @@ export default {
       ] }
     ],
     cg_carga_t4_registro_carga: [
-      'Antes de mover el carrito, Nelo pone en la mesa dos folios: «PREPARACIÓN» y «DESPACHO». Ambos muestran la misma remesa ficticia.',
+      'Antes de mover el carrito, Nelo pone en la mesa dos folios: «PREPARACIÓN» y «RECEPCIÓN». Ambos muestran la misma remesa ficticia. La casilla de recepción todavía está vacía porque el carrito no ha salido.',
       { say: 'cg_carga_nelo', text: 'Yo preparé la caja, pero no soy el encargado de recibirla. ¿Dónde anoto mi nombre sin convertirme en el destinatario?' },
       { choice: [
         {
           text: 'Firmar preparación; dejar la recepción en blanco',
           then: [
-            'El folio registra quién preparó el embalaje, con una hora propia. En la otra columna, recepción todavía vacía, el envío sigue siendo un único cajón.',
+            'El folio registra quién preparó el embalaje, con una hora propia. En el segundo folio de recepción no hay firma porque nadie ha recibido aún el cajón. La preparación no puede presentarse como entrega.',
             { set: { 'flag.cg_carga_t4_carga': true } },
             { say: 'rotom', text: '¡Bzzt! Primera diferencia comprobable: preparar no significa recibir. ¡Y ahora sí podemos mover el carrito!' }
           ]
