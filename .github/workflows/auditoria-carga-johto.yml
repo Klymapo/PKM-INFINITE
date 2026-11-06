@@ -54,6 +54,9 @@ jobs:
         shell: bash
         run: |
           grep -n -C 3 -E 'cg_carga|qa_johto' secreto/auditorias/disenador-*.md || true
+      - name: Tres variantes de Diario y voz de Rotom
+        shell: bash
+        run: node propuestas/chatgpt/auditar-carga-johto-voces.mjs
       - name: Prueba guiada — 8 tramos, victoria, derrota y recompensas
         shell: bash
         run: node propuestas/chatgpt/auditar-carga-johto.mjs
