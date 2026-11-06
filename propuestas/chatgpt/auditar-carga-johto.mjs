@@ -56,12 +56,14 @@ newGame();
 const canalListaAntes = encounterTable(canalGoodra, 'grass', null);
 assert(canalListaAntes.some(e => e.sp === 'goomy'), 'Goomy debe estar disponible antes de la reparación');
 assert(!canalListaAntes.some(e => e.sp === 'sliggoohisui'), 'Hisui no se desbloquea antes de ayudar a Wooper');
-const flagsGoodra = G.flags || {};
+const flagsGoodra = G.flags;
+flagsGoodra.cg_carga_t3_inicio = true;
 flagsGoodra.cg_carga_t3_fin = true;
 const canalListaDespues = encounterTable(canalGoodra, 'grass', null);
 assert(canalListaDespues.some(e => e.sp === 'sliggoohisui'), 'Hisui debe aparecer después de la reparación');
 assert(localCaptureIndex(canalGoodra).catch.has('sliggoohisui'), 'El DexNav debe clasificar Sliggoo Hisui como capturable');
 delete flagsGoodra.cg_carga_t3_fin;
+delete flagsGoodra.cg_carga_t3_inicio;
 console.log('✔ Goodra: captura real Goomy/Sliggoo/Hisui, desbloqueo y ambas evoluciones');
 
 let stage = '';
