@@ -5,11 +5,12 @@
   "type": "module",
   "description": "Herramientas de autoría fuera del runtime; no despliega dependencias.",
   "scripts": {
-    "test": "node test-integraciones.mjs && node test-compilador.mjs",
+    "test": "node test-integraciones.mjs && node test-compilador.mjs && node test-fabrica.mjs",
     "story": "node generar-historia.mjs",
     "game": "node director-juego.mjs",
     "compile": "node compilar-aventura.mjs",
-    "ink": "node simular-ink.mjs"
+    "ink": "node simular-ink.mjs",
+    "fabricar": "node crear-aventura.mjs"
   },
   "dependencies": {
     "inkjs": "2.4.0"
