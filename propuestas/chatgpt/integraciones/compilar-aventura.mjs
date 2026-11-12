@@ -149,7 +149,7 @@ async function verifyCurrentRepo(pack, location, species) {
   // Loading the registry happens only in the developer's local process;
   // no unpublished content is printed, uploaded or sent to a model.
   const speciesDb = JSON.parse(await fs.readFile(path.join(ROOT, 'app/data/species.json'), 'utf8'));
-  if (!speciesDb[species] || speciesDb[species].battleOnly || speciesDb[species].nonstd)
+  if (!speciesDb[species] || speciesDb[species].battleOnly)
     throw Error('Especie no utilizable en app/data: ' + species);
   const { loadDataNode } = await import('../../../herramientas/test/node-env.mjs');
   loadDataNode();
