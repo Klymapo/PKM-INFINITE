@@ -5,8 +5,10 @@
   "type": "module",
   "description": "Herramientas de autoría fuera del runtime; no despliega dependencias.",
   "scripts": {
+    "test": "node test-integraciones.mjs && node test-compilador.mjs",
     "story": "node generar-historia.mjs",
     "game": "node director-juego.mjs",
+    "compile": "node compilar-aventura.mjs",
     "ink": "node simular-ink.mjs"
   },
   "dependencies": {
