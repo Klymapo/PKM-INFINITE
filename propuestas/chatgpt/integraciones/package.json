@@ -1,0 +1,18 @@
+{
+  "name": "pkm-integraciones-propuestas",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Herramientas de autoría fuera del runtime; no despliega dependencias.",
+  "scripts": {
+    "story": "node generar-historia.mjs",
+    "game": "node director-juego.mjs",
+    "ink": "node simular-ink.mjs"
+  },
+  "dependencies": {
+    "inkjs": "2.4.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
