@@ -44,3 +44,33 @@ No se requiere instalar Ink para ejecutar el generador: el paquete inkjs solamen
 
 ## Límite claro
 No se clonó un videojuego completo ni se agregó un motor diferente. Se adoptaron interfaces/patrones compatibles y una biblioteca opcional sin afectar el juego. La integración en el runtime requiere aprobación y pruebas separadas de Elio.
+
+## Integración funcional · 12 de noviembre de 2026
+
+Se añadió un **compilador jugable** que transforma un borrador JSON en un paquete comunitario con cinco puntos de interacción dentro de un lugar ya existente, un combate Pokémon genuino (simulador actual del juego), dos decisiones guardadas como flags exclusivos, objetivos en el hub y un cierre que no puede repetirse. Se verifica la especie con `app/data/species.json`, y el lugar y las colisiones de ids mediante el registro actual. No se ejecuta ni publica nada en el juego al generar el paquete.
+
+### Ruta rápida: un comando
+
+Dentro de `propuestas/chatgpt/integraciones/`:
+
+```sh
+# Primer ensayo sin modelo de IA ni internet
+node crear-aventura.mjs --desde-json ejemplo.json --slug ejemplo_1 --lugar luminalia --especie pidgeot --nivel 50
+
+# Generación de historia local con Ollama (requiere un ordenador y el modelo descargado)
+ollama pull qwen3:4b-instruct
+node crear-aventura.mjs --idea "Un personaje cercano hace una promesa difícil de cumplir" --slug promesa --lugar luminalia --especie pidgeot --nivel 50
+
+# Pruebas reproducibles (Node >=20; no necesitan npm install ni Ollama)
+npm test
+```
+
+El valor de `--lugar` debe ser un id **real de ciudad o subárea con spots**, no una ruta. El de `--especie` debe ser un id real en `app/data/species.json`; `--nivel` entero 1-100 y adecuado a la aventura. Los ejemplos son pruebas técnicas, no propuestas para el balance final. `--salida` es opcional; por defecto genera bajo `propuestas/chatgpt/misiones/`, nunca en `app/`.
+
+Se producen tres archivos `cg-<slug>.js` (paquete con forma nativa), `cg-<slug>-borrador.json` (fuente) y `cg-<slug>.plan.json` (plan y advertencias). **No se sobrescriben archivos**. Los nombres e ids se comprueban para evitar colisiones y permitir que Elio revise todo sin spoilers para el jugador. Antes de adoptar un paquete, Elio comprueba los diálogos, la continuidad, el nivel del combate, el personaje y las condiciones, e importa explícitamente el módulo a `app/content/comunidad/lista.js` como parte de una publicación supervisada.
+
+### Pruebas automáticas
+
+El workflow `.github/workflows/fabrica-historias.yml` ejecuta en GitHub Actions la comprobación sintáctica y `npm test` ante cambios del laboratorio. La prueba incluye un flujo completo offline en un directorio temporal, conflictos de nombre, rechazo de especies y lugares inexistentes, compatibilidad con los comandos del motor y comprobación de que no se modificaron archivos del checkout.
+
+**Importante:** Ink/inkjs permanece como opción de simulación de historias externas. El juego no necesita Ink, npm ni Ollama para jugarse offline. No se instalaron bibliotecas externas dentro de `app/`. La generación automática se ejecuta en una computadora local, no en el celular ni Cloudflare Workers.
