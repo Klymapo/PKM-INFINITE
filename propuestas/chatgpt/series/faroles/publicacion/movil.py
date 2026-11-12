@@ -60,7 +60,14 @@ with sync_playwright() as pw:
       G.quests.cg_faroles_5_quest={stage:'reto',started:Date.now()};
       window.qaBattle=(await import('./js/ui/screens.js')).battle({trainer:'cg_faroles_5_trainer',canLose:true});
     }""")
-    page.wait_for_timeout(1500);shot('06-combate.png')
+    for _ in range(20):
+        if page.locator('.battle').count():
+            break
+        if page.locator('.overlay').count():
+            page.locator('.overlay').last.click(force=True)
+        page.wait_for_timeout(200)
+    page.wait_for_selector('.battle',timeout=15000)
+    page.wait_for_timeout(800);shot('06-combate.png')
     page.reload(wait_until='networkidle');load('final.json');shot('07-epilogo.png')
     (OUT/'movil.json').write_text(json.dumps({'pageErrors':errors,'viewport':[412,860]},ensure_ascii=False,indent=2))
     assert not errors,errors
