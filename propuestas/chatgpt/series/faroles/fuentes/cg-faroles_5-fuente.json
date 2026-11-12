@@ -1,0 +1,57 @@
+{
+  "title": "Un sitio bajo los faroles",
+  "premise": "Completa el montaje en Celeste, recoge la cubierta en Azafrán y prueba el recorrido con Nerea.",
+  "npc": {
+    "name": "Nerea",
+    "personality": "Ya puede mostrar una pieza imperfecta sin inventar una excusa antes de que alguien la vea."
+  },
+  "scenes": [
+    {
+      "mode": "dialogo",
+      "text": "Misty sujeta la primera cuerda. Bill lleva una bandeja que ya no hace falta. Sabrina ocupa el banco con mejor vista de la salida. Nerea te guarda un sitio."
+    },
+    {
+      "mode": "exploracion",
+      "text": "Despeja el último paso de Celeste y recoge con Sabrina las bayas para terminar la cubierta. No se gastan objetos de tu mochila."
+    },
+    {
+      "mode": "combate",
+      "text": "Nerea hará una prueba de resistencia con su equipo. Habrá curación antes, se detendrá si pierdes y podrás volver sin repetir el montaje."
+    },
+    {
+      "mode": "convivencia",
+      "text": "La prueba termina sin un solo farol en el agua. Bill mira su bandeja y parece, por un momento, un poco decepcionado."
+    }
+  ],
+  "decision1": {
+    "question": "¿Cómo hacemos la última revisión?",
+    "options": [
+      {
+        "text": "Probar primero el paso entre soportes",
+        "response": "Misty comprobará la cuerda mientras avanzas."
+      },
+      {
+        "text": "Comprobar el estuche de recambios",
+        "response": "Bill se encargará de que cada pieza vuelva a su caja."
+      }
+    ]
+  },
+  "decision2": {
+    "question": "¿Qué espacio dejamos preparado para volver?",
+    "options": [
+      {
+        "text": "Un embarcadero para encuentros y pesca",
+        "response": "Misty abrirá una zona de pesca con materiales comunes."
+      },
+      {
+        "text": "Un mirador tranquilo para buscar junto al agua",
+        "response": "Sabrina reservará un banco y Bill prestará el Buscaobjetos."
+      }
+    ]
+  },
+  "callbacks": [
+    "La distribución que probaste deja caminar sin rozar las cuerdas.",
+    "Los recambios están al alcance. Nadie tiene que desmontar un farol para buscar otro."
+  ],
+  "ending": "Nerea deja encendido un farol de prueba. Tiene un soporte abollado y un nudo demasiado grande. Por fin no cambia ninguno de los dos."
+}

@@ -21,3 +21,15 @@ Rama: `chatgpt/misiones-2026-10-11`. Solo propuestas; Claude revisa y decide la 
 Integración solicitada por Admin de los 28 sprites aprobados y atenuación de conversaciones. Ver `sprites-elenco/VERIFICACION.md` para alcance y pruebas.
 
 - [HABILIDADES.md](HABILIDADES.md): Cápsula/Parche funcionales y personalización voluntaria de Golisopod.
+
+## Serie de secundarias · 2026-11-12
+
+Rama: chatgpt/misiones-cadena-20261112, desde main ebad8ebf. Autoría con el laboratorio integrado hoy.
+
+- misiones/cg-faroles.js: cinco misiones enlazadas, diez tareas interactivas, diez decisiones, ensayos con curación y reintento, recuerdos y dos epílogos de recolección.
+- series/faroles/INTEGRACION.md: alcance, herramientas realmente utilizadas, revisión editorial, resultados y pasos de integración por Elio.
+- series/faroles/fuentes/: cinco borradores originales en JSON.
+- series/faroles/crear-serie.mjs y cg-faroles.plan.json: construcción reproducible y planes generados con el director existente.
+- series/faroles/probar-serie.mjs y PRUEBAS.json: 2 048 rutas sobre el intérprete real con dobles de UI/estado/batalla, seis puzles resueltos y minijuegos con 32 semillas por variante.
+
+Estado: entrega candidata con revisión independiente y pruebas específicas aprobadas. No está registrada en app/content/comunidad/lista.js, no se fusionó main ni se publicó en el móvil. La auditoría global, continuidad privada y comprobación visual se hacen al integrar.

@@ -1,0 +1,443 @@
+{
+  "schema": 1,
+  "base": "ebad8ebff1843de962d1ee7f79c08db0192c1577",
+  "status": "revision_obligatoria",
+  "episodes": [
+    {
+      "episode": 1,
+      "source": "cg-faroles_1-fuente.json",
+      "generatedPlan": {
+        "seed": "cg_faroles_1_",
+        "conflict": "un personaje oculta algo por una razón comprensible",
+        "design": "aventura original en el motor actual",
+        "estimatedMinutes": 44,
+        "beats": [
+          {
+            "order": 1,
+            "mode": "convivencia",
+            "objective": "Presentar un personaje con contradicciones y darle una acción memorable.",
+            "minutes": 5
+          },
+          {
+            "order": 2,
+            "mode": "exploracion",
+            "objective": "Observar el lugar y descubrir una pista mediante interacción, no leyendo un informe.",
+            "minutes": 7
+          },
+          {
+            "order": 3,
+            "mode": "decision",
+            "objective": "Elegir entre dos soluciones razonables; guardar la consecuencia en un flag nuevo.",
+            "minutes": 4
+          },
+          {
+            "order": 4,
+            "mode": "combate",
+            "objective": "Combate Pokémon conectado al problema, usando los datos y reglas ya existentes.",
+            "minutes": 8
+          },
+          {
+            "order": 5,
+            "mode": "convivencia",
+            "objective": "Mostrar una reacción emocional tras el combate y retomar un personaje conocido.",
+            "minutes": 5
+          },
+          {
+            "order": 6,
+            "mode": "exploracion",
+            "objective": "La pista anterior cambia de significado; visita o reencuentro con propósito. Cambiar el contexto de un objeto o espacio antes visto.",
+            "minutes": 6
+          },
+          {
+            "order": 7,
+            "mode": "decision",
+            "objective": "Resolver un dilema distinto al primero; dos salidas con costos legítimos.",
+            "minutes": 5
+          },
+          {
+            "order": 8,
+            "mode": "consecuencia",
+            "objective": "Mostrar inmediatamente una consecuencia y dejar un eco para otro bloque.",
+            "minutes": 4
+          }
+        ],
+        "hooks": {
+          "combate": "Conectar mediante { battle: trainerId } creado y validado por Elio.",
+          "exploracion": "Conectar con spots, tramos o puzles existentes del motor.",
+          "decisiones": "Usar { choice }, { set } y callbacks con flags nuevos cg_.",
+          "recompensa": "Utilizar exclusivamente objetos/especies válidos en app/data."
+        },
+        "safety": [
+          "No ejecutar ni modificar el combate de Showdown.",
+          "No cambiar capítulos existentes, flags, inventario o guardados.",
+          "No usar recursos gráficos, audio o código de los repositorios de referencia.",
+          "Revisar canon, ubicación, continuidad, legibilidad móvil y spoilers antes de publicar."
+        ]
+      },
+      "estimatedMinutes": 18,
+      "measured": false,
+      "location": "celeste",
+      "other": "casa_bill",
+      "edits": [
+        "exploración interactiva",
+        "segunda tarea y parts",
+        "curación y reintento",
+        "guardas de repetición",
+        "eco interepisodio",
+        "recompensa única"
+      ]
+    },
+    {
+      "episode": 2,
+      "source": "cg-faroles_2-fuente.json",
+      "generatedPlan": {
+        "seed": "cg_faroles_2_",
+        "conflict": "una promesa antigua se pone a prueba con una decisión presente",
+        "design": "aventura original en el motor actual",
+        "estimatedMinutes": 44,
+        "beats": [
+          {
+            "order": 1,
+            "mode": "convivencia",
+            "objective": "Presentar un personaje con contradicciones y darle una acción memorable.",
+            "minutes": 5
+          },
+          {
+            "order": 2,
+            "mode": "exploracion",
+            "objective": "Observar el lugar y descubrir una pista mediante interacción, no leyendo un informe.",
+            "minutes": 7
+          },
+          {
+            "order": 3,
+            "mode": "decision",
+            "objective": "Elegir entre dos soluciones razonables; guardar la consecuencia en un flag nuevo.",
+            "minutes": 4
+          },
+          {
+            "order": 4,
+            "mode": "combate",
+            "objective": "Combate Pokémon conectado al problema, usando los datos y reglas ya existentes.",
+            "minutes": 8
+          },
+          {
+            "order": 5,
+            "mode": "convivencia",
+            "objective": "Mostrar una reacción emocional tras el combate y retomar un personaje conocido.",
+            "minutes": 5
+          },
+          {
+            "order": 6,
+            "mode": "exploracion",
+            "objective": "La pista anterior cambia de significado; visita o reencuentro con propósito. Cambiar el contexto de un objeto o espacio antes visto.",
+            "minutes": 6
+          },
+          {
+            "order": 7,
+            "mode": "decision",
+            "objective": "Resolver un dilema distinto al primero; dos salidas con costos legítimos.",
+            "minutes": 5
+          },
+          {
+            "order": 8,
+            "mode": "consecuencia",
+            "objective": "Mostrar inmediatamente una consecuencia y dejar un eco para otro bloque.",
+            "minutes": 4
+          }
+        ],
+        "hooks": {
+          "combate": "Conectar mediante { battle: trainerId } creado y validado por Elio.",
+          "exploracion": "Conectar con spots, tramos o puzles existentes del motor.",
+          "decisiones": "Usar { choice }, { set } y callbacks con flags nuevos cg_.",
+          "recompensa": "Utilizar exclusivamente objetos/especies válidos en app/data."
+        },
+        "safety": [
+          "No ejecutar ni modificar el combate de Showdown.",
+          "No cambiar capítulos existentes, flags, inventario o guardados.",
+          "No usar recursos gráficos, audio o código de los repositorios de referencia.",
+          "Revisar canon, ubicación, continuidad, legibilidad móvil y spoilers antes de publicar."
+        ]
+      },
+      "estimatedMinutes": 20,
+      "measured": false,
+      "location": "casa_bill",
+      "other": "celeste",
+      "edits": [
+        "exploración interactiva",
+        "segunda tarea y parts",
+        "curación y reintento",
+        "guardas de repetición",
+        "eco interepisodio",
+        "recompensa única"
+      ]
+    },
+    {
+      "episode": 3,
+      "source": "cg-faroles_3-fuente.json",
+      "generatedPlan": {
+        "seed": "cg_faroles_3_",
+        "conflict": "un personaje oculta algo por una razón comprensible",
+        "design": "aventura original en el motor actual",
+        "estimatedMinutes": 44,
+        "beats": [
+          {
+            "order": 1,
+            "mode": "convivencia",
+            "objective": "Presentar un personaje con contradicciones y darle una acción memorable.",
+            "minutes": 5
+          },
+          {
+            "order": 2,
+            "mode": "exploracion",
+            "objective": "Observar el lugar y descubrir una pista mediante interacción, no leyendo un informe.",
+            "minutes": 7
+          },
+          {
+            "order": 3,
+            "mode": "decision",
+            "objective": "Elegir entre dos soluciones razonables; guardar la consecuencia en un flag nuevo.",
+            "minutes": 4
+          },
+          {
+            "order": 4,
+            "mode": "combate",
+            "objective": "Combate Pokémon conectado al problema, usando los datos y reglas ya existentes.",
+            "minutes": 8
+          },
+          {
+            "order": 5,
+            "mode": "convivencia",
+            "objective": "Mostrar una reacción emocional tras el combate y retomar un personaje conocido.",
+            "minutes": 5
+          },
+          {
+            "order": 6,
+            "mode": "exploracion",
+            "objective": "La pista anterior cambia de significado; visita o reencuentro con propósito. Cambiar el contexto de un objeto o espacio antes visto.",
+            "minutes": 6
+          },
+          {
+            "order": 7,
+            "mode": "decision",
+            "objective": "Resolver un dilema distinto al primero; dos salidas con costos legítimos.",
+            "minutes": 5
+          },
+          {
+            "order": 8,
+            "mode": "consecuencia",
+            "objective": "Mostrar inmediatamente una consecuencia y dejar un eco para otro bloque.",
+            "minutes": 4
+          }
+        ],
+        "hooks": {
+          "combate": "Conectar mediante { battle: trainerId } creado y validado por Elio.",
+          "exploracion": "Conectar con spots, tramos o puzles existentes del motor.",
+          "decisiones": "Usar { choice }, { set } y callbacks con flags nuevos cg_.",
+          "recompensa": "Utilizar exclusivamente objetos/especies válidos en app/data."
+        },
+        "safety": [
+          "No ejecutar ni modificar el combate de Showdown.",
+          "No cambiar capítulos existentes, flags, inventario o guardados.",
+          "No usar recursos gráficos, audio o código de los repositorios de referencia.",
+          "Revisar canon, ubicación, continuidad, legibilidad móvil y spoilers antes de publicar."
+        ]
+      },
+      "estimatedMinutes": 18,
+      "measured": false,
+      "location": "azafran",
+      "other": "casa_bill",
+      "edits": [
+        "exploración interactiva",
+        "segunda tarea y parts",
+        "curación y reintento",
+        "guardas de repetición",
+        "eco interepisodio",
+        "recompensa única"
+      ]
+    },
+    {
+      "episode": 4,
+      "source": "cg-faroles_4-fuente.json",
+      "generatedPlan": {
+        "seed": "cg_faroles_4_",
+        "conflict": "un personaje oculta algo por una razón comprensible",
+        "design": "aventura original en el motor actual",
+        "estimatedMinutes": 44,
+        "beats": [
+          {
+            "order": 1,
+            "mode": "convivencia",
+            "objective": "Presentar un personaje con contradicciones y darle una acción memorable.",
+            "minutes": 5
+          },
+          {
+            "order": 2,
+            "mode": "exploracion",
+            "objective": "Observar el lugar y descubrir una pista mediante interacción, no leyendo un informe.",
+            "minutes": 7
+          },
+          {
+            "order": 3,
+            "mode": "decision",
+            "objective": "Elegir entre dos soluciones razonables; guardar la consecuencia en un flag nuevo.",
+            "minutes": 4
+          },
+          {
+            "order": 4,
+            "mode": "combate",
+            "objective": "Combate Pokémon conectado al problema, usando los datos y reglas ya existentes.",
+            "minutes": 8
+          },
+          {
+            "order": 5,
+            "mode": "convivencia",
+            "objective": "Mostrar una reacción emocional tras el combate y retomar un personaje conocido.",
+            "minutes": 5
+          },
+          {
+            "order": 6,
+            "mode": "exploracion",
+            "objective": "La pista anterior cambia de significado; visita o reencuentro con propósito. Cambiar el contexto de un objeto o espacio antes visto.",
+            "minutes": 6
+          },
+          {
+            "order": 7,
+            "mode": "decision",
+            "objective": "Resolver un dilema distinto al primero; dos salidas con costos legítimos.",
+            "minutes": 5
+          },
+          {
+            "order": 8,
+            "mode": "consecuencia",
+            "objective": "Mostrar inmediatamente una consecuencia y dejar un eco para otro bloque.",
+            "minutes": 4
+          }
+        ],
+        "hooks": {
+          "combate": "Conectar mediante { battle: trainerId } creado y validado por Elio.",
+          "exploracion": "Conectar con spots, tramos o puzles existentes del motor.",
+          "decisiones": "Usar { choice }, { set } y callbacks con flags nuevos cg_.",
+          "recompensa": "Utilizar exclusivamente objetos/especies válidos en app/data."
+        },
+        "safety": [
+          "No ejecutar ni modificar el combate de Showdown.",
+          "No cambiar capítulos existentes, flags, inventario o guardados.",
+          "No usar recursos gráficos, audio o código de los repositorios de referencia.",
+          "Revisar canon, ubicación, continuidad, legibilidad móvil y spoilers antes de publicar."
+        ]
+      },
+      "estimatedMinutes": 22,
+      "measured": false,
+      "location": "celeste",
+      "other": "casa_bill",
+      "edits": [
+        "exploración interactiva",
+        "segunda tarea y parts",
+        "curación y reintento",
+        "guardas de repetición",
+        "eco interepisodio",
+        "recompensa única"
+      ]
+    },
+    {
+      "episode": 5,
+      "source": "cg-faroles_5-fuente.json",
+      "generatedPlan": {
+        "seed": "cg_faroles_5_",
+        "conflict": "una promesa antigua se pone a prueba con una decisión presente",
+        "design": "aventura original en el motor actual",
+        "estimatedMinutes": 44,
+        "beats": [
+          {
+            "order": 1,
+            "mode": "convivencia",
+            "objective": "Presentar un personaje con contradicciones y darle una acción memorable.",
+            "minutes": 5
+          },
+          {
+            "order": 2,
+            "mode": "exploracion",
+            "objective": "Observar el lugar y descubrir una pista mediante interacción, no leyendo un informe.",
+            "minutes": 7
+          },
+          {
+            "order": 3,
+            "mode": "decision",
+            "objective": "Elegir entre dos soluciones razonables; guardar la consecuencia en un flag nuevo.",
+            "minutes": 4
+          },
+          {
+            "order": 4,
+            "mode": "combate",
+            "objective": "Combate Pokémon conectado al problema, usando los datos y reglas ya existentes. Un rival vuelve después con una postura distinta.",
+            "minutes": 8
+          },
+          {
+            "order": 5,
+            "mode": "convivencia",
+            "objective": "Mostrar una reacción emocional tras el combate y retomar un personaje conocido.",
+            "minutes": 5
+          },
+          {
+            "order": 6,
+            "mode": "exploracion",
+            "objective": "La pista anterior cambia de significado; visita o reencuentro con propósito.",
+            "minutes": 6
+          },
+          {
+            "order": 7,
+            "mode": "decision",
+            "objective": "Resolver un dilema distinto al primero; dos salidas con costos legítimos.",
+            "minutes": 5
+          },
+          {
+            "order": 8,
+            "mode": "consecuencia",
+            "objective": "Mostrar inmediatamente una consecuencia y dejar un eco para otro bloque.",
+            "minutes": 4
+          }
+        ],
+        "hooks": {
+          "combate": "Conectar mediante { battle: trainerId } creado y validado por Elio.",
+          "exploracion": "Conectar con spots, tramos o puzles existentes del motor.",
+          "decisiones": "Usar { choice }, { set } y callbacks con flags nuevos cg_.",
+          "recompensa": "Utilizar exclusivamente objetos/especies válidos en app/data."
+        },
+        "safety": [
+          "No ejecutar ni modificar el combate de Showdown.",
+          "No cambiar capítulos existentes, flags, inventario o guardados.",
+          "No usar recursos gráficos, audio o código de los repositorios de referencia.",
+          "Revisar canon, ubicación, continuidad, legibilidad móvil y spoilers antes de publicar."
+        ]
+      },
+      "estimatedMinutes": 25,
+      "measured": false,
+      "location": "celeste",
+      "other": "azafran",
+      "edits": [
+        "exploración interactiva",
+        "segunda tarea y parts",
+        "curación y reintento",
+        "guardas de repetición",
+        "eco interepisodio",
+        "recompensa única"
+      ]
+    }
+  ],
+  "totalEstimatedMinutes": 103,
+  "measured": false,
+  "toolsUsed": [
+    "generar-historia: --desde-json",
+    "validate",
+    "evaluateRhythm",
+    "buildPlayablePack",
+    "planGameplay",
+    "reviewGameplay"
+  ],
+  "toolsExcluded": {
+    "ollama": "No se requiere un modelo descargado: autoría original y modo JSON gratuito.",
+    "ink": "Formato externo; no valida guiones PKM.",
+    "auditoriaGlobal": "Requiere registro runtime y acceso a contenidos fuera del alcance.",
+    "buildSw": "No se publica ni modifica app/."
+  }
+}

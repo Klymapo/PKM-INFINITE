@@ -1,0 +1,57 @@
+{
+  "title": "Lo que el agua devuelve",
+  "premise": "Busca un soporte caído en Celeste y recupera la cuerda de prueba junto a la Casa de Bill.",
+  "npc": {
+    "name": "Nerea",
+    "personality": "Sabe fabricar señales para otros; todavía le cuesta pedir que alguien la espere."
+  },
+  "scenes": [
+    {
+      "mode": "dialogo",
+      "text": "Misty encuentra a Nerea mirando el agua. Se cayó el soporte que llevaba la marca de su primer taller. «Este no sé hacerlo otra vez», admite."
+    },
+    {
+      "mode": "exploracion",
+      "text": "Puedes buscar el soporte con el Buscaobjetos o revisar el acceso entre los cajones. Luego recoge la cuerda de la prueba en Casa de Bill."
+    },
+    {
+      "mode": "combate",
+      "text": "Con el soporte recuperado, Nerea pide una última práctica. Misty elige una zona seca y detiene el paso de los curiosos."
+    },
+    {
+      "mode": "descubrimiento",
+      "text": "El soporte está doblado, pero sirve. Nerea deja la abolladura hacia fuera para reconocerlo entre todos los nuevos."
+    }
+  ],
+  "decision1": {
+    "question": "¿Cómo buscamos el soporte?",
+    "options": [
+      {
+        "text": "Rastrearlo con el Buscaobjetos de Bill",
+        "response": "Bill lo prestó para la prueba. Lo devolveremos al terminar."
+      },
+      {
+        "text": "Abrir paso entre los cajones",
+        "response": "Nada de meterse al agua. Misty vigilará desde aquí."
+      }
+    ]
+  },
+  "decision2": {
+    "question": "El soporte aún sostiene un farol. ¿Dónde lo ponemos?",
+    "options": [
+      {
+        "text": "En el punto donde empieza el recorrido",
+        "response": "Podré verlo cuando llegue cada visitante."
+      },
+      {
+        "text": "En el pequeño descanso de la orilla",
+        "response": "Quien se siente tendrá una luz que ya conoce el camino."
+      }
+    ]
+  },
+  "callbacks": [
+    "El Buscaobjetos encuentra el metal sin remover toda la orilla.",
+    "El paso entre cajones queda abierto para quien vuelva mañana."
+  ],
+  "ending": "Queda una prueba con todo montado. Nerea pide que la hagas tú: esta vez quiere mirar desde el público."
+}

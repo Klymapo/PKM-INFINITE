@@ -1,0 +1,57 @@
+{
+  "title": "Una luz que escucha",
+  "premise": "Lleva el prototipo a la Casa de Bill y consigue bayas en Celeste para probar su cobertura.",
+  "npc": {
+    "name": "Nerea",
+    "personality": "Prefiere remendar una cosa útil a fabricar otra que solo se vea impecable."
+  },
+  "scenes": [
+    {
+      "mode": "dialogo",
+      "text": "Bill pone una bandeja debajo del farol. Sigue goteando. «Primero resolveré la bandeja; después, el invento». Nerea parece aliviada."
+    },
+    {
+      "mode": "exploracion",
+      "text": "Despeja el banco de trabajo y prepara una cubierta con cera vegetal. Las bayas se recogen en Celeste, sin gastar las tuyas."
+    },
+    {
+      "mode": "combate",
+      "text": "Nerea quiere comprobar si la cubierta soporta una exhibición cerca del farol. Bill aparta primero el material delicado."
+    },
+    {
+      "mode": "descubrimiento",
+      "text": "Cuando Nerea baja la voz, el farol deja de parpadear. Bill escucha el tintineo de una pieza suelta; no hay ningún poder nuevo."
+    }
+  ],
+  "decision1": {
+    "question": "¿Qué pieza probamos primero?",
+    "options": [
+      {
+        "text": "Reordenar el banco de trabajo",
+        "response": "Si algo se cae, que esta vez no sea el farol."
+      },
+      {
+        "text": "Abrir la caja de conexiones",
+        "response": "Está cerrada por mi propio candado. También guardé la combinación. Creo."
+      }
+    ]
+  },
+  "decision2": {
+    "question": "La luz ya funciona. ¿Cómo debería cambiar?",
+    "options": [
+      {
+        "text": "Un pulso reconocible y espaciado",
+        "response": "Servirá de referencia sin encandilar todo el tiempo."
+      },
+      {
+        "text": "Brillo estable y muy suave",
+        "response": "Se verá menos lejos, pero no despertará al que ya descansa."
+      }
+    ]
+  },
+  "callbacks": [
+    "El banco despejado permite sujetar el farol sin prisas.",
+    "Recuperas la pieza correcta sin forzar el candado. Nerea recupera su orgullo con ella."
+  ],
+  "ending": "Sabrina ofreció un patio tranquilo para una prueba. Bill etiqueta el farol: «No sumergir por segunda vez»."
+}
