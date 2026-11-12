@@ -16,7 +16,7 @@ for(const [id,it] of Object.entries(pack.items))items[toID(id)]=it;
 const report={interpreter:'app/js/guion.js sin alterar su cuerpo; imports sustituidos por dobles de prueba',
   limits:['Batallas simuladas: no certifica dificultad de Showdown.','UI simulada: no certifica presentación móvil.','Recarga JSON entre escenas; no certifica migración ni transacciones del guardado real.','Sin auditoría global ni lectura de continuidad privada.'],
   puzzles:[],minigames:[],routes:0,retries:0,replayChecks:0};
-const allowed=new Set(['if','then','else','end','quest','stage','done','say','text','set','choice','prompt','battle','lose','onWin','onLose','onQuit','heal','puzzle','onSolve','minigame','give','n','money']);
+const allowed=new Set(['if','then','else','end','quest','stage','done','say','text','set','choice','prompt','battle','lose','noLoss','onWin','onLose','onQuit','heal','puzzle','onSolve','minigame','give','n','money']);
 const activityDefs=[];
 function walk(list){
   for(const c of list){
@@ -96,7 +96,7 @@ function harness(bits,manual=false){
     assert.ok(labels.length);const choice=choices.shift();assert.ok(choice!==undefined&&choice<labels.length,'Elección inválida '+choice);return choice;
   };
   api.UI.toast=text=>{if(text.startsWith('Error en guion'))errors.push(text);};
-  api.UI.battle=async()=>{assert.equal(G.party[0].hp,100,'Curación previa');G.party[0].hp=1;return {result:outcome};};
+  api.UI.battle=async cfg=>{assert.ok(cfg.noLoss,'Ensayo sin multa');assert.equal(G.party[0].hp,100,'Curación previa');G.party[0].hp=1;return {result:outcome};};
   api.UI.puzzle=async def=>{
     if(activity!=='win')return {result:'quit',moves:0};
     return {result:'solved',moves:PZ.solve(PZ.parsePuzzle(def)).length};

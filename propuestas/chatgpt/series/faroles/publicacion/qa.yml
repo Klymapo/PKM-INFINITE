@@ -25,6 +25,7 @@ jobs:
           node propuestas/chatgpt/integraciones/test-integraciones.mjs
           node propuestas/chatgpt/series/faroles/probar-serie.mjs > /tmp/pruebas-autor.json
           node propuestas/chatgpt/series/faroles/publicacion/runtime-test.mjs
+          node propuestas/chatgpt/series/faroles/publicacion/combate-test.mjs
       - name: Instalar navegador de pruebas
         run: |
           python3 -m pip install playwright

@@ -173,7 +173,7 @@ for (let i=0; i<stories.length; i++) {
     say(npc,story.scenes[2].text),
     {choice:[
       {text:'Hacer el ensayo (curación antes y después)',then:[
-        {heal:true},{battle:ids.trainer,lose:'continue',
+        {heal:true},{battle:ids.trainer,lose:'continue',noLoss:true,
           onWin:[{heal:true},...ready,{set:{[f('combat_won')]:true}}],
           onLose:[{heal:true},say(npc,'Lo dejamos aquí. El ensayo sigue disponible; las tareas anteriores están guardadas.')]}
       ]},

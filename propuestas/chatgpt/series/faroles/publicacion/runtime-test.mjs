@@ -31,7 +31,7 @@ UI.say=async()=>{};
 UI.toast=text=>{if(String(text).startsWith('Error en guion'))errors.push(text);};
 UI.refresh=()=>{};
 UI.choose=async(_p,labels)=>{const n=choices.shift();assert.ok(n!==undefined&&n<labels.length);return n;};
-UI.battle=async()=>{assert.ok(G.party.every(p=>p.hp===maxHp(p)));return {result:outcome};};
+UI.battle=async cfg=>{assert.ok(cfg.noLoss);assert.ok(G.party.every(p=>p.hp===maxHp(p)));return {result:outcome};};
 UI.puzzle=async def=>activity==='win'?{result:'solved',moves:PZ.solve(PZ.parsePuzzle(def)).length}:{result:'quit',moves:0};
 UI.minigame=async P=>activity==='win'?MJ.skipResult(P):{result:activity,score:0,won:[]};
 const run=async(id,opts=[])=>{choices=[...opts];await runScript(id);assert.deepEqual(errors,[]);assert.deepEqual(choices,[]);};

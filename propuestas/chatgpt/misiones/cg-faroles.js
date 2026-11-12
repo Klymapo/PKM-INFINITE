@@ -438,6 +438,7 @@ export default {
               {
                 "battle": "cg_faroles_1_trainer",
                 "lose": "continue",
+                "noLoss": true,
                 "onWin": [
                   {
                     "heal": true
@@ -892,6 +893,7 @@ export default {
               {
                 "battle": "cg_faroles_2_trainer",
                 "lose": "continue",
+                "noLoss": true,
                 "onWin": [
                   {
                     "heal": true
@@ -1346,6 +1348,7 @@ export default {
               {
                 "battle": "cg_faroles_3_trainer",
                 "lose": "continue",
+                "noLoss": true,
                 "onWin": [
                   {
                     "heal": true
@@ -1797,6 +1800,7 @@ export default {
               {
                 "battle": "cg_faroles_4_trainer",
                 "lose": "continue",
+                "noLoss": true,
                 "onWin": [
                   {
                     "heal": true
@@ -2251,6 +2255,7 @@ export default {
               {
                 "battle": "cg_faroles_5_trainer",
                 "lose": "continue",
+                "noLoss": true,
                 "onWin": [
                   {
                     "heal": true
