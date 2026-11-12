@@ -40,10 +40,14 @@ assert.throws(() => buildPlayablePack({ ...story, decision1: { question: '?', op
 const dest = await fs.mkdtemp(path.join(os.tmpdir(), 'pkm-compilador-'));
 const script = path.join(here, 'compilar-aventura.mjs');
 function run(extra = [], output = dest) {
+  const args = new Map([
+    ['--desde-json', path.join(here, 'ejemplo.json')],
+    ['--slug', 'prueba_pkm'], ['--lugar', 'luminalia'],
+    ['--especie', 'pidgeot'], ['--nivel', '50'], ['--salida', output]
+  ]);
+  for (let i = 0; i < extra.length; i += 2) args.set(extra[i], extra[i + 1]);
   return spawnSync(process.execPath, [
-    script, '--desde-json', path.join(here, 'ejemplo.json'),
-    '--slug', 'prueba_pkm', '--lugar', 'luminalia', '--especie', 'pidgeot',
-    '--nivel', '50', '--salida', output, ...extra
+    script, ...[...args].flat()
   ], { encoding: 'utf8', timeout: 120000 });
 }
 const ok = run();
