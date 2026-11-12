@@ -1,0 +1,57 @@
+{
+  "title": "El patio sin aplausos",
+  "premise": "Prueba con Sabrina el ritmo de los faroles en Azafrán y recoge un soporte en la Casa de Bill.",
+  "npc": {
+    "name": "Nerea",
+    "personality": "Quiere que todos disfruten su trabajo, pero aprende a aceptar que algunos prefieren no acercarse."
+  },
+  "scenes": [
+    {
+      "mode": "dialogo",
+      "text": "Sabrina ha dejado sitio entre las macetas. «No leeré a nadie para saber si está cómodo. Dejaremos una salida». Nerea afloja el cartel de entrada."
+    },
+    {
+      "mode": "exploracion",
+      "text": "Abre el estuche de filtros en Azafrán. Después ve por el soporte que Bill dejó entre las cajas de su casa."
+    },
+    {
+      "mode": "combate",
+      "text": "Nerea propone una exhibición breve desde el borde del patio. Quien prefiera silencio podrá quedarse al otro lado."
+    },
+    {
+      "mode": "convivencia",
+      "text": "Un Pokémon se acerca al círculo de luz y luego se retira. Sabrina impide que Nerea lo siga: «También ha elegido». Nerea deja el paso libre."
+    }
+  ],
+  "decision1": {
+    "question": "¿Cómo preparamos los filtros?",
+    "options": [
+      {
+        "text": "Recordar el orden del estuche",
+        "response": "Tienen colores distintos. No hace falta adivinar lo que siente nadie."
+      },
+      {
+        "text": "Mover los soportes del patio",
+        "response": "Dejaremos más sitio para entrar y salir."
+      }
+    ]
+  },
+  "decision2": {
+    "question": "¿Cómo invitamos a quien aún no se acerca?",
+    "options": [
+      {
+        "text": "Una invitación visible, sin insistir",
+        "response": "Podrá encontrar el patio aunque nadie se lo explique."
+      },
+      {
+        "text": "Esperar junto a una entrada tranquila",
+        "response": "Será más lento. Me quedaré para recibir a quien llegue."
+      }
+    ]
+  },
+  "callbacks": [
+    "Los filtros que ordenaste dejan una luz uniforme.",
+    "La separación de los soportes permite retirarse sin cruzar entre los demás."
+  ],
+  "ending": "Misty avisa que falta probar el recorrido junto al agua. Nerea guarda el cartel: la salida se quedará sin letreros."
+}

@@ -4,7 +4,8 @@ import aviso from './cg-aviso.js';
 import puente from './cg-puente.js';
 import indice from './cg-indice.js';
 import red from './cg-red.js';
-const PARTES = [aviso, puente, indice, red];
+import faroles from './cg-faroles.js';
+const PARTES = [aviso, puente, indice, red, faroles];
 
 const out = { npcs: {}, items: {}, quests: {}, scripts: {}, trainers: {}, gather: {}, shops: {}, locations: {}, patches: {}, events: [], milestones: [] };
 for (const p of PARTES) {

@@ -1,0 +1,70 @@
+# Copia de referencia del workflow de publicación.
+# El workflow efectivo reside en .github/workflows/publicar-misiones-20261112.yml.
+name: QA publicación de secundarias
+on:
+  push:
+    branches: [chatgpt/publicar-misiones-20261112]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  integracion:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validar módulo y herramientas
+        run: |
+          node herramientas/validar.mjs
+          node propuestas/chatgpt/integraciones/test-integraciones.mjs
+          node propuestas/chatgpt/series/faroles/probar-serie.mjs > /tmp/pruebas-autor.json
+          node propuestas/chatgpt/series/faroles/publicacion/runtime-test.mjs
+      - name: Instalar navegador de pruebas
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install --with-deps chromium
+      - name: Probar la serie integrada en móvil
+        run: python3 propuestas/chatgpt/series/faroles/publicacion/movil.py
+      - name: Generar Service Worker oficial
+        run: node herramientas/build-sw.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: secundarias-integracion
+          path: |
+            qa-faroles/
+            app/sw.js
+            app/img/indice.json
+          retention-days: 7
+  auditoria:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Preparar humo y UX
+        run: |
+          python3 -m pip install playwright
+          python3 -m playwright install --with-deps chromium
+      - name: Auditoría completa, doce semillas de día y de noche
+        run: node herramientas/auditar.mjs --semillas 12 --hilos 4
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: secundarias-auditoria-completa
+          path: |
+            secreto/auditorias/
+            /tmp/humo-*/
+            /tmp/ux-*/
+          retention-days: 7

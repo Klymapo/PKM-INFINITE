@@ -12,3 +12,7 @@
 ## 2026-10-28 · Arte de cuento (rama chatgpt/ilustraciones-cuento-2026-10-28)
 - **Adoptado:** icono de la app (∞ dorado) y pantalla de título (paisaje nocturno). El título abre la rotación de la portada y es el fondo sin partida.
 - **No va al juego público, por decisión de Mario:** las 17 postales y los 28 momentos llevan Pokémon dibujados; irán a una galería privada en su teléfono (no al repo).
+
+## 2026-11-12 · Integración de cinco secundarias
+
+- Rama `chatgpt/misiones-cadena-20261112`, PR #15: seleccionada la serie para su adopción por petición expresa de Mario. Integración y QA en `chatgpt/publicar-misiones-20261112`; no dar por publicada hasta verificar auditorías y despliegue.
