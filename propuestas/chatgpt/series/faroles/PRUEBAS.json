@@ -1,0 +1,92 @@
+{
+  "interpreter": "app/js/guion.js sin alterar su cuerpo; imports sustituidos por dobles de prueba",
+  "limits": [
+    "Batallas simuladas: no certifica dificultad de Showdown.",
+    "UI simulada: no certifica presentación móvil.",
+    "Recarga JSON entre escenas; no certifica migración ni transacciones del guardado real.",
+    "Sin auditoría global ni lectura de continuidad privada."
+  ],
+  "puzzles": [
+    {
+      "id": "cg_faroles_1_puzzle",
+      "moves": 8,
+      "restartMayBeNeeded": true
+    },
+    {
+      "id": "cg_faroles_2_puzzle",
+      "moves": 10,
+      "restartMayBeNeeded": true
+    },
+    {
+      "id": "cg_faroles_3_puzzle",
+      "moves": 8,
+      "restartMayBeNeeded": true
+    },
+    {
+      "id": "cg_faroles_3_segunda_puzzle",
+      "moves": 10,
+      "restartMayBeNeeded": true
+    },
+    {
+      "id": "cg_faroles_4_puzzle",
+      "moves": 12,
+      "restartMayBeNeeded": true
+    },
+    {
+      "id": "cg_faroles_5_puzzle",
+      "moves": 12,
+      "restartMayBeNeeded": true
+    }
+  ],
+  "minigames": [
+    {
+      "id": "cg_faroles_1_fish",
+      "seeds": 32,
+      "normalSkillWinRate": 1
+    },
+    {
+      "id": "cg_faroles_1_segunda_fish",
+      "seeds": 32,
+      "normalSkillWinRate": 1
+    },
+    {
+      "id": "cg_faroles_2_lock",
+      "seeds": 32,
+      "normalSkillWinRate": 0.96875
+    },
+    {
+      "id": "cg_faroles_2_segunda_catch",
+      "seeds": 32,
+      "normalSkillWinRate": 1
+    },
+    {
+      "id": "cg_faroles_3_lock",
+      "seeds": 32,
+      "normalSkillWinRate": 0.96875
+    },
+    {
+      "id": "cg_faroles_4_aura",
+      "seeds": 32,
+      "normalSkillWinRate": 0.8125
+    },
+    {
+      "id": "cg_faroles_4_segunda_fish",
+      "seeds": 32,
+      "normalSkillWinRate": 0.96875
+    },
+    {
+      "id": "cg_faroles_5_lock",
+      "seeds": 32,
+      "normalSkillWinRate": 0.9375
+    },
+    {
+      "id": "cg_faroles_5_segunda_catch",
+      "seeds": 32,
+      "normalSkillWinRate": 1
+    }
+  ],
+  "routes": 2048,
+  "retries": 20480,
+  "replayChecks": 30720,
+  "partyRequirement": "Serie completa con Pikachu, sin Riolu/Lucario ni coste de inventario."
+}

@@ -12,3 +12,7 @@
 ## 2026-10-28 · Arte de cuento (rama chatgpt/ilustraciones-cuento-2026-10-28)
 - **Adoptado:** icono de la app (∞ dorado) y pantalla de título (paisaje nocturno). El título abre la rotación de la portada y es el fondo sin partida.
 - **No va al juego público, por decisión de Mario:** las 17 postales y los 28 momentos llevan Pokémon dibujados; irán a una galería privada en su teléfono (no al repo).
+
+## 2026-11-12 · Cinco secundarias nuevas
+
+- **Adoptadas por petición expresa de Mario** a partir de PR #15, con integración revisada en PR #16. Registradas en comunidad sin sustituir contenido previo, versión 2026-11-12.1. Auditoría completa 24/24 y pruebas específicas aprobadas, regresión de ensayos sin multa y SW oficial incorporado. El SHA de fusión y resultado de producción se confirman en el reporte maestro. Detalles técnicos sin spoilers en propuestas/chatgpt/series/faroles/publicacion/AUDITORIA.md.

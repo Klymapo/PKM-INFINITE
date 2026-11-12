@@ -147,7 +147,7 @@ async function runCmd(c, ctx) {
 		return;
 	}
 	if (c.battle) {
-		const res = await UI.battle({ trainer: c.battle, canLose: c.lose === 'continue' || !!c.onLose });
+		const res = await UI.battle({ trainer: c.battle, canLose: c.lose === 'continue' || !!c.onLose, noLoss: !!c.noLoss });
 		ctx.lastBattle = res;
 		if (res.result === 'win') { if (c.onWin) await runList(c.onWin, ctx); }
 		else if (c.onLose) await runList(c.onLose, ctx);

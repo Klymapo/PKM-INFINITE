@@ -6,7 +6,7 @@ import b05 from './b05/index.js';
 import b06 from './b06/index.js';
 import b07 from './b07/index.js';
 import johto from './johto/index.js';
-export const CONTENT_VERSION = '2026-11-05.3';
+export const CONTENT_VERSION = '2026-11-12.1';
 // Johto es una secundaria independiente. B07 permanece último para conservar
 // la lógica de avisos de cierre de la Gira y sus hitos principales.
 export const BLOCKS = [b01, b02, b03, b04, b05, b06, johto, b07];

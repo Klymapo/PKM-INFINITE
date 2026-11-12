@@ -1,0 +1,57 @@
+{
+  "title": "La caja que navegó sola",
+  "premise": "Ayuda a Nerea y a Misty a recuperar una caja de faroles junto al agua de Ciudad Celeste.",
+  "npc": {
+    "name": "Nerea",
+    "personality": "Construye faroles, presume de sus nudos y se pone nerviosa cuando alguien los revisa."
+  },
+  "scenes": [
+    {
+      "mode": "dialogo",
+      "text": "Misty sostiene una cuerda. Nerea sostiene el extremo equivocado. Su caja de faroles acaba de zarpar sin ellas."
+    },
+    {
+      "mode": "exploracion",
+      "text": "Recupera el flotador desde la orilla. No hace falta entrar al agua ni dejar a tu equipo fuera de la Poké Ball."
+    },
+    {
+      "mode": "combate",
+      "text": "Con la orilla despejada, Nerea propone ensayar cómo proteger el embarcadero durante un combate amistoso."
+    },
+    {
+      "mode": "convivencia",
+      "text": "La caja llega chorreando. Nerea agradece que nadie haya aplaudido su regreso. Misty aplaude una sola vez."
+    }
+  ],
+  "decision1": {
+    "question": "¿Cómo probamos el rescate?",
+    "options": [
+      {
+        "text": "Recoger el flotador con la caña",
+        "response": "Sin tirones: la caja también lleva cristal."
+      },
+      {
+        "text": "Ordenar una pasarela desde tierra",
+        "response": "Mi especialidad: nudos. La tuya: comprobarlos."
+      }
+    ]
+  },
+  "decision2": {
+    "question": "¿Qué debe tener prioridad en los próximos faroles?",
+    "options": [
+      {
+        "text": "Señales que se vean desde lejos",
+        "response": "Así vendrá gente que todavía no conoce la orilla."
+      },
+      {
+        "text": "Una luz tenue cerca de los refugios",
+        "response": "Así los Pokémon podrán quedarse sin sentirse observados."
+      }
+    ]
+  },
+  "callbacks": [
+    "Tu pulso ha dejado secos los papeles del fondo.",
+    "La pasarela aguanta incluso el salto triunfal de Nerea."
+  ],
+  "ending": "Bill pidió ver el farol que sigue encendido bajo el agua. Nerea insiste en que no lo diseñó para eso."
+}
