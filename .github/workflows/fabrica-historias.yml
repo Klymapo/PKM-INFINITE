@@ -1,0 +1,36 @@
+name: Fábrica de historias - pruebas aisladas
+on:
+  pull_request:
+    paths:
+      - 'propuestas/chatgpt/integraciones/**'
+      - '.github/workflows/fabrica-historias.yml'
+  push:
+    branches:
+      - 'chatgpt/sistemas-narrativa-juego-20261112'
+    paths:
+      - 'propuestas/chatgpt/integraciones/**'
+      - '.github/workflows/fabrica-historias.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Comprobar sintaxis de módulos
+        run: |
+          node --check propuestas/chatgpt/integraciones/generar-historia.mjs
+          node --check propuestas/chatgpt/integraciones/director-juego.mjs
+          node --check propuestas/chatgpt/integraciones/compilar-aventura.mjs
+          node --check propuestas/chatgpt/integraciones/simular-ink.mjs
+      - name: Ejecutar pruebas sin red, modelos ni claves
+        run: npm run test --prefix propuestas/chatgpt/integraciones
+      - name: Comprobar que ninguna prueba alteró el repositorio
+        run: git diff --exit-code

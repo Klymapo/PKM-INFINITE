@@ -1,0 +1,74 @@
+{
+  "schema": 1,
+  "game": "PKM-INFINITE",
+  "install": "Herramientas aisladas en propuestas/chatgpt/integraciones. Ningun motor del juego se sustituye.",
+  "sources": [
+    {
+      "name": "ink + inkjs",
+      "url": "https://github.com/inkle/ink",
+      "adapter": "simular-ink.mjs",
+      "license": "MIT",
+      "status": "Integracion opcional real: ejecucion y exploracion de JSON Ink compilado fuera del runtime.",
+      "runtime": "Ninguno"
+    },
+    {
+      "name": "Twine",
+      "url": "https://twinery.org/",
+      "license": "Herramienta open source; no se redistribuye",
+      "status": "Referencia de mapas de decisiones, sin codigo incluido",
+      "runtime": "Ninguno"
+    },
+    {
+      "name": "ManaJBin/pokemon",
+      "url": "https://github.com/ManaJBin/pokemon",
+      "license": "MIT",
+      "status": "Patrones estudiados: escenas, NPC y exploracion web; no se copian assets ni codigo",
+      "runtime": "Ninguno"
+    },
+    {
+      "name": "Tuxemon",
+      "url": "https://github.com/Tuxemon/Tuxemon",
+      "license": "GPL-3.0",
+      "status": "Referencia de contenidos guiados por datos; excluido como dependencia",
+      "runtime": "Ninguno"
+    },
+    {
+      "name": "PokeRogue",
+      "url": "https://github.com/pagefaultgames/pokerogue",
+      "license": "AGPL-3.0",
+      "status": "Referencia de ritmo, encuentros y progresion; excluido como dependencia",
+      "runtime": "Ninguno"
+    },
+    {
+      "name": "Godot Auto Combat Kit",
+      "url": "https://github.com/yuuki4180/GodotAutoCombatKit",
+      "license": "MIT",
+      "status": "Referencia para LABEY, NO adecuada como dependencia de la PWA de Pokémon Infinite",
+      "runtime": "Ninguno"
+    },
+    {
+      "name": "Roguelike System",
+      "url": "https://github.com/gabrdra/Roguelike-System",
+      "license": "MIT",
+      "status": "Referencia para LABEY/Godot, NO integrada a Pokémon Infinite",
+      "runtime": "Ninguno"
+    },
+    {
+      "name": "Top-Down Shooter Core",
+      "url": "https://github.com/quiver-dev/top-down-shooter-core",
+      "license": "MIT",
+      "status": "Referencia para LABEY/Godot, NO integrada a Pokémon Infinite",
+      "runtime": "Ninguno"
+    }
+  ],
+  "generative_backend": {
+    "name": "Ollama + Qwen3 4B Instruct",
+    "model": "qwen3:4b-instruct",
+    "price": "Gratuito y local, requiere una computadora con capacidad suficiente",
+    "license_model": "Apache-2.0",
+    "api": "http://127.0.0.1:11434/api/generate",
+    "data_policy": "Solo recibe el texto de la idea; no lee secreto/ ni guardados"
+  },
+  "native_target": "app/js/guion.js (solo formato, sin editar archivo)",
+  "workflow": "idea -> JSON -> modulo cg_ aislado -> pruebas de Elio -> decision de publicacion"
+}
