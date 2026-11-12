@@ -32,4 +32,4 @@ Rama: chatgpt/misiones-cadena-20261112, desde main ebad8ebf. Autoría con el lab
 - series/faroles/crear-serie.mjs y cg-faroles.plan.json: construcción reproducible y planes generados con el director existente.
 - series/faroles/probar-serie.mjs y PRUEBAS.json: 2 048 rutas sobre el intérprete real con dobles de UI/estado/batalla, seis puzles resueltos y minijuegos con 32 semillas por variante.
 
-Estado: entrega candidata con revisión independiente y pruebas específicas aprobadas. No está registrada en app/content/comunidad/lista.js, no se fusionó main ni se publicó en el móvil. La auditoría global, continuidad privada y comprobación visual se hacen al integrar.
+Estado actualizado por autorización de Mario («Súbelo»): integración preparada en PR #16, con registro en app/content/comunidad/lista.js y versión 2026-11-12.1. Auditoría completa 24/24, pruebas reales del estado y veinte combates, revisión independiente y comprobación móvil aprobadas. SW oficial incorporado. El resultado de la fusión/despliegue se registra con su SHA definitivo en el reporte maestro. Véase series/faroles/publicacion/AUDITORIA.md para límites y avisos existentes.
