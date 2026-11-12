@@ -1,0 +1,57 @@
+{
+  "title": "La última luz del muelle",
+  "premise": "Una encargada busca una forma sencilla de despedirse de alguien sin hacer un espectáculo.",
+  "npc": {
+    "name": "Nadia",
+    "personality": "Decidida para ayudar a los demás, pero pésima para pedir ayuda."
+  },
+  "scenes": [
+    {
+      "mode": "dialogo",
+      "text": "Nadia guarda una linterna averiada y pregunta si puedes acompañarla sin hacer preguntas incómodas."
+    },
+    {
+      "mode": "exploracion",
+      "text": "Al revisar el camino del muelle aparecen marcas de pasos y un pequeño objeto perdido."
+    },
+    {
+      "mode": "combate",
+      "text": "Un entrenador del lugar propone un combate amistoso para distraer a quien vigila el paso."
+    },
+    {
+      "mode": "convivencia",
+      "text": "Después del encuentro, Nadia comparte una anécdota que cambia el sentido de la linterna."
+    }
+  ],
+  "decision1": {
+    "question": "¿Cómo ofreces tu ayuda?",
+    "options": [
+      {
+        "text": "Preguntar qué necesita antes de actuar.",
+        "response": "Nadia se sorprende de que escuches sin juzgar."
+      },
+      {
+        "text": "Arreglar la linterna y dejar que ella marque el paso.",
+        "response": "Nadia agradece el gesto, aunque evita hablar de lo que siente."
+      }
+    ]
+  },
+  "decision2": {
+    "question": "¿Qué haces al llegar?",
+    "options": [
+      {
+        "text": "Permanecer a su lado.",
+        "response": "Nadia comparte el último recuerdo que le faltaba contar."
+      },
+      {
+        "text": "Dejarle un momento a solas.",
+        "response": "Nadia se despide por su cuenta y regresa con una sonrisa cansada."
+      }
+    ]
+  },
+  "callbacks": [
+    "Antes de despedirse, Nadia te pregunta si todavía quieres escuchar la historia completa.",
+    "Antes de despedirse, Nadia te confía la linterna reparada y promete hablar contigo otra vez."
+  ],
+  "ending": "La luz del muelle sigue encendida; lo importante para Nadia ya no es mantenerla perfecta."
+}
